@@ -1,0 +1,37 @@
+/******************************************************************************
+ GLUndoElementsCut.h
+
+	Interface for the GLUndoElementsCut class.
+
+	Copyright (C) 1998 by Glenn W. Bach.
+
+ ******************************************************************************/
+
+#ifndef _H_GLUndoElementsCut
+#define _H_GLUndoElementsCut
+
+#include <GLUndoElementsBase.h>
+#include <JPoint.h>
+#include <JPtrArray.h>
+
+class GLRaggedFloatTable;
+class GLRaggedFloatTableData;
+
+class GLUndoElementsCut : public GLUndoElementsBase
+{
+public:
+
+	GLUndoElementsCut(GLRaggedFloatTable* table, const JPoint& start,
+						 const JPoint& end, 
+						 const GLUndoElementsBase::UndoType type);
+
+	virtual ~GLUndoElementsCut();
+
+	virtual void	Undo();
+
+private:
+
+	JPtrArray<JArray<JFloat> >*	itsValues;
+};
+
+#endif

@@ -1,0 +1,8 @@
+glove
+Makefile
+*.o
+*.bak
+code/GLStringData.h
+strings/version
+strings/glove_menu_strings
+.jcc
