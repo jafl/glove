@@ -21,9 +21,9 @@ class GLPlotFitModule : public GLPlotFitBase
 {
 public:
 
-	GLPlotFitModule(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitModule(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					  const JFloat xMin, const JFloat xMax);
-	GLPlotFitModule(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitModule(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					  const JFloat xmin, const JFloat xmax,
 					  const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitModule();

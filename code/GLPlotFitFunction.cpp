@@ -9,7 +9,7 @@
 
 #include "GLPlotFitFunction.h"
 #include "J2DPlotWidget.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include "J2DPlotData.h"
 #include "J2DDataPoint.h"
 #include "jAssert.h"
@@ -23,12 +23,12 @@
 GLPlotFitFunction::GLPlotFitFunction
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
 	:
-	JPlotFunctionBase(JPlotDataBase::kScatterPlot, plot, xMin, xMax),
+	J2DPlotFunctionBase(J2DPlotDataBase::kScatterPlot, plot, xMin, xMax),
 	GLFitBase(),
 	itsDiffData(nullptr)
 {
@@ -36,13 +36,13 @@ GLPlotFitFunction::GLPlotFitFunction
 	itsHasXErrors = false;
 	itsHasYErrors = false;
 	if (itsData->HasXErrors())
-		{
+	{
 		itsHasXErrors = true;
-		}
+	}
 	if (itsData->HasYErrors())
-		{
+	{
 		itsHasYErrors = true;
-		}
+	}
 }
 
 /*********************************************************************************
@@ -68,21 +68,21 @@ GLPlotFitFunction::GenerateDiffData()
 	JArray<JFloat> xerrdata;
 	JArray<JFloat> yerrdata;
 	if (!itsData->HasYErrors())
-		{
+	{
 		CalculateStdDev();
-		}
+	}
 	const JSize count = itsData->GetElementCount();
 	J2DDataPoint data;
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		if (GetDataElement(i, &data))
-			{
+		{
 			JFloat fitY;
 			GetYValue(data.x, &fitY);
 			xdata.AppendElement(data.x);
 			ydata.AppendElement(data.y - fitY);
 			if (itsHasYErrors)
-				{
+			{
 				// Save the following for when it gets merged into GLPlotFitBase
 //				if (itsHasXErrors)
 //					{
@@ -94,23 +94,23 @@ GLPlotFitFunction::GenerateDiffData()
 //					{
 					yerrdata.AppendElement(data.yerr);
 //					}				
-				}
+			}
 			else
-				{
+			{
 				yerrdata.AppendElement(itsStdDev);
-				}
+			}
 			if (itsHasXErrors)
-				{
+			{
 				xerrdata.AppendElement(data.xerr);
-				}
 			}
 		}
+	}
 	J2DPlotData::Create(&itsDiffData, xdata, ydata, false);
 	itsDiffData->SetYErrors(yerrdata);
 	if (itsHasXErrors)
-		{
+	{
 		itsDiffData->SetXErrors(xerrdata);
-		}
+	}
 }
 
 /*********************************************************************************
@@ -139,9 +139,9 @@ GLPlotFitFunction::SetDiffData
 	)
 {
 	if (itsDiffData != nullptr)
-		{
+	{
 		jdelete itsDiffData;
-		}
+	}
 	itsDiffData	= data;
 }
 
@@ -159,12 +159,12 @@ GLPlotFitFunction::CalculateStdDev()
 	J2DDataPoint data;
 	JFloat current = 0;
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		itsData->GetElement(i, &data);
 		JFloat fitY;
 		GetYValue(data.x, &fitY);
 		current += (fitY - data.y)*(fitY - data.y);
-		}
+	}
 	itsStdDev = sqrt(current/(count - 2));
 }
 
@@ -213,10 +213,10 @@ GLPlotFitFunction::GetDataElement
 {
 	bool valid = DataElementValid(index);
 	if (!valid)
-		{
+	{
 		return false;
-		}
-	const JPlotDataBase* data = GetData();
+	}
+	const J2DPlotDataBase* data = GetData();
 	data->GetElement(index, point);
 	return true;
 }

@@ -20,10 +20,10 @@ class GLPlotLinearFit : public GLPlotFitFunction
 {
 public:
 
-	GLPlotLinearFit(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotLinearFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xMin, const JFloat xMax,
 					const bool xlog = false, const bool ylog = false);
-	GLPlotLinearFit(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotLinearFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax,
 					const bool xlog = false, const bool ylog = false);
@@ -49,7 +49,7 @@ public:
 	virtual JString		GetFitFunctionString() const override;
 
 	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
-	virtual const JPlotDataBase*		GetDataToFit() const;
+	virtual const J2DPlotDataBase*		GetDataToFit() const;
 
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
 										const JFloat ymin, const JFloat ymax);
@@ -71,7 +71,7 @@ protected:
 private:
 
 	void				JPlotLinearFitX(J2DPlotWidget* plot, 
-										JPlotDataBase* fitData, 
+										J2DPlotDataBase* fitData, 
 										bool xlog, const bool ylog);
 
 	void				LinearLSQ1();
@@ -111,7 +111,7 @@ private:
 
  ********************************************************************************/
 
-inline const JPlotDataBase*
+inline const J2DPlotDataBase*
 GLPlotLinearFit::GetDataToFit()
 	const
 {

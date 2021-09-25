@@ -19,9 +19,9 @@ class GLPlotFitExp : public GLPlotFitBase
 {
 public:
 
-	GLPlotFitExp(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitExp(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotFitExp(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitExp(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitExp();	
@@ -55,7 +55,7 @@ private:
 
 	void	CalculateFirstPass();
 
-	void	JPlotFitExpX(J2DPlotWidget* plot, JPlotDataBase* fitData);
+	void	JPlotFitExpX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);
 };
 
 #endif

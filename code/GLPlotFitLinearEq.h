@@ -22,9 +22,9 @@ class GLPlotFitLinearEq : public GLPlotFitBase
 {
 public:
 
-	GLPlotFitLinearEq(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitLinearEq(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotFitLinearEq(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitLinearEq(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitLinearEq();
@@ -50,7 +50,7 @@ protected:
 private:
 
 	void				JPlotFitLinearEqX(J2DPlotWidget* plot, 
-										  JPlotDataBase* fitData);
+										  J2DPlotDataBase* fitData);
 
 	void				CalculateFirstPass();
 

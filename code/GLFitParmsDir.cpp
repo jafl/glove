@@ -118,32 +118,32 @@ GLFitParmsDir::Receive
 	if (sender == itsFits &&
 		( 	message.Is(JListT::kElementsInserted) ||
 			message.Is(JListT::kElementsRemoved)))
-		{
+	{
 		UpdateFitMenu();
-		}
+	}
 
 	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-		{
+	{
 		Deactivate();
-		}
+	}
 
 	else if (sender == itsSessionButton && message.Is(JXButton::kPushed))
-		{
+	{
 		SendToSession(itsCurrentIndex);
-		}
+	}
 
 	else if (sender == itsFitMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFitMenu(selection->GetIndex());
-		}
+	}
 
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -158,13 +158,13 @@ GLFitParmsDir::UpdateFitMenu()
 
 	const JSize count = itsFits->GetElementCount();
 	if (count == 0)
-		{
+	{
 		itsFitMenu->Deactivate();
-		}
+	}
 	else
-		{
+	{
 		itsFitMenu->Activate();
-		}
+	}
 
 	GLBuildColumnMenus("FitMenuItem::GLGlobal", count, itsFitMenu, nullptr);
 }
@@ -188,51 +188,51 @@ GLFitParmsDir::HandleFitMenu
 	itsTable->Append("Function:", fit->GetFitFunctionString());
 	JSize i;
 	for (i = 1; i <= count; i++)
-		{
+	{
 		JString str;
 		fit->GetParameterName(i, &str);
 		JFloat value;
 		fit->GetParameter(i, &value);
 		JString pstr = str + ":";
 		if ((value < 0.001) || (value > 100000))
-			{
+		{
 			itsTable->Append(pstr, JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5));
-			}
+		}
 		else
-			{
+		{
 			itsTable->Append(pstr, JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5));
-			}
+		}
 		if (fit->GetParameterError(i, &value))
-			{
+		{
 			str += " error:";
 			if ((value < 0.001) || (value > 100000))
-				{
+			{
 				itsTable->Append(str, JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5));
-				}
+			}
 			else
-				{
+			{
 				itsTable->Append(str, JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5));
-				}
 			}
 		}
+	}
 	if (fit->HasGoodnessOfFit())
-		{
+	{
 		JString str;
 		fit->GetGoodnessOfFitName(&str);
 		JFloat value;
 		if (fit->GetGoodnessOfFit(&value))
-			{
+		{
 			str += ":";
 			if ((value < 0.001) || (value > 100000))
-				{
+			{
 				itsTable->Append(str, JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5));
-				}
+			}
 			else
-				{
+			{
 				itsTable->Append(str, JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5));
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -245,9 +245,9 @@ GLFitParmsDir::SendAllToSession()
 {
 	JSize count = itsFits->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		SendToSession(i);
-		}
+	}
 }
 
 /******************************************************************************
@@ -268,9 +268,9 @@ GLFitParmsDir::SendToSession
 
 	JString str((JUInt64) index);
 	const JUtf8Byte* map[] =
-		{
+	{
 		"i", str.GetBytes()
-		};
+	};
 	str = JGetString("FitMenuItem::GLGlobal", map, sizeof(map));
 	dir->AppendText(str);
 
@@ -278,51 +278,51 @@ GLFitParmsDir::SendToSession
 	dir->AppendText(str);
 
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		fit->GetParameterName(i, &str);
 		JFloat value;
 		fit->GetParameter(i, &value);
 		JString pstr = str + ": ";
 		if ((value < 0.001) || (value > 100000))
-			{
+		{
 			pstr = pstr + JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5);
-			}
+		}
 		else
-			{
+		{
 			pstr = pstr + JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
-			}
+		}
 		dir->AppendText(pstr);
 		if (fit->GetParameterError(i, &value))
-			{
+		{
 			str += " error: ";
 			if ((value < 0.001) || (value > 100000))
-				{
+			{
 				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5);
-				}
-			else
-				{
-				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
-				}
-			dir->AppendText(str);
 			}
+			else
+			{
+				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
+			}
+			dir->AppendText(str);
 		}
+	}
 	if (fit->HasGoodnessOfFit())
-		{
+	{
 		fit->GetGoodnessOfFitName(&str);
 		JFloat value;
 		if (fit->GetGoodnessOfFit(&value))
-			{
+		{
 			str += ": ";
 			if ((value < 0.001) || (value > 100000))
-				{
+			{
 				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5);
-				}
-			else
-				{
-				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
-				}
-			dir->AppendText(str);
 			}
+			else
+			{
+				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
+			}
+			dir->AppendText(str);
 		}
+	}
 	dir->AppendText(JString::newline);
 }

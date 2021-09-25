@@ -44,10 +44,10 @@ GLPolyFitDialog::GLPolyFitDialog
 	itsVarList->AddVariable(JGetString("DefaultVarName::GLGlobal"), 0);
 	const JSize count	= 10;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString parm	= "a" + JString((JUInt64) i - 1);
 		itsVarList->AddVariable(parm, 0);
-		}
+	}
 
 	BuildWindow();
 
@@ -181,9 +181,9 @@ GLPolyFitDialog::BuildWindow()
 
 	const JSize count = 10;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		ListenTo(itsCB[i-1]);
-		}
+	}
 
 	window->SetTitle(JGetString("WindowTitle::GLPolyFitDialog"));
 	UseModalPlacement(false);
@@ -205,12 +205,12 @@ GLPolyFitDialog::GetPowers
 {
 	const JSize count	= 10;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		if (itsCB[i-1]->IsChecked())
-			{
+		{
 			powers->AppendElement(i - 1);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -226,59 +226,59 @@ GLPolyFitDialog::Receive
 	)
 {
 	if (sender == itsHelpButton && message.Is(JXButton::kPushed))
-		{
-		}
+	{
+	}
 	else if (message.Is(JXCheckbox::kPushed))
-		{
+	{
 		JString fStr;
 		bool started	= false;
 		const JSize count	= 10;
 		for (JIndex i = 1; i <= count; i++)
-			{
+		{
 			if (itsCB[i-1]->IsChecked())
-				{
+			{
 				if (started)
-					{
+				{
 					fStr += " + ";
-					}
+				}
 				else
-					{
+				{
 					started	= true;
-					}
+				}
 				JString parm	= "a" + JString((JUInt64) i - 1);
 				JString xTerm	= " * " + JGetString("DefaultVarName::GLGlobal");
 				if (i > 2)
-					{
+				{
 					xTerm += "^" + JString((JUInt64) i - 1);
-					}
+				}
 				fStr += parm;
 				if (i > 1)
-					{
+				{
 					fStr += xTerm;
-					}
 				}
 			}
+		}
 		if (fStr.IsEmpty())
-			{
+		{
 			itsFn->Hide();
-			}
+		}
 		else
-			{
+		{
 			itsFn->Show();
 
 			JExprParser p(itsVarList);
 
 			JFunction* f;
 			if (p.Parse(fStr, &f))
-				{
+			{
 				itsFn->SetFunction(itsVarList, f);
-				}
 			}
 		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -290,37 +290,37 @@ bool
 GLPolyFitDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	JString name = itsNameInput->GetText()->GetText();
 	name.TrimWhitespace();
 	if (name.IsEmpty())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MissingName::GLNonLinearFitDialog"));
 		itsNameInput->Focus();
 		return false;
-		}
+	}
 
 	bool checked	= false;
 	const JSize count	= 10;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		if (itsCB[i-1]->IsChecked())
-			{
+		{
 			checked		= true;
 			break;
-			}
 		}
+	}
 
 	if (!checked)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MissingPower::GLPolyFitDialog"));
-		}
+	}
 
 	return checked;
 }

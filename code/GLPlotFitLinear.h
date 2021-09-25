@@ -18,9 +18,9 @@ class GLPlotFitLinear : public GLPlotFitLinearEq
 {
 public:
 
-	GLPlotFitLinear(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitLinear(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotFitLinear(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitLinear(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitLinear();	
@@ -28,7 +28,7 @@ public:
 private:
 
 	void				JPlotFitLinearX(J2DPlotWidget* plot, 
-										JPlotDataBase* fitData);
+										J2DPlotDataBase* fitData);
 };
 
 #endif

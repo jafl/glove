@@ -37,16 +37,16 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 	JSize count		= vars.GetElementCount();
 	JIndex offset	= 0;
 	if (count > 1 && *(vars.GetElement(1)) == JGetString("DefaultVarName::GLGlobal"))
-		{
+	{
 		offset = 1;
 		count--;
-		}
+	}
 	SetParameterCount(count);
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString var	= *(vars.GetElement(i + offset));
 		GetVarList()->AddVariable(var, 0);
-		}
+	}
 }
 
 GLNonLinearFitDescription::GLNonLinearFitDescription
@@ -59,9 +59,9 @@ GLNonLinearFitDescription::GLNonLinearFitDescription
 	JFileVersion version;
 	is >> version;
 	if (version > kCurrentSetupVersion)
-		{
+	{
 		return;
-		}
+	}
 	is >> itsFunction;
 	is >> itsFPrimed;
 

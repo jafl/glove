@@ -21,7 +21,7 @@ class GLPlotModuleFit : public GLPlotFitFunction
 {
 public:
 
-	GLPlotModuleFit(	J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotModuleFit(	J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax,
 					JPtrArray<JString>* names, JArray<JFloat>* values,
 					JFunction*	function,
@@ -29,7 +29,7 @@ public:
 					const JSize parmscount,	
 					const bool errors = false, 
 					const bool gof = false);
-	GLPlotModuleFit(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotModuleFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					JPtrArray<JString>* names, JArray<JFloat>* values,
 					JFunction*	function,
 					GLVarList* list,
@@ -38,7 +38,7 @@ public:
 					const JSize parmscount,	
 					const bool errors = false, 
 					const bool gof = false);
-	GLPlotModuleFit(J2DPlotWidget* plot, JPlotDataBase* fitData, std::istream& is);
+	GLPlotModuleFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, std::istream& is);
 	virtual ~GLPlotModuleFit();	
 
 	virtual void GetElement(const JIndex index, J2DDataPoint* data) const override;
@@ -58,7 +58,7 @@ public:
 	virtual JString		GetFitFunctionString() const override;
 
 	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
-	virtual const JPlotDataBase*		GetDataToFit() const;
+	virtual const J2DPlotDataBase*		GetDataToFit() const;
 	
 	void				WriteData(std::ostream& os);
 
@@ -74,7 +74,7 @@ protected:
 private:
 
 	void		JPlotModuleFitX(J2DPlotWidget* plot, 
-								JPlotDataBase* fitData, 
+								J2DPlotDataBase* fitData, 
 								JPtrArray<JString>* names, 
 								JArray<JFloat>* values,
 								JFunction*	function,
@@ -107,7 +107,7 @@ private:
 
  ********************************************************************************/
 
-inline const JPlotDataBase*
+inline const J2DPlotDataBase*
 GLPlotModuleFit::GetDataToFit()
 	const
 {

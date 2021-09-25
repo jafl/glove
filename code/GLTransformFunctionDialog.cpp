@@ -42,9 +42,9 @@ GLTransformFunctionDialog::GLTransformFunctionDialog
 	GLBuildColumnMenus("Column::GLGlobal", colCount, itsDestMenu, nullptr);
 
 	for (JSize i = 1; i <= list->GetElementCount(); i++)
-		{
+	{
 		itsVarMenu->AppendItem(list->GetVariableName(i));
-		}
+	}
 
 	itsDestCol = colCount;
 	JString num((JUInt64) itsDestCol);
@@ -142,30 +142,30 @@ GLTransformFunctionDialog::Receive
 	)
 {
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
-		{
+	{
 		assert (itsEditor == nullptr);
 		itsEditor = jnew GLExprDirector(this, itsList, itsFunctionString->GetText()->GetText());
 		assert(itsEditor != nullptr);
 		ListenTo(itsEditor);
 		itsEditor->BeginDialog();
-		}
+	}
 	else if (sender == itsClearButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsFunctionString->GetText()->SetText(JString::empty);
-		}
+	}
 	else if (sender == itsEditor && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
-			itsFunctionString->GetText()->SetText(itsEditor->GetString());
-			}
-		itsEditor = nullptr;
-		}
-	else if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
 		{
+			itsFunctionString->GetText()->SetText(itsEditor->GetString());
+		}
+		itsEditor = nullptr;
+	}
+	else if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
@@ -173,20 +173,20 @@ GLTransformFunctionDialog::Receive
 		JString num((JUInt64) itsDestCol);
 		JString str = "col[" + num + "] = ";
 		itsColNumber->GetText()->SetText(str);
-		}
+	}
 	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		JIndex index = selection->GetIndex();
 		JString str = itsVarMenu->GetItemText(index);
 		itsFunctionString->Paste(str);
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -220,14 +220,14 @@ bool
 GLTransformFunctionDialog::OKToDeactivate()
 {
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	JFunction* f = nullptr;
 	if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
-		{
+	{
 		jdelete f;
 		return true;
-		}
+	}
 	return false;
 }

@@ -54,9 +54,9 @@ GLPlotApp::GLPlotApp
 	JString homeDir;
 	
 	if (!JGetHomeDirectory(&homeDir))
-		{
+	{
 		homeDir = JGetRootDirectory();
-		}
+	}
 	
 	JAppendDirSeparator(&homeDir);
 
@@ -70,21 +70,21 @@ GLPlotApp::GLPlotApp
 	*displayAbout = InitGLGlobals(this);
 
 	if (!*displayAbout)
-		{
+	{
 		*prevVersStr = GLGetPrefsMgr()->GetGloveVersionStr();
 		if (*prevVersStr == JGetString("VERSION"))
-			{
-			prevVersStr->Clear();
-			}
-		else
-			{
-			*displayAbout = true;
-			}
-		}
-	else
 		{
-		prevVersStr->Clear();
+			prevVersStr->Clear();
 		}
+		else
+		{
+			*displayAbout = true;
+		}
+	}
+	else
+	{
+		prevVersStr->Clear();
+	}
 
 //	itsFileImpProgs = jnew JPtrArray<JString>();
 
@@ -95,10 +95,10 @@ GLPlotApp::GLPlotApp
 	JString fihome = homeDir + ".glove/fileimport/";
 	foundFileImpDir = false;
 	if (JDirInfo::Create(fihome, &itsFileImpDir))
-		{
+	{
 		foundFileImpDir = true;
 		UpdateFileImpProgs();
-		}
+	}
 */
 	itsDirNumber = 1;
 	
@@ -134,9 +134,9 @@ GLPlotApp::~GLPlotApp()
 	jdelete itsFileImpProgs;
 	
 	if (foundFileImpDir)
-		{
+	{
 		jdelete itsFileImpDir;
-		}
+	}
 */
 	itsModulePath->DeleteAll();
 	jdelete itsModulePath;
@@ -173,23 +173,23 @@ GLPlotApp::ReloadImportModules()
 	
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		JString path = *(itsModulePath->GetElement(i)) + kImportSubPath;
 		if (JDirInfo::Create(path, &info))
-			{
+		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
-				{
+			{
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
-					{
+				{
 					auto* str = jnew JString(entry.GetName());
 					itsImportModules->Append(str);
 					itsImportPathIndex->AppendElement(i);
-					}
-				}					
+				}
+			}					
 			jdelete info;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -212,7 +212,7 @@ GLPlotApp::GetImportModulePath
 	return true;
 /*	
 	if (foundFileImpDir)
-		{
+	{
 		assert( itsFileImpProgs->IndexValid(index) );
 		
 		JString str = itsFileImpDir->GetCWD();
@@ -220,7 +220,7 @@ GLPlotApp::GetImportModulePath
 		str += *(itsFileImpProgs->GetElement(index));
 		*path = str;
 		return true;
-		}
+	}
 		
 	return false;
 */		
@@ -255,9 +255,9 @@ GLPlotApp::Receive
 	if (sender == itsFileImpDir && 
 		(message.Is(JDirInfo::kContentsUpdated) ||
 		message.Is(JDirInfo::kPermissionsChanged) ))
-		{
+	{
 		UpdateFileImpProgs();
-		}
+	}
 		
 }
  ******************************************************************************/
@@ -286,14 +286,14 @@ void
 GLPlotApp::UpdateFileImpProgs()
 {
 	for (JSize i = 1; i <= itsFileImpDir->GetEntryCount(); i++)
-		{
+	{
 		const JDirEntry& entry = itsFileImpDir->GetEntry(i);
 		if ( entry.IsExecutable() && !(entry.IsDirectory()) )
-			{
+		{
 			JString* str = jnew JString(entry.GetName());
 			itsFileImpProgs->Append(str);
-			}
 		}
+	}
 }
 */
 
@@ -325,27 +325,27 @@ GLPlotApp::OpenFile
 {
 	JXFileDocument* doc;
 	if (JXGetDocumentManager()->FileDocumentIsOpen(fileName, &doc))
-		{
+	{
 		doc->Activate();
-		}
+	}
 	else if (!JFileExists(fileName))
-		{
+	{
 		JString msg = fileName;
 		msg += " does not exist.";
 		JGetUserNotification()->ReportError(msg);
-		}
+	}
 	else if (!JFileReadable(fileName))
-		{
+	{
 		JString msg = fileName;
 		msg += " is not readable.";
 		JGetUserNotification()->ReportError(msg);
-		}
+	}
 	else
-		{
+	{
 		auto* tableDir = jnew GLDataDocument(this, fileName, true);
 		assert( tableDir != nullptr);
 		tableDir->Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -362,23 +362,23 @@ GLPlotApp::ReloadDataModules()
 	
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		JString path = *(itsModulePath->GetElement(i)) + kDataSubPath;
 		if (JDirInfo::Create(path, &info))
-			{
+		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
-				{
+			{
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
-					{
+				{
 					auto* str = jnew JString(entry.GetName());
 					itsDataModules->Append(str);
 					itsDataPathIndex->AppendElement(i);
-					}
-				}					
+				}
+			}					
 			jdelete info;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -427,23 +427,23 @@ GLPlotApp::ReloadCursorModules()
 	
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		JString path = *(itsModulePath->GetElement(i)) + kCursorSubPath;
 		if (JDirInfo::Create(path, &info))
-			{
+		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
-				{
+			{
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
-					{
+				{
 					auto* str = jnew JString(entry.GetName());
 					itsCursorModules->Append(str);
 					itsCursorPathIndex->AppendElement(i);
-					}
-				}					
+				}
+			}					
 			jdelete info;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -492,23 +492,23 @@ GLPlotApp::ReloadExportModules()
 	
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		JString path = *(itsModulePath->GetElement(i)) + kExportSubPath;
 		if (JDirInfo::Create(path, &info))
-			{
+		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
-				{
+			{
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
-					{
+				{
 					auto* str = jnew JString(entry.GetName());
 					itsExportModules->Append(str);
 					itsExportPathIndex->AppendElement(i);
-					}
-				}					
+				}
+			}					
 			jdelete info;
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -557,23 +557,23 @@ GLPlotApp::ReloadFitModules()
 	
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		JString path = *(itsModulePath->GetElement(i)) + kFitSubPath;
 		if (JDirInfo::Create(path, &info))
-			{
+		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
-				{
+			{
 				const JDirEntry& entry = info->GetEntry(j);
 				if ( entry.IsExecutable() && !(entry.IsDirectory()) )
-					{
+				{
 					auto* str = jnew JString(entry.GetName());
 					itsFitModules->Append(str);
 					itsFitPathIndex->AppendElement(i);
-					}
-				}					
+				}
+			}					
 			jdelete info;
-			}
 		}
+	}
 }
 
 /******************************************************************************

@@ -45,36 +45,36 @@ GLDLFitModule::Create
 
 	EvalFn*	fn	= (EvalFn*)module->symbol(kFNName);
 	if (fn == nullptr)
-		{
+	{
 		ok	= false;
-		}
+	}
 	EvalFn*	fnprimed	= (EvalFn*)module->symbol(kFNPrimedName);
 	GetParmsFn* pf		= (GetParmsFn*)module->symbol(kGetParmsName);
 	if (pf == nullptr)
-		{
+	{
 		ok	= false;
-		}
+	}
 	GetParmCountFn* pc	= (GetParmCountFn*)module->symbol(kParmCountName);
 	if (pc == nullptr)
-		{
+	{
 		ok	= false;
-		}
+	}
 	GetNameFn* ff		= (GetNameFn*)module->symbol(kFormName);
 	if (ff == nullptr)
-		{
+	{
 		ok	= false;
-		}
+	}
 	GetNameFn* fname	= (GetNameFn*)module->symbol(kFitName);
 	if (fname == nullptr)
-		{
+	{
 		ok	= false;
-		}
+	}
 	InitialValFn* ifn	= (InitialValFn*)module->symbol(kInitValName);
 	if (!ok)
-		{
+	{
 		jdelete module;
 		return false;
-		}
+	}
 	*fit	= jnew GLDLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
 	assert(*fit != nullptr);
 	return true;
@@ -103,11 +103,11 @@ GLDLFitModule::GLDLFitModule
 	itsParmNames	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	assert(itsParmNames != nullptr);
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString* str	= jnew JString(parms[i - 1]);
 		assert(str != nullptr);
 		itsParmNames->Append(str);
-		}
+	}
 	itsParameters	= jnew JVector(count);
 	assert(itsParameters != nullptr);
 }
@@ -156,9 +156,9 @@ GLDLFitModule::GetStartValues
 	)
 {
 	if (itsGetStartValFn == nullptr)
-		{
+	{
 		return false;
-		}
+	}
 
 	assert(x != nullptr);
 	assert(y != nullptr);

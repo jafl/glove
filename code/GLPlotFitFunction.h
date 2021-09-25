@@ -10,22 +10,22 @@
 #ifndef _H_GLPlotFitFunction
 #define _H_GLPlotFitFunction
 
-#include <JPlotFunctionBase.h>
+#include <J2DPlotFunctionBase.h>
 #include <GLFitBase.h>
 #include <JArray.h>
 
 class J2DPlotWidget;
 class J2DPlotData;
 
-class GLPlotFitFunction : public JPlotFunctionBase, public GLFitBase
+class GLPlotFitFunction : public J2DPlotFunctionBase, public GLFitBase
 {
 public:
 
-	GLPlotFitFunction(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitFunction(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 						const JFloat xMin, const JFloat xMax);
 	virtual ~GLPlotFitFunction();	
 
-	const JPlotDataBase*	GetData() const;
+	const J2DPlotDataBase*	GetData() const;
 	J2DPlotData*			GetDiffData() const;
 	JFloat					GetStdDev() const;
 
@@ -40,7 +40,7 @@ protected:
 	
 private:
 
-	JPlotDataBase*	itsData;
+	J2DPlotDataBase*	itsData;
 	J2DPlotData*	itsDiffData;
 	bool			itsHasXErrors;
 	bool			itsHasYErrors;
@@ -53,7 +53,7 @@ private:
 
  ********************************************************************************/
  
-inline const JPlotDataBase*
+inline const J2DPlotDataBase*
 GLPlotFitFunction::GetData()
 	const
 {

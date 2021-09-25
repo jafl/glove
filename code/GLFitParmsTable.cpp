@@ -79,17 +79,17 @@ GLFitParmsTable::TableDrawCell
 	p.SetFont(JFontManager::GetDefaultFont());
 	JRect r = rect;
 	if (cell.x == 1)
-		{
+	{
 		r.right -= kHMarginWidth;
 		str = itsCol1->GetElement(cell.y);
 		p.String(r, *str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
-		}
+	}
 	else
-		{
+	{
 		r.left += kHMarginWidth;
 		str = itsCol2->GetElement(cell.y);
 		p.String(r, *str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
-		}
+	}
 }
 
 /******************************************************************************
@@ -132,16 +132,16 @@ GLFitParmsTable::Append
 	JSize col1Width = GetColWidth(1);
 	JSize strWidth = JFontManager::GetDefaultFont().GetStringWidth(fm, *str);
 	if (strWidth + 10 > col1Width)
-		{
+	{
 		SetColWidth(1, strWidth + 10);
-		}
+	}
 	str = jnew JString(col2);
 	itsCol2->Append(str);
 	JSize col2Width = GetColWidth(2);
 	strWidth = JFontManager::GetDefaultFont().GetStringWidth(fm, *str);
 	if (strWidth + 10 > col2Width)
-		{
+	{
 		SetColWidth(2, strWidth + 10);
-		}
+	}
 	TableRefresh();
 }

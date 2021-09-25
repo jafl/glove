@@ -22,9 +22,9 @@ class GLPlotFitQuad2 : public GLPlotFitBase
 {
 public:
 
-	GLPlotFitQuad2(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitQuad2(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotFitQuad2(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitQuad2(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitQuad2();	
@@ -50,7 +50,7 @@ protected:
 private:
 
 	void				JPlotFitQuad2X(J2DPlotWidget* plot, 
-										JPlotDataBase* fitData);
+										J2DPlotDataBase* fitData);
 
 	void				CalculateFirstPass();
 

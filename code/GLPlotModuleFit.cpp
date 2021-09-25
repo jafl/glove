@@ -9,7 +9,7 @@
 
 #include "GLPlotModuleFit.h"
 #include "J2DPlotWidget.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include "GLVarList.h"
 #include <JExprParser.h>
 #include <jMath.h>
@@ -25,7 +25,7 @@
 GLPlotModuleFit::GLPlotModuleFit
 	(
 	J2DPlotWidget* 		plot, 
-	JPlotDataBase* 		fitData,
+	J2DPlotDataBase* 		fitData,
 	const JFloat		xMin,
 	const JFloat		xMax,
 	JPtrArray<JString>*	names, 
@@ -46,7 +46,7 @@ GLPlotModuleFit::GLPlotModuleFit
 GLPlotModuleFit::GLPlotModuleFit
 	(
 	J2DPlotWidget* 		plot, 
-	JPlotDataBase* 		fitData,
+	J2DPlotDataBase* 		fitData,
 	JPtrArray<JString>*	names, 
 	JArray<JFloat>* 	values,
 	JFunction*			function,
@@ -63,25 +63,25 @@ GLPlotModuleFit::GLPlotModuleFit
 	GLPlotFitFunction(plot, fitData, xmin, xmax)
 {
 	if (xmax > xmin)
-		{
+	{
 		itsRangeXMax = xmax;
 		itsRangeXMin = xmin;
-		}
+	}
 	else
-		{
+	{
 		itsRangeXMax = xmin;
 		itsRangeXMin = xmax;
-		}
+	}
 	if (ymax > ymin)
-		{
+	{
 		itsRangeYMax = ymax;
 		itsRangeYMin = ymin;
-		}
+	}
 	else
-		{
+	{
 		itsRangeYMax = ymin;
 		itsRangeYMin = ymax;
-		}
+	}
 	itsUsingRange = true;
 	JPlotModuleFitX(plot, fitData, names, values, function, list, parmscount, errors, gof);
 }
@@ -89,7 +89,7 @@ GLPlotModuleFit::GLPlotModuleFit
 GLPlotModuleFit::GLPlotModuleFit
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	std::istream& 	is
 	)
 	:
@@ -100,14 +100,14 @@ GLPlotModuleFit::GLPlotModuleFit
 	int count;
 	is >> count;
 	for (int i = 1; i <= count; i++)
-		{
+	{
 		JString* name = jnew JString();
 		JFloat value;
 		is >> *name;
 		names->Append(name);
 		is >> value;
 		values->AppendElement(value);
-		}
+	}
 	int parmscount;
 	is >> parmscount;
 	bool errors;
@@ -119,16 +119,16 @@ GLPlotModuleFit::GLPlotModuleFit
 	GLVarList* list = jnew GLVarList;
 	list->AddVariable(JGetString("DefaultVarName::GLGlobal"), 0);
 	for (int i = 1; i <= parmscount; i++)
-		{
+	{
 		JSize index = i;
 		if (errors)
-			{
+		{
 			index = i * 2 - 1;
-			}
+		}
 		JString parm(*(names->GetElement(index)));
 		JFloat value = values->GetElement(index);
 		list->AddVariable(parm, value);
-		}
+	}
 
 	JExprParser p(list);
 
@@ -143,7 +143,7 @@ void
 GLPlotModuleFit::JPlotModuleFitX
 	(
 	J2DPlotWidget* 		plot, 
-	JPlotDataBase* 		fitData,
+	J2DPlotDataBase* 		fitData,
 	JPtrArray<JString>*	names, 
 	JArray<JFloat>* 	values,
 	JFunction*			function,
@@ -257,9 +257,9 @@ GLPlotModuleFit::GetParameterName
 	const
 {
 	if ((index > GetParameterCount()) || (index < 1))
-		{
+	{
 		return false;
-		}
+	}
 	
 	*name = itsList->GetVariableName(index + 1);
 	return true;
@@ -280,9 +280,9 @@ GLPlotModuleFit::GetParameter
 	const
 {
 	if ((index > GetParameterCount()) || (index < 1))
-		{
+	{
 		return false;
-		}
+	}
 	return itsList->GetNumericValue(index + 1, 1, value);
 }
 
@@ -300,15 +300,15 @@ GLPlotModuleFit::GetParameterError
 	)
 	const
 {
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	if (!data->HasXErrors() && !data->HasYErrors())
-		{
+	{
 		return false;
-		}
+	}
 	if (!HasParameterErrors())
-		{
+	{
 		return false;
-		}
+	}
 	JIndex arrayIndex = index * 2;
 	*value = itsValues->GetElement(arrayIndex);
 	return true;
@@ -328,9 +328,9 @@ GLPlotModuleFit::GetGoodnessOfFitName
 	const
 {
 	if (!HasGoodnessOfFit())
-		{
+	{
 		return false;
-		}
+	}
 	JIndex arrayIndex = itsNames->GetElementCount();
 	*name = *(itsNames->GetElement(arrayIndex));
 	return true;
@@ -350,9 +350,9 @@ GLPlotModuleFit::GetGoodnessOfFit
 	const
 {
 	if (!HasGoodnessOfFit())
-		{
+	{
 		return false;
-		}
+	}
 	JIndex arrayIndex = itsValues->GetElementCount();
 	*value = itsValues->GetElement(arrayIndex);
 	
@@ -397,24 +397,24 @@ GLPlotModuleFit::DataElementValid
 	const JIndex index
 	)
 {
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	data->GetElement(index, &point);
 	
 	if (itsUsingRange)
-		{		
+	{		
 		if ((point.x >= itsRangeXMin) &&
 			(point.x <= itsRangeXMax) &&
 			(point.y >= itsRangeYMin) &&
 			(point.y <= itsRangeYMax))
-			{
+		{
 			return true;
-			}
-		else
-			{
-			return false;
-			}
 		}
+		else
+		{
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -433,10 +433,10 @@ GLPlotModuleFit::GetDataElement
 {
 	bool valid = DataElementValid(index);
 	if (!valid)
-		{
+	{
 		return false;
-		}
-	const JPlotDataBase* data = GetDataToFit();
+	}
+	const J2DPlotDataBase* data = GetDataToFit();
 	data->GetElement(index, point);
 	return true;
 }
@@ -456,10 +456,10 @@ GLPlotModuleFit::WriteData
 	JSize count = itsNames->GetElementCount();
 	os << count << " ";
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		os << *(itsNames->GetElement(i)) << " ";
 		os << itsValues->GetElement(i) << " ";
-		}
+	}
 	os << GetParameterCount() << " ";
 	os << JBoolToString(HasParameterErrors())
 	   << JBoolToString(HasGoodnessOfFit()) << " ";

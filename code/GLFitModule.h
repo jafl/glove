@@ -20,7 +20,7 @@ class GLPlotDir;
 class JProgressDisplay;
 class JProcess;
 class JString;
-class JPlotDataBase;
+class J2DPlotDataBase;
 class JOutPipeStream;
 
 class GLFitModule : virtual public JBroadcaster
@@ -29,13 +29,13 @@ public:
 
 	static bool Create(	GLFitModule** module,
 							GLPlotDir* dir,
-							JPlotDataBase* fitData,
+							J2DPlotDataBase* fitData,
 							const JString& sysCmd);
 	virtual ~GLFitModule();
 
 protected:
 
-	GLFitModule(GLPlotDir* dir, JPlotDataBase* fitData, JProcess* process,
+	GLFitModule(GLPlotDir* dir, J2DPlotDataBase* fitData, JProcess* process,
 				const int fd, JOutPipeStream* output);
 
 	virtual void	Receive(JBroadcaster* sender,
@@ -48,7 +48,7 @@ private:
 private:
 
 	GLPlotDir* 			itsDir;			// We don't own this.
-	JPlotDataBase*		itsData;		// We don't own this.
+	J2DPlotDataBase*		itsData;		// We don't own this.
 	bool				itsStatusRead;
 	bool				itsHeaderRead;
 	bool				itsFunctionRead;

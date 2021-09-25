@@ -9,7 +9,7 @@
 
 #include "GLPlotQuadFit.h"
 #include "J2DPlotWidget.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 
 #include "GLPlotFitQuad.h"
 #include "GLPlotFitQuad2.h"
@@ -75,7 +75,7 @@ enum
 GLPlotQuadFit::GLPlotQuadFit
 	(
 	J2DPlotWidget* 	plot,
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -91,7 +91,7 @@ GLPlotQuadFit::GLPlotQuadFit
 GLPlotQuadFit::GLPlotQuadFit
 	(
 	J2DPlotWidget* plot,
-	JPlotDataBase* fitData,
+	J2DPlotDataBase* fitData,
 	const JFloat xmin,
 	const JFloat xmax,
 	const JFloat ymin,
@@ -101,25 +101,25 @@ GLPlotQuadFit::GLPlotQuadFit
 	GLPlotFitFunction(plot, fitData, xmin, xmax)
 {
 	if (xmax > xmin)
-		{
+	{
 		itsRangeXMax = xmax;
 		itsRangeXMin = xmin;
-		}
+	}
 	else
-		{
+	{
 		itsRangeXMax = xmin;
 		itsRangeXMin = xmax;
-		}
+	}
 	if (ymax > ymin)
-		{
+	{
 		itsRangeYMax = ymax;
 		itsRangeYMin = ymin;
-		}
+	}
 	else
-		{
+	{
 		itsRangeYMax = ymin;
 		itsRangeYMin = ymax;
-		}
+	}
 	itsUsingRange = true;
 	JPlotQuadFitX(plot, fitData);
 }
@@ -128,7 +128,7 @@ void
 GLPlotQuadFit::JPlotQuadFitX
 	(
 	J2DPlotWidget* plot,
-	JPlotDataBase* fitData
+	J2DPlotDataBase* fitData
 	)
 {
 	itsP 	= nullptr;
@@ -136,13 +136,13 @@ GLPlotQuadFit::JPlotQuadFitX
 
 	SetHasParameterErrors(true);
 	if (fitData->HasXErrors() || fitData->HasYErrors())
-		{
+	{
 		SetHasParameterErrors(true);
-		}
+	}
 	else
-		{
+	{
 		SetHasParameterErrors(false);
-		}
+	}
 	SetParameterCount(3);
 	SetHasGoodnessOfFit(true);
 	itsFunctionName.Set("y = a + bx + cx^2");
@@ -153,13 +153,13 @@ GLPlotQuadFit::JPlotQuadFitX
 	assert(itsRealData != nullptr);
 	const JSize count = fitData->GetElementCount();
 	for (JSize i=1; i<= count; i++)
-		{
+	{
 		J2DDataPoint point;
 		if (GetDataElement(i, &point))
-			{
+		{
 			itsRealData->AppendElement(point);
-			}
 		}
+	}
 	GenerateFit();
 	GenerateDiffData();
 	AdjustDiffData();
@@ -215,21 +215,21 @@ GLPlotQuadFit::GetParameterName
 	const
 {
 	if ((index > 3) || (index < 1))
-		{
+	{
 		return false;
-		}
+	}
 	if (index == 1)
-		{
+	{
 		*name = "a";
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*name = "b";
-		}
+	}
 	else if (index == 3)
-		{
+	{
 		*name = "c";
-		}
+	}
 	return true;
 }
 
@@ -248,21 +248,21 @@ GLPlotQuadFit::GetParameter
 	const
 {
 	if ((index > 3) || (index < 1))
-		{
+	{
 		return false;
-		}
+	}
 	if (index == 1)
-		{
+	{
 		*value = itsAParameter;
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*value = itsBParameter;
-		}
+	}
 	else if (index == 3)
-		{
+	{
 		*value = itsCParameter;
-		}
+	}
 	return true;
 }
 
@@ -280,23 +280,23 @@ GLPlotQuadFit::GetParameterError
 	)
 	const
 {
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	if (!data->HasXErrors() && !data->HasYErrors())
-		{
+	{
 		return false;
-		}
+	}
 	if (index == 1)
-		{
+	{
 		*value = itsAErrParameter;
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*value = itsBErrParameter;
-		}
+	}
 	else if (index == 3)
-		{
+	{
 		*value = itsCErrParameter;
-		}
+	}
 	return true;
 }
 
@@ -313,15 +313,15 @@ GLPlotQuadFit::GetGoodnessOfFitName
 	)
 	const
 {
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	if (data->HasXErrors() || data->HasYErrors())
-		{
+	{
 		*name = "Chi^2/(N-3)";
-		}
+	}
 	else
-		{
+	{
 		*name = "Std dev";
-		}
+	}
 	return true;
 }
 
@@ -338,15 +338,15 @@ GLPlotQuadFit::GetGoodnessOfFit
 	)
 	const
 {
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	if (data->HasXErrors() || data->HasYErrors())
-		{
+	{
 		*value = itsChi2/(itsRealCount - 3);
-		}
+	}
 	else
-		{
+	{
 		*value = GetStdDev();
-		}
+	}
 
 	return true;
 }
@@ -388,11 +388,11 @@ void
 GLPlotQuadFit::GenerateFit()
 {
 	QuadFirstPass();
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	if (data->HasXErrors() || data->HasYErrors())
-		{
+	{
 		QuadMinFit();
-		}
+	}
 }
 
 /*********************************************************************************
@@ -409,34 +409,34 @@ GLPlotQuadFit::QuadFirstPass()
 	JSize i,j, k;
 	JArray<JFloat> yAdjError;
 
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	const JSize count = data->GetElementCount();
 	JSize rcount = itsRealData->GetElementCount();
 	for (i=1; i<= count; i++)
-		{
+	{
 		J2DDataPoint point;
 		if (GetDataElement(i, &point))
-			{
+		{
 			JFloat newVal = 1;
 			if (point.yerr != 0)
-				{
+			{
 				newVal = point.yerr;
-				}
-			yAdjError.AppendElement(newVal);
 			}
+			yAdjError.AppendElement(newVal);
 		}
+	}
 
 	JMatrix odata(rcount, 3, 1.0);
 	JVector yData(rcount);
 	for (i=1; i<= rcount; i++)
-		{
+	{
 		point = itsRealData->GetElement(i);
 		odata.SetElement(i, 1, 1);
 		odata.SetElement(i, 2, point.x);
 		odata.SetElement(i, 3, point.x*point.x);
 		yData.SetElement(i, point.y);
-		}
+	}
 	JMatrix tData = odata.Transpose();
 	JMatrix lData = tData * odata;
 	JMatrix rData = tData * yData;
@@ -444,7 +444,7 @@ GLPlotQuadFit::QuadFirstPass()
 	JGaussianElimination(lData, rData, &parms);
 
 	for (k=1; k<= 4; k++)
-		{
+	{
 		Y = 0;
 		X = 0;
 		X2 = 0;
@@ -454,7 +454,7 @@ GLPlotQuadFit::QuadFirstPass()
 		X4 = 0;
 		Sig = 0;
 		for (i=1; i<= rcount; i++)
-			{
+		{
 			point = itsRealData->GetElement(i);
 			JFloat yerr = yAdjError.GetElement(i);
 			Y += point.y/(yerr*yerr);
@@ -466,16 +466,16 @@ GLPlotQuadFit::QuadFirstPass()
 			X4 += point.x*point.x*point.x*point.x/(yerr*yerr);
 			Sig += 1/(yerr*yerr);
 			itsRealCount++;
-			}
+		}
 		JFloat cv1 = 0, cv2 = 0, cv3 = 0;
 		for (i=1; i<= rcount; i++)
-			{
+		{
 			point = itsRealData->GetElement(i);
 			JFloat syi = yAdjError.GetElement(i);
 			JFloat yi = point.y;
 			JFloat xi = point.x;
 			for (j = 1; j <= rcount; j++)
-				{
+			{
 				point = itsRealData->GetElement(j);
 				JFloat syj = yAdjError.GetElement(j);
 				JFloat yj = point.y;
@@ -483,8 +483,8 @@ GLPlotQuadFit::QuadFirstPass()
 				cv1 += xi*xj*xj*(xi*yj-yi*xj)/(syi*syi*syj*syj);
 				cv2 += (xi*xj*xj*(yi - yj))/(syi*syi*syj*syj);
 				cv3 += (xi*xj*xj*(xj - xi))/(syi*syi*syj*syj);
-				}
 			}
+		}
 		det = Sig*(X2*X4-X3*X3) + X*(X3*X2-X*X4) + X2*(X*X3-X2*X2);
 		tempa = (Y*(X2*X4-X3*X3) + X*(X3*YX2-YX*X4) + X2*(YX*X3-X2*YX2))/det;
 		tempb = (Sig*(YX*X4-YX2*X3) + Y*(X3*X2-X*X4) + X2*(X*YX2-YX*X2))/det;
@@ -493,20 +493,20 @@ GLPlotQuadFit::QuadFirstPass()
 
 		JSize index = 1;
 		for (i=1; i<=count; i++)
-			{
+		{
 			if (GetDataElement(i, &point))
-				{
+			{
 				JFloat newVal =
 					sqrt(point.yerr*point.yerr + (tempb+2*tempc*point.x)*(tempb+2*tempc*point.x)*point.xerr*point.xerr);
 				if (newVal == 0)
-					{
+				{
 					newVal = 1;
-					}
+				}
 				yAdjError.SetElement(index, newVal);
 				index ++;
-				}
 			}
 		}
+	}
 	itsRealCount /= 4;
 	itsAParameter = tempa;
 	itsBParameter = tempb;
@@ -518,11 +518,11 @@ GLPlotQuadFit::QuadFirstPass()
 //	itsCParameter = parms.GetElement(3,1);
 	itsChi2 = 0;
 	for (i=1; i<= rcount; i++)
-		{
+	{
 		point = itsRealData->GetElement(i);
 		JFloat yerr = yAdjError.GetElement(i);
 		itsChi2 += pow(point.y - tempa - tempb*point.x - tempc*point.x*point.x,2)/(yerr*yerr);
-		}
+	}
 
 	itsAErrParameter = 0;
 	itsBErrParameter = 0;
@@ -603,25 +603,25 @@ GLPlotQuadFit::MinimizeChiSqr
 		(fabs((oldA-itsAParameterT)/oldA) > 0.000001) ||
 		(fabs((oldC-itsCParameterT)/oldC) > 0.000001) ||
 		(fabs((oldB-itsBParameterT)/oldB) > 0.000001)))
-		{
+	{
 		i++;
 		oldC = itsCParameterT;
 		oldB = itsBParameterT;
 		oldA = itsAParameterT;
 
 		if (type != kCFixed)
-			{
+		{
 			chitemp = BracketAndMinimize(&itsCParameterT, chitemp, kChiCType);
-			}
-		if (type != kBFixed)
-			{
-			chitemp = BracketAndMinimize(&itsBParameterT, chitemp, kChiBType);
-			}
-		if (type != kAFixed)
-			{
-			chitemp = BracketAndMinimize(&itsAParameterT, chitemp, kChiAType);
-			}
 		}
+		if (type != kBFixed)
+		{
+			chitemp = BracketAndMinimize(&itsBParameterT, chitemp, kChiBType);
+		}
+		if (type != kAFixed)
+		{
+			chitemp = BracketAndMinimize(&itsAParameterT, chitemp, kChiAType);
+		}
+	}
 	return chitemp;
 }
 
@@ -650,29 +650,29 @@ GLPlotQuadFit::CalcError
 	xi.SetElement(2,2,1.0);
 
 	if (type == kAError)
-		{
+	{
 		sigParameter = &itsAParameterT;
 		parameter = itsAParameter;
 		fitType = kAFixed;
 		p.SetElement(2, itsBParameter);
 		p.SetElement(1, itsCParameter);
-		}
+	}
 	else if (type == kBError)
-		{
+	{
 		sigParameter = &itsBParameterT;
 		parameter = itsBParameter;
 		fitType = kBFixed;
 		p.SetElement(1, itsAParameter);
 		p.SetElement(2, itsCParameter);
-		}
+	}
 	else if (type == kCError)
-		{
+	{
 		sigParameter = &itsCParameterT;
 		parameter = itsCParameter;
 		fitType = kCFixed;
 		p.SetElement(1, itsAParameter);
 		p.SetElement(2, itsBParameter);
-		}
+	}
 	JFloat sig = *sigParameter*(0.000000001);
 
 	*sigParameter = parameter + sig;
@@ -685,21 +685,21 @@ GLPlotQuadFit::CalcError
 	JFloat lastchi;
 
 	do
-		{
+	{
 		if (chitemp > chiplus)
-			{
+		{
 			ok = false;
-			}
+		}
 		else
-			{
+		{
 			lastchi = chitemp;
 			*sigParameter = parameter + sig * 10;
 			sig *= 10;
 			chitemp = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
 			//std::cout << "1: " << sig << " " << chitemp << std::endl;
 			i++;
-			}
 		}
+	}
 	while ((i < 20) && ok);
 
 	sig /= 10;
@@ -709,14 +709,14 @@ GLPlotQuadFit::CalcError
 	i = 2;
 	JFloat chi1, chi2, chi3 = lastchi;
 	do
-		{
+	{
 		chi1 = chi3;
 		*sigParameter = parameter + sig* i;
 		chitemp = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
 		//std::cout << "2: " << sig << " " << chitemp << std::endl;
 		chi3 = chitemp;
 		if (chitemp > chiplus)
-			{
+		{
 			JFloat x1 = sig*(i-1);
 			JFloat x2 = sig*(i-.5);
 			JFloat x3 = sig*(i);
@@ -732,26 +732,26 @@ GLPlotQuadFit::CalcError
 			sig = tsig;
 			//std::cout << "3: " << sig << " " << chitemp << std::endl;
 			ok = false;
-			}
-		i++;
 		}
+		i++;
+	}
 	while ((i <= 10) && ok);
 	sig *= 10;
 	if (type == kAError)
-		{
+	{
 		p.SetElement(2, itsBParameter);
 		p.SetElement(1, itsCParameter);
-		}
+	}
 	else if (type == kBError)
-		{
+	{
 		p.SetElement(1, itsAParameter);
 		p.SetElement(2, itsCParameter);
-		}
+	}
 	else if (type == kCError)
-		{
+	{
 		p.SetElement(1, itsAParameter);
 		p.SetElement(2, itsBParameter);
-		}
+	}
 	xi.SetElement(1,1,1.0);
 	xi.SetElement(2,2,1.0);
 	xi.SetElement(1,2,0.0);
@@ -769,13 +769,13 @@ GLPlotQuadFit::CalcError
 	i = 0;
 	ok = true;
 	do
-		{
+	{
 		if (chitemp > chiplus)
-			{
+		{
 			ok = false;
-			}
+		}
 		else
-			{
+		{
 			lastchi = chitemp;
 			*sigParameter = parameter + sig * 10;
 			sig *= 10;
@@ -785,8 +785,8 @@ GLPlotQuadFit::CalcError
 //			chitemp = MinimizeN(p, xi, &iter, fitType);
 //		std::cout << "2b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 			i++;
-			}
 		}
+	}
 	while ((i < 20) && ok);
 
 	sig /= 10;
@@ -796,7 +796,7 @@ GLPlotQuadFit::CalcError
 	i = 2;
 	chi3 = lastchi;
 	do
-		{
+	{
 		chi1 = chi3;
 		*sigParameter = parameter + sig* i;
 		chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
@@ -806,7 +806,7 @@ GLPlotQuadFit::CalcError
 //	std::cout << "3b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 		chi3 = chitemp;
 		if (chitemp > chiplus)
-			{
+		{
 			JFloat x1 = sig*(i-1);
 			JFloat x2 = sig*(i-.5);
 			JFloat x3 = sig*(i);
@@ -824,17 +824,17 @@ GLPlotQuadFit::CalcError
 						((x1-x2)*(x1-x3)*(x2-x3));
 			JFloat tsig = fabs((-e2+JSign(parameter)*sqrt(e2*e2+4*e3*(chiplus-e1)))/2/e3);
 			if (tsig > x3)
-				{
+			{
 				tsig = x2;
 //				std::cout << x1 << " " << x2 << " " << x3 << std::endl;
 //				std::cout << chi1 << " " << chi2 << " " << chi3 << std::endl;
-				}
+			}
 			//std::cout << "*****" << tsig << "*****" << std::endl;
 			return tsig;
 			ok = false;
-			}
-		i++;
 		}
+		i++;
+	}
 	while ((i <= 10) && ok);
 	return 0;
 
@@ -859,35 +859,35 @@ GLPlotQuadFit::ChiSqr
 	JFloat c = 0;
 
 	for (JSize i = 1; i <= rcount; i++)
-		{
+	{
 		point = itsRealData->GetElement(i);
 		JFloat sy = point.yerr;
 		JFloat sx = point.xerr;
 		if ((sy == 0) && (sx == 0))
-			{
+		{
 			sy = 1;
-			}
+		}
 		if (type == kChiCType)
-			{
+		{
 			JFloat e = pow(point.xerr * (2*Bt*point.x + itsBParameterT),2) + sy * sy;
 			c += pow(point.y - itsAParameterT - itsBParameterT*point.x - Bt*point.x*point.x,2)/e;
-			}
+		}
 		else if (type == kChiBType)
-			{
+		{
 			JFloat e = pow(point.xerr * (2*itsCParameterT*point.x + Bt),2) + sy * sy;
 			c += pow(point.y - itsAParameterT - Bt*point.x - itsCParameterT*point.x*point.x, 2)/e;
-			}
+		}
 		else if (type == kChiAType)
-			{
+		{
 			JFloat e = pow(point.xerr * (2*itsCParameterT*point.x + itsBParameterT),2) + sy * sy;
 			c += pow(point.y - Bt - itsBParameterT*point.x - itsCParameterT*point.x*point.x, 2)/e;
-			}
+		}
 		else if (type == kDefaultType)
-			{
+		{
 			JFloat e = pow(point.xerr * (2*itsCParameterT*point.x + itsBParameterT),2) + sy * sy;
 			c += pow(point.y - itsAParameterT - itsBParameterT*point.x - itsCParameterT*point.x*point.x, 2)/e;
-			}
 		}
+	}
 		return c;
 
 }
@@ -932,42 +932,42 @@ GLPlotQuadFit::FunctionN
 	JFloat C;
 
 	if (type == kAFixed)
-		{
+	{
 		A = itsAParameterT;
 		B = parameters.GetElement(2);
 		C = parameters.GetElement(1);
-		}
+	}
 	else if (type == kBFixed)
-		{
+	{
 		B = itsBParameterT;
 		A = parameters.GetElement(1);
 		C = parameters.GetElement(2);
-		}
+	}
 	else if (type == kCFixed)
-		{
+	{
 		C = itsCParameterT;
 		A = parameters.GetElement(1);
 		B = parameters.GetElement(2);
-		}
+	}
 	else
-		{
+	{
 		A = parameters.GetElement(1);
 		B = parameters.GetElement(2);
 		C = parameters.GetElement(3);
-		}
+	}
 
 	for (JSize i = 1; i <= rcount; i++)
-		{
+	{
 		point = itsRealData->GetElement(i);
 		JFloat sy = point.yerr;
 		JFloat sx = point.xerr;
 		if ((sy == 0) && (sx == 0))
-			{
+		{
 			sy = 1;
-			}
+		}
 		JFloat e = pow(point.xerr * (2*C*point.x + B),2) + sy * sy;
 		c += pow(point.y - A - B*point.x - C*point.x*point.x,2)/e;
-		}
+	}
 		return sqrt(c);
 
 }
@@ -1000,33 +1000,33 @@ GLPlotQuadFit::BracketAndMinimize
 
 	iter = 1;
 	while (iter < 100)
-		{
+	{
 		cbmax = Function(bmax, type);
 		cbmin = Function(bmin, type);
 		if ((cbmin > chitemp) && (cbmax > chitemp))
-			{
+		{
 			break;
-			}
+		}
 		else
-			{
+		{
 			if (cbmin <= cbmax)
-				{
+			{
 				btemp = bmin;
 				bmin = btemp*(1-factor);
-				}
+			}
 			else
-				{
+			{
 				btemp = bmax;
 				bmax = btemp*(1+factor);
-				}
 			}
+		}
 		if (fabs(btemp) < small)
-			{
+		{
 			btemp = small;
-			}
+		}
 		factor = factor*1.2;
 		iter++;
-		}
+	}
 
 	Minimize(bmin, btemp, bmax, parameter, type);
 	return Function(*parameter, type);
@@ -1062,144 +1062,144 @@ GLPlotQuadFit::Minimize
 	fw = fx;
 	fw = fx;
 	if (ax<cx)
-		{
+	{
 		low = ax;
 		high = cx;
-		}
+	}
 	else
-		{
+	{
 		low = cx;
 		high = ax;
-		}
+	}
 	iter = 1;
 	while (iter<= ITMAX)
-		{
+	{
 		middle=0.5*(low+high);
 		tol1=TOLL*fabs(x)+ZEPS;
 		tol2 = 2.0*(tol1);
 		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
-			{
+		{
 			*xmin= x;
 			ymin= fx;
 			return fx;
-			}
+		}
 		if (fabs(oldstep) > tol1)
-			{
+		{
 			r=(x - w) * (fx - fv);
 			q=(x - v) * (fx - fw);
 			p=(x - v) * q + (w - x)* r;
 			q= 2.0 * (q - r);
 			if (q > 0.0)
-				{
+			{
 				p = -p;
-				}
+			}
 			q = fabs(q);
 			steptemp = oldstep;
 			oldstep = step;
 			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x)))
-				{
+			{
 				if (x >= middle)
-					{
-					oldstep = low - x;
-					}
-				else
-					{
-					oldstep = high - x;
-					}
-				step = CGOLD*oldstep;
-				}
-			else
 				{
+					oldstep = low - x;
+				}
+				else
+				{
+					oldstep = high - x;
+				}
+				step = CGOLD*oldstep;
+			}
+			else
+			{
 				step = p/q;
 				u = x + step;
 				if ((u-low < tol2) || (high-u < tol2))
-					{
+				{
 					if ((middle - x) > 0.0)
-						{
+					{
 						step = fabs(tol1);
-						}
+					}
 					else
-						{
+					{
 						step = -fabs(tol1);
-						}
 					}
 				}
 			}
+		}
 		else
-			{
+		{
 			if (x >= middle)
-				{
+			{
 				oldstep = low - x;
-				}
-			else
-				{
-				oldstep = high - x;
-				}
-			step = CGOLD*oldstep;
 			}
+			else
+			{
+				oldstep = high - x;
+			}
+			step = CGOLD*oldstep;
+		}
 
 		if (fabs(step) >= tol1)
-			{
+		{
 			u = x + step;
-			}
+		}
 		else
-			{
+		{
 			if (step > 0.0)
-				{
+			{
 				u = x + fabs(tol1);
-				}
-			else
-				{
-				u = x - fabs(tol1);
-				}
 			}
+			else
+			{
+				u = x - fabs(tol1);
+			}
+		}
 		fu = Function(u, type);
 		if (fu <= fx)
-			{
+		{
 			if (u >= x)
-				{
+			{
 				low=x;
-				}
+			}
 			else
-				{
+			{
 				high=x;
-				}
+			}
 			v = w;
 			w = x;
 			x = u;
 			fv = fw;
 			fw = fx;
 			fx = fu;
-			}
+		}
 		else
-			{
+		{
 			if (u < x)
-				{
+			{
 				low = u;
-				}
+			}
 			else
-				{
+			{
 				high = u;
-				}
+			}
 			if ((fu <= fw) || (w == x))
-				{
+			{
 				v = w;
 				w = u;
 				fv = fw;
 				fw = fu;
-				}
+			}
 			else
-				{
+			{
 				if ((fu <= fv) || (v == x) || (v == w))
-					{
+				{
 					v = u;
 					fv = fu;
-					}
 				}
 			}
+		}
 
 		iter++;
-		}
+	}
 
 	*xmin = x;
 	return fx;
@@ -1232,40 +1232,40 @@ GLPlotQuadFit::MinimizeN
 	pt = p;
 
 	for (*iter = 1; *iter <= ITMAX; ++(*iter))
-		{
+	{
 		fp = fret;
 		ibig=0;
 		del=0.0;
 		for (i = 1; i <= n; i++)
-			{
+		{
 			xit = xi.GetColVector(i);
 			fptt = fret;
 			fret = LinearMinimization(p, xit, type);
 			if (fabs(fptt-fret) > del)
-				{
+			{
 				del=fabs(fptt-fret);
 				ibig=i;
-				}
 			}
+		}
 		if (2.0*fabs(fp-fret) <= TOLL*(fabs(fp)+fabs(fret)))
-			{
+		{
 			return fret;
-			}
+		}
 		ptt = 2.0*p - pt;
 		xit = p - pt;
 		pt = p;
 		fptt = FunctionN(ptt, type);
 		if (fptt < fp)
-			{
+		{
 			t = 2.0*(fp - 2.0*fret+fptt) * (fp-fret-del)*(fp-fret-del) -del*(fp-fptt)*(fp-fptt);
 			if (t < 0.0)
-				{
+			{
 				fret = LinearMinimization(p, xit, type);
 				xi.SetColVector(ibig, xi.GetColVector(n));
 				xi.SetColVector(n, xit);
-				}
 			}
 		}
+	}
 	return fret;
 }
 
@@ -1334,73 +1334,73 @@ GLPlotQuadFit::Bracket
 	*fb = Function(*bx, type);
 
 	if (*fb > *fa)
-		{
+	{
 		Shift(dum,*ax,*bx,dum);
 		Shift(dum,*fb,*fa,dum);
-		}
+	}
 	*cx = (*bx)+GOLD*(*bx-*ax);
 	*fc = Function(*cx, type);
 
 	while (*fb > *fc)
-		{
+	{
 		r = (*bx-*ax)*(*fb-*fc);
 		q = (*bx-*cx)*(*fb-*fa);
 		int sign;
 		if (q-r > 0.0)
-			{
+		{
 			sign = 1;
-			}
+		}
 		else
-			{
+		{
 			sign = -1;
-			}
+		}
 		u = (*bx)-((*bx-*cx)*q-(*bx-*ax)*r)/
 			(2.0*sign*JMax(fabs(q-r),TINY));
 		ulim = (*bx)+GLIMIT*(*cx-*bx);
 		if ((*bx-u)*(u-*cx) > 0.0)
-			{
+		{
 			fu = Function(u, type);
 			if (fu < *fc)
-				{
+			{
 				*ax = (*bx);
 				*bx = u;
 				*fa = (*fb);
 				*fb = fu;
 				return;
-				}
+			}
 			else if (fu > *fb)
-				{
+			{
 				*cx = u;
 				*fc = fu;
 				return;
-				}
+			}
 			u = (*cx)+GOLD*(*cx-*bx);
 			fu = Function(u, type);
-			}
+		}
 		else if ((*cx-u)*(u-ulim) > 0.0)
-			{
+		{
 			fu = Function(u, type);
 			if (fu < *fc)
-				{
+			{
 				JFloat temp = *cx+GOLD*(*cx-*bx);
 				Shift(*bx,*cx,u,temp);
 				temp = Function(u, type);
 				Shift(*fb,*fc,fu,temp);
-				}
 			}
+		}
 		else if ((u-ulim)*(ulim-*cx) >= 0.0)
-			{
+		{
 			u = ulim;
 			fu = Function(u, type);
-			}
+		}
 		else
-			{
+		{
 			u = (*cx)+GOLD*(*cx-*bx);
 			fu = Function(u, type);
-			}
+		}
 		Shift(*ax,*bx,*cx,u);
 		Shift(*fa,*fb,*fc,fu);
-		}
+	}
 }
 
 void
@@ -1444,24 +1444,24 @@ GLPlotQuadFit::DataElementValid
 	const JIndex index
 	)
 {
-	const JPlotDataBase* data = GetDataToFit();
+	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	data->GetElement(index, &point);
 
 	if (itsUsingRange)
-		{
+	{
 		if ((point.x >= itsRangeXMin) &&
 			(point.x <= itsRangeXMax) &&
 			(point.y >= itsRangeYMin) &&
 			(point.y <= itsRangeYMax))
-			{
+		{
 			return true;
-			}
-		else
-			{
-			return false;
-			}
 		}
+		else
+		{
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -1480,10 +1480,10 @@ GLPlotQuadFit::GetDataElement
 {
 	bool valid = DataElementValid(index);
 	if (!valid)
-		{
+	{
 		return false;
-		}
-	const JPlotDataBase* data = GetDataToFit();
+	}
+	const J2DPlotDataBase* data = GetDataToFit();
 	data->GetElement(index, point);
 	return true;
 }

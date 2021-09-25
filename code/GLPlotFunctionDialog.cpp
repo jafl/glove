@@ -39,9 +39,9 @@ GLPlotFunctionDialog::GLPlotFunctionDialog
 	itsList = list;
 	
 	for (JIndex i = 1; i <= list->GetElementCount(); i++)
-		{
+	{
 		itsVarMenu->AppendItem(list->GetVariableName(i));
-		}
+	}
 }
 
 /******************************************************************************
@@ -128,41 +128,41 @@ GLPlotFunctionDialog::Receive
 	)
 {
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
-		{
+	{
 		assert (itsEditor == nullptr);
 		itsEditor = jnew GLExprDirector(this, itsList, itsFunctionString->GetText()->GetText());
 		assert(itsEditor != nullptr);
 		ListenTo(itsEditor);
 		itsEditor->BeginDialog();
-		}
+	}
 	else if (sender == itsClearButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsFunctionString->GetText()->SetText(JString::empty);
-		}
+	}
 	else if (sender == itsEditor && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
-			itsFunctionString->GetText()->SetText(itsEditor->GetString());
-			}
-		itsEditor = nullptr;
-		}
-	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
 		{
+			itsFunctionString->GetText()->SetText(itsEditor->GetString());
+		}
+		itsEditor = nullptr;
+	}
+	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		JIndex index = selection->GetIndex();
 		JString str = itsVarMenu->GetItemText(index);
 		itsFunctionString->Paste(str);
-		}
+	}
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -185,17 +185,17 @@ bool
 GLPlotFunctionDialog::OKToDeactivate()
 {
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 
 	JExprParser p(itsList);
 
 	JFunction* f;
 	if (p.Parse(itsFunctionString->GetText()->GetText(), &f))
-		{
+	{
 		jdelete f;
 		return true;
-		}
+	}
 	return false;
 }

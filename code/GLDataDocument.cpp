@@ -172,9 +172,9 @@ GLDataDocument::GLDataDocument
 	ListenTo(itsData);
 
 	if (onDisk)
-		{
+	{
 		LoadFile(fileName);
-		}
+	}
 }
 
 /******************************************************************************
@@ -314,7 +314,7 @@ GLDataDocument::BuildWindow()
 
 	toolBar->LoadPrefs();
 	if (toolBar->IsEmpty())
-		{
+	{
 		toolBar->AppendButton(itsFileMenu, kNewCmd);
 		toolBar->AppendButton(itsFileMenu, kOpenCmd);
 		toolBar->AppendButton(itsFileMenu, kSaveCmd);
@@ -325,7 +325,7 @@ GLDataDocument::BuildWindow()
 
 		toolBar->NewGroup();
 		toolBar->AppendButton(itsHelpMenu, kTOCCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -341,85 +341,85 @@ GLDataDocument::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsExportMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleExportMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
-			{
+		{
 			itsTable->PrintRealTable(*itsPrinter);
-			}
 		}
+	}
 
 	else if (sender == itsFileImportDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			LoadImportFile();
-			}
-		itsFileImportDialog = nullptr;
 		}
+		itsFileImportDialog = nullptr;
+	}
 
 	else if (sender == itsDelimiterDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			LoadDelimitedFile();
-			}
-		itsDelimiterDialog = nullptr;
 		}
+		itsDelimiterDialog = nullptr;
+	}
 
 	else if (sender == itsData && itsListenToData)
-		{
+	{
 		DataModified();
-		}
+	}
 
 	else if (message.Is(J2DPlotWidget::kPlotChanged) ||
 			 message.Is(J2DPlotWidget::kTitleChanged) ||
 			 message.Is(J2DPlotWidget::kIsEmpty))
-		{
+	{
 		DataModified();
-		}
+	}
 
 	else
-		{
+	{
 		JXFileDocument::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -433,18 +433,18 @@ GLDataDocument::UpdateFileMenu()
 	itsFileMenu->EnableItem(kOpenCmd);
 	itsFileMenu->EnableItem(kNewCmd);
 	if (NeedsSave())
-		{
+	{
 		itsFileMenu->EnableItem(kSaveCmd);
-		}
+	}
 	itsFileMenu->EnableItem(kSaveAsCmd);
 	itsFileMenu->EnableItem(kPageSetupCmd);
 	itsFileMenu->EnableItem(kCloseCmd);
 	itsFileMenu->EnableItem(kQuitCmd);
 
 	if (!itsData->IsEmpty())
-		{
+	{
 		itsFileMenu->EnableItem(kPrintCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -459,42 +459,42 @@ GLDataDocument::HandleFileMenu
 	)
 {
 	if (index == kNewCmd)
-		{
+	{
 		(GLGetApplication())->NewFile();
-		}
+	}
 	else if (index == kOpenCmd)
-		{
+	{
 		JString filename;
 		if (JGetChooseSaveFile()->ChooseFile(JGetString("OpenFilePrompt::GLDataDocument"), JString::empty, &filename))
-			{
+		{
 			(GLGetApplication())->OpenFile(filename);
-			}
 		}
+	}
 	else if (index == kSaveCmd)
-		{
+	{
 		SaveInCurrentFile();
-		}
+	}
 	else if (index == kSaveAsCmd)
-		{
+	{
 		SaveInNewFile();
-		}
+	}
 	else if (index == kPageSetupCmd)
-		{
+	{
 		itsPrinter->BeginUserPageSetup();
-		}
+	}
 	else if (index == kPrintCmd && itsTable->EndEditing())
-		{
+	{
 		itsPrinter->BeginUserPrintSetup();
-		}
+	}
 	else if (index == kCloseCmd)
-		{
+	{
 		Close();
-		}
+	}
 
 	else if (index == kQuitCmd)
-		{
+	{
 		(GLGetApplication())->Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -511,27 +511,27 @@ GLDataDocument::LoadFile
 	std::ifstream is(fileName.GetBytes());
 
 	if (is.bad())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("OpenFailed::GLDataDocument"));
-		}
+	}
 	else
-		{
+	{
 		const JString str = JReadLine(is);
 		if (str == kGloveFileSignature)
-			{
+		{
 			if (!LoadNativeFile(is))
-				{
-				JGetUserNotification()->ReportError(JGetString("FileTooNew::GLDataDocument"));
-				}
-			}
-		else
 			{
+				JGetUserNotification()->ReportError(JGetString("FileTooNew::GLDataDocument"));
+			}
+		}
+		else
+		{
 			is.close();
 			FileChanged(fileName, false);
 			itsCurrentFileName = fileName;
 			ChooseFileFilter();
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -549,21 +549,21 @@ GLDataDocument::LoadNativeFile
 	is >> version;
 
 	if (version > (JFloat) kCurrentGloveVersion)
-		{
+	{
 		return false;
-		}
+	}
 
 	itsListenToData = false;
 	itsTable->ReadData(is, version);
 	if (version > 0.5)
-		{
+	{
 		ReadPlotData(is, version);
 		GetWindow()->ReadGeometry(is);
 		JXScrollbar* vscroll = itsScrollbarSet->GetVScrollbar();
 		vscroll->ReadSetup(is);
 		JXScrollbar* hscroll = itsScrollbarSet->GetHScrollbar();
 		hscroll->ReadSetup(is);
-		}
+	}
 	itsListenToData = true;
 	DataReverted();
 	return true;
@@ -594,16 +594,16 @@ GLDataDocument::LoadImportFile()
 {
 	JIndex filterIndex = itsFileImportDialog->GetFilterIndex();
 	if (filterIndex <= kInternalModuleCount)
-		{
+	{
 		LoadInternalFile(filterIndex);
-		}
+	}
 	else
-		{
+	{
 		JString filter;
 		if (!((GLGetApplication())->GetImportModulePath(filterIndex - kInternalModuleCount, &filter)))
-			{
+		{
 			return;
-			}
+		}
 
 		const JUtf8Byte* argv[] = { filter.GetBytes(), itsCurrentFileName.GetBytes(), nullptr };
 
@@ -615,23 +615,23 @@ GLDataDocument::LoadImportFile()
 							  kJIgnoreConnection, nullptr);
 
 		if (!err.OK())
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("FilterError::GLDataDocument"));
 			return;
-			}
+		}
 
 		std::ifstream ip;
 		JString tempName;
 		if (JConvertToStream(inFD, &ip, &tempName))
-			{
+		{
 			int type;
 			ip >> type;
 
 			if (type == kGloveDataError)
-				{
+			{
 				JGetUserNotification()->ReportError(JGetString("FilterFileError::GLDataDocument"));
 				return;
-				}
+			}
 
 			itsData->ShouldBroadcast(false);
 			itsListenToData = false;
@@ -641,69 +641,69 @@ GLDataDocument::LoadImportFile()
 			bool keepGoing = true;
 
 			if (type == kGloveMatrixDataFormat)
-				{
+			{
 				JSize colCount;
 				ip >> colCount;
 
 				for (JIndex i = 1; i <= colCount; i++)
-					{
+				{
 					itsData->AppendCol();
-					}
+				}
 
 				while (keepGoing)
-					{
+				{
 					for (JIndex i = 1; i <= colCount && keepGoing; i++)
-						{
+					{
 						JFloat value;
 						ip >> value;
 						if (ip.fail() || (ip.eof() && i < colCount))
-							{
+						{
 							keepGoing = false;
 							break;
-							}
+						}
 						itsData->AppendElement(i, value);
 						keepGoing = pg.IncrementProgress();
-						}
 					}
 				}
+			}
 
 			else if (type == kGloveRaggedDataFormat)
-				{
+			{
 				JSize colCount;
 				ip >> colCount;
 
 				for (JIndex colIndex=1; colIndex <= colCount && keepGoing; colIndex++)
-					{
+				{
 					itsData->AppendCol();
 
 					JSize rowCount;
 					ip >> rowCount;
 
 					for (JIndex rowIndex=1; rowIndex <= rowCount && keepGoing; rowIndex++)
-						{
+					{
 						JFloat value;
 						ip >> value;
 						if (ip.fail() || (ip.eof() && rowIndex < rowCount))
-							{
+						{
 							keepGoing = false;
 							break;
-							}
+						}
 						itsData->AppendElement(colIndex, value);
 
 						keepGoing = pg.IncrementProgress();
-						}
 					}
 				}
+			}
 
 			ip.close();
 			JRemoveFile(tempName);
 
 			pg.ProcessFinished();
-			}
+		}
 
 		itsListenToData = true;
 		itsData->ShouldBroadcast(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -725,9 +725,9 @@ GLDataDocument::CreateNewPlot
 {
 	JString str((JUInt64) itsPlotNumber);
 	const JUtf8Byte* map[] =
-		{
+	{
 		"i", str.GetBytes()
-		};
+	};
 	str = JGetString("PlotTitle::GLDataDocument", map, sizeof(map));
 	itsPlotNumber++;
 
@@ -773,39 +773,39 @@ GLDataDocument::AddToPlot
 	ListenTo(plot);
 
 	if (type == kDataPlot)
-		{
+	{
 		J2DPlotData* curve;
 		if (J2DPlotData::Create(&curve, xCol, yCol, linked))
-			{
+		{
 			plot->AddCurve(curve, true, label);
-			}
+		}
 		else
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("MismatchedColumns::GLDataDocument"));
 			return;
-			}
-		if (x2Col != nullptr)
-			{
-			curve->SetXErrors(*x2Col);
-			}
-		if (y2Col != nullptr)
-			{
-			curve->SetYErrors(*y2Col);
-			}
 		}
-	else if (type == kVectorPlot)
+		if (x2Col != nullptr)
 		{
+			curve->SetXErrors(*x2Col);
+		}
+		if (y2Col != nullptr)
+		{
+			curve->SetYErrors(*y2Col);
+		}
+	}
+	else if (type == kVectorPlot)
+	{
 		J2DVectorData* curve;
 		if (J2DVectorData::Create(&curve, xCol, yCol, *x2Col, *y2Col, linked))
-			{
+		{
 			plot->AddCurve(curve, true, label);
-			}
+		}
 		else
-			{
+		{
 			JGetUserNotification()->ReportError(JGetString("MismatchedColumns::GLDataDocument"));
 			return;
-			}
 		}
+	}
 	plotDir->Activate();
 	DataModified();
 }
@@ -826,7 +826,7 @@ GLDataDocument::GetPlotNames
 	const JIndex index = itsPlotWindows->GetElementCount();
 
 	for (JIndex i = 1; i <= index; i++)
-		{
+	{
 		GLPlotDir* plotDir = itsPlotWindows->GetElement(i);
 		assert (plotDir != nullptr);
 
@@ -834,13 +834,13 @@ GLDataDocument::GetPlotNames
 		assert( plot != nullptr );
 		name = jnew JString(plot->GetTitle());
 		if (name->GetCharacterCount() > kMaxPlotTitleSize)
-			{
+		{
 			JStringIterator iter(name, kJIteratorStartAfter, kMaxPlotTitleSize);
 			iter.RemoveAllNext();
 			name->Append(JGetString("Ellipsis::GLDataDocument"));
-			}
-		names.Append(name);
 		}
+		names.Append(name);
+	}
 }
 
 /******************************************************************************
@@ -857,10 +857,10 @@ GLDataDocument::DirectorClosed
 	JIndex index;
 	const auto* dir = (const GLPlotDir*) theDirector;
 	if (itsPlotWindows->Find(dir, &index))
-		{
+	{
 		itsPlotWindows->Remove(dir);
 		DataModified();
-		}
+	}
 }
 
 /******************************************************************************
@@ -884,12 +884,12 @@ GLDataDocument::WriteTextFile
 	output << plotCount << " ";
 
 	for (JSize i = 1; i <= plotCount; i++)
-		{
+	{
 		GLPlotDir* plotDir = itsPlotWindows->GetElement(i);
 		assert (plotDir != nullptr);
 		plotDir->WriteSetup(output);
 		plotDir->WriteData(output, itsData);
-		}
+	}
 	GetWindow()->WriteGeometry(output);
 	JXScrollbar* vscroll = itsScrollbarSet->GetVScrollbar();
 	vscroll->WriteSetup(output);
@@ -912,7 +912,7 @@ GLDataDocument::ReadPlotData
 	JSize count;
 	is >> count;
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		auto* plotDir = jnew GLPlotDir(this, this, GetFileName());
 		assert (plotDir != nullptr);
 
@@ -920,7 +920,7 @@ GLDataDocument::ReadPlotData
 		plotDir->ReadData(is, itsData, gloveVersion);
 		plotDir->Activate();
 		itsPlotWindows->Append(plotDir);
-		}
+	}
 	itsPlotNumber = count + 1;
 }
 
@@ -936,11 +936,11 @@ GLDataDocument::HandleExportMenu
 	)
 {
 	if (index == kReloadModuleCmd)
-		{
+	{
 		UpdateExportMenu();
-		}
+	}
 	else
-		{
+	{
 		JString modName;
 		(GLGetApplication())->GetExportModulePath(index - 1, &modName);
 		JString filename;
@@ -948,7 +948,7 @@ GLDataDocument::HandleExportMenu
 				JGetString("ExportFileName::GLDataDocument"),
 				JGetString("ExportPrompt::GLDataDocument"),
 				JString::empty, &filename))
-			{
+		{
 			const JUtf8Byte* argv[] = { modName.GetBytes(), filename.GetBytes(), nullptr };
 
 			int inFD, outFD;
@@ -959,15 +959,15 @@ GLDataDocument::HandleExportMenu
 								  kJIgnoreConnection, nullptr);
 
 			if (!err.OK())
-				{
+			{
 				JGetUserNotification()->ReportError(JGetString("ModuleError::GLDataDocument"));
 				return;
-				}
+			}
 
 			std::ifstream ip;
 			JString tempName;
 			if (JConvertToStream(inFD, &ip, &tempName))
-				{
+			{
 				JOutPipeStream op(outFD, true);
 				assert( op.good() );
 
@@ -975,19 +975,19 @@ GLDataDocument::HandleExportMenu
 				ip >> type;
 
 				if (type == kGloveMatrixDataFormat)
-					{
+				{
 					itsTable->ExportDataMatrix(op);
-					}
+				}
 				else
-					{
+				{
 					itsTable->ExportData(op);
-					}
+				}
 
 				ip.close();
 				JRemoveFile(tempName);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1001,16 +1001,16 @@ GLDataDocument::UpdateExportMenu()
 	const JSize mCount = itsExportMenu->GetItemCount();
 	JSize i;
 	for (i = 2; i <= mCount; i++)
-		{
+	{
 		itsExportMenu->RemoveItem(2);
-		}
+	}
 
 	(GLGetApplication())->ReloadExportModules();
 	JPtrArray<JString>* names = (GLGetApplication())->GetExportModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
-		{
+	{
 		itsExportMenu->AppendItem(*(names->GetElement(i)));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1025,25 +1025,25 @@ GLDataDocument::HandleHelpMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		(GLGetApplication())->DisplayAbout();
-		}
+	}
 	else if (index == kTOCCmd)
-		{
+	{
 		JXGetHelpManager()->ShowTOC();
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		JXGetHelpManager()->ShowSection("GLTableHelp");
-		}
+	}
 	else if (index == kChangesCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1097,18 +1097,18 @@ GLDataDocument::LoadInternalFile
 	)
 {
 	if (index == kDelimitedText)
-		{
+	{
 		assert(itsDelimiterDialog == nullptr);
 		itsDelimiterDialog =
 			jnew GLGetDelimiterDialog(this, itsFileImportDialog->GetFileText());
 		assert(itsDelimiterDialog != nullptr);
 		ListenTo(itsDelimiterDialog);
 		itsDelimiterDialog->BeginDialog();
-		}
+	}
 	else if (index == kFixedWidthText)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("LoadFixedWidthFile::GLDataDocument"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1124,33 +1124,33 @@ GLDataDocument::LoadDelimitedFile()
 	const GLGetDelimiterDialog::DelimiterType type = itsDelimiterDialog->GetDelimiterType();
 	JUtf8Byte delim;
 	if (type == GLGetDelimiterDialog::kChar)
-		{
+	{
 		delim = itsDelimiterDialog->GetCharacter();
-		}
+	}
 	else if (type == GLGetDelimiterDialog::kSpace)
-		{
+	{
 		delim = ' ';
-		}
+	}
 	else if (type == GLGetDelimiterDialog::kTab)
-		{
+	{
 		delim = '\t';
-		}
+	}
 
 	std::ifstream is(itsCurrentFileName.GetBytes());
 	if (is.bad())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("OpenFailed::GLDataDocument"));
 		return;
-		}
+	}
 
 	if (itsDelimiterDialog->IsSkippingLines())
-		{
+	{
 		const JSize count = itsDelimiterDialog->GetSkipLineCount();
 		for (JIndex i = 1; i <= count; i++)
-			{
+		{
 			JIgnoreUntil(is, '\n');
-			}
 		}
+	}
 
 	itsData->ShouldBroadcast(false);
 	itsListenToData = false;
@@ -1164,12 +1164,12 @@ GLDataDocument::LoadDelimitedFile()
 	JIndex row = 0;
 	JString line, strVal;
 	while (is.good())
-		{
+	{
 		line = JReadLine(is);
 		if (line.IsEmpty() || (hasComments && line.BeginsWith(commentStr)))
-			{
+		{
 			continue;
-			}
+		}
 
 		row++;
 		std::string s(line.GetRawBytes(), line.GetByteCount());
@@ -1177,44 +1177,44 @@ GLDataDocument::LoadDelimitedFile()
 
 		JIndex col = 1;
 		if (type == GLGetDelimiterDialog::kWhiteSpace)
-			{
+		{
 			while (true)
-				{
+			{
 				JFloat value;
 				iss >> value;
 				if (iss.fail())
-					{
+				{
 					if (col == 1)
-						{
+					{
 						row--;
-						}
-					break;
 					}
+					break;
+				}
 
 				itsData->SetElement(row, col, value);
 				col++;
-				}
 			}
+		}
 		else
-			{
+		{
 			bool found = true;
 			while (found)
-				{
+			{
 				strVal = JReadUntil(iss, delim, &found);
 				JFloat value;
 				if (strVal.ConvertToFloat(&value))
-					{
+				{
 					itsData->SetElement(row, col, value);
-					}
-				col++;
 				}
-			}
-
-		if (!pg.IncrementProgress())
-			{
-			break;
+				col++;
 			}
 		}
+
+		if (!pg.IncrementProgress())
+		{
+			break;
+		}
+	}
 
 	pg.ProcessFinished();
 

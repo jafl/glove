@@ -134,24 +134,24 @@ GLHistoryDir::Receive
 	)
 {
 	if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFileMenu(selection->GetIndex());
-		}
+	}
 	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFileMenu();
-		}
+	}
 	else if (sender == itsHistory && message.Is(JStyledText::kTextChanged))
-		{
+	{
 		Broadcast(SessionChanged());
-		}
+	}
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender,message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -178,18 +178,18 @@ GLHistoryDir::HandleFileMenu
 	)
 {
 	if (index == kSaveWindowSizeCmd)
-		{
+	{
 //		gjdbApp->SaveCmdWindowSize(GetWindow());
-		}
+	}
 	else if (index == kCloseCmd)
-		{
+	{
 //		GetWindow()->Iconify();
 		Deactivate();
-		}
+	}
 	else if (index == kQuitCmd)
-		{
+	{
 		JXGetApplication()->Quit();
-		}
+	}
 }
 
 /******************************************************************************
@@ -207,18 +207,18 @@ GLHistoryDir::AppendText
 {
 	const JString& history = itsHistory->GetText()->GetText();
 	if (!history.IsEmpty())
-		{
+	{
 		itsHistory->SetCaretLocation(itsHistory->GetText()->GetBeyondEnd().charIndex);
 		if (history.GetLastCharacter() != '\n')
-			{
+		{
 			itsHistory->Paste(JString::newline);
-			}
 		}
+	}
 	itsHistory->Paste(text);
 	if (!IsActive() && show)
-		{
+	{
 		Activate();
-		}
+	}
 }
 
 /******************************************************************************

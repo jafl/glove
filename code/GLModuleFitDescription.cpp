@@ -30,9 +30,9 @@ GLModuleFitDescription::GLModuleFitDescription
 	const JSize count	= fit->GetParameterCount();
 	SetParameterCount(count);
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		GetVarList()->AddVariable(itsModule->GetParameterName(i), 0);
-		}
+	}
 	DoesRequireStartValues(true);
 }
 

@@ -147,29 +147,29 @@ GLBuildColumnMenus
 	va_start(args, count);
 
 	for (JUInt64 i=1; i<=count; i++)
-		{
+	{
 		JString str(i);
 		const JUtf8Byte* map[] =
-			{
+		{
 			"i", str.GetBytes()
-			};
+		};
 		str = JGetString(key, map, sizeof("map"));
 
 		std::va_list args2;
 		va_copy(args2, args);
 
 		while (true)
-			{
+		{
 			JXTextMenu* menu = va_arg(args2, JXTextMenu*);
 			if (menu == nullptr)
-				{
+			{
 				break;
-				}
-			menu->AppendItem(str);
 			}
+			menu->AppendItem(str);
+		}
 
 		va_end(args2);
-		}
+	}
 
 	va_end(args);
 }

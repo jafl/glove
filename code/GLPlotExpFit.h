@@ -21,7 +21,7 @@ class GLPlotExpFit : public GLPlotLinearFit
 {
 public:
 
-	GLPlotExpFit(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotExpFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 				const JFloat xMin, const JFloat xMax);
 	virtual ~GLPlotExpFit();	
 
@@ -30,7 +30,7 @@ public:
 								  JFloat* yMin, JFloat* yMax) const override;
 
 	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
-	virtual const JPlotDataBase*		GetDataToFit() const override;
+	virtual const J2DPlotDataBase*		GetDataToFit() const override;
 
 	virtual bool	GetParameter(const JIndex index, JFloat* value) const override;
 	virtual bool	GetParameterError(const JIndex index, JFloat* value) const override;

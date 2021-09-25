@@ -41,18 +41,18 @@ GLUndoElementsCut::GLUndoElementsCut
 	JIndex colstart;
 	JIndex colend;
 	if (type == GLUndoElementsBase::kRows)
-		{
+	{
 		colstart 	= 1;
 		colend 		= data->GetDataColCount();
-		}
+	}
 	else
-		{
+	{
 		colstart	= start.x;
 		colend 		= end.x;
-		}
+	}
 
 	for (JSize i = colstart; i <= colend; i++)
-		{
+	{
 		JArray<JFloat>* col = jnew JArray<JFloat>;
 		assert(col != nullptr);
 		itsValues->Append(col);
@@ -60,25 +60,25 @@ GLUndoElementsCut::GLUndoElementsCut
 		JIndex rowstart;
 		JIndex rowend;
 		if (type == GLUndoElementsBase::kCols)
-			{
+		{
 			rowstart	= 1;
 			rowend 		= data->GetDataRowCount(i);
-			}
+		}
 		else 
-			{
+		{
 			rowstart 	= start.y;
 			rowend 		= JMin((JSize)end.y, data->GetDataRowCount(i));
-			}
+		}
 		
 		for (JSize j = rowstart; j <= rowend; j++)
-			{
+		{
 			JFloat value;
 			if (data->GetElement(j, i, &value))
-				{
+			{
 				col->AppendElement(value);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -113,28 +113,28 @@ GLUndoElementsCut::Undo()
 	GLUndoElementsBase::UndoType type 	= GetType();
 
 	if (type == GLUndoElementsBase::kCols)
-		{
+	{
 		JSize cols = itsValues->GetElementCount();
 		for (JSize i = 1; i <= cols; i++)
-			{
+		{
 			JArray<JFloat>* col = itsValues->GetElement(i);
 			data->InsertCol(i + start.x - 1, col);
-			}
 		}
+	}
 	else 
-		{
+	{
 		JSize cols = itsValues->GetElementCount();
 		for (JSize i = 1; i <= cols; i++)
-			{
+		{
 			JArray<JFloat>* col = itsValues->GetElement(i);
 			JSize rows = col->GetElementCount();
 			for (JSize j = 1; j <= rows; j++)
-				{
+			{
 				JFloat value = col->GetElement(j);
 				data->InsertElement(j + start.y - 1 , i + start.x - 1, value);
-				}
 			}
 		}
+	}
 		
 	NewUndo(undo);
 }

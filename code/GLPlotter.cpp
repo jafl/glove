@@ -79,10 +79,10 @@ GLPlotter::GLPlotter
 GLPlotter::~GLPlotter()
 {
 	if (itsIsProcessingCursor)
-		{
+	{
 		jdelete itsCursorProcess;
 		delete itsLink;
-		}
+	}
 }
 
 /******************************************************************************
@@ -98,37 +98,37 @@ GLPlotter::Receive
 	)
 {
 	if (sender == itsModuleMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
-		}
+	}
 		
 	else if (message.Is(JProcess::kFinished))
-		{
+	{
 		jdelete itsCursorProcess;
 		delete itsLink;
 		itsLink = nullptr;
 		itsIsProcessingCursor = false;
-		}
+	}
 
 	else if (sender == itsLink && message.Is(JMessageProtocolT::kMessageReady))
-		{
+	{
 		if (itsLink->HasMessages())
-			{
+		{
 			JSize count = itsLink->GetMessageCount();
 			for (JSize i = 1; i <= count; i++)
-				{
+			{
 				JString str;
 				if (itsLink->GetNextMessage(&str))
-					{
+				{
 					if (itsCursorFirstPass)
-						{
+					{
 						JUtf8Byte c = str.GetRawBytes()[0];
 						int val = c - kASCIIZero;
 						if (val == kGloveFail)
-							{
+						{
 							JStringIterator iter(&str);
 							iter.SkipNext(2);
 							iter.RemoveAllPrev();
@@ -136,22 +136,22 @@ GLPlotter::Receive
 
 							str.Prepend(JGetString("ModuleError::GLPlotter"));
 							JGetUserNotification()->ReportError(str);
-							}
+						}
 						itsCursorFirstPass = false;
-						}
+					}
 					else
-						{
+					{
 						itsSessionDir->AppendText(str);
-						}
 					}
 				}
 			}
 		}
+	}
 		
 	else
-		{
+	{
 		JX2DPlotWidget::Receive(sender, message);
-		}
+	}
 }
 
 /*******************************************************************************
@@ -166,16 +166,16 @@ GLPlotter::UpdateModuleMenu()
 	const JSize mCount = itsModuleMenu->GetItemCount();
 	JSize i;
 	for (i = 2; i <= mCount; i++)
-		{
+	{
 		itsModuleMenu->RemoveItem(2);
-		}
+	}
 
 	(GLGetApplication())->ReloadCursorModules();
 	JPtrArray<JString>* names = (GLGetApplication())->GetCursorModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
-		{
+	{
 		itsModuleMenu->AppendItem(*(names->GetElement(i)));
-		}
+	}
 }
 
 /*******************************************************************************
@@ -191,12 +191,12 @@ GLPlotter::HandleModuleMenu
 	)
 {
 	if (index == 1)
-		{
+	{
 		UpdateModuleMenu();
-		}
+	}
 		
 	else
-		{
+	{
 		JString modName;
 		(GLGetApplication())->GetCursorModulePath(index - 1, &modName);
 		int inFD;
@@ -221,22 +221,22 @@ GLPlotter::HandleModuleMenu
 		*op << YCursorVisible();
 		*op << DualCursorsVisible() << " ";
 		if (XCursorVisible())
-			{
+		{
 //			*op << itsXCursorVal1 << " ";
 			if (DualCursorsVisible())
-				{
-//				*op << itsXCursorVal2 << " ";
-				}
-			}
-		if (YCursorVisible())
 			{
+//				*op << itsXCursorVal2 << " ";
+			}
+		}
+		if (YCursorVisible())
+		{
 //			*op << itsYCursorVal1 << " ";
 			if (DualCursorsVisible())
-				{
+			{
 //				*op << itsYCursorVal2 << " ";
-				}
 			}
+		}
 		jdelete op;
 		itsCursorFirstPass = true;
-		}
+	}
 }

@@ -9,7 +9,7 @@
 
 #include "GLPlotExpFit.h"
 #include "J2DPlotWidget.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include "J2DPlotData.h"
 #include <JString.h>
 #include <JArray.h>
@@ -25,7 +25,7 @@
 GLPlotExpFit::GLPlotExpFit
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData, 
+	J2DPlotDataBase* 	fitData, 
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -38,15 +38,15 @@ GLPlotExpFit::GLPlotExpFit
 	itsHasXErrors = false;
 	itsHasYErrors = false;
 	if (fitData->HasXErrors())
-		{
+	{
 		itsXErrData = jnew JArray<JFloat>;
 		itsHasXErrors = true;
-		}
+	}
 	if (fitData->HasYErrors())
-		{
+	{
 		itsYErrData = jnew JArray<JFloat>;
 		itsHasYErrors = true;
-		}
+	}
 
 	AdjustData();
 	CreateData();
@@ -119,7 +119,7 @@ GLPlotExpFit::GetYRange
 
  ********************************************************************************/
 
-const JPlotDataBase*
+const J2DPlotDataBase*
 GLPlotExpFit::GetDataToFit()
 	const
 {
@@ -135,37 +135,37 @@ GLPlotExpFit::GetDataToFit()
 void
 GLPlotExpFit::AdjustData()
 {
-	const JPlotDataBase* data = GetData();
+	const J2DPlotDataBase* data = GetData();
 	itsXData->RemoveAll();
 	itsYData->RemoveAll();
 	if (data->HasYErrors())
-		{
+	{
 		itsYErrData->RemoveAll();
-		}
+	}
 	if (data->HasXErrors())
-		{
+	{
 		itsXErrData->RemoveAll();
-		}
+	}
 	J2DDataPoint point;
 	JSize count = data->GetElementCount();
 	JSize i;
 	for (i = 1; i <= count; i++)
-		{
+	{
 		data->GetElement(i, &point);
 		if (point.y > 0)
-			{
+		{
 			itsXData->AppendElement(point.x);
 			itsYData->AppendElement(log(point.y));
 			if (itsHasYErrors)
-				{
+			{
 				itsYErrData->AppendElement(log((point.y - point.yerr)/point.y));
-				}
+			}
 			if (itsHasXErrors)
-				{
+			{
 				itsXErrData->AppendElement(point.xerr);
-				}
 			}
 		}
+	}
 }
 
 /*********************************************************************************
@@ -179,13 +179,13 @@ GLPlotExpFit::CreateData()
 {
 	J2DPlotData::Create(&itsAdjustedData, *itsXData, *itsYData, true);
 	if (itsHasYErrors)
-		{
+	{
 		itsAdjustedData->SetYErrors(*itsYErrData);
-		}
+	}
 	if (itsHasXErrors)
-		{
+	{
 		itsAdjustedData->SetXErrors(*itsXErrData);
-		}
+	}
 }
 
 /*********************************************************************************
@@ -205,13 +205,13 @@ GLPlotExpFit::GetParameter
 	JFloat linVal;
 	bool success = GLPlotLinearFit::GetParameter(index, &linVal);
 	if (index == 1)
-		{
+	{
 		*value = exp(linVal);
-		}
+	}
 	else
-		{
+	{
 		*value = linVal;
-		}
+	}
 	return success;
 }
 
@@ -234,13 +234,13 @@ GLPlotExpFit::GetParameterError
 	bool success = GLPlotLinearFit::GetParameterError(index, &linVal);
 	GLPlotLinearFit::GetParameter(index, &aVal);
 		if (index == 1)
-		{
+	{
 		*value = exp(aVal) - exp(aVal - linVal);
-		}
+	}
 	else
-		{
+	{
 		*value = linVal;
-		}
+	}
 	return success;
 }
 
@@ -255,19 +255,19 @@ GLPlotExpFit::AdjustDiffData()
 {
 	JFloat B;
 	GetParameter(2, &B);
-	JPlotDataBase* pwd = GetDiffData();
+	J2DPlotDataBase* pwd = GetDiffData();
 	J2DDataPoint dataD;
 	J2DDataPoint data;
 	const JSize count = pwd->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
-		{
+	{
 		pwd->GetElement(i, &dataD);
 		GetData()->GetElement(i, &data);
 		JFloat yerr;
 		if (GetData()->HasYErrors() || itsHasXErrors)
-			{
+		{
 			yerr = sqrt(data.yerr*data.yerr + B*B*data.y*data.y*data.xerr*data.xerr);
 			AdjustDiffDataValue(i, yerr);
-			}
 		}
+	}
 }

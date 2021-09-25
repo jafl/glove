@@ -90,9 +90,9 @@ GLFitModuleDialog::BuildWindow()
 
 	JPtrArray<JString>* names = GLGetApplication()->GetFitModules();
 	for (auto* name : *names)
-		{
+	{
 		itsFilterMenu->AppendItem(*name);
-		}
+	}
 
 	itsFilterIndex = 1;
 
@@ -100,10 +100,10 @@ GLFitModuleDialog::BuildWindow()
 	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFilterMenu);
 	if (names->IsEmpty())
-		{
+	{
 		itsFilterMenu->Deactivate();
 		itsOKButton->Deactivate();
-		}
+	}
 	ListenTo(itsReloadButton);
 }
 
@@ -120,40 +120,40 @@ GLFitModuleDialog::Receive
 	)
 {
 	if (sender == itsFilterMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsFilterIndex = selection->GetIndex();
-		}
+	}
 
 	else if (sender == itsReloadButton && message.Is(JXButton::kPushed))
-		{
+	{
 		GLGetApplication()->ReloadFitModules();
 		itsFilterMenu->RemoveAllItems();
 		JPtrArray<JString>* names = GLGetApplication()->GetFitModules();
 		for (auto* name : *names)
-			{
+		{
 			itsFilterMenu->AppendItem(*name);
-			}
+		}
 		itsFilterIndex = 1;
 		itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 		if (names->IsEmpty())
-			{
+		{
 			itsFilterMenu->Deactivate();
 			itsOKButton->Deactivate();
-			}
+		}
 		else
-			{
+		{
 			itsFilterMenu->Activate();
 			itsOKButton->Activate();
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************

@@ -298,35 +298,35 @@ GLNonLinearFitDialog::Receive
 	)
 {
 	if (sender == itsNewButton && message.Is(JXButton::kPushed))
-		{
+	{
 		itsVarTable->NewConstant();
-		}
+	}
 	else if (sender == itsDeleteButton && message.Is(JXButton::kPushed))
-		{
+	{
 		if (!OKToDeleteParm())
-			{
+		{
 			itsDeleteButton->Deactivate();
-			}
+		}
 		else
-			{
+		{
 			itsVarTable->RemoveSelectedConstant();
-			}
 		}
+	}
 	else if (sender == itsDelButtonTask && message.Is(JXTimerTask::kTimerWentOff))
-		{
+	{
 		if (OKToDeleteParm())
-			{
-			itsDeleteButton->Activate();
-			}
-		else
-			{
-			itsDeleteButton->Deactivate();
-			}
-		}
-	else
 		{
-		JXDialogDirector::Receive(sender, message);
+			itsDeleteButton->Activate();
 		}
+		else
+		{
+			itsDeleteButton->Deactivate();
+		}
+	}
+	else
+	{
+		JXDialogDirector::Receive(sender, message);
+	}
 }
 
 /******************************************************************************
@@ -338,35 +338,35 @@ bool
 GLNonLinearFitDialog::OKToDeactivate()
 {
 	if (!JXDialogDirector::OKToDeactivate())
-		{
+	{
 		return false;
-		}
+	}
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	JString name	= itsNameInput->GetText()->GetText();
 	name.TrimWhitespace();
 	if (name.IsEmpty())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MissingName::GLNonLinearFitDialog"));
 		itsNameInput->Focus();
 		return false;
-		}
+	}
 	if (itsFnEditor->ContainsUIF())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MissingFunction::GLNonLinearFitDialog"));
 		itsFnEditor->Focus();
 		return false;
-		}
+	}
 	if (!itsDerivativeEditor->EndEditing())
-		{
+	{
 		return false;
-		}
+	}
 	if (!itsVarTable->EndEditing())
-		{
+	{
 		return false;
-		}
+	}
 	return true;
 }
 
@@ -381,9 +381,9 @@ GLNonLinearFitDialog::OKToDeleteParm()
 	JPoint cell;
 	const JCoordinate kXOffset	= 1;
 	if (itsVarTable->GetEditedCell(&cell) && itsVarList->OKToRemoveVariable(cell.y + kXOffset))
-		{
+	{
 		return true;
-		}
+	}
 	return false;
 }
 

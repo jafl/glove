@@ -156,17 +156,17 @@ GLColByIncDialog::Receive
 	)
 {
 	if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsDestCol = selection->GetIndex();
-		}
+	}
 		
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -198,9 +198,9 @@ GLColByIncDialog::IsAscending()
 	JFloat inc;
 	itsInc->GetValue(&inc);
 	if (inc > 0)
-		{
+	{
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -213,25 +213,25 @@ bool
 GLColByIncDialog::OKToDeactivate()
 {
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 		
 	if (itsDestCol == 0)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MissingDestCol::GLColByIncDialog"));
 		return false;
-		}
+	}
 		
 	JInteger count;
 	
 	itsCount->GetValue(&count);
 	
 	if (count <= 0)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NoData::GLColByIncDialog"));
 		return false;
-		}
+	}
 		
 	return true;
 }

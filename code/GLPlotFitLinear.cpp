@@ -9,7 +9,7 @@
 
 #include "GLPlotFitLinear.h"
 #include "J2DPlotWidget.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 
 #include <JString.h>
 #include <JArray.h>
@@ -29,7 +29,7 @@
 GLPlotFitLinear::GLPlotFitLinear
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -42,7 +42,7 @@ GLPlotFitLinear::GLPlotFitLinear
 GLPlotFitLinear::GLPlotFitLinear
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData,
+	J2DPlotDataBase* fitData,
 	const JFloat xmin, 
 	const JFloat xmax,
 	const JFloat ymin, 
@@ -58,7 +58,7 @@ void
 GLPlotFitLinear::JPlotFitLinearX
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData
+	J2DPlotDataBase* fitData
 	)
 {
 	JArray<JIndex> powers;

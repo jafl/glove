@@ -22,9 +22,9 @@ class GLPlotFitNonLinear : public GLPlotFitBase
 {
 public:
 
-	GLPlotFitNonLinear(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitNonLinear(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					  const JFloat xMin, const JFloat xMax);
-	GLPlotFitNonLinear(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitNonLinear(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					  const JFloat xmin, const JFloat xmax,
 					  const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitNonLinear();

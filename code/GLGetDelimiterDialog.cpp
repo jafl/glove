@@ -51,14 +51,14 @@ GLGetDelimiterDialog::GLGetDelimiterDialog
 	JStringIterator iter(&s);
 
 	while (iter.Next(" "))
-		{
+	{
 		iter.ReplaceLastMatch("\xE2\x80\xA2");
-		}
+	}
 
 	while (iter.Prev("\t"))
-		{
+	{
 		iter.ReplaceLastMatch("\xE2\x86\x92");
-		}
+	}
 
 	itsFileText->GetText()->SetText(s);
 
@@ -208,43 +208,43 @@ GLGetDelimiterDialog::Receive
 	)
 {
 	if (sender == itsRG && message.Is(JXRadioGroup::kSelectionChanged))
-		{
+	{
 		JIndex showIndex = itsRG->GetSelectedItem();
 		if (showIndex == kChar)
-			{
+		{
 			itsCharInput->Activate();
-			}
+		}
 		else
-			{
+		{
 			itsCharInput->Deactivate();
-			}
 		}
+	}
 	else if (sender == itsSkipCB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		if (itsSkipCB->IsChecked())
-			{
+		{
 			itsSkipCountInput->Activate();
-			}
+		}
 		else
-			{
+		{
 			itsSkipCountInput->Deactivate();
-			}
 		}
+	}
 	else if (sender == itsCommentCB && message.Is(JXCheckbox::kPushed))
-		{
+	{
 		if (itsCommentCB->IsChecked())
-			{
-			itsCommentInput->Activate();
-			}
-		else
-			{
-			itsCommentInput->Deactivate();
-			}
-		}
-	else
 		{
-		JXDialogDirector::Receive(sender, message);
+			itsCommentInput->Activate();
 		}
+		else
+		{
+			itsCommentInput->Deactivate();
+		}
+	}
+	else
+	{
+		JXDialogDirector::Receive(sender, message);
+	}
 }
 
 /******************************************************************************
@@ -293,9 +293,9 @@ GLGetDelimiterDialog::GetSkipLineCount()
 {
 	JInteger value;
 	if (itsSkipCountInput->GetValue(&value))
-		{
+	{
 		return value;
-		}
+	}
 	return 0;
 }
 
@@ -335,7 +335,7 @@ GLGetDelimiterDialog::ReadPrefs
 	JIndex id;
 	input >> id;
 	if (id <= kDelimiterPrefsVersionID)
-		{
+	{
 		input >> id;
 		itsRG->SelectItem(id);
 		JString str;
@@ -347,11 +347,11 @@ GLGetDelimiterDialog::ReadPrefs
 		bool ok;
 		input >> JBoolFromString(ok);
 		if (ok)
-			{
+		{
 			JInteger value;
 			input >> value;
 			itsSkipCountInput->SetValue(value);
-			}
+		}
 		input >> JBoolFromString(checked);
 		itsCommentCB->SetState(checked);
 		input >> str;
@@ -364,7 +364,7 @@ GLGetDelimiterDialog::ReadPrefs
 		input >> h;
 		GetWindow()->SetSize(w, h);
 		GetWindow()->Place(loc.x, loc.y);
-		}
+	}
 }
 
 /******************************************************************************
@@ -387,9 +387,9 @@ GLGetDelimiterDialog::WritePrefs
 	bool ok = itsSkipCountInput->GetValue(&value);
 	output << JBoolToString(ok) << ' ';
 	if (ok)
-		{
+	{
 		output << value << ' ';
-		}
+	}
 	output << JBoolToString(itsCommentCB->IsChecked()) << ' ';
 	output << itsCommentInput->GetText() << ' ';
 	output << GetWindow()->GetDesktopLocation() << ' ';

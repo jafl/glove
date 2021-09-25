@@ -9,7 +9,7 @@
 
 #include "GLPlotFitQuad2.h"
 #include "J2DPlotWidget.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 
 #include <JString.h>
 #include <JArray.h>
@@ -29,7 +29,7 @@
 GLPlotFitQuad2::GLPlotFitQuad2
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -42,7 +42,7 @@ GLPlotFitQuad2::GLPlotFitQuad2
 GLPlotFitQuad2::GLPlotFitQuad2
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData,
+	J2DPlotDataBase* fitData,
 	const JFloat xmin, 
 	const JFloat xmax,
 	const JFloat ymin, 
@@ -58,7 +58,7 @@ void
 GLPlotFitQuad2::JPlotFitQuad2X
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData
+	J2DPlotDataBase* fitData
 	)
 {
 	SetParameterCount(3);
@@ -117,21 +117,21 @@ GLPlotFitQuad2::GetParameterName
 	const
 {
 	if ((index > 3) || (index < 1))
-		{
+	{
 		return false;
-		}
+	}
 	if (index == 1)
-		{
+	{
 		*name = "a";
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*name = "b";
-		}
+	}
 	else if (index == 3)
-		{
+	{
 		*name = "c";
-		}
+	}
 	return true;
 }
 
@@ -150,21 +150,21 @@ GLPlotFitQuad2::GetParameter
 	const
 {
 	if ((index > 3) || (index < 1))
-		{
+	{
 		return false;
-		}
+	}
 	if (index == 1)
-		{
+	{
 		*value = itsAParameter;
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*value = itsBParameter;
-		}
+	}
 	else if (index == 3)
-		{
+	{
 		*value = itsCParameter;
-		}
+	}
 	return true;		
 }
 
@@ -182,23 +182,23 @@ GLPlotFitQuad2::GetParameterError
 	)
 	const
 {
-	const JPlotDataBase* data = GetData();
+	const J2DPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
-		{
+	{
 		return false;
-		}
+	}
 	if (index == 1)
-		{
+	{
 		*value = itsAErrParameter;
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*value = itsBErrParameter;
-		}
+	}
 	else if (index == 3)
-		{
+	{
 		*value = itsCErrParameter;
-		}
+	}
 	return true;
 }
 
@@ -246,27 +246,27 @@ GLPlotFitQuad2::CalculateFirstPass()
 	J2DDataPoint point;
 	JSize rcount = GetRealElementCount();
 	for (i=1; i<= rcount; i++)
-		{
+	{
 		J2DDataPoint point = GetRealElement(i);
 		JFloat newVal = 1;
 		if (point.yerr != 0)
-			{
+		{
 			newVal = point.yerr;
-			}
-		yAdjError.AppendElement(newVal);
 		}
+		yAdjError.AppendElement(newVal);
+	}
 
 	JMatrix odata(rcount, 3, 1.0);
 	JVector yData(rcount);
 	for (i=1; i<= rcount; i++)
-		{
+	{
 		point = GetRealElement(i);
 		JFloat yerr = yAdjError.GetElement(i);
 		odata.SetElement(i, 1, 1/(yerr*yerr));
 		odata.SetElement(i, 2, point.x/(yerr*yerr));
 		odata.SetElement(i, 3, point.x*point.x/(yerr*yerr));
 		yData.SetElement(i, point.y/(yerr*yerr));
-		}
+	}
 	JMatrix tData = odata.Transpose();
 	JMatrix lData = tData * odata;
 	JMatrix rData = tData * yData;
@@ -274,7 +274,7 @@ GLPlotFitQuad2::CalculateFirstPass()
 	JGaussianElimination(lData, rData, &parms);
 
 	for (k=1; k<= 4; k++)
-		{
+	{
 		Y = 0;
 		X = 0;
 		X2 = 0;
@@ -284,7 +284,7 @@ GLPlotFitQuad2::CalculateFirstPass()
 		X4 = 0;
 		Sig = 0;
 		for (i=1; i<= rcount; i++)
-			{
+		{
 			point = GetRealElement(i);
 			JFloat yerr = yAdjError.GetElement(i);
 			Y += point.y/(yerr*yerr);
@@ -295,16 +295,16 @@ GLPlotFitQuad2::CalculateFirstPass()
 			YX2 += point.x*point.x*point.y/(yerr*yerr);
 			X4 += point.x*point.x*point.x*point.x/(yerr*yerr);
 			Sig += 1/(yerr*yerr);
-			}
+		}
 		JFloat cv1 = 0, cv2 = 0, cv3 = 0;
 		for (i=1; i<= rcount; i++)
-			{
+		{
 			point = GetRealElement(i);
 			JFloat syi = yAdjError.GetElement(i);
 			JFloat yi = point.y;
 			JFloat xi = point.x;
 			for (j = 1; j <= rcount; j++)
-				{
+			{
 				point = GetRealElement(j);
 				JFloat syj = yAdjError.GetElement(j);
 				JFloat yj = point.y;
@@ -312,25 +312,25 @@ GLPlotFitQuad2::CalculateFirstPass()
 				cv1 += xi*xj*xj*(xi*yj-yi*xj)/(syi*syi*syj*syj);
 				cv2 += (xi*xj*xj*(yi - yj))/(syi*syi*syj*syj);
 				cv3 += (xi*xj*xj*(xj - xi))/(syi*syi*syj*syj);
-				}
 			}
+		}
 		det = Sig*(X2*X4-X3*X3) + X*(X3*X2-X*X4) + X2*(X*X3-X2*X2);
 		tempa = (Y*(X2*X4-X3*X3) + X*(X3*YX2-YX*X4) + X2*(YX*X3-X2*YX2))/det;
 		tempb = (Sig*(YX*X4-YX2*X3) + Y*(X3*X2-X*X4) + X2*(X*YX2-YX*X2))/det;
 		tempc = (Sig*cv1 + X*cv2 + Y*cv3)/det;
 
 		for (i=1; i<=rcount; i++)
-			{
+		{
 			J2DDataPoint point = GetRealElement(i);
 			JFloat newVal = 
 				sqrt(point.yerr*point.yerr + (tempb+2*tempc*point.x)*(tempb+2*tempc*point.x)*point.xerr*point.xerr);
 			if (newVal == 0)
-				{
+			{
 				newVal = 1;
-				}
-			yAdjError.SetElement(i, newVal);
 			}
+			yAdjError.SetElement(i, newVal);
 		}
+	}
 //	itsAParameter	= tempa;
 //	itsBParameter	= tempb;
 //	itsCParameter	= tempc;
@@ -340,11 +340,11 @@ GLPlotFitQuad2::CalculateFirstPass()
 
 	itsChi2Start = 0;
 	for (i=1; i<= rcount; i++)
-		{
+	{
 		point = GetRealElement(i);
 		JFloat yerr = yAdjError.GetElement(i);
 		itsChi2Start += pow(point.y - tempa - tempb*point.x - tempc*point.x*point.x,2)/(yerr*yerr);
-		}
+	}
 
 	itsAErrParameter = 0;
 	itsBErrParameter = 0;

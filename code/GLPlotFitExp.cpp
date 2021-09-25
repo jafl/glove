@@ -9,7 +9,7 @@
 
 #include "GLPlotFitExp.h"
 #include "J2DPlotWidget.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 
 #include <JString.h>
 #include <JArray.h>
@@ -30,7 +30,7 @@
 GLPlotFitExp::GLPlotFitExp
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -43,7 +43,7 @@ GLPlotFitExp::GLPlotFitExp
 GLPlotFitExp::GLPlotFitExp
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData,
+	J2DPlotDataBase* fitData,
 	const JFloat xmin, 
 	const JFloat xmax,
 	const JFloat ymin, 
@@ -59,7 +59,7 @@ void
 GLPlotFitExp::JPlotFitExpX
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData
+	J2DPlotDataBase* fitData
 	)
 {
 	itsAParm	= 0;
@@ -131,17 +131,17 @@ GLPlotFitExp::GetParameterName
 	const
 {
 	if (index == 1)
-		{
+	{
 		*name = "a";
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*name = "b";
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}		
+	}		
 	return true;
 }
 
@@ -160,17 +160,17 @@ GLPlotFitExp::GetParameter
 	const
 {
 	if (index == 1)
-		{
+	{
 		*value = itsAParm;
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*value = itsBParm;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}		
+	}		
 	return true;
 }
 
@@ -188,23 +188,23 @@ GLPlotFitExp::GetParameterError
 	)
 	const
 {
-	const JPlotDataBase* data = GetData();
+	const J2DPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
-		{
+	{
 		return false;
-		}
+	}
 	if (index == 1)
-		{
+	{
 		*value = itsAErr;
-		}
+	}
 	else if (index == 2)
-		{
+	{
 		*value = itsBErr;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}		
+	}		
 	return true;
 }
 
@@ -279,37 +279,37 @@ GLPlotFitExp::CalculateFirstPass()
 	const JSize count	= GetRealElementCount();
 	JSize rcount		= 0;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		point	= GetRealElement(i);
 		if (point.y > 0)
-			{
+		{
 			rcount++;
-			}
 		}
+	}
 	JMatrix odata(rcount, 2, 1.0);
 	JVector yData(rcount);
 
 	rcount	= 0;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		point	= GetRealElement(i);
 		if (point.y > 0)
-			{
+		{
 			rcount++;
 			JFloat yerr = point.yerr;
 			if (yerr == 0)
-				{
+			{
 				yerr = 1;
-				}
+			}
 			else
-				{
+			{
 				yerr	= log((point.y - point.yerr)/point.y);
-				}
+			}
 			odata.SetElement(rcount, 1, 1/(yerr*yerr));
 			odata.SetElement(rcount, 2, log(point.x)/(yerr*yerr));
 			yData.SetElement(rcount, log(point.x)/(yerr*yerr));
-			}
 		}
+	}
 
 	JMatrix tData = odata.Transpose();
 	JMatrix lData = tData * odata;
@@ -323,7 +323,7 @@ GLPlotFitExp::CalculateFirstPass()
 
 	itsChi2Start = 0;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 //		do
 //			{
 			point = GetRealElement(i);
@@ -331,10 +331,10 @@ GLPlotFitExp::CalculateFirstPass()
 //		while (point.y == 0);
 		JFloat yerr = point.yerr;
 		if (yerr == 0)
-			{
+		{
 			yerr = 1;
-			}
-		itsChi2Start += pow(point.y - FunctionN(point.x),2)/(yerr*yerr);
 		}
+		itsChi2Start += pow(point.y - FunctionN(point.x),2)/(yerr*yerr);
+	}
 
 }

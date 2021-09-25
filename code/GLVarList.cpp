@@ -21,10 +21,10 @@
  Constructor
 
 	file format:
-		{
+	{
 		N <name> <value>
 		N <name>[array size] <values>
-		}
+	}
 		*
 
  ******************************************************************************/
@@ -49,23 +49,23 @@ GLVarList::GLVarList
 	
 	const JSize ncount	= list.itsNames->GetElementCount();
 	for (JIndex i = 1; i <= ncount; i++)
-		{
+	{
 		JString* str	= jnew JString(*(list.itsNames->GetElement(i)));
 		assert(str != nullptr);
 		itsNames->Append(str);
-		}
+	}
 
 	const JSize acount	= list.itsArrays->GetElementCount();
 	for (JIndex i = 1; i <= acount; i++)
-		{
+	{
 		JArray<JFloat>* array	= list.itsArrays->GetElement(i);
 		if (array != nullptr)
-			{
+		{
 			array	= jnew JArray<JFloat>(*(array));
 			assert(array != nullptr);
-			}
-		itsArrays->Append(array);
 		}
+		itsArrays->Append(array);
+	}
 }
 
 GLVarList::GLVarList
@@ -79,20 +79,20 @@ GLVarList::GLVarList
 
 	input >> std::ws;
 	while (input.peek() != '*')
-		{
+	{
 		JUtf8Byte type;
 		input >> type >> std::ws;
 		if (type == 'N')
-			{
+		{
 			JString name = JReadUntilws(input);
 			if (name.GetLastCharacter() != ']')
-				{
+			{
 				JFloat value;
 				input >> value;
 				AddVariable(name, value);
-				}
+			}
 			else
-				{
+			{
 				JStringIterator iter(&name);
 				const bool foundBracket = iter.Next("[");
 				assert( foundBracket && !iter.AtEnd() );
@@ -110,27 +110,27 @@ GLVarList::GLVarList
 				const JSize arraySize = JRound(x);
 				GNArray values(arraySize);
 				for (JIndex i=1; i<= arraySize; i++)
-					{
+				{
 					JFloat value;
 					input >> value;
 					values.AppendElement(value);
-					}
-				AddArray(name, values);
 				}
+				AddArray(name, values);
 			}
+		}
 		else
-			{
+		{
 			const JUtf8Character typeStr(type);
 			const JUtf8Byte* map[] =
-				{
+			{
 				"name", typeStr.GetBytes()
-				};
+			};
 			const JString errorStr = JGetString("UnsupportedVariable::GLVarList", map, sizeof(map));
 			JGetUserNotification()->ReportError(errorStr);
 			JIgnoreUntil(input, '\n');
-			}
-		input >> std::ws;
 		}
+		input >> std::ws;
+	}
 	JIgnoreUntil(input, '\n');
 }
 
@@ -177,19 +177,19 @@ GLVarList::AddVariable
 {
 	JIndex index;
 	if (NameValid(name) && !ParseVariableName(name, &index))
-		{
+	{
 		JString* varName = jnew JString(name);
 		assert( varName != nullptr );
 		itsNames->Append(varName);
 		itsValues->AppendElement(value);
 		itsArrays->AppendElement(static_cast<GNArray*>(nullptr));
 		return true;
-		}
+	}
 	else
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::GLVarList"));
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -223,7 +223,7 @@ GLVarList::AddArray
 	)
 {
 	if (NameValid(name))
-		{
+	{
 		JString* varName = jnew JString(name);
 		assert( varName != nullptr );
 		itsNames->Append(varName);
@@ -232,11 +232,11 @@ GLVarList::AddArray
 		assert( newArray != nullptr );
 		itsArrays->AppendElement(newArray);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -252,19 +252,19 @@ GLVarList::SetValue
 	)
 {
 	if (IsVariable(index))
-		{
+	{
 		const JFloat oldValue = itsValues->GetElement(index);
 		if (value != oldValue)
-			{
+		{
 			itsValues->SetElement(index, value);
 			Broadcast(JVariableList::VarValueChanged(index,1));
-			}
+		}
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -281,19 +281,19 @@ GLVarList::SetNumericValue
 	)
 {
 	if (IsArray(variableIndex))
-		{
+	{
 		GNArray* values = itsArrays->GetElement(variableIndex);
 		const JFloat oldValue = values->GetElement(elementIndex);
 		if (value != oldValue)
-			{
+		{
 			values->SetElement(elementIndex, value);
 			Broadcast(JVariableList::VarValueChanged(variableIndex,elementIndex));
-			}
 		}
+	}
 	else
-		{
+	{
 		SetValue(variableIndex, value);
-		}
+	}
 }
 
 void
@@ -340,15 +340,15 @@ GLVarList::GetVariableName
 	JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
 	itsNames->GetElement(index)->Split("_", &s, 2);
 	if (s.GetElementCount() == 2)
-		{
+	{
 		*name = *s.GetElement(1);
 		*subscript = *s.GetElement(2);
-		}
+	}
 	else
-		{
+	{
 		*name = *s.GetElement(1);
 		subscript->Clear();
-		}
+	}
 }
 
 /******************************************************************************
@@ -365,21 +365,21 @@ GLVarList::SetVariableName
 {
 	JIndex index;
 	if (!NameValid(str))
-		{
+	{
 		return false;
-		}
+	}
 	else if (ParseVariableName(str, &index) && index != varIndex)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NameUsed::GLVarList"));
 		return false;
-		}
+	}
 	else
-		{
+	{
 		JString* varName = itsNames->GetElement(varIndex);
 		*varName = str;
 		Broadcast(VarNameChanged(varIndex));
 		return true;
-		}
+	}
 }
 
 /******************************************************************************
@@ -431,19 +431,19 @@ GLVarList::GetNumericValue
 {
 	GNArray* values = itsArrays->GetElement(variableIndex);
 	if (values == nullptr && elementIndex == 1)
-		{
+	{
 		*value = itsValues->GetElement(variableIndex);
 		return true;
-		}
+	}
 	else if (values != nullptr && values->IndexValid(elementIndex))
-		{
+	{
 		*value = values->GetElement(elementIndex);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 bool
@@ -457,14 +457,14 @@ GLVarList::GetNumericValue
 {
 	JFloat x;
 	if (GetNumericValue(variableIndex, elementIndex, &x))
-		{
+	{
 		*value = x;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************

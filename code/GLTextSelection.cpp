@@ -83,7 +83,7 @@ GLTextSelection::ConvertData
 {
 
 	if (requestType == itsGloveTextXAtom)
-		{
+	{
 		*bitsPerBlock = 8;
 		*data = jnew unsigned char[ itsGloveData.GetByteCount()];
 		assert( *data != nullptr );
@@ -91,6 +91,6 @@ GLTextSelection::ConvertData
 		*dataLength = itsGloveData.GetByteCount();
 		*returnType = itsGloveTextXAtom;
 		return true;
-		}
+	}
 	return JXTextSelection::ConvertData(requestType, returnType, data, dataLength, bitsPerBlock);
 }

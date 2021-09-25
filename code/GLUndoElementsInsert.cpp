@@ -67,32 +67,32 @@ GLUndoElementsInsert::Undo()
 	GLUndoElementsBase::UndoType type 	= GetType();
 
 	if (type == GLUndoElementsBase::kRows)
-		{
+	{
 		for (JCoordinate i = start.y; i <= end.y; i++)
-			{
+		{
 			data->RemoveRow(start.y);
-			}
 		}
+	}
 	else if (type == GLUndoElementsBase::kCols)
-		{
+	{
 		for (JCoordinate i = start.x; i <= end.x; i++)
-			{
+		{
 			data->RemoveCol(start.x);
-			}
 		}
+	}
 	else if (type == GLUndoElementsBase::kElements)
-		{
+	{
 		for (JCoordinate i = start.x; i <= end.x; i++)
-			{
+		{
 			for (JCoordinate j = start.y; j <= end.y; j++)
-				{
+			{
 				if (data->CellValid(start.y, i))
-					{
+				{
 					data->RemoveElement(start.y, i);
-					}
 				}
 			}
 		}
+	}
 		
 	NewUndo(undo);
 }

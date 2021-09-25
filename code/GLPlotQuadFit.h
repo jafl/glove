@@ -22,9 +22,9 @@ class GLPlotQuadFit : public GLPlotFitFunction
 {
 public:
 
-	GLPlotQuadFit(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotQuadFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotQuadFit(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotQuadFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotQuadFit();	
@@ -41,7 +41,7 @@ public:
 	virtual JString		GetFitFunctionString() const override;
 
 	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
-	virtual const JPlotDataBase*		GetDataToFit() const;
+	virtual const J2DPlotDataBase*		GetDataToFit() const;
 
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
 										const JFloat ymin, const JFloat ymax);
@@ -95,7 +95,7 @@ protected:
 private:
 
 	void				JPlotQuadFitX(J2DPlotWidget* plot, 
-										JPlotDataBase* fitData);
+										J2DPlotDataBase* fitData);
 
 	void				QuadFirstPass();
 	void				QuadMinFit();
@@ -141,7 +141,7 @@ private:
 
  ********************************************************************************/
 
-inline const JPlotDataBase*
+inline const J2DPlotDataBase*
 GLPlotQuadFit::GetDataToFit()
 	const
 {

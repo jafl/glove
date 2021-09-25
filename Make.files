@@ -4,7 +4,7 @@
 
 @glove
 
-.cpp ./code/plotter
+.cpp ./code/main
 .cpp ./code/GLPlotApp
 .cpp ./code/GLGlobals
 .cpp ./code/GLPrefsMgr

@@ -23,7 +23,7 @@ GLPlotFitProxy::GLPlotFitProxy
 	(
 	GLPlotFitFunction*	fit,
 	J2DPlotWidget* 		plot, 
-	JPlotDataBase* 		fitData
+	J2DPlotDataBase* 		fitData
 	)
 	:
 	GLPlotFitFunction(plot, fitData, 0, 0),
@@ -33,17 +33,17 @@ GLPlotFitProxy::GLPlotFitProxy
 	itsFnString(fit->GetFitFunctionString())
 {
 	if (itsHasGOF)
-		{
+	{
 		fit->GetGoodnessOfFitName(&itsGOFName);
 		fit->GetGoodnessOfFit(&itsGOF);
-		}
+	}
 	itsParms = jnew GLVarList();
 	assert(itsParms != nullptr);
 	itsParms->AddVariable(JGetString("DefaultVarName::GLGlobal"), 0);
 	const JSize count	= fit->GetParameterCount();
 	SetParameterCount(count);
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString name;
 		bool ok	= fit->GetParameterName(i, &name);
 		assert(ok);
@@ -51,38 +51,38 @@ GLPlotFitProxy::GLPlotFitProxy
 		ok	= fit->GetParameter(i, &value);
 		assert(ok);
 		itsParms->AddVariable(name, value);
-		}
+	}
 
 	if (fit->HasParameterErrors())
-		{
+	{
 		SetHasParameterErrors(true);
 		itsErrors	= jnew JArray<JFloat>;
 		assert(itsErrors != nullptr);
 		for (JIndex i = 1; i <= count; i++)
-			{
+		{
 			JFloat value;
 			bool ok	= fit->GetParameterError(i, &value);
 			assert(ok);
 			itsErrors->AppendElement(value);
-			}
 		}
+	}
 
 	J2DPlotData* diff	= fit->GetDiffData();
 	J2DPlotData* data;
 	if (J2DPlotData::Create(&data, diff->GetXData(), diff->GetYData(), false))
-		{
+	{
 		const JArray<JFloat>* xerrors;
 		if (diff->GetXPErrorData(&xerrors))
-			{
+		{
 			data->SetXErrors(*xerrors);
-			}
+		}
 		const JArray<JFloat>* yerrors;
 		if (diff->GetYPErrorData(&yerrors))
-			{
+		{
 			data->SetYErrors(*yerrors);
-			}
-		SetDiffData(data);
 		}
+		SetDiffData(data);
+	}
 	JFloat xMin;
 	JFloat xMax;
 	fit->GetXRange(&xMin, &xMax);
@@ -100,7 +100,7 @@ GLPlotFitProxy::GLPlotFitProxy
 GLPlotFitProxy::GLPlotFitProxy
 	(
 	J2DPlotWidget* 		plot, 
-	JPlotDataBase* 		fitData,
+	J2DPlotDataBase* 		fitData,
 	std::istream& 			is
 	)
 	:
@@ -109,10 +109,10 @@ GLPlotFitProxy::GLPlotFitProxy
 {
 	is >> JBoolFromString(itsHasGOF);
 	if (itsHasGOF)
-		{
+	{
 		is >> itsGOFName;
 		is >> itsGOF;
-		}
+	}
 
 	itsParms = jnew GLVarList();
 	assert(itsParms != nullptr);
@@ -121,13 +121,13 @@ GLPlotFitProxy::GLPlotFitProxy
 	JSize count;
 	is >> count;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString name;
 		is >> name;
 		JFloat value;
 		is >> value;
 		itsParms->AddVariable(name, value);
-		}
+	}
 
 	SetParameterCount(count);
 		
@@ -135,17 +135,17 @@ GLPlotFitProxy::GLPlotFitProxy
 	is >> JBoolFromString(hasParameterErrors);
 	
 	if (hasParameterErrors)
-		{
+	{
 		SetHasParameterErrors(true);
 		itsErrors = jnew JArray<JFloat>;
 		assert(itsErrors != nullptr);
 		for (JIndex i=1; i<=count; i++)
-			{
+		{
 			JFloat value;
 			is >> value;
 			itsErrors->AppendElement(value);
-			}
 		}
+	}
 	
 	JFloat xMin;
 	JFloat xMax;
@@ -192,32 +192,32 @@ GLPlotFitProxy::WriteData
 {
 	os << JBoolToString(itsHasGOF) << ' ';
 	if (itsHasGOF)
-		{
+	{
 		os << itsGOFName << ' ';
 		os << itsGOF << ' ';
-		}
+	}
 
 	JSize count	= itsParms->GetVariableCount();
 	os << count - 1;
 
 	for (JIndex i = 2; i <= count; i++) // don't count 'x'
-		{
+	{
 		JString name	= itsParms->GetVariableName(i);		
 		os << name << ' ';
 		JFloat value;
 		itsParms->GetNumericValue(i, 1, &value);
 		os << value << ' ';
-		}
+	}
 		
 	os << JBoolToString(HasParameterErrors());
 	
 	if (HasParameterErrors())
-		{
+	{
 		for (JIndex i = 1; i < count; i++)
-			{
+		{
 			os << itsErrors->GetElement(i) << ' ';
-			}
 		}
+	}
 	
 	JFloat xMin;
 	JFloat xMax;
@@ -244,9 +244,9 @@ GLPlotFitProxy::GetParameterName
 	const
 {
 	if (index >= itsParms->GetVariableCount())
-		{
+	{
 		return false;
-		}
+	}
 	*name	= itsParms->GetVariableName(index + 1);
 	return true;
 }
@@ -281,15 +281,15 @@ GLPlotFitProxy::GetParameterError
 	const
 {
 	if (!HasParameterErrors())
-		{
+	{
 		return false;
-		}
+	}
 
 	assert(itsErrors != nullptr);
 	if (index > itsErrors->GetElementCount())
-		{
+	{
 		return false;
-		}
+	}
 
 	*value	= itsErrors->GetElement(index);
 	return true;
@@ -308,9 +308,9 @@ GLPlotFitProxy::GetGoodnessOfFitName
 	const
 {
 	if (!itsHasGOF)
-		{
+	{
 		return false;
-		}
+	}
 	*name	= itsGOFName;
 	return true;
 }
@@ -328,9 +328,9 @@ GLPlotFitProxy::GetGoodnessOfFit
 	const
 {
 	if (!itsHasGOF)
-		{
+	{
 		return false;
-		}
+	}
 	*value	= itsGOF;
 	return true;
 }

@@ -52,9 +52,9 @@ GLFitDescription::Create
 	JFileVersion version;
 	is >> version;
 	if (version > kCurrentSetupVersion)
-		{
+	{
 		return false;
-		}
+	}
 		
 	int type;
 	is >> type;
@@ -66,34 +66,34 @@ GLFitDescription::Create
 	is >> count;
 	JPtrArray<JString> vars(JPtrArrayT::kDeleteAll);
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString* var = jnew JString();
 		assert(var != nullptr);
 		is >> *var;
 		vars.Append(var);
-		}
+	}
 	
 	if (type == kPolynomial)
-		{
+	{
 		GLPolyFitDescription* pfd	= jnew GLPolyFitDescription(is);
 		assert(pfd != nullptr);
 		*fd	= pfd;
-		}
+	}
 	else if (type == kNonLinear)
-		{
+	{
 		GLNonLinearFitDescription* nfd	= jnew GLNonLinearFitDescription(is);
 		assert(nfd != nullptr);
 		*fd	= nfd;
 		for (JIndex i = 1; i <= count; i++)
-			{
-			(*fd)->itsVarList->AddVariable(*(vars.GetElement(i)), 0);
-			}
-		(*fd)->SetParameterCount(count);		
-		}
-	else
 		{
-		return false;
+			(*fd)->itsVarList->AddVariable(*(vars.GetElement(i)), 0);
 		}
+		(*fd)->SetParameterCount(count);		
+	}
+	else
+	{
+		return false;
+	}
 
 	vars.DeleteAll();
 	(*fd)->itsFnName	= name;
@@ -234,9 +234,9 @@ GLFitDescription::WriteSetup
 	const JSize count	= itsVarList->GetVariableCount() - 1;
 	os << ' ' << count << ' ';
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		os << ' ' << itsVarList->GetVariableName(i + 1) << ' ';
-		}
+	}
 }
 
 /******************************************************************************
@@ -254,38 +254,38 @@ GLFitDescription::CompareFits
 	)
 {
 	if (f1->GetType() == f2->GetType())
-		{
+	{
 		return JCompareStringsCaseInsensitive(const_cast<JString*>(&(f1->GetFnName())), const_cast<JString*>(&(f2->GetFnName())));
-		}
+	}
 	else if (f1->GetType() >= kBLinear)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else if (f1->GetType() == kModule)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (f1->GetType() == kPolynomial)
-		{
+	{
 		if (f2->GetType() >= kBLinear)
-			{
-			return JListT::kFirstGreaterSecond;
-			}
-		else
-			{
-			return JListT::kFirstLessSecond;
-			}
-		}
-	else
 		{
-		if (f2->GetType() == kModule)
-			{
-			return JListT::kFirstLessSecond;
-			}
-		else
-			{
 			return JListT::kFirstGreaterSecond;
-			}
 		}
+		else
+		{
+			return JListT::kFirstLessSecond;
+		}
+	}
+	else
+	{
+		if (f2->GetType() == kModule)
+		{
+			return JListT::kFirstLessSecond;
+		}
+		else
+		{
+			return JListT::kFirstGreaterSecond;
+		}
+	}
 	
 }

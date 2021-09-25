@@ -45,9 +45,9 @@ GLExprDirector::GLExprDirector
 
 	JFunction* f;
 	if (!function.IsEmpty() && p.Parse(function, &f))
-		{
+	{
 		itsEditor->SetFunction(list, f);
-		}
+	}
 
 	auto* ok = jnew JXTextButton(JGetString("OKLabel::JXGlobal"), window,
 						JXWidget::kHElastic, JXWidget::kVElastic,60,210,70,20);

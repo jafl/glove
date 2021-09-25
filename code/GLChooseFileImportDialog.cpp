@@ -115,18 +115,18 @@ GLChooseFileImportDialog::BuildWindow
 
 	const JSize dirModCount = itsDir->GetInternalModuleCount();
 	for (JIndex i=1; i<=dirModCount; i++)
-		{
+	{
 		itsFilterMenu->AppendItem(itsDir->GetInternalModuleName(i));
-		}
+	}
 
 	JPtrArray<JString>* names = (GLGetApplication())->GetImportModules();
 	
 	const JSize strCount = names->GetElementCount();
 	
 	for (JIndex i=1; i<=strCount; i++)
-		{
+	{
 		itsFilterMenu->AppendItem(*(names->GetElement(i)));
-		}
+	}
 
 	itsFilterIndex = 1;
 	
@@ -160,38 +160,38 @@ GLChooseFileImportDialog::Receive
 	)
 {
 	if (sender == itsFilterMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsFilterIndex = selection->GetIndex();
-		}
+	}
 		
 	else if (sender == itsReloadButton && message.Is(JXButton::kPushed))
-		{
+	{
 		(GLGetApplication())->ReloadImportModules();
 		itsFilterMenu->RemoveAllItems();
 
 		const JSize dirModCount = itsDir->GetInternalModuleCount();
 		for (JSize i = 1; i <= dirModCount; i++)
-			{
+		{
 			itsFilterMenu->AppendItem(itsDir->GetInternalModuleName(i));
-			}
+		}
 
 		JPtrArray<JString>* names = (GLGetApplication())->GetImportModules();
 		const JSize strCount = names->GetElementCount();
 		for (JSize i = 1; i <= strCount; i++)
-			{
+		{
 			itsFilterMenu->AppendItem(*(names->GetElement(i)));
-			}
+		}
 		itsFilterIndex = 1;
 		itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
-		}
+	}
 		
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -230,13 +230,13 @@ GLChooseFileImportDialog::ReadPrefs
 	JIndex id;
 	input >> id;
 	if (id <= kFileModulePrefsVersionID)
-		{
+	{
 		input >> id;
 		if (id <= itsFilterMenu->GetItemCount())
-			{
+		{
 			itsFilterIndex = id;
 			itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
-			}
+		}
 		JPoint loc;
 		input >> loc;
 		JCoordinate w;
@@ -245,7 +245,7 @@ GLChooseFileImportDialog::ReadPrefs
 		input >> h;
 		GetWindow()->SetSize(w, h);
 		GetWindow()->Place(loc.x, loc.y);
-		}
+	}
 }
 
 /******************************************************************************

@@ -128,21 +128,21 @@ GLFitDescriptionList::HandleMouseDown
 {
 	JPoint cell;
 	if (button == kJXLeftButton && GetCell(pt, &cell))
-		{
+	{
 		if (GetTableSelection().IsSelected(cell) && clickCount == 2)
-			{
+		{
 			Broadcast(FitInitiated(cell.y));
-			}
+		}
 		else if (!GetTableSelection().IsSelected(cell) && clickCount == 1)
-			{
+		{
 			SelectSingleCell(cell);
 			Broadcast(FitSelected(cell.y));
-			}
 		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -167,21 +167,21 @@ GLFitDescriptionList::TableDrawCell
 	JRect irect	= rect;
 	irect.right	= rect.left + kIconWidth;
 	if (fd.GetType()	== GLFitDescription::kPolynomial)
-		{
+	{
 		p.Image(*itsPolyIcon, itsPolyIcon->GetBounds(), irect);
-		}
+	}
 	else if (fd.GetType()	== GLFitDescription::kNonLinear)
-		{
+	{
 		p.Image(*itsNonLinearIcon, itsNonLinearIcon->GetBounds(), irect);
-		}
+	}
 	else if (fd.GetType()	== GLFitDescription::kModule)
-		{
+	{
 		p.Image(*itsExecutableIcon, itsExecutableIcon->GetBounds(), irect);
-		}
+	}
 	else if (fd.GetType()	>= GLFitDescription::kBLinear)
-		{
+	{
 		p.Image(*itsBuiltInIcon, itsBuiltInIcon->GetBounds(), irect);
-		}
+	}
 	
 	JRect r = rect;
 	r.left += kHMarginWidth + kIconWidth;
@@ -268,14 +268,14 @@ GLFitDescriptionList::ExtractInputData
 {
 	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
-		{
+	{
 		*(itsNameList->GetElement(cell.y)) = name;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -294,31 +294,31 @@ GLFitDescriptionList::HandleKeyPress
 	JPoint cell;
 	JTableSelection& s = GetTableSelection();
 	if (!s.GetFirstSelectedCell(&cell))
-		{
+	{
 		return;
-		}
+	}
 
 	if (c == kJUpArrow)
-		{
+	{
 		cell.y--;
 		if (CellValid(cell))
-			{
-			BeginEditing(cell);
-			}
-		}
-	else if (c == kJDownArrow)
 		{
+			BeginEditing(cell);
+		}
+	}
+	else if (c == kJDownArrow)
+	{
 		cell.y++;
 		if (CellValid(cell))
-			{
+		{
 			BeginEditing(cell);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXEditTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -334,10 +334,10 @@ GLFitDescriptionList::GetCurrentFitIndex
 {
 	JPoint cell;
 	if (GetTableSelection().GetSingleSelectedCell(&cell))
-		{
+	{
 		*index	= cell.y;
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -354,9 +354,9 @@ GLFitDescriptionList::Receive
 	)
 {
 	if (sender == GLGetFitManager() && message.Is(GLFitManager::kFitsChanged))
-		{
+	{
 		SyncWithManager();
-		}
+	}
 }
 
 /******************************************************************************
@@ -375,7 +375,7 @@ GLFitDescriptionList::SyncWithManager()
 	itsNameList->DeleteAll();
 	
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(i);
 		JString* str	= jnew JString(fd.GetFnName());
 		assert(str != nullptr);
@@ -384,10 +384,10 @@ GLFitDescriptionList::SyncWithManager()
 		const JCoordinate width = 2*kHMarginWidth + kIconWidth + 
 			JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), *str);
 		if (width > itsMinColWidth)
-			{
+		{
 			itsMinColWidth = width;
-			}
 		}
+	}
 
 	AdjustColWidth();
 }

@@ -26,8 +26,8 @@ public:
 public:
 
 	GLPlotFitProxy(GLPlotFitFunction* fit,
-				  J2DPlotWidget* plot, JPlotDataBase* fitData);
-	GLPlotFitProxy(J2DPlotWidget* plot, JPlotDataBase* fitData, std::istream& is);
+				  J2DPlotWidget* plot, J2DPlotDataBase* fitData);
+	GLPlotFitProxy(J2DPlotWidget* plot, J2DPlotDataBase* fitData, std::istream& is);
 	virtual ~GLPlotFitProxy();
 
 	void	WriteData(std::ostream& os);

@@ -66,13 +66,13 @@ GLPrefsMgr::GetGloveVersionStr()
 {
 	std::string data;
 	if (GetData(kProgramVersionID, &data))
-		{
+	{
 		return JString(data);
-		}
+	}
 	else
-		{
+	{
 		return JString("< 0.8.0");		// didn't exist before this version
-		}
+	}
 }
 
 /******************************************************************************
@@ -88,8 +88,8 @@ GLPrefsMgr::UpgradeData
 	)
 {
 	if (isNew)
-		{
-		}
+	{
+	}
 }
 
 /******************************************************************************
@@ -141,12 +141,12 @@ GLPrefsMgr::GetWindowSize
 	const
 {
 	if (IDValid(id))
-		{
+	{
 		std::string data;
 		GetData(id, &data);
 		std::istringstream dataStream(data);
 		window->ReadGeometry(dataStream);
-		}
+	}
 }
 
 /******************************************************************************
@@ -192,12 +192,12 @@ GLPrefsMgr::ReadPrinterSetup
 	)
 {
 	if (IDValid(kPTPrinterSetupID))
-		{
+	{
 		std::string data;
 		GetData(kPTPrinterSetupID, &data);
 		std::istringstream dataStream(data);
 		printer->ReadXPTSetup(dataStream);
-		}
+	}
 }
 
 /******************************************************************************
@@ -223,10 +223,10 @@ GLPrefsMgr::ReadFitDirectorSetup
 	)
 {
 	if (IDValid(kFitDirectorID))
-		{
+	{
 		std::string data;
 		GetData(kFitDirectorID, &data);
 		std::istringstream dataStream(data);
 		dir->ReadPrefs(dataStream);
-		}
+	}
 }

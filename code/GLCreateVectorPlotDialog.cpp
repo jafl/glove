@@ -129,27 +129,27 @@ GLCreateVectorPlotDialog::BuildWindow
 
 	itsStartX1 = startX;
 	if (startX == 0)
-		{
+	{
 		itsStartX1 = 1;
-		}
+	}
 
 	itsStartX2 = startX2;
 	if (startX2 == 0)
-		{
+	{
 		itsStartX2 = 1;
-		}
+	}
 
 	itsStartY1 = startY;
 	if (startY == 0)
-		{
+	{
 		itsStartY1 = 1;
-		}
+	}
 
 	itsStartY2 = startY2;
 	if (startY2 == 0)
-		{
+	{
 		itsStartY2 = 1;
-		}
+	}
 
 	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
 	itsTableDir->GetPlotNames(names);
@@ -157,9 +157,9 @@ GLCreateVectorPlotDialog::BuildWindow
 	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::GLGlobal"));
 
 	for (auto* name : names)
-		{
+	{
 		itsPlotsMenu->AppendItem(*name);
-		}
+	}
 
 	itsPlotsMenu->ShowSeparatorAfter(1, true);
 
@@ -219,49 +219,49 @@ GLCreateVectorPlotDialog::Receive
 	)
 {
 	if (sender == itsX1Menu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartX1 = selection->GetIndex();
-		}
+	}
 
 	else if (sender == itsX2Menu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartX2 = selection->GetIndex();
-		}
+	}
 
 	else if (sender == itsY1Menu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartY1 = selection->GetIndex();
-		}
+	}
 
 	else if (sender == itsY2Menu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartY2 = selection->GetIndex();
-		}
+	}
 
 	else if (sender == itsPlotsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsPlotIndex = selection->GetIndex();
-		}
+	}
 
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -276,9 +276,9 @@ GLCreateVectorPlotDialog::GetPlotIndex
 	)
 {
 	if (itsPlotIndex == 1)
-		{
+	{
 		return false;
-		}
+	}
 
 	*index = itsPlotIndex - 1;
 	return true;
@@ -304,13 +304,13 @@ bool
 GLCreateVectorPlotDialog::OKToDeactivate()
 {
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	if (GetLabel().IsEmpty())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::GLGlobal"));
 		return false;
-		}
+	}
 	return true;
 }

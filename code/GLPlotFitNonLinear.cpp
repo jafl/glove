@@ -23,7 +23,7 @@
 GLPlotFitNonLinear::GLPlotFitNonLinear
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -39,7 +39,7 @@ GLPlotFitNonLinear::GLPlotFitNonLinear
 GLPlotFitNonLinear::GLPlotFitNonLinear
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData,
+	J2DPlotDataBase* fitData,
 	const JFloat xmin, 
 	const JFloat xmax,
 	const JFloat ymin, 
@@ -82,9 +82,9 @@ GLPlotFitNonLinear::SetCurrentParameters
 
 	const JSize count	= p.GetDimensionCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		itsVarList->SetValue(i + 1, p.GetElement(i));
-		}
+	}
 }
 
 /******************************************************************************
@@ -132,9 +132,9 @@ GLPlotFitNonLinear::FunctionNPrimed
 	)
 {
 	if (itsFPrimed == nullptr)
-		{
+	{
 		return GLPlotFitBase::FunctionNPrimed(x);
-		}
+	}
 	assert(itsVarList != nullptr);
 	assert(itsFunction != nullptr);
 	itsVarList->SetValue(1, x);
@@ -284,15 +284,15 @@ GLPlotFitNonLinear::GetParameterError
 	)
 	const
 {
-	const JPlotDataBase* data = GetData();
+	const J2DPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
-		{
+	{
 		return false;
-		}
+	}
 	if (index > itsErrors->GetDimensionCount())
-		{
+	{
 		return false;
-		}
+	}
 	*value	= itsErrors->GetElement(index);
 	return true;		
 }

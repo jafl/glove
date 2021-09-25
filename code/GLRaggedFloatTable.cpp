@@ -248,13 +248,13 @@ GLRaggedFloatTable::GLRaggedFloatTable
 
 	JTableSelection& selection = GetTableSelection();
 	while (selection.GetColCount() < GetColCount())
-		{
+	{
 		selection.InsertCols(1, 1);
-		}
+	}
 	while (selection.GetRowCount() < GetRowCount())
-		{
+	{
 		selection.InsertRows(1, 1);
-		}
+	}
 
 	UpdateModuleMenu();
 
@@ -311,17 +311,17 @@ GLRaggedFloatTable::TableDrawCell
 	)
 {
 	if ((GetTableSelection()).IsSelected(cell))
-		{
+	{
 		p.SetFilling(true);
 		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
 		p.Rect(rect);
 		p.SetFilling(false);
 		p.SetPenColor(JColorManager::GetBlackColor());
-		}
+	}
 
 	JPoint editCell;
 	if (!GetEditedCell(&editCell) || cell != editCell)
-		{
+	{
 		p.SetFont(JFontManager::GetDefaultFont());
 
 /* Original code that used the string buffer */
@@ -333,13 +333,13 @@ GLRaggedFloatTable::TableDrawCell
 //			}
 		JFloat value;
 		if (itsFloatData->GetElement(cell, &value))
-			{
+		{
 			JRect r = rect;
 			r.left += kHMarginWidth;
 			JString str(value, 6);
 			p.String(r, str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -358,19 +358,19 @@ GLRaggedFloatTable::HandleMouseDown
 	)
 {
 	if (button > kJXRightButton)
-		{
+	{
 		ScrollForWheel(button, modifiers);
 		return;
-		}
+	}
 	JTableSelection& s = GetTableSelection();
 
 	JPoint cell;
 	if (!GetCell(pt, &cell))
-		{
+	{
 		s.ClearSelection();
 		TableRefresh();
 		return;
-		}
+	}
 
 	const JPoint newBoat   = cell;
 	const JPoint newAnchor = cell;
@@ -378,30 +378,30 @@ GLRaggedFloatTable::HandleMouseDown
 	const bool extendSelection = modifiers.shift();
 
 	if (button == kJXLeftButton && clickCount == 2)
-		{
+	{
 		s.ClearSelection();
 		s.SetBoat(newBoat);
 		s.SetAnchor(newAnchor);
 		BeginEditing(cell);
-		}
+	}
 
 	if (clickCount == 1)
-		{
+	{
 		if ((button == kJXLeftButton && extendSelection) || button == kJXRightButton)
-			{
+		{
 			if (s.OKToExtendSelection())
-				{
-				s.ExtendSelection(newBoat);
-				}
-			}
-		else if (button == kJXLeftButton)
 			{
+				s.ExtendSelection(newBoat);
+			}
+		}
+		else if (button == kJXLeftButton)
+		{
 			s.ClearSelection();
 			s.SetBoat(newBoat);
 			s.SetAnchor(newAnchor);
 			s.SelectCell(cell);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -424,9 +424,9 @@ GLRaggedFloatTable::HandleMouseDrag
 	const bool ok = GetCell(JPinInRect(pt, GetBounds()), &cell);
 	assert( ok );
 	if (cell == s.GetBoat())
-		{
+	{
 		return;
-		}
+	}
 	const JPoint newBoat   = cell;
 
 	s.ExtendSelection(newBoat);
@@ -448,113 +448,113 @@ GLRaggedFloatTable::HandleKeyPress
 	)
 {
 	if (c == kJEscapeKey)
-		{
+	{
 		(GetTableSelection()).ClearSelection();
 		TableRefresh();
-		}
+	}
 	JPoint cell;
 	JTableSelection& selection = GetTableSelection();
 	if (!GetEditedCell(&cell) && selection.HasSelection())
-		{
+	{
 		JTableSelectionIterator iter(&selection);
 		iter.Next(&cell);
 
 		if (c == kJReturnKey || keySym == XK_KP_Enter)
-			{
+		{
 			selection.ClearSelection();
 			BeginEditing(cell);
-			}
+		}
 		else if (c == kJUpArrow)
-			{
+		{
 			if (cell.y > 1)
-				{
+			{
 				if (modifiers.meta())
-					{
+				{
 					cell.y = 1;
-					}
+				}
 				else
-					{
+				{
 					cell.y--;
-					}
+				}
 				selection.ClearSelection();
 				selection.SelectCell(cell);
 				TableScrollToCell(cell);
-				}
 			}
+		}
 
 		else if (c == kJDownArrow)
-			{
+		{
 			if (cell.y < (JCoordinate)GetRowCount())
-				{
+			{
 				if (modifiers.meta())
-					{
+				{
 					if (itsFloatData->ColIndexValid(cell.x))
-						{
+					{
 						JSize row = itsFloatData->GetDataRowCount(cell.x) + 1;
 						if (row > GetRowCount())
-							{
+						{
 							row = GetRowCount();
-							}
-						cell.y = row;
 						}
+						cell.y = row;
 					}
+				}
 				else
-					{
+				{
 					cell.y++;
-					}
+				}
 				selection.ClearSelection();
 				selection.SelectCell(cell);
 				TableScrollToCell(cell);
-				}
 			}
+		}
 		else if (c == kJLeftArrow)
-			{
+		{
 			if (cell.x > 1)
-				{
+			{
 				if (modifiers.meta())
-					{
+				{
 					cell.x = 1;
-					}
+				}
 				else
-					{
+				{
 					cell.x--;
-					}
+				}
 				selection.ClearSelection();
 				selection.SelectCell(cell);
 				TableScrollToCell(cell);
-				}
 			}
+		}
 		else if (c == kJRightArrow)
-			{
+		{
 			if (cell.x < (JCoordinate)GetColCount())
-				{
+			{
 				if (modifiers.meta())
-					{
+				{
 					JSize col = itsFloatData->GetDataColCount() + 1;
 					if (col > GetColCount())
-						{
-						col = GetColCount();
-						}
-					cell.x = col;
-					}
-				else
 					{
-					cell.x++;
+						col = GetColCount();
 					}
+					cell.x = col;
+				}
+				else
+				{
+					cell.x++;
+				}
 				selection.ClearSelection();
 				selection.SelectCell(cell);
 				TableScrollToCell(cell);
-				}
 			}
+		}
 		else
-			{
-			JXEditTable::HandleKeyPress(c, keySym, modifiers);
-			}
-		}
-	else
 		{
-		JXEditTable::HandleKeyPress(c, keySym, modifiers);
+			JXEditTable::HandleKeyPress(c, keySym, modifiers);
 		}
+	}
+	else
+	{
+		JXEditTable::HandleKeyPress(c, keySym, modifiers);
+	}
 
 }
 
@@ -582,9 +582,9 @@ GLRaggedFloatTable::CreateXInputField
 
 	JFloat value;
 	if (itsFloatData->GetElement(cell, &value))
-		{
+	{
 		itsFloatInputField->SetValue(value);
-		}
+	}
 	return itsFloatInputField;
 }
 
@@ -607,7 +607,7 @@ GLRaggedFloatTable::ExtractInputData
 	assert( itsFloatInputField != nullptr );
 
 	if (itsFloatInputField->InputValid())
-		{
+	{
 		JFloat value;
 		const bool valid = itsFloatInputField->GetValue(&value);
 		assert( valid );
@@ -621,26 +621,26 @@ GLRaggedFloatTable::ExtractInputData
 
 		// create and install undo object with old value
 		if (exists)
-			{
+		{
 			auto* undo =
 				jnew GLUndoElementChange(this, cell, oldvalue);
 			assert(undo != nullptr);
 			NewUndo(undo);
-			}
+		}
 		else
-			{
+		{
 			auto* undo =
 				jnew GLUndoElementAppend(this, cell);
 			assert(undo != nullptr);
 			NewUndo(undo);
-			}
+		}
 
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -673,45 +673,45 @@ GLRaggedFloatTable::ExtendSelection
 	JPoint sCell;
 	bool success = iter->Next(&sCell);
 	if (!success)
-		{
+	{
 		jdelete iter;
 		return;
-		}
+	}
 	JIndex sCol;
 	JIndex eCol;
 	JIndex sRow;
 	JIndex eRow;
 
 	if (cell.x > sCell.x)
-		{
+	{
 		sCol = sCell.x;
 		eCol = cell.x;
-		}
+	}
 	else
-		{
+	{
 		eCol = sCell.x;
 		sCol = cell.x;
-		}
+	}
 
 	if (cell.y > sCell.y)
-		{
+	{
 		sRow = sCell.y;
 		eRow = cell.y;
-		}
+	}
 	else
-		{
+	{
 		eRow = sCell.y;
 		sRow = cell.y;
-		}
+	}
 
 	(GetTableSelection()).ClearSelection();
 	for (JIndex i = sCol; i <= eCol; i++)
-		{
+	{
 		for (JIndex j = sRow; j <= eRow; j++)
-			{
+		{
 			(GetTableSelection()).SelectCell(j,i);
-			}
 		}
+	}
 
 	jdelete iter;
 	TableRefresh();
@@ -748,9 +748,9 @@ GLRaggedFloatTable::SelectRow
 	(GetTableSelection()).ClearSelection();
 
 	for (JSize i = 1; i <= colCount; i++)
-		{
+	{
 		(GetTableSelection()).SelectCell(row, i);
-		}
+	}
 	TableRefresh();
 }
 
@@ -786,28 +786,28 @@ GLRaggedFloatTable::ExtendSelectionToRow
 	JPoint sCell;
 	bool success = iter->Next(&sCell);
 	if (!success)
-		{
+	{
 		jdelete iter;
 		return;
-		}
+	}
 	JSize sRow = sCell.y;
 	JSize eRow = row;
 
 	if (sRow > eRow)
-		{
+	{
 		sRow = row;
 		eRow = sCell.y;
-		}
+	}
 
 	const JSize colCount = GetColCount();
 	(GetTableSelection()).ClearSelection();
 	for (JSize rowI = sRow; rowI <= eRow; rowI ++)
-		{
+	{
 		for (JSize col = 1; col <= colCount; col++)
-			{
+		{
 			(GetTableSelection()).SelectCell(rowI, col);
-			}
 		}
+	}
 
 	jdelete iter;
 	TableRefresh();
@@ -867,29 +867,29 @@ GLRaggedFloatTable::ExtendSelectionToCol
 	JPoint sCell;
 	bool success = iter.Next(&sCell);
 	if (!success)
-		{
+	{
 		return;
-		}
+	}
 
 	JSize sCol = sCell.x;
 	JSize eCol = col;
 
 	if (sCol > eCol)
-		{
+	{
 		sCol = col;
 		eCol = sCell.x;
-		}
+	}
 
 	selection.ClearSelection();
 
 	for (JSize colI = sCol; colI <= eCol; colI ++)
-		{
+	{
 		selection.SelectCol(colI);
 //		for (JSize row = 1; row <= rowCount; row++)
 //			{
 //			(GetTableSelection()).SelectCell(row, colI);
 //			}
-		}
+	}
 
 	TableRefresh();
 }
@@ -907,130 +907,130 @@ GLRaggedFloatTable::Receive
 	)
 {
 	if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleEditMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateEditMenu();
-		}
+	}
 
 	else if (sender == itsDataMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleDataMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsDataMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateDataMenu();
-		}
+	}
 
 	else if (sender == itsModuleMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const auto* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsCreatePlotDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			PlotData(kDataPlot);
-			}
-		itsCreatePlotDialog = nullptr;
 		}
+		itsCreatePlotDialog = nullptr;
+	}
 
 	else if (sender == itsCreateVectorPlotDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			PlotData(kVectorPlot);
-			}
-		itsCreateVectorPlotDialog = nullptr;
 		}
+		itsCreateVectorPlotDialog = nullptr;
+	}
 
 	else if (sender == itsTransDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			EvaluateTransformFunction();
-			}
+		}
 		itsTransDialog = nullptr;
 		jdelete itsTransformVarList;
 		itsTransformVarList = nullptr;
-		}
+	}
 
 	else if (sender == itsColByIncDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			CreateNewColByInc();
-			}
-		itsColByIncDialog = nullptr;
 		}
+		itsColByIncDialog = nullptr;
+	}
 
 	else if (sender == itsColByRangeDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			CreateNewColByRange();
-			}
-		itsColByRangeDialog = nullptr;
 		}
+		itsColByRangeDialog = nullptr;
+	}
 
 	else if (sender == itsOKButton && message.Is(JXButton::kPushed))
-		{
+	{
 		EndEditing();
-		}
+	}
 
 	else if (sender == itsFloatData && message.Is(GLRaggedFloatTableData::kElementRemoved))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const GLRaggedFloatTableData::ElementRemoved*>(&message);
 		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
-		}
+	}
 	else if (sender == itsFloatData && message.Is(GLRaggedFloatTableData::kElementInserted))
-		{
+	{
 		const auto* info =
 			dynamic_cast<const GLRaggedFloatTableData::ElementRemoved*>(&message);
 		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
-		}
+	}
 	else if (sender == itsFloatData && message.Is(GLRaggedFloatTableData::kDataChanged))
-		{
+	{
 		AdjustToTableData();
 		Refresh();
-		}
+	}
 
 	else
-		{
+	{
 		JXEditTable::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1045,47 +1045,47 @@ GLRaggedFloatTable::HandleEditMenu
 	)
 {
 	if (index == kUndoCmd)
-		{
+	{
 		Undo();
-		}
+	}
 	else if (index == kRedoCmd)
-		{
+	{
 		Redo();
-		}
+	}
 	else if (index == kCutCmd)
-		{
+	{
 		HandleCutCmd();
-		}
+	}
 
 	else if (index == kCopyCmd)
-		{
+	{
 		HandleCopyCmd();
-		}
+	}
 
 	else if (index ==kPasteCmd)
-		{
+	{
 		HandlePasteCmd();
-		}
+	}
 
 	else if (index == kSpecialPasteCmd)
-		{
+	{
 		HandleSpecialPasteCmd();
-		}
+	}
 
 	else if (index == kInsertCmd)
-		{
+	{
 		HandleInsertion();
-		}
+	}
 
 	else if (index == kDuplicateCmd)
-		{
+	{
 		HandleDuplication();
-		}
+	}
 
 	else if (index == kDeleteCmd)
-		{
+	{
 		HandleDeletion();
-		}
+	}
 }
 
 /******************************************************************************
@@ -1097,41 +1097,41 @@ void
 GLRaggedFloatTable::UpdateEditMenu()
 {
 	if (HasUndo())
-		{
+	{
 		itsEditMenu->EnableItem(kUndoCmd);
-		}
+	}
 	else
-		{
+	{
 		itsEditMenu->DisableItem(kUndoCmd);
-		}
+	}
 	if (HasRedo())
-		{
+	{
 		itsEditMenu->EnableItem(kRedoCmd);
-		}
+	}
 	else
-		{
+	{
 		itsEditMenu->DisableItem(kRedoCmd);
-		}
+	}
 
 	SelectionType type = GetSelectionType();
 
 	if (type == kNoneSelected)
-		{
+	{
 		itsEditMenu->DisableItem(kCutCmd);
 		itsEditMenu->DisableItem(kCopyCmd);
 		itsEditMenu->DisableItem(kInsertCmd);
 		itsEditMenu->DisableItem(kDuplicateCmd);
 		itsEditMenu->DisableItem(kDeleteCmd);
-		}
+	}
 
 	else
-		{
+	{
 		itsEditMenu->EnableItem(kCutCmd);
 		itsEditMenu->EnableItem(kCopyCmd);
 		itsEditMenu->EnableItem(kInsertCmd);
 		itsEditMenu->EnableItem(kDuplicateCmd);
 		itsEditMenu->EnableItem(kDeleteCmd);
-		}
+	}
 
 /*	const JXWindow* window = GetWindow();
 
@@ -1140,27 +1140,27 @@ GLRaggedFloatTable::UpdateEditMenu()
 
 	JArray<Atom> typeList;
 	if (selManager->GetAvailableTypes(kJXClipboardName, window, &typeList))
-		{
+	{
 		const JSize typeCount = typeList.GetElementCount();
 		for (JIndex i=1; i<=typeCount; i++)
-			{
+		{
 			Atom type = typeList.GetElement(i);
 			if (type == itsGloveTextXAtom)
-				{
+			{
 				hasGloveData = true;
 				break;
-				}
 			}
 		}
+	}
 
 		if (hasGloveData)
-			{
+		{
 			itsEditMenu->EnableItem(kPasteCmd);
-			}
+		}
 		else
-			{
+		{
 			itsEditMenu->DisableItem(kPasteCmd);
-			}*/
+		}*/
 }
 
 /******************************************************************************
@@ -1186,9 +1186,9 @@ GLRaggedFloatTable::HandleCopyCmd()
 	SelectionType type = GetSelectionType();
 
 	if (type == kNoneSelected)
-		{
+	{
 		return;
-		}
+	}
 
 	std::ostringstream os;
 
@@ -1200,31 +1200,31 @@ GLRaggedFloatTable::HandleCopyCmd()
 	GetSelectionArea(&rows, &cols, &startRow, &startCol);
 
 	if (startCol + cols == GetColCount() + 1)
-		{
+	{
 		cols--;
-		}
+	}
 
 	if (startRow + rows == GetRowCount() + 1)
-		{
+	{
 		rows--;
-		}
+	}
 
 	for (JIndex row = startRow; row < startRow + rows; row++)
-		{
+	{
 		for (JIndex col = startCol; col < startCol + cols; col++)
-			{
+		{
 			JFloat value;
 			if (itsFloatData->GetElement(row, col, &value))
-				{
+			{
 				os << value;
-				}
-			if (col != startCol + cols - 1)
-				{
-				os << "\t";
-				}
 			}
-		os << std::endl;
+			if (col != startCol + cols - 1)
+			{
+				os << "\t";
+			}
 		}
+		os << std::endl;
+	}
 
 	auto* data = jnew GLTextSelection(GetDisplay(), os.str());
 	assert(data != nullptr);
@@ -1233,32 +1233,32 @@ GLRaggedFloatTable::HandleCopyCmd()
 	os2 << (int)type << " ";
 	os2 << cols << " ";
 	for (JSize i = startCol; i < startCol + cols; i++)
-		{
+	{
 		JSize rowCount = itsFloatData->GetDataRowCount(i);
 		if (rowCount - startRow + 1 < rows)
-			{
+		{
 			os2 << rowCount - startRow + 1 << " ";
-			}
+		}
 		else
-			{
+		{
 			os2 << rows << " ";
-			}
+		}
 		for (JIndex row = startRow; row < startRow + rows; row++)
-			{
+		{
 			JFloat value;
 			if (itsFloatData->GetElement(row, i, &value))
-				{
+			{
 				os2 << value << " ";
-				}
 			}
 		}
+	}
 
 	data->SetGloveData(os2.str());
 
 	if (!GetSelectionManager()->SetData(kJXClipboardName, data))
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("CopyFailed::GLRaggedFloatTable"));
-		}
+	}
 }
 
 /******************************************************************************
@@ -1275,23 +1275,23 @@ GLRaggedFloatTable::HandlePasteCmd()
 	JArray<Atom> typeList;
 	if (selManager->GetAvailableTypes(kJXClipboardName,
 					CurrentTime, &typeList))
-		{
+	{
 
 		const JSize typeCount = typeList.GetElementCount();
 		for (JIndex i=1; i<=typeCount; i++)
-			{
+		{
 			Atom type = typeList.GetElement(i);
 			if (type == itsGloveTextXAtom)
-				{
+			{
 				hasGloveData = true;
 				break;
-				}
 			}
+		}
 
 		if (!hasGloveData)
-			{
+		{
 			return;
-			}
+		}
 
 		unsigned char* data = nullptr;
 		JSize dataLength;
@@ -1300,7 +1300,7 @@ GLRaggedFloatTable::HandlePasteCmd()
 		if (selManager->GetData(kJXClipboardName,
 				CurrentTime, itsGloveTextXAtom,
 				&returnType, &data, &dataLength, &dMethod))
-			{
+		{
 			std::string s(reinterpret_cast<char*>(data), dataLength);
 			std::istringstream is(s);
 			JIndex type;
@@ -1325,41 +1325,41 @@ GLRaggedFloatTable::HandlePasteCmd()
 			if ((type1 == kElementsSelected) &&
 				(cols1 == 1) &&
 				((rows1 == 1) || (rows == rows1) ))
-				{
+			{
 				realrowcount = itsFloatData->GetDataRowCount(startCol);
 				if (startRow <= realrowcount + 1)
-					{
-					ok = true;
-					}
-				}
-			if (ok)
 				{
+					ok = true;
+				}
+			}
+			if (ok)
+			{
 				if (rows1 == 1)
-					{
+				{
 					if (rows == 1)
-						{
+					{
 						is >> value;
 						JPoint cell(startCol, startRow);
 						JFloat oldvalue;
 						if (itsFloatData->GetElement(cell, &oldvalue))
-							{
+						{
 							auto* undo =
 								jnew GLUndoElementChange(this, cell, oldvalue);
 							assert(undo != nullptr);
 							itsFloatData->SetElement(cell, value);
 							NewUndo(undo);
-							}
+						}
 						else
-							{
+						{
 							auto* undo =
 								jnew GLUndoElementAppend(this, cell);
 							assert(undo != nullptr);
 							itsFloatData->InsertElement(cell, value);
 							NewUndo(undo);
-							}
 						}
+					}
 					else
-						{
+					{
 						auto* undo =
 							jnew GLUndoElementsInsert(this, JPoint(startCol, startRow),
 													 JPoint(startCol, startRow + rows - 1),
@@ -1367,15 +1367,15 @@ GLRaggedFloatTable::HandlePasteCmd()
 						assert(undo != nullptr);
 						NewUndo(undo);
 						for (JIndex row = startRow; row <= startRow + rows - 1; row++)
-							{
+						{
 							is >> value;
 							itsFloatData->InsertElement(row,startCol, value);
-							}
 						}
-
 					}
+
+				}
 				else
-					{
+				{
 					auto* undo =
 						jnew GLUndoElementsChange(this, JPoint(startCol, startRow),
 												 JPoint(startCol + cols1 - 1, startRow + rows1 - 1),
@@ -1383,20 +1383,20 @@ GLRaggedFloatTable::HandlePasteCmd()
 					assert(undo != nullptr);
 					NewUndo(undo);
 					for (JIndex col = startCol; col < startCol + cols1; col++)
-						{
+					{
 						for (JIndex row = startRow; row <= startRow + rows1 - 1; row++)
-							{
+						{
 							is >> value;
 							itsFloatData->SetElement(row,col, value);
-							}
 						}
 					}
 				}
+			}
 
 			else if (type1 == kNoneSelected ||
 				type1 == kRowsSelected ||
 				type1 == kElementsSelected)
-				{
+			{
 				const JSize count = itsFloatData->GetDataColCount() + 1;
 				auto* undo =
 					jnew GLUndoElementsInsert(this, JPoint(count, 1),
@@ -1406,17 +1406,17 @@ GLRaggedFloatTable::HandlePasteCmd()
 				NewUndo(undo);
 				itsFloatData->InsertCols(count, cols);
 				for (JSize i = 1; i <= cols; i++)
-					{
+				{
 					for (JSize j = 1; j <= rows; j++)
-						{
+					{
 						is >> value;
 						itsFloatData->SetElement(j, i+count-1, value);
-						}
 					}
 				}
+			}
 
 			else
-				{
+			{
 				auto* undo =
 					jnew GLUndoElementsInsert(this, JPoint(startCol, 1),
 											 JPoint(startCol + cols - 1, 1),
@@ -1425,23 +1425,23 @@ GLRaggedFloatTable::HandlePasteCmd()
 				NewUndo(undo);
 				itsFloatData->InsertCols(startCol, cols);
 				for (JSize i = 1; i <= cols; i++)
-					{
+				{
 					for (JSize j = 1; j <= rows; j++)
-						{
+					{
 						is >> value;
 						if (is.good())
-							{
+						{
 							itsFloatData->SetElement(j, i+startCol-1, value);
-							}
 						}
 					}
-
 				}
+
+			}
 			TableRefresh();
 
 			selManager->DeleteData(&data, dMethod);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1458,23 +1458,23 @@ GLRaggedFloatTable::HandleSpecialPasteCmd()
 	JArray<Atom> typeList;
 	if (selManager->GetAvailableTypes(kJXClipboardName,
 					CurrentTime, &typeList))
-		{
+	{
 
 		const JSize typeCount = typeList.GetElementCount();
 		for (JIndex i=1; i<=typeCount; i++)
-			{
+		{
 			Atom type = typeList.GetElement(i);
 			if (type == itsGloveTextXAtom)
-				{
+			{
 				hasGloveData = true;
 				break;
-				}
 			}
+		}
 
 		if (!hasGloveData)
-			{
+		{
 			return;
-			}
+		}
 
 		unsigned char* data = nullptr;
 		JSize dataLength;
@@ -1483,7 +1483,7 @@ GLRaggedFloatTable::HandleSpecialPasteCmd()
 		if (selManager->GetData(kJXClipboardName,
 				CurrentTime, itsGloveTextXAtom,
 				 &returnType, &data, &dataLength, &dMethod))
-			{
+		{
 			std::string s(reinterpret_cast<char*>(data), dataLength);
 			std::istringstream is(s);
 			JIndex type;
@@ -1502,73 +1502,73 @@ GLRaggedFloatTable::HandleSpecialPasteCmd()
 			GetSelectionArea(&rows1, &cols1, &startRow, &startCol);
 
 			if (type1 == kNoneSelected)
-				{
+			{
 				JGetUserNotification()->ReportError(JGetString("NoSelection::GLRaggedFloatTable"));
-				}
+			}
 
 			else if (type1 == kRowsSelected)
-				{
+			{
 				if (cols == GetColCount() - 1)
-					{
+				{
 					for (JSize i = 1; i <= cols; i++)
-						{
+					{
 						is >> rows;
 						for (JSize j = 1; j <= rows; j++)
-							{
+						{
 							is >> value;
 							itsFloatData->InsertElement(j + startRow - 1, i, value);
-							}
 						}
 					}
-				else
-					{
-					JGetUserNotification()->ReportError(JGetString("SelectionMismatch::GLRaggedFloatTable"));
-					}
 				}
+				else
+				{
+					JGetUserNotification()->ReportError(JGetString("SelectionMismatch::GLRaggedFloatTable"));
+				}
+			}
 
 			else if (type1 == kElementsSelected)
-				{
+			{
 				if (cols == cols1)
-					{
+				{
 					for (JSize i = 1; i <= cols; i++)
-						{
+					{
 						is >> rows;
 						for (JSize j = 1; j <= rows; j++)
-							{
+						{
 							is >> value;
 							itsFloatData->InsertElement(j + startRow - 1, i + startCol - 1, value);
-							}
 						}
 					}
-				else
-					{
-					JGetUserNotification()->ReportError(JGetString("SelectionMismatch::GLRaggedFloatTable"));
-					}
 				}
+				else
+				{
+					JGetUserNotification()->ReportError(JGetString("SelectionMismatch::GLRaggedFloatTable"));
+				}
+			}
 
 			else
-				{
+			{
 
 				itsFloatData->InsertCols(startCol, cols);
 				for (JSize i = 1; i <= cols; i++)
-					{
+				{
 					is >> rows;
 					for (JSize j = 1; j <= rows; j++)
-						{
+					{
 						is >> value;
 						if (is.good())
-							{
+						{
 							itsFloatData->SetElement(j, i+startCol-1, value);
-							}
 						}
 					}
-
 				}
+
+			}
 			TableRefresh();
 
 			selManager->DeleteData(&data, dMethod);
-			}
 		}
+	}
 }
 
 
@@ -1586,9 +1586,9 @@ GLRaggedFloatTable::HandleInsertion
 	SelectionType type = GetSelectionType();
 
 	if (type == kNoneSelected)
-		{
+	{
 		return;
-		}
+	}
 
 	JIndex rows;
 	JIndex cols;
@@ -1598,62 +1598,62 @@ GLRaggedFloatTable::HandleInsertion
 	GetSelectionArea(&rows, &cols, &startRow, &startCol);
 
 	if (type == kRowsSelected)
-		{
+	{
 		if (undo)
-			{
+		{
 			auto* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(1, startRow),
 										 JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 										 GLUndoElementsBase::kRows);
 			assert(undo1 != nullptr);
 			NewUndo(undo1);
-			}
-		itsFloatData->InsertRows(startRow, rows);
 		}
+		itsFloatData->InsertRows(startRow, rows);
+	}
 
 	else if (type == kColsSelected)
-		{
+	{
 		if (undo)
-			{
+		{
 			auto* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(startCol, 1),
 										 JPoint(startCol + cols - 1, GetRowCount()),
 										 GLUndoElementsBase::kCols);
 			assert(undo1 != nullptr);
 			NewUndo(undo1);
-			}
-		itsFloatData->InsertCols(startCol, cols);
 		}
+		itsFloatData->InsertCols(startCol, cols);
+	}
 
 	else if (type == kElementsSelected)
-		{
+	{
 		if (cols == 1 && rows == 1 && undo)
-			{
+		{
 			JPoint cell(startCol, startRow);
 			auto* undo1 =
 				jnew GLUndoElementAppend(this, cell);
 			assert(undo1 != nullptr);
 			NewUndo(undo1);
-			}
+		}
 		else if (undo)
-			{
+		{
 			auto* undo1 =
 				jnew GLUndoElementsInsert(this, JPoint(startCol, startRow),
 										 JPoint(startCol + cols - 1, startRow + rows - 1),
 										 GLUndoElementsBase::kElements);
 			assert(undo1 != nullptr);
 			NewUndo(undo1);
-			}
+		}
 
 		for (JIndex col = startCol; col < startCol + cols; col++)
-			{
+		{
 			JIndex end = JMin(startRow + rows - 1, itsFloatData->GetDataRowCount(col));
 			for (JIndex row = startRow; row <= end; row++)
-				{
+			{
 				itsFloatData->InsertElement(row,col, 0);
-				}
 			}
 		}
+	}
 	TableRefresh();
 }
 
@@ -1668,9 +1668,9 @@ GLRaggedFloatTable::HandleDuplication()
 	SelectionType type = GetSelectionType();
 
 	if (type == kNoneSelected)
-		{
+	{
 		return;
-		}
+	}
 
 	JIndex rows;
 	JIndex cols;
@@ -1681,7 +1681,7 @@ GLRaggedFloatTable::HandleDuplication()
 	HandleInsertion();
 
 	if ( (type == kRowsSelected) || (type == kElementsSelected) )
-		{
+	{
 //		if ((cols == 1) && (rows == 1))
 //			{
 //			JPoint cell(startCol, startRow + 1);
@@ -1691,32 +1691,32 @@ GLRaggedFloatTable::HandleDuplication()
 //			NewUndo(undo);
 //			}
 		for (JIndex col = startCol; col < startCol + cols; col++)
-			{
+		{
 			for (JIndex row = startRow; row < startRow + rows; row++)
-				{
+			{
 				JFloat value;
 				if (itsFloatData->GetElement(row+rows, col, &value))
-					{
+				{
 					itsFloatData->SetElement(row,col, value);
-					}
 				}
 			}
 		}
+	}
 
 	else if (type == kColsSelected)
-		{
+	{
 		for (JIndex col = startCol; col < startCol + cols; col++)
-			{
+		{
 			for (JIndex row = startRow; row < startRow + rows; row++)
-				{
+			{
 				JFloat value;
 				if (itsFloatData->GetElement(row, col+cols, &value))
-					{
+				{
 					itsFloatData->SetElement(row,col, value);
-					}
 				}
 			}
 		}
+	}
 	TableRefresh();
 }
 
@@ -1731,9 +1731,9 @@ GLRaggedFloatTable::HandleDeletion()
 	SelectionType type = GetSelectionType();
 
 	if (type == kNoneSelected)
-		{
+	{
 		return;
-		}
+	}
 
 	JIndex rows;
 	JIndex cols;
@@ -1743,17 +1743,17 @@ GLRaggedFloatTable::HandleDeletion()
 	GetSelectionArea(&rows, &cols, &startRow, &startCol);
 
 	if (startCol + cols == GetColCount() + 1)
-		{
+	{
 		cols--;
-		}
+	}
 
 	if (startRow + rows == GetRowCount() + 1)
-		{
+	{
 		rows--;
-		}
+	}
 
 	if (type == kRowsSelected)
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsCut(this, JPoint(1, startRow),
 								  JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
@@ -1761,13 +1761,13 @@ GLRaggedFloatTable::HandleDeletion()
 		assert(undo != nullptr);
 		NewUndo(undo);
 		for (JIndex i = startRow; i < startRow + rows; i++)
-			{
+		{
 			itsFloatData->RemoveRow(startRow);
-			}
 		}
+	}
 
 	else if (type == kColsSelected)
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsCut(this, JPoint(startCol, 1),
 								  JPoint(startCol + cols - 1, GetRowCount()),
@@ -1775,46 +1775,46 @@ GLRaggedFloatTable::HandleDeletion()
 		assert(undo != nullptr);
 		NewUndo(undo);
 		for (JIndex i = startCol; i < startCol + cols; i++)
-			{
+		{
 			itsFloatData->RemoveCol(startCol);
-			}
 		}
+	}
 
 	else if (type == kElementsSelected)
-		{
+	{
 		// special case if just one cell - use special undo
 		if ((cols == 1) && (rows == 1))
-			{
+		{
 			JPoint cell(startCol, startRow);
 			JFloat value;
 			if (itsFloatData->GetElement(cell, &value))
-				{
+			{
 				auto* undo =
 					jnew GLUndoElementCut(this, cell, value);
 				assert(undo != nullptr);
 				NewUndo(undo);
-				}
 			}
+		}
 		else
-			{
+		{
 			auto* undo =
 				jnew GLUndoElementsCut(this, JPoint(startCol, startRow),
 									  JPoint(startCol + cols - 1, startRow + rows - 1),
 									  GLUndoElementsBase::kElements);
 			assert(undo != nullptr);
 			NewUndo(undo);
-			}
+		}
 		for (JIndex col = startCol; col < startCol + cols; col++)
-			{
+		{
 			for (JIndex row = startRow; row < startRow + rows; row++)
-				{
+			{
 				if (itsFloatData->CellValid(startRow,col))
-					{
+				{
 					itsFloatData->RemoveElement(startRow,col);
-					}
 				}
 			}
 		}
+	}
 
 	(GetTableSelection()).ClearSelection();
 	TableRefresh();
@@ -1833,98 +1833,98 @@ GLRaggedFloatTable::GetSelectionType()
 
 	JPoint cell;
 	if (selection.GetFirstSelectedCell(&cell))
-		{
+	{
 		if (cell.x > (JCoordinate)(itsFloatData->GetDataColCount()))
-			{
-			return kNoneSelected;
-			}
-		}
-	else
 		{
-		return kNoneSelected;
+			return kNoneSelected;
 		}
+	}
+	else
+	{
+		return kNoneSelected;
+	}
 
 	bool found = iter.Next(&cell);
 	if (found)
-		{
+	{
 		if (cell.y == 1)
-			{
+		{
 			const JSize rowCount = GetRowCount();
 			bool colSelected = true;
 			JIndex row = 2;
 			while (row <= rowCount && colSelected)
-				{
+			{
 				if (!((GetTableSelection()).IsSelected(row,cell.x)))
-					{
+				{
 					colSelected = false;
-					}
-				row++;
 				}
+				row++;
+			}
 
 			if (colSelected)
-				{
+			{
 				return kColsSelected;
-				}
+			}
 
 			if (cell.x != 1)
-				{
+			{
 				return kElementsSelected;
-				}
+			}
 
 			const JSize colCount = GetColCount();
 			bool rowSelected = true;
 			JIndex col = 2;
 			while (col <= colCount && rowSelected)
-				{
+			{
 				if (!((GetTableSelection()).IsSelected(cell.y,col)))
-					{
+				{
 					rowSelected = false;
-					}
+				}
 				col++;
-				}
-
-			if (rowSelected)
-				{
-				return kRowsSelected;
-				}
-
-			else
-				{
-				return kElementsSelected;
-				}
 			}
 
-		else if (cell.x == 1)
-			{
-			const JSize colCount = GetColCount();
-			bool rowSelected = true;
-			JIndex col = 2;
-			while (col <= colCount && rowSelected)
-				{
-				if (!((GetTableSelection()).IsSelected(cell.y,col)))
-					{
-					rowSelected = false;
-					}
-				col++;
-				}
-
 			if (rowSelected)
-				{
+			{
 				return kRowsSelected;
-				}
-
-			else
-				{
-				return kElementsSelected;
-				}
-
 			}
 
-		else
+			else
 			{
-			return kElementsSelected;
+				return kElementsSelected;
 			}
 		}
+
+		else if (cell.x == 1)
+		{
+			const JSize colCount = GetColCount();
+			bool rowSelected = true;
+			JIndex col = 2;
+			while (col <= colCount && rowSelected)
+			{
+				if (!((GetTableSelection()).IsSelected(cell.y,col)))
+				{
+					rowSelected = false;
+				}
+				col++;
+			}
+
+			if (rowSelected)
+			{
+				return kRowsSelected;
+			}
+
+			else
+			{
+				return kElementsSelected;
+			}
+
+		}
+
+		else
+		{
+			return kElementsSelected;
+		}
+	}
 
 	return kNoneSelected;
 }
@@ -1950,11 +1950,11 @@ GLRaggedFloatTable::GetSelectionArea
 	const bool found = iter.Next(&cell);
 
 	if (!found)
-		{
+	{
 		*rows = 1;
 		*cols = 1;
 		return;
-		}
+	}
 
 	*startRow = cell.y;
 	*startCol = cell.x;
@@ -1977,15 +1977,15 @@ void
 GLRaggedFloatTable::UpdateDataMenu()
 {
 	if (itsFloatData->GetDataColCount() == 0)
-		{
+	{
 		itsDataMenu->DisableItem(kPlotCmd);
 		itsDataMenu->DisableItem(kTransCmd);
-		}
+	}
 	else
-		{
+	{
 		itsDataMenu->EnableItem(kPlotCmd);
 		itsDataMenu->EnableItem(kTransCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2000,39 +2000,39 @@ GLRaggedFloatTable::HandleDataMenu
 	)
 {
 	if (index == kPlotCmd)
-		{
+	{
 		ChoosePlotColumns(kPlotCmd);
-		}
+	}
 
 	else if (index == kPlotVectorCmd)
-		{
+	{
 		ChoosePlotColumns(kPlotVectorCmd);
-		}
+	}
 
 	else if (index == kTransCmd)
-		{
+	{
 		ChooseNewTransformFunction();
-		}
+	}
 
 	else if (index == kGenerateRangeColCmd)
-		{
+	{
 		GetNewColByRange();
-		}
+	}
 
 	else if (index == kGenerateIncrementColCmd)
-		{
+	{
 		GetNewColByInc();
-		}
+	}
 
 	else if (index == kDataModuleCmd)
-		{
+	{
 		JString modName;
 		if (JGetChooseSaveFile()->ChooseFile(JGetString("SelectDataModulePrompt::GLRaggedFloatTable"), JString::empty, &modName))
-			{
+		{
 			GLDataModule* dm;
 			GLDataModule::Create(&dm, this, itsFloatData, modName);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2047,16 +2047,16 @@ GLRaggedFloatTable::HandleModuleMenu
 	)
 {
 	if (index == kReloadModuleCmd)
-		{
+	{
 		UpdateModuleMenu();
-		}
+	}
 	else
-		{
+	{
 		JString modName;
 		(GLGetApplication())->GetDataModulePath(index - 1, &modName);
 		GLDataModule* dm;
 		GLDataModule::Create(&dm, this, itsFloatData, modName);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2070,16 +2070,16 @@ GLRaggedFloatTable::UpdateModuleMenu()
 	const JSize mCount = itsModuleMenu->GetItemCount();
 	JSize i;
 	for (i = 2; i <= mCount; i++)
-		{
+	{
 		itsModuleMenu->RemoveItem(2);
-		}
+	}
 
 	(GLGetApplication())->ReloadDataModules();
 	JPtrArray<JString>* names = (GLGetApplication())->GetDataModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
-		{
+	{
 		itsModuleMenu->AppendItem(*(names->GetElement(i)));
-		}
+	}
 }
 
 /******************************************************************************
@@ -2094,10 +2094,10 @@ GLRaggedFloatTable::ChoosePlotColumns
 	)
 {
 	if (itsFloatData->GetDataColCount() == 0)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NoDataToPlot::GLRaggedFloatTable"));
 		return;
-		}
+	}
 
 	SelectionType selType = GetSelectionType();
 
@@ -2112,7 +2112,7 @@ GLRaggedFloatTable::ChoosePlotColumns
 	y2Col = 0;
 
 	if (selType != kNoneSelected)
-		{
+	{
 		JIndex rows;
 		JIndex cols;
 		JIndex startRow;
@@ -2122,37 +2122,37 @@ GLRaggedFloatTable::ChoosePlotColumns
 
 		xCol = startCol;
 		if (cols > 1)
-			{
+		{
 			yCol = startCol+1;
-			}
-		if (cols > 2)
-			{
-			y2Col = startCol + 2;
-			}
-		if (cols > 3)
-			{
-			x2Col = startCol + 3;
-			}
 		}
+		if (cols > 2)
+		{
+			y2Col = startCol + 2;
+		}
+		if (cols > 3)
+		{
+			x2Col = startCol + 3;
+		}
+	}
 
 	if (type == kPlotCmd)
-		{
+	{
 		assert (itsCreatePlotDialog == nullptr);
 		itsCreatePlotDialog =
 			jnew GLCreatePlotDialog(itsTableDir, itsFloatData, xCol,x2Col,yCol,y2Col);
 		assert (itsCreatePlotDialog != nullptr);
 		ListenTo(itsCreatePlotDialog);
 		itsCreatePlotDialog->BeginDialog();
-		}
+	}
 	else if (type == kPlotVectorCmd)
-		{
+	{
 		assert (itsCreateVectorPlotDialog == nullptr);
 		itsCreateVectorPlotDialog =
 			jnew GLCreateVectorPlotDialog(itsTableDir, itsFloatData, xCol, yCol, y2Col, x2Col);
 		assert (itsCreateVectorPlotDialog != nullptr);
 		ListenTo(itsCreateVectorPlotDialog);
 		itsCreateVectorPlotDialog->BeginDialog();
-		}
+	}
 }
 
 /******************************************************************************
@@ -2167,63 +2167,63 @@ GLRaggedFloatTable::PlotData
 	)
 {
 	if (type == kDataPlot)
-		{
+	{
 		assert ( itsCreatePlotDialog != nullptr );
-		}
+	}
 	else if (type == kVectorPlot)
-		{
+	{
 		assert ( itsCreateVectorPlotDialog != nullptr );
-		}
+	}
 
 	JIndex xCol, x2Col, yCol, y2Col;
 	if (type == kDataPlot)
-		{
+	{
 		itsCreatePlotDialog->GetColumns(&xCol, &x2Col, &yCol, &y2Col);
-		}
+	}
 	else
-		{
+	{
 		assert( type == kVectorPlot );
 		itsCreateVectorPlotDialog->GetColumns(&xCol, &yCol, &x2Col, &y2Col);
-		}
+	}
 
 	const JArray<JFloat>& xData = itsFloatData->GetColPointer(xCol);
 	const JArray<JFloat>& yData = itsFloatData->GetColPointer(yCol);
 
 	const JArray<JFloat>* xErr = nullptr;
 	if (x2Col != 0)
-		{
+	{
 		xErr = &(itsFloatData->GetColPointer(x2Col));
-		}
+	}
 
 	const JArray<JFloat>* yErr = nullptr;
 	if (y2Col != 0)
-		{
+	{
 		yErr = &(itsFloatData->GetColPointer(y2Col));
-		}
+	}
 
 	JIndex index;
 	bool oldPlot;
 	JString label;
 	if (type == kDataPlot)
-		{
+	{
 		label = itsCreatePlotDialog->GetLabel();
 		oldPlot = itsCreatePlotDialog->GetPlotIndex(&index);
-		}
+	}
 	else
-		{
+	{
 		assert( type == kVectorPlot );
 		label = itsCreateVectorPlotDialog->GetLabel();
 		oldPlot = itsCreateVectorPlotDialog->GetPlotIndex(&index);
-		}
+	}
 
 	if (oldPlot)
-		{
+	{
 		itsTableDir->AddToPlot(index, type, xData, xErr, yData, yErr, true, label);
-		}
+	}
 	else
-		{
+	{
 		itsTableDir->CreateNewPlot(type, xData, xErr, yData, yErr, true, label);
-		}
+	}
 }
 
 /******************************************************************************
@@ -2263,12 +2263,12 @@ GLRaggedFloatTable::CreateNewColByRange()
 	bool replace = false;
 	JSize colCount = itsFloatData->GetDataColCount();
 	if (dest <= colCount)
-		{
+	{
 		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::GLRaggedFloatTable"));
-		}
+	}
 
 	if (!replace)
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
@@ -2276,9 +2276,9 @@ GLRaggedFloatTable::CreateNewColByRange()
 		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->InsertCols(dest, 1);
-		}
+	}
 	else if (dest <= colCount)
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
@@ -2286,15 +2286,15 @@ GLRaggedFloatTable::CreateNewColByRange()
 		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->RemoveAllElements(dest);
-		}
+	}
 
 	// this takes care of whether or not it was ascending.
 	JFloat inc = (end - beg)/(JFloat)( count - 1 );
 
 	for (JInteger i = 1; i <= count; i++)
-		{
+	{
 		itsFloatData->SetElement(i, dest, beg + inc*(i-1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -2333,12 +2333,12 @@ GLRaggedFloatTable::CreateNewColByInc()
 	bool replace = false;
 	JSize colCount = itsFloatData->GetDataColCount();
 	if (dest <= colCount)
-		{
+	{
 		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::GLRaggedFloatTable"));
-		}
+	}
 
 	if (!replace)
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
@@ -2346,9 +2346,9 @@ GLRaggedFloatTable::CreateNewColByInc()
 		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->InsertCols(dest, 1);
-		}
+	}
 	else if (dest <= colCount)
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
@@ -2356,12 +2356,12 @@ GLRaggedFloatTable::CreateNewColByInc()
 		assert(undo != nullptr);
 		NewUndo(undo);
 		itsFloatData->RemoveAllElements(dest);
-		}
+	}
 
 	for (JInteger i = 1; i <= count; i++)
-		{
+	{
 		itsFloatData->SetElement(i, dest, beg + inc*(i-1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -2380,17 +2380,17 @@ GLRaggedFloatTable::WriteData
 	os << colCount << ' ';
 	JString temp("column x");
 	for (JSize i = 1; i <= colCount; i++)
-		{
+	{
 		os << temp << ' ';
 		const JSize rowCount = itsFloatData->GetDataRowCount(i);
 		os << rowCount << ' ';
 		for (JSize j = 1; j <= rowCount; j++)
-			{
+		{
 			JFloat value;
 			itsFloatData->GetElement(j, i, &value);
 			os << value << ' ';
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2407,10 +2407,10 @@ GLRaggedFloatTable::ReadData
 {
 	JFileVersion vers = 0;
 	if (gloveVersion > 0.5)
-		{
+	{
 		is >> vers;
 		assert(vers <= kCurrentTableVersion);
-		}
+	}
 
 	itsFloatData->ShouldBroadcast(false);
 
@@ -2419,16 +2419,16 @@ GLRaggedFloatTable::ReadData
 	JString temp;
 	JSize rowCount;
 	for (JSize i= 1; i <= colCount; i++)
-		{
+	{
 		is >> temp;
 		is >> rowCount;
 		for (JSize j = 1; j <= rowCount; j++)
-			{
+		{
 			JFloat value;
 			is >> value;
 			itsFloatData->SetElement(j, i, value);
-			}
 		}
+	}
 
 	itsFloatData->ShouldBroadcast(true);
 }
@@ -2446,17 +2446,17 @@ GLRaggedFloatTable::ChooseNewTransformFunction()
 
 	const JSize count = itsFloatData->GetDataColCount() + 1;
 	if (count == 1)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NoDataToTransform::GLRaggedFloatTable"));
 		return;
-		}
+	}
 
 	itsTransformVarList = jnew GLVarList();
 	JArray<JFloat>* ar = jnew JArray<JFloat>;
 	for (JSize i = 1; i < count; i++)
-		{
+	{
 		ar->AppendElement(0);
-		}
+	}
 	itsTransformVarList->AddArray(JString("col", JString::kNoCopy), *ar);
 
 	itsTransDialog =
@@ -2480,32 +2480,32 @@ jCollectColumnIndexes
 {
 	const auto* fwv = dynamic_cast<const JFunctionWithVar*>(root);
 	if (fwv != nullptr)
-		{
+	{
 		const JFunction* ai = fwv->GetArrayIndex();
 		if (ai != nullptr)
-			{
+		{
 			JFloat x;
 			const bool ok = ai->Evaluate(&x);
 			assert( ok );
 			const JIndex i = JRound(x);
 			JIndex tmp;
 			if (!inds->SearchSorted(i, JListT::kAnyMatch, &tmp))
-				{
+			{
 				inds->InsertSorted(i, false);
-				}
 			}
-		return;
 		}
+		return;
+	}
 
 	const auto* fwa = dynamic_cast<const JFunctionWithArgs*>(root);
 	if (fwa != nullptr)
-		{
+	{
 		const JSize argCount = fwa->GetArgCount();
 		for (JIndex i=1; i<=argCount; i++)
-			{
+		{
 			jCollectColumnIndexes(fwa->GetArg(i), inds);
-			}
 		}
+	}
 }
 
 void
@@ -2518,9 +2518,9 @@ GLRaggedFloatTable::EvaluateTransformFunction()
 	const JSize count = itsFloatData->GetDataColCount();
 	bool replace = false;
 	if (dest <= count)
-		{
+	{
 		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::GLRaggedFloatTable"));
-		}
+	}
 
 	JArray<JFloat> newArray;
 
@@ -2528,9 +2528,9 @@ GLRaggedFloatTable::EvaluateTransformFunction()
 
 	JFunction* f;
 	if (!p.Parse(fnStr, &f))
-		{
+	{
 		return;
-		}
+	}
 
 	JArray<JIndex> inds;
 	inds.SetCompareFunction(JCompareIndices);
@@ -2538,37 +2538,37 @@ GLRaggedFloatTable::EvaluateTransformFunction()
 
 	const JSize indCount = inds.GetElementCount();
 	if (indCount == 0)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("GenerateIfNoTransform::GLRaggedFloatTable"));
 		jdelete f;
 		return;
-		}
+	}
 
 	JSize minRowCount = itsFloatData->GetDataRowCount(inds.GetElement(1));
 	for (JIndex i = 2; i <= indCount; i++)
-		{
+	{
 		const JSize rowCount = itsFloatData->GetDataRowCount(inds.GetElement(i));
 		if (rowCount < minRowCount)
-			{
+		{
 			minRowCount = rowCount;
-			}
 		}
+	}
 
 	for (JSize r = 1; r <= minRowCount; r++)
-		{
+	{
 		for (JIndex i = 1; i <= indCount; i++)
-			{
+		{
 			JFloat value;
 			itsFloatData->GetElement(r, inds.GetElement(i), &value);
 			itsTransformVarList->SetNumericValue(1, inds.GetElement(i), value);
-			}
+		}
 		JFloat value;
 		f->Evaluate(&value);
 		newArray.AppendElement(value);
-		}
+	}
 
 	if (replace)
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsChange(this, JPoint(dest, 1),
 									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
@@ -2577,9 +2577,9 @@ GLRaggedFloatTable::EvaluateTransformFunction()
 		NewUndo(undo);
 		itsFloatData->RemoveAllElements(dest);
 		itsFloatData->SetCol(dest, newArray);
-		}
+	}
 	else
-		{
+	{
 		auto* undo =
 			jnew GLUndoElementsInsert(this, JPoint(dest, 1),
 									 JPoint(dest, 1),
@@ -2588,7 +2588,7 @@ GLRaggedFloatTable::EvaluateTransformFunction()
 		NewUndo(undo);
 		itsFloatData->InsertCols(dest, 1);
 		itsFloatData->SetCol(dest, newArray);
-		}
+	}
 
 	jdelete f;
 }
@@ -2607,16 +2607,16 @@ GLRaggedFloatTable::WriteDataCols
 {
 	SelectionType type = GetSelectionType();
 	if (type != kColsSelected)
-		{
+	{
 		JString str((JUInt64) cols);
 		const JUtf8Byte* map[] =
-			{
+		{
 			"i", str.GetBytes()
-			};
+		};
 		JGetUserNotification()->ReportError(
 			JGetString("MustSelectColumns::GLRaggedFloatTable", map, sizeof(map)));
 		return false;
-		}
+	}
 	JIndex nrows;
 	JIndex ncols;
 	JIndex startRow;
@@ -2624,43 +2624,43 @@ GLRaggedFloatTable::WriteDataCols
 
 	GetSelectionArea(&nrows, &ncols, &startRow, &startCol);
 	if (startCol + ncols == GetColCount() + 1)
-		{
+	{
 		ncols--;
-		}
+	}
 
 	if (startRow + nrows == GetRowCount() + 1)
-		{
+	{
 		nrows--;
-		}
+	}
 
 	if (cols > (int) ncols)
-		{
+	{
 		JString str((JUInt64) cols);
 		const JUtf8Byte* map[] =
-			{
+		{
 			"i", str.GetBytes()
-			};
+		};
 		JGetUserNotification()->ReportError(
 			JGetString("MustSelectColumns::GLRaggedFloatTable", map, sizeof(map)));
 		return false;
-		}
+	}
 	os << nrows << std::endl;
 	for (JIndex row = startRow; row < startRow + nrows; row++)
-		{
+	{
 		for (JIndex col = startCol; col < startCol + ncols; col++)
-			{
+		{
 			JFloat value;
 			if (itsFloatData->GetElement(row, col, &value))
-				{
+			{
 				os << value;
-				}
-			if (col != startCol + ncols - 1)
-				{
-				os << "\t";
-				}
 			}
-		os << std::endl;
+			if (col != startCol + ncols - 1)
+			{
+				os << "\t";
+			}
 		}
+		os << std::endl;
+	}
 	return true;
 }
 
@@ -2680,20 +2680,20 @@ GLRaggedFloatTable::ExportDataMatrix
 	os << colCount << " ";
 	os << rowCount << " ";
 	for (JSize i = 1; i <= rowCount; i++)
-		{
+	{
 		for (JSize j = 1; j <= colCount; j++)
-			{
+		{
 			JFloat value;
 			if (itsFloatData->GetElement(i, j, &value))
-				{
+			{
 				os << value << " ";
-				}
+			}
 			else
-				{
+			{
 				os << "0" << " ";
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2710,22 +2710,22 @@ GLRaggedFloatTable::ExportData
 	JSize colCount = GetColCount() - 1;
 	os << colCount << " ";
 	for (JSize i = 1; i <= colCount; i++)
-		{
+	{
 		JSize rowCount = itsFloatData->GetDataRowCount(i);
 		os << rowCount << " ";
 		for (JSize j = 1; j <= rowCount; j++)
-			{
+		{
 			JFloat value;
 			if (itsFloatData->GetElement(j, i, &value))
-				{
+			{
 				os << value << " ";
-				}
+			}
 			else
-				{
+			{
 				os << "0" << " ";
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -2742,25 +2742,25 @@ GLRaggedFloatTable::PrintRealTable
 	JSize cols = itsFloatData->GetDataColCount();
 	JSize maxrows = 0;
 	for (JSize i = 1; i <= cols; i++)
-		{
+	{
 		JSize rows = itsFloatData->GetDataRowCount(i);
 		if (rows > maxrows)
-			{
+		{
 			maxrows = rows;
-			}
 		}
+	}
 	JSize tableRowCount = GetRowCount();
 	JSize tableColCount = GetColCount();
 
 	while (GetColCount() > cols)
-		{
+	{
 		RemoveCol(GetColCount());
-		}
+	}
 
 	while (GetRowCount() > maxrows)
-		{
+	{
 		RemoveRow(GetRowCount());
-		}
+	}
 
 	const JColorID gray50Color = JColorManager::GetGrayColor(50);
 	SetRowBorderInfo(0, gray50Color);
@@ -2769,13 +2769,13 @@ GLRaggedFloatTable::PrintRealTable
 	Print(p, false, false);
 
 	while (GetColCount() < tableColCount)
-		{
+	{
 		AppendCols(kDefColWidth, 1);
-		}
+	}
 	while(GetRowCount() < tableRowCount)
-		{
+	{
 		AppendRows(kDefRowWidth, 1);
-		}
+	}
 	SetRowBorderInfo(1, gray50Color);	// calls TableSetScrollSteps()
 	SetColBorderInfo(1, gray50Color);
 }
@@ -2799,12 +2799,12 @@ GLRaggedFloatTable::Undo()
 
 	// Perform the undo.
 	if (hasUndo)
-		{
+	{
 		itsUndoState = kUndo;
 		undo->Deactivate();
 		undo->Undo();
 		itsUndoState = kIdle;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2826,12 +2826,12 @@ GLRaggedFloatTable::Redo()
 
 	// Perform the redo.
 	if (hasUndo)
-		{
+	{
 		itsUndoState = kRedo;
 		undo->Deactivate();
 		undo->Undo();
 		itsUndoState = kIdle;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2847,14 +2847,14 @@ GLRaggedFloatTable::GetCurrentUndo
 	const
 {
 	if (HasUndo())
-		{
+	{
 		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2870,14 +2870,14 @@ GLRaggedFloatTable::GetCurrentRedo
 	const
 {
 	if (HasRedo())
-		{
+	{
 		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -2916,14 +2916,14 @@ GLRaggedFloatTable::NewUndo
 	)
 {
 	if (itsUndoList != nullptr && itsUndoState == kIdle)
-		{
+	{
 		// clear redo objects
 
 		const JSize undoCount = itsUndoList->GetElementCount();
 		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
-			{
+		{
 			itsUndoList->DeleteElement(i);
-			}
+		}
 
 		// save the new object
 
@@ -2931,10 +2931,10 @@ GLRaggedFloatTable::NewUndo
 		itsFirstRedoIndex++;
 
 		assert( !itsUndoList->IsEmpty() );
-		}
+	}
 
 	else if (itsUndoList != nullptr && itsUndoState == kUndo)
-		{
+	{
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
@@ -2944,10 +2944,10 @@ GLRaggedFloatTable::NewUndo
 
 		undo->SetRedo(true);
 		undo->Deactivate();
-		}
+	}
 
 	else if (itsUndoList != nullptr && itsUndoState == kRedo)
-		{
+	{
 		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
 
 //		JUndo* oldRedo = itsUndoList->GetElement(itsFirstRedoIndex);
@@ -2957,6 +2957,6 @@ GLRaggedFloatTable::NewUndo
 
 		undo->SetRedo(false);
 		undo->Deactivate();
-		}
+	}
 
 }

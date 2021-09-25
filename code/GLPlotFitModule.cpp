@@ -23,7 +23,7 @@
 GLPlotFitModule::GLPlotFitModule
 	(
 	J2DPlotWidget* 	plot, 
-	JPlotDataBase* 	fitData,
+	J2DPlotDataBase* 	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -37,7 +37,7 @@ GLPlotFitModule::GLPlotFitModule
 GLPlotFitModule::GLPlotFitModule
 	(
 	J2DPlotWidget* plot, 
-	JPlotDataBase* fitData,
+	J2DPlotDataBase* fitData,
 	const JFloat xmin, 
 	const JFloat xmax,
 	const JFloat ymin, 
@@ -120,9 +120,9 @@ GLPlotFitModule::FunctionNPrimed
 {
 	assert(itsModule != nullptr);
 	if (!itsModule->HasFPrimed())
-		{
+	{
 		return GLPlotFitBase::FunctionNPrimed(x);
-		}
+	}
 	return itsModule->FPrimed(x);
 }
 
@@ -197,9 +197,9 @@ GLPlotFitModule::GetParameterName
 {
 	assert(itsModule != nullptr);
 	if (index > itsModule->GetParameterCount() || index < 1)
-		{
+	{
 		return false;
-		}
+	}
 	*name	= itsModule->GetParameterName(index);
 	return true;
 }
@@ -219,9 +219,9 @@ GLPlotFitModule::GetParameter
 	const
 {
 	if (index > itsParameters->GetDimensionCount() || index < 1)
-		{
+	{
 		return false;
-		}
+	}
 	*value	= itsParameters->GetElement(index);
 	return true;
 }
@@ -240,15 +240,15 @@ GLPlotFitModule::GetParameterError
 	)
 	const
 {
-	const JPlotDataBase* data = GetData();
+	const J2DPlotDataBase* data = GetData();
 	if (!data->HasXErrors() && !data->HasYErrors())
-		{
+	{
 		return false;
-		}
+	}
 	if (index > itsErrors->GetDimensionCount())
-		{
+	{
 		return false;
-		}
+	}
 	*value	= itsErrors->GetElement(index);
 	return true;		
 }

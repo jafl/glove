@@ -157,17 +157,17 @@ GLColByRangeDialog::Receive
 	)
 {
 	if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsDestCol = selection->GetIndex();
-		}
+	}
 		
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -208,15 +208,15 @@ bool
 GLColByRangeDialog::OKToDeactivate()
 {
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 		
 	if (itsDestCol == 0)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("MissingDestCol::GLColByIncDialog"));
 		return false;
-		}
+	}
 		
 	JFloat beg;
 	JFloat end;
@@ -229,10 +229,10 @@ GLColByRangeDialog::OKToDeactivate()
 	itsCount->GetValue(&count);
 	
 	if (count <= 0)
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("NoData::GLColByIncDialog"));
 		return false;
-		}
+	}
 		
 	return true;
 }

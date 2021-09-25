@@ -25,7 +25,7 @@ class JXTextMenu;
 class JXToolBar;
 
 class GLPlotFitFunction;
-class J2DPlotJFunction;
+class J2DPlotFunction;
 class J2DPlotWidget;
 class JX2DPlotWidget;
 
@@ -72,7 +72,7 @@ private:
 	JX2DPlotWidget*			itsDiffPlot;
 	JXStaticText*			itsChiSq;
 	GLPlotFitFunction*		itsCurrentFit;
-	J2DPlotJFunction*		itsTestFunction;
+	J2DPlotFunction*		itsTestFunction;
 
 	JXHorizPartition*		itsMainPartition;
 	JXVertPartition*		itsListPartition;

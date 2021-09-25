@@ -114,16 +114,16 @@ GLFitParameterTable::HandleMouseDown
 	JPoint cell;
 	if (button == kJXLeftButton && clickCount == 1 &&
 		GetCell(pt, &cell))
-		{
+	{
 		if (itsHasStartValues && cell.x == (JCoordinate)kStartColIndex)
-			{
-			BeginEditing(cell);
-			}
-		}
-	else
 		{
-		ScrollForWheel(button, modifiers);
+			BeginEditing(cell);
 		}
+	}
+	else
+	{
+		ScrollForWheel(button, modifiers);
+	}
 }
 
 /******************************************************************************
@@ -135,11 +135,11 @@ bool
 GLFitParameterTable::BeginEditingStartValues()
 {
 	if (itsHasStartValues && itsStartValues->GetElement(1) == 0)
-		{
+	{
 		JPoint cell((JCoordinate)kStartColIndex, 1);
 		BeginEditing(cell);
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -161,31 +161,31 @@ GLFitParameterTable::TableDrawCell
 	JIndex realIndex = cell.x;
 
 	if (realIndex == kStartColIndex && !itsHasStartValues)
-		{
+	{
 		realIndex = kFitColIndex;
-		}
+	}
 	else if (realIndex == kFitColIndex && !itsHasStartValues)
-		{
+	{
 		realIndex = kErrorColIndex;
-		}
+	}
 
 	JString str;
 	if (realIndex == kNameColIndex)
-		{
+	{
 		str	= *(itsNameList->GetElement(cell.y));
-		}
+	}
 	else if (realIndex == kStartColIndex)
-		{
+	{
 		str = JString(itsStartValues->GetElement(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
-		}
+	}
 	else if (realIndex == kFitColIndex)
-		{
+	{
 		str = JString(itsFitValues->GetElement(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
-		}
+	}
 	else if (realIndex == kErrorColIndex)
-		{
+	{
 		str = JString(itsErrorValues->GetElement(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
-		}
+	}
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
@@ -232,14 +232,14 @@ GLFitParameterTable::AdjustColWidth
 		2 * GetColWidth(kFitColIndex) + 2 * lineWidth;
 
 	if (itsHasStartValues)
-		{
+	{
 		usedWidth += GetColWidth(kStartColIndex) + lineWidth;
-		}
+	}
 
 	if (availabeWidth > usedWidth)
-		{
+	{
 		SetColWidth(kNameColIndex, availabeWidth - usedWidth);
-		}
+	}
 }
 
 /******************************************************************************
@@ -289,9 +289,9 @@ GLFitParameterTable::ExtractInputData
 	)
 {
 	if (!itsInput->InputValid())
-		{
+	{
 		return false;
-		}
+	}
 	JFloat value;
 	bool ok	= itsInput->GetValue(&value);
 	assert(ok);
@@ -315,28 +315,28 @@ GLFitParameterTable::HandleKeyPress
 {
 	JPoint cell;
 	if (c == kJReturnKey && GetEditedCell(&cell))
-		{
+	{
 		if (EndEditing())
-			{
+		{
 			if (!modifiers.shift() && cell.y < (JCoordinate)GetRowCount())
-				{
+			{
 				BeginEditing(JPoint(cell.x, cell.y + 1));
-				}
+			}
 			else if (modifiers.shift() && cell.y > 1)
-				{
+			{
 				BeginEditing(JPoint(cell.x, cell.y - 1));
-				}
 			}
 		}
+	}
 	else if (c == kJTabKey)
-		{
+	{
 		// do nothing
-		}
+	}
 
 	else
-		{
+	{
 		JXEditTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -376,36 +376,36 @@ GLFitParameterTable::SetFitDescription
 	itsErrorValues->RemoveAll();
 
 	if (fit.RequiresStartValues())
-		{
+	{
 		if (!itsHasStartValues)
-			{
+		{
 			InsertCols(kStartColIndex, 1, kDefColWidth);
 			itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::GLFitParameterTable"));
 			itsHasStartValues	= true;
 			AdjustColWidth();
-			}
 		}
+	}
 	else
-		{
+	{
 		if (itsHasStartValues)
-			{
+		{
 			RemoveCol(kStartColIndex);
 			itsHasStartValues	= false;
 			AdjustColWidth();
-			}
 		}
+	}
 
 	const JSize count	= fit.GetParameterCount();
 	AppendRows(count);
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString* str = jnew JString;
 		fit.GetParameterName(i, str);
 		itsNameList->Append(str);
 		itsStartValues->AppendElement(0);
 		itsFitValues->AppendElement(0);
 		itsErrorValues->AppendElement(0);
-		}			
+	}			
 }
 
 /******************************************************************************
@@ -420,22 +420,22 @@ GLFitParameterTable::ShowStartCol
 	)
 {
 	if (itsHasStartValues == show)
-		{
+	{
 		return;
-		}
+	}
 	if (itsHasStartValues)
-		{
+	{
 		RemoveCol(kStartColIndex);
 		itsHasStartValues	= false;
 		AdjustColWidth();
-		}
+	}
 	else
-		{
+	{
 		InsertCols(kStartColIndex, 1, kDefColWidth);
 		itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::GLFitParameterTable"));
 		itsHasStartValues	= true;
 		AdjustColWidth();
-		}
+	}
 }
 
 /******************************************************************************
@@ -467,19 +467,19 @@ GLFitParameterTable::ClearValues()
 {
 	JSize count	= itsFitValues->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		itsFitValues->SetElement(i, 0);
-		}
+	}
 	count	= itsStartValues->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		itsStartValues->SetElement(i, 0);
-		}
+	}
 	count	= itsErrorValues->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		itsErrorValues->SetElement(i, 0);
-		}
+	}
 }
 
 /******************************************************************************
@@ -504,9 +504,9 @@ GLFitParameterTable::CopyParmValuesToStart()
 {
 	const JSize count	= itsFitValues->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		itsStartValues->SetElement(i, itsFitValues->GetElement(i));
-		}
+	}
 	ShowStartCol(true);
 }
 
@@ -523,22 +523,22 @@ GLFitParameterTable::GetValueString
 {
 	const JSize count	= itsNameList->GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString* str	= itsNameList->GetElement(i);
 		JFloat start	= itsStartValues->GetElement(i);
 		JFloat fit		= itsFitValues->GetElement(i);
 		JFloat error	= itsErrorValues->GetElement(i);
 		*text += *str + "\n\t";
 		if (itsHasStartValues)
-			{
+		{
 			*text += "Start value: " + JString(start, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 6);
 			text->Append("\n\t");
-			}
+		}
 		*text += "Fit value:   " + JString(fit, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 6);
 		text->Append("\n\t");
 		*text += "Error value: " + JString(error, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 6);
 		text->Append("\n");
-		}
+	}
 }
 
 /******************************************************************************

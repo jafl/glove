@@ -67,7 +67,7 @@ GLCurveNameList::GLCurveNameList
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		JString* str	= jnew JString(plot->GetCurveName(i));
 		assert(str != nullptr);
 		itsNameList->Append(str);
@@ -75,10 +75,10 @@ GLCurveNameList::GLCurveNameList
 		const JCoordinate width = 2*kHMarginWidth +
 			JFontManager::GetDefaultFont().GetStringWidth(fontMgr, *str);
 		if (width > itsMinColWidth)
-			{
+		{
 			itsMinColWidth = width;
-			}
 		}
+	}
 
 	AppendCols(1);
 	AdjustColWidth();
@@ -118,18 +118,18 @@ GLCurveNameList::HandleMouseDown
 	JPoint cell;
 	if (button == kJXLeftButton && clickCount == 1 &&
 		GetCell(pt, &cell) && !itsDir->CurveIsFit(cell.y))
-		{
+	{
 		if (!GetTableSelection().IsSelected(cell))
-			{
+		{
 			SelectSingleCell(cell);
 			Broadcast(CurveSelected(cell.y));
-			}
+		}
 		TableRefresh();
-		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -240,14 +240,14 @@ GLCurveNameList::ExtractInputData
 {
 	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
-		{
+	{
 		*(itsNameList->GetElement(cell.y)) = name;
 		return true;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -269,26 +269,26 @@ GLCurveNameList::HandleKeyPress
 	assert( ok );
 
 	if (c == kJUpArrow)
-		{
+	{
 		cell.y--;
 		if (CellValid(cell))
-			{
-			BeginEditing(cell);
-			}
-		}
-	else if (c == kJDownArrow)
 		{
+			BeginEditing(cell);
+		}
+	}
+	else if (c == kJDownArrow)
+	{
 		cell.y++;
 		if (CellValid(cell))
-			{
+		{
 			BeginEditing(cell);
-			}
 		}
+	}
 
 	else
-		{
+	{
 		JXEditTable::HandleKeyPress(c, keySym, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -304,7 +304,7 @@ GLCurveNameList::Receive
 	)
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveAdded))
-		{
+	{
 		const J2DPlotWidget::CurveAdded* info = 
 			dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
 		assert(info != nullptr);
@@ -316,21 +316,21 @@ GLCurveNameList::Receive
 		const JCoordinate width = 2*kHMarginWidth +
 			JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), *str);
 		if (width > itsMinColWidth)
-			{
+		{
 			itsMinColWidth = width;
-			}
+		}
 		AdjustColWidth();
 		TableRefresh();
-		}
+	}
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
-		{
+	{
 		const J2DPlotWidget::CurveRemoved* info = 
 			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert(info != nullptr);
 		RemoveRow(info->GetIndex());
 		itsNameList->DeleteElement(info->GetIndex());
 		TableRefresh();
-		}
+	}
 }
 
 /******************************************************************************
@@ -346,10 +346,10 @@ GLCurveNameList::GetCurrentCurveIndex
 {
 	JPoint cell;
 	if (GetTableSelection().GetSingleSelectedCell(&cell))
-		{
+	{
 		*index	= cell.y;
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -365,9 +365,9 @@ GLCurveNameList::SetCurrentCurveIndex
 	)
 {
 	if (GetRowCount() > 0)
-		{
+	{
 		JPoint cell(1, 1);
 		SelectSingleCell(cell);
 		Broadcast(CurveSelected(cell.y));
-		}
+	}
 }

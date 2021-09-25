@@ -41,7 +41,7 @@
 #include "jx_help_toc.xpm"
 
 #include <J2DPlotData.h>
-#include <J2DPlotJFunction.h>
+#include <J2DPlotFunction.h>
 #include <JX2DPlotWidget.h>
 
 #include <JXToolBar.h>
@@ -153,7 +153,7 @@ GLFitDirector::GLFitDirector
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
-		{
+	{
 		itsToolBar->AppendButton(itsFitMenu, kFitCmd);
 		itsToolBar->AppendButton(itsFitMenu, kTestFitCmd);
 		itsToolBar->AppendButton(itsFitMenu, kRefitCmd);
@@ -163,7 +163,7 @@ GLFitDirector::GLFitDirector
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
-		}
+	}
 
 	itsHistory	= jnew GLHistoryDir(this);
 	assert(itsHistory != nullptr);
@@ -506,36 +506,36 @@ GLFitDirector::Receive
 	)
 {
 	if (sender == itsFitMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleFitMenu(selection->GetIndex());
-		}
+	}
 	else if (sender == itsFitMenu && message.Is(JXMenu::kNeedsUpdate))
-		{
+	{
 		UpdateFitMenu();
-		}
+	}
 	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		 const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePrefsMenu(selection->GetIndex());
-		}
+	}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 	else if (sender == itsCurveList && message.Is(GLCurveNameList::kCurveSelected))
-		{
+	{
 		const GLCurveNameList::CurveSelected* info =
 			dynamic_cast<const GLCurveNameList::CurveSelected*>(&message);
 		assert(info != nullptr);
-		JPlotDataBase& curve = itsPlot->GetCurve(info->GetIndex());
+		J2DPlotDataBase& curve = itsPlot->GetCurve(info->GetIndex());
 
 		RemoveFit();
 		RemoveCurves();
@@ -546,9 +546,9 @@ GLFitDirector::Receive
 		// add new curve.
 		itsFitPlot->AddCurve(&curve, false, itsPlot->GetCurveName(info->GetIndex()));
 		itsFitPlot->ProtectCurve(1, true);
-		}
+	}
 	else if (sender == itsFitList && message.Is(GLFitDescriptionList::kFitSelected))
-		{
+	{
 		const GLFitDescriptionList::FitSelected* info =
 			dynamic_cast<const GLFitDescriptionList::FitSelected*>(&message);
 		assert(info != nullptr);
@@ -561,24 +561,24 @@ GLFitDirector::Receive
 
 		JFunction* f;
 		if (p.Parse(fd.GetFitFunctionString(), &f))
-			{
+		{
 			itsExprWidget->SetFunction(const_cast<GLFitDescription&>(fd).GetVarList(), f);
 			itsExprWidget->Show();
-			}
 		}
+	}
 	else if (sender == itsFitList && message.Is(GLFitDescriptionList::kFitInitiated))
-		{
+	{
 		const GLFitDescriptionList::FitInitiated* info =
 			dynamic_cast<const GLFitDescriptionList::FitInitiated*>(&message);
 		assert(info != nullptr);
 		if (!itsParameterTable->BeginEditingStartValues())
-			{
+		{
 			Fit();
 			AddHistoryText();
-			}
 		}
+	}
 	else if (sender == itsParameterTable && message.Is(GLFitParameterTable::kValueChanged))
-		{
+	{
 		const GLFitParameterTable::ValueChanged* info =
 			dynamic_cast<const GLFitParameterTable::ValueChanged*>(&message);
 		assert(info != nullptr);
@@ -589,18 +589,18 @@ GLFitDirector::Receive
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 		const JSize count	= parms.GetElementCount();
 		for (JIndex i = 1; i <= count; i++)
-			{
-			fd.GetVarList()->SetValue(i + 1, parms.GetElement(i));
-			}
-		GetWindow()->Refresh();
-		}
-	else if (sender == itsNLFitDialog && message.Is(JXDialogDirector::kDeactivated))
 		{
+			fd.GetVarList()->SetValue(i + 1, parms.GetElement(i));
+		}
+		GetWindow()->Refresh();
+	}
+	else if (sender == itsNLFitDialog && message.Is(JXDialogDirector::kDeactivated))
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
-			{
+		{
 			GLNonLinearFitDescription* fit	=
 				jnew GLNonLinearFitDescription(itsNLFitDialog->GetFitName(),
 					itsNLFitDialog->GetFunctionString(),
@@ -608,16 +608,16 @@ GLFitDirector::Receive
 					itsNLFitDialog->GetVarList().GetVariables());
 			assert(fit != nullptr);
 			GLGetFitManager()->AddFitDescription(fit);
-			}
-		itsNLFitDialog	= nullptr;
 		}
+		itsNLFitDialog	= nullptr;
+	}
 	else if (sender == itsPolyFitDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
-			{
+		{
 			JArray<JIndex> powers;
 			itsPolyFitDialog->GetPowers(&powers);
 			GLPolyFitDescription* fit	=
@@ -625,24 +625,24 @@ GLFitDirector::Receive
 					powers);
 			assert(fit != nullptr);
 			GLGetFitManager()->AddFitDescription(fit);
-			}
-		itsPolyFitDialog	= nullptr;
 		}
+		itsPolyFitDialog	= nullptr;
+	}
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
-			{
-			Print();
-			}
-		}
-	else
 		{
-		JXWindowDirector::Receive(sender, message);
+			Print();
 		}
+	}
+	else
+	{
+		JXWindowDirector::Receive(sender, message);
+	}
 }
 
 /******************************************************************************
@@ -657,49 +657,49 @@ GLFitDirector::HandleFitMenu
 	)
 {
 	if (index == kNonLinearCmd)
-		{
+	{
 		itsNLFitDialog	= jnew GLNonLinearFitDialog(this);
 		assert(itsNLFitDialog != nullptr);
 		itsNLFitDialog->BeginDialog();
 		ListenTo(itsNLFitDialog);
-		}
+	}
 	else if (index == kPolyCmd)
-		{
+	{
 		itsPolyFitDialog	= jnew GLPolyFitDialog(this);
 		assert(itsPolyFitDialog != nullptr);
 		itsPolyFitDialog->BeginDialog();
 		ListenTo(itsPolyFitDialog);
-		}
+	}
 	else if (index == kRemoveFitCmd)
-		{
+	{
 		JIndex index1;
 		if (itsFitList->GetCurrentFitIndex(&index1))
-			{
+		{
 			itsExprWidget->ClearFunction();
 			itsExprWidget->Hide();
 			GLGetFitManager()->RemoveFitDescription(index1);
-			}
 		}
+	}
 	else if (index == kFitCmd)
-		{
+	{
 		Fit();
 		AddHistoryText();
-		}
+	}
 	else if (index == kTestFitCmd)
-		{
+	{
 		TestFit();
-		}
+	}
 	else if (index == kShowStartCmd)
-		{
+	{
 		itsParameterTable->ShowStartCol(!itsParameterTable->IsShowingStartCol());
-		}
+	}
 	else if (index == kRefitCmd)
-		{
+	{
 		Refit();
 		AddHistoryText(true);
-		}
+	}
 	else if (index == kPlotCmd)
-		{
+	{
 //		JString fn	= itsCurrentFit->GetFitFunctionString();
 // 		need to check - via
 // 		JFunction* f;
@@ -711,7 +711,7 @@ GLFitDirector::HandleFitMenu
 
 		JIndex index1;
 		bool ok	= itsCurveList->GetCurrentCurveIndex(&index1);
-		JPlotDataBase* data	= &(itsPlot->GetCurve(index1));
+		J2DPlotDataBase* data	= &(itsPlot->GetCurve(index1));
 		assert(itsCurrentFit != nullptr);
 		GLPlotFitProxy* proxy	= jnew GLPlotFitProxy(itsCurrentFit, itsPlot, data);
 		assert(proxy != nullptr);
@@ -720,19 +720,19 @@ GLFitDirector::HandleFitMenu
 		assert(ok);
 		const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(findex);
 		itsDir->AddFitProxy(proxy, index1, fd.GetFnName());
-		}
+	}
 	else if (index == kShowHistoryCmd)
-		{
+	{
 		itsHistory->Activate();
-		}
+	}
 	else if (index == kPrintCmd)
-		{
+	{
 		itsPrinter->BeginUserPrintSetup();
-		}
+	}
 	else if (index == kCloseCmd)
-		{
+	{
 		Close();
-		}
+	}
 }
 
 /******************************************************************************
@@ -746,42 +746,42 @@ GLFitDirector::UpdateFitMenu()
 	JIndex index;
 	if (itsCurveList->GetCurrentCurveIndex(&index) &&
 		itsFitList->GetCurrentFitIndex(&index))
-		{
+	{
 		itsFitMenu->EnableItem(kFitCmd);
 		const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 		if (fd.RequiresStartValues())
-			{
+		{
 			itsFitMenu->EnableItem(kTestFitCmd);
 			itsFitMenu->CheckItem(kShowStartCmd);
 			itsFitMenu->DisableItem(kShowStartCmd);
 			if (itsCurrentFit != nullptr)
-				{
+			{
 				itsFitMenu->EnableItem(kRefitCmd);
-				}
-			}
-		else if (fd.CanUseStartValues())
-			{
-			itsFitMenu->EnableItem(kShowStartCmd);
-			if (itsParameterTable->IsShowingStartCol())
-				{
-				itsFitMenu->CheckItem(kShowStartCmd);
-				itsFitMenu->EnableItem(kTestFitCmd);
-				}
-			if (itsCurrentFit != nullptr)
-				{
-				itsFitMenu->EnableItem(kRefitCmd);
-				}
-			}
-		if (GLGetFitManager()->FitIsRemovable(index))
-			{
-			itsFitMenu->EnableItem(kRemoveFitCmd);
-			}
-		if (itsCurrentFit != nullptr)
-			{
-			itsFitMenu->EnableItem(kPlotCmd);
-			itsFitMenu->EnableItem(kPrintCmd);
 			}
 		}
+		else if (fd.CanUseStartValues())
+		{
+			itsFitMenu->EnableItem(kShowStartCmd);
+			if (itsParameterTable->IsShowingStartCol())
+			{
+				itsFitMenu->CheckItem(kShowStartCmd);
+				itsFitMenu->EnableItem(kTestFitCmd);
+			}
+			if (itsCurrentFit != nullptr)
+			{
+				itsFitMenu->EnableItem(kRefitCmd);
+			}
+		}
+		if (GLGetFitManager()->FitIsRemovable(index))
+		{
+			itsFitMenu->EnableItem(kRemoveFitCmd);
+		}
+		if (itsCurrentFit != nullptr)
+		{
+			itsFitMenu->EnableItem(kPlotCmd);
+			itsFitMenu->EnableItem(kPrintCmd);
+		}
+	}
 	itsFitMenu->EnableItem(kNonLinearCmd);
 	itsFitMenu->EnableItem(kPolyCmd);
 	itsFitMenu->EnableItem(kShowHistoryCmd);
@@ -801,17 +801,17 @@ GLFitDirector::HandlePrefsMenu
 	)
 {
 	if (index == kPrefsCmd)
-		{
+	{
 //		GWIGLGetPrefsMgr()->EditPrefs();
-		}
+	}
 	else if (index == kEditToolBarCmd)
-		{
+	{
 		itsToolBar->Edit();
-		}
+	}
 	else if (index == kSaveWindowSizeCmd)
-		{
+	{
 		GLGetPrefsMgr()->WriteFitDirectorSetup(this);
-		}
+	}
 }
 
 /******************************************************************************
@@ -826,25 +826,25 @@ GLFitDirector::HandleHelpMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		GLGetApplication()->DisplayAbout();
-		}
+	}
 	else if (index == kTOCCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowTOC();
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowSection("GLFitHelp");
-		}
+	}
 	else if (index == kChangesCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		(JXGetHelpManager())->ShowCredits();
-		}
+	}
 }
 
 /******************************************************************************
@@ -861,17 +861,17 @@ GLFitDirector::ReadPrefs
 	int version;
 	input >> version;
 	if (version > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 	GetWindow()->ReadGeometry(input);
 	itsMainPartition->ReadGeometry(input);
 	itsListPartition->ReadGeometry(input);
 	itsPlotPartition->ReadGeometry(input);
 	if (version >= 1)
-		{
+	{
 		itsPrinter->ReadXPSSetup(input);
-		}
+	}
 }
 
 void
@@ -901,12 +901,12 @@ GLFitDirector::Fit()
 	RemoveFit();
 	JIndex index;
 	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
-	JPlotDataBase* data	= &(itsPlot->GetCurve(index));
+	J2DPlotDataBase* data	= &(itsPlot->GetCurve(index));
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
 	const GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 	if (fd.GetType() == GLFitDescription::kPolynomial)
-		{
+	{
 		JArray<JIndex> powers;
 		const GLPolyFitDescription& pd	= dynamic_cast<const GLPolyFitDescription&>(fd);
 		pd.GetPowers(&powers);
@@ -915,204 +915,204 @@ GLFitDirector::Fit()
 		JFloat xmax, xmin, ymax, ymin;
 		GLPlotFitLinearEq* fit;
 		if (itsFitPlot->IsUsingRange())
-			{
+		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew GLPlotFitLinearEq(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew GLPlotFitLinearEq(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
-			}
+		}
 		fit->InitializePolynomial(powers);
 		if (itsParameterTable->IsShowingStartCol())
-			{
+		{
 			JVector p(const_cast<GLFitDescription&>(fd).GetVarList()->GetVariableCount() - 1);
 			const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 			const JSize count	= p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
-				{
-				p.SetElement(i, parms.GetElement(i));
-				}
-			fit->GLPlotFitBase::GenerateFit(p, 0);
-			}
-		else
 			{
-			fit->GenerateFit();
+				p.SetElement(i, parms.GetElement(i));
 			}
-		itsCurrentFit = fit;
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 		}
-	else if (fd.GetType() == GLFitDescription::kNonLinear)
+		else
 		{
+			fit->GenerateFit();
+		}
+		itsCurrentFit = fit;
+	}
+	else if (fd.GetType() == GLFitDescription::kNonLinear)
+	{
 		GLNonLinearFitDescription& nd	=
 			dynamic_cast<GLNonLinearFitDescription&>(const_cast<GLFitDescription&>(fd));
 
 		JFloat xmax, xmin, ymax, ymin;
 		GLPlotFitNonLinear* fit;
 		if (itsFitPlot->IsUsingRange())
-			{
+		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew GLPlotFitNonLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew GLPlotFitNonLinear(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
-			}
+		}
 		fit->SetVarList(nd.GetVarList());
 		fit->SetFunction(nd.GetFunctionString());
 		JString fp	= nd.GetFunctionPrimedString();
 		if (!fp.IsEmpty())
-			{
+		{
 			fit->SetFPrimed(fp);
-			}
+		}
 		JVector p(nd.GetVarList()->GetVariableCount() - 1);
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 		const JSize count	= p.GetDimensionCount();
 		for (JIndex i = 1; i <= count; i++)
-			{
+		{
 			p.SetElement(i, parms.GetElement(i));
-			}
+		}
 		fit->SetInitialParameters(p);
 		itsCurrentFit = fit;
-		}
+	}
 	else if (fd.GetType() == GLFitDescription::kBLinear)
-		{
+	{
 		JFloat xmax, xmin, ymax, ymin;
 		GLPlotFitLinear* fit;
 		if (itsFitPlot->IsUsingRange())
-			{
+		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew GLPlotFitLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew GLPlotFitLinear(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
-			}
+		}
 		if (itsParameterTable->IsShowingStartCol())
-			{
+		{
 			JVector p(const_cast<GLFitDescription&>(fd).GetVarList()->GetVariableCount() - 1);
 			const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 			const JSize count	= p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
-				{
-				p.SetElement(i, parms.GetElement(i));
-				}
-			fit->GLPlotFitBase::GenerateFit(p, 0);
-			}
-		else
 			{
-			fit->GenerateFit();
+				p.SetElement(i, parms.GetElement(i));
 			}
-		itsCurrentFit = fit;
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 		}
-	else if (fd.GetType() == GLFitDescription::kBExp)
+		else
 		{
+			fit->GenerateFit();
+		}
+		itsCurrentFit = fit;
+	}
+	else if (fd.GetType() == GLFitDescription::kBExp)
+	{
 		JFloat xmax, xmin, ymax, ymin;
 		GLPlotFitExp* fit;
 		if (itsFitPlot->IsUsingRange())
-			{
+		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew GLPlotFitExp(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew GLPlotFitExp(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
-			}
+		}
 		if (itsParameterTable->IsShowingStartCol())
-			{
+		{
 			JVector p(const_cast<GLFitDescription&>(fd).GetVarList()->GetVariableCount() - 1);
 			const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 			const JSize count	= p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
-				{
-				p.SetElement(i, parms.GetElement(i));
-				}
-			fit->GLPlotFitBase::GenerateFit(p, 0);
-			}
-		else
 			{
-			fit->GenerateFit();
+				p.SetElement(i, parms.GetElement(i));
 			}
-		itsCurrentFit = fit;
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 		}
-	else if (fd.GetType() == GLFitDescription::kBPower)
+		else
 		{
+			fit->GenerateFit();
+		}
+		itsCurrentFit = fit;
+	}
+	else if (fd.GetType() == GLFitDescription::kBPower)
+	{
 		JFloat xmax, xmin, ymax, ymin;
 		GLPlotFitPowerLaw* fit;
 		if (itsFitPlot->IsUsingRange())
-			{
+		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew GLPlotFitPowerLaw(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew GLPlotFitPowerLaw(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
-			}
+		}
 		if (itsParameterTable->IsShowingStartCol())
-			{
+		{
 			JVector p(const_cast<GLFitDescription&>(fd).GetVarList()->GetVariableCount() - 1);
 			const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 			const JSize count	= p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
-				{
-				p.SetElement(i, parms.GetElement(i));
-				}
-			fit->GLPlotFitBase::GenerateFit(p, 0);
-			}
-		else
 			{
-			fit->GenerateFit();
+				p.SetElement(i, parms.GetElement(i));
 			}
-		itsCurrentFit = fit;
+			fit->GLPlotFitBase::GenerateFit(p, 0);
 		}
-	else if (fd.GetType() == GLFitDescription::kModule)
+		else
 		{
+			fit->GenerateFit();
+		}
+		itsCurrentFit = fit;
+	}
+	else if (fd.GetType() == GLFitDescription::kModule)
+	{
 		GLModuleFitDescription& md	=
 			dynamic_cast<GLModuleFitDescription&>(const_cast<GLFitDescription&>(fd));
 		JFloat xmax, xmin, ymax, ymin;
 		GLPlotFitModule* fit;
 		if (itsFitPlot->IsUsingRange())
-			{
+		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew GLPlotFitModule(itsFitPlot, data, xmin, xmax, ymin, ymax);
 			assert(fit != nullptr);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew GLPlotFitModule(itsFitPlot, data, xmin, xmax);
 			assert(fit != nullptr);
-			}
+		}
 		fit->SetFitModule(md.GetFitModule());
 		JVector p(md.GetParameterCount());
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 		const JSize count	= p.GetDimensionCount();
 		for (JIndex i = 1; i <= count; i++)
-			{
+		{
 			p.SetElement(i, parms.GetElement(i));
-			}
+		}
 		fit->SetInitialParameters(p);
 		itsCurrentFit = fit;
-		}
+	}
 	itsFitPlot->AddCurve(itsCurrentFit, false, fd.GetFnName());
 	itsDiffPlot->AddCurve(itsCurrentFit->GetDiffData(), false, fd.GetFnName());
 	const JSize count	= itsCurrentFit->GetParameterCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JFloat value;
 		bool ok	= itsCurrentFit->GetParameter(i, &value);
 		assert(ok);
@@ -1120,14 +1120,14 @@ GLFitDirector::Fit()
 		itsCurrentFit->GetParameterError(i, &error);
 		itsParameterTable->SetValue(i, value, error);
 		if (itsCurrentFit->GetGoodnessOfFit(&value))
-			{
+		{
 			itsChiSq->GetText()->SetText(JString(value, JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5));
-			}
-		else
-			{
-			itsChiSq->GetText()->SetText(JString::empty);
-			}
 		}
+		else
+		{
+			itsChiSq->GetText()->SetText(JString::empty);
+		}
+	}
 }
 
 /******************************************************************************
@@ -1163,10 +1163,10 @@ GLFitDirector::RemoveCurves()
 	// remove fit curves.
 	const JSize count	= itsFitPlot->GetCurveCount();
 	if (count >= 1)
-		{
+	{
 		itsFitPlot->ProtectCurve(1, false);
 		itsFitPlot->RemoveCurve(1);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1180,18 +1180,18 @@ GLFitDirector::RemoveFit()
 	// remove fit.
 	const JSize count	= itsFitPlot->GetCurveCount();
 	for (JIndex i = 2; i <= count; i++)
-		{
+	{
 		itsFitPlot->ProtectCurve(2, false);
 		itsFitPlot->RemoveCurve(2);
-		}
+	}
 
 	// remove diff curve.
 	const JSize fcount	= itsDiffPlot->GetCurveCount();
 	for (JIndex i = 1; i <= fcount; i++)
-		{
+	{
 		itsDiffPlot->ProtectCurve(1, false);
 		itsDiffPlot->RemoveCurve(1);
-		}
+	}
 
 	jdelete itsCurrentFit;
 	itsCurrentFit	= nullptr;
@@ -1211,24 +1211,24 @@ GLFitDirector::TestFit()
 	RemoveFit();
 	JIndex index;
 	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
-	JPlotDataBase* data	= &(itsPlot->GetCurve(index));
+	J2DPlotDataBase* data	= &(itsPlot->GetCurve(index));
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
 	GLFitDescription& fd	= GLGetFitManager()->GetFitDescription(index);
 	const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
 	const JSize count	= parms.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		fd.GetVarList()->SetValue(i + 1, parms.GetElement(i));
-		}
+	}
 	JFloat xmin, xmax;
 	data->GetXRange(&xmin, &xmax);
-	ok	= J2DPlotJFunction::Create(&itsTestFunction, itsFitPlot, fd.GetVarList(),
+	ok	= J2DPlotFunction::Create(&itsTestFunction, itsFitPlot, fd.GetVarList(),
 			GetDisplay()->GetFontManager(), fd.GetFitFunctionString(), 1, xmin, xmax);
 	if (ok)
-		{
+	{
 		itsFitPlot->AddCurve(itsTestFunction, false, fd.GetFnName());
-		}
+	}
 
 }
 
@@ -1245,13 +1245,13 @@ GLFitDirector::AddHistoryText
 {
 	JString str;
 	if (refit)
-		{
+	{
 		str	= "Refit\n";
-		}
+	}
 	else
-		{
+	{
 		str	= "Fit\n";
-		}
+	}
 	itsHistory->AppendText(str, false);
 	JIndex index;
 	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
@@ -1280,9 +1280,9 @@ void
 GLFitDirector::Print()
 {
 	if (itsPrinter->OpenDocument())
-		{
+	{
 		if (itsPrinter->NewPage())
-			{
+		{
 			JCoordinate kLeftMargin	= 20;
 			JCoordinate width		= (JCoordinate)(itsPrinter->GetPageWidth() * 0.8);
 			JCoordinate tableD		= 70;
@@ -1306,9 +1306,9 @@ GLFitDirector::Print()
 
 			str = JString((JUInt64) fd.GetParameterCount());
 			const JUtf8Byte* map[] =
-				{
+			{
 				"i", str.GetBytes()
-				};
+			};
 			str  = JGetString("ChiSqTitle::GLFitDirector", map, sizeof(map));
 			str += itsChiSq->GetText()->GetText();
 			itsPrinter->JPainter::String(kLeftMargin, kPlotSep*2, str);
@@ -1318,9 +1318,9 @@ GLFitDirector::Print()
 			itsExprWidget->DrawForPrint(*itsPrinter, JPoint(itsPrinter->GetPageWidth() - eRect.width(), 0));
 
 			if (eRect.height() > tableD)
-				{
+			{
 				tableD	= eRect.height() + 5;
-				}
+			}
 
 			// draw table
 			itsParameterTable->DrawForPrint(*itsPrinter, JPoint(0, tableD), false, true);
@@ -1337,7 +1337,7 @@ GLFitDirector::Print()
 			itsFitPlot->Print(*itsPrinter);//, r);
 			r.Shift(0, height);
 			itsDiffPlot->Print(*itsPrinter);//, r);
-			}
-		itsPrinter->CloseDocument();
 		}
+		itsPrinter->CloseDocument();
+	}
 }

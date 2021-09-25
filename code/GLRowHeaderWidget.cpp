@@ -100,19 +100,19 @@ GLRowHeaderWidget::HandleMouseDown
 	const bool inDragRegion = InDragRegion(pt, &itsDragCell);
 
 	if (inDragRegion && button == kJXLeftButton)
-		{
+	{
 		JXRowHeaderWidget::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
-		}
+	}
 
 	else if (modifiers.shift() || button == kJXRightButton)
-		{
+	{
 		itsTable->ExtendSelectionToRow(itsDragCell.y);
-		}
+	}
 	
 	else if (button == kJXLeftButton)
-		{
+	{
 		itsTable->SelectRow(itsDragCell.y);
-		}
+	}
 
 }
 

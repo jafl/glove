@@ -136,17 +136,17 @@ GLCreatePlotDialog::BuildWindow
 	
 	itsStartX = startX;
 	if (startX == 0)
-		{
+	{
 		itsStartX = 1;
-		}
+	}
 		
 	itsStartXErr = startXErr + 1;
 		
 	itsStartY = startY;
 	if (startY == 0)
-		{
+	{
 		itsStartY = 1;
-		}
+	}
 		
 	itsStartYErr = startYErr + 1;
 	
@@ -158,9 +158,9 @@ GLCreatePlotDialog::BuildWindow
 	const JSize strCount = names.GetElementCount();
 	
 	for (JSize i = 1; i <= strCount; i++)
-		{
+	{
 		itsPlotsMenu->AppendItem(*(names.GetElement(i)));
-		}
+	}
 
 	itsPlotsMenu->ShowSeparatorAfter(1, true);
 
@@ -220,49 +220,49 @@ GLCreatePlotDialog::Receive
 	)
 {
 	if (sender == itsXMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartX = selection->GetIndex();
-		}
+	}
 		
 	else if (sender == itsXErrMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartXErr = selection->GetIndex();
-		}
+	}
 		
 	else if (sender == itsYMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartY = selection->GetIndex();
-		}
+	}
 		
 	else if (sender == itsYErrMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartYErr = selection->GetIndex();
-		}
+	}
 		
 	else if (sender == itsPlotsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsPlotIndex = selection->GetIndex();
-		}
+	}
 		
 	else
-		{
+	{
 		JXDialogDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -277,9 +277,9 @@ GLCreatePlotDialog::GetPlotIndex
 	)
 {
 	if (itsPlotIndex == 1)
-		{
+	{
 		return false;
-		}
+	}
 		
 	*index = itsPlotIndex - 1;
 	return true;
@@ -305,13 +305,13 @@ bool
 GLCreatePlotDialog::OKToDeactivate()
 {
 	if (Cancelled())
-		{
+	{
 		return true;
-		}
+	}
 	if (GetLabel().IsEmpty())
-		{
+	{
 		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::GLGlobal"));
 		return false;
-		}
+	}
 	return true;
 }

@@ -62,12 +62,12 @@ GLRaggedFloatTableData::GLRaggedFloatTableData
 
 	const JSize count = (source.itsCols)->GetElementCount();
 	for (JIndex i=1; i<=count; i++)
-		{
+	{
 		const JArray<JFloat>* origColData = (source.itsCols)->GetElement(i);
 		JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
 		assert( newColData != nullptr );
 		itsCols->Append(newColData);
-		}
+	}
 }
 
 /******************************************************************************
@@ -96,9 +96,9 @@ GLRaggedFloatTableData::GetElement
 	const
 {
 	if (CellValid(row,col) == false)
-		{
+	{
 		return false;
-		}
+	}
 
 	const JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	*value =  dataCol->GetElement(row);
@@ -132,26 +132,26 @@ GLRaggedFloatTableData::CreateCellIfNeeded
 	)
 {
 	while (col > itsCols->GetElementCount())
-		{
+	{
 		AppendCol();
-		}
+	}
 
 	const bool origBroadcast = itsBroadcast;
 	if (origBroadcast)
-		{
+	{
 		ShouldBroadcast(false);
-		}
+	}
 
 	const JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	while (row > dataCol->GetElementCount())
-		{
+	{
 		AppendElement(col, itsDefValue);
-		}
+	}
 
 	if (origBroadcast)
-		{
+	{
 		ShouldBroadcast(true);
-		}
+	}
 }
 
 /******************************************************************************
@@ -171,9 +171,9 @@ GLRaggedFloatTableData::SetElement
 	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	dataCol->SetElement(row, data);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::RectChanged(row,col));
-		}
+	}
 }
 
 /******************************************************************************
@@ -193,10 +193,10 @@ GLRaggedFloatTableData::GetRow
 
 	const JSize colCount = GetDataColCount();
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		const JArray<JFloat>* dataCol = itsCols->GetElement(i);
 		rowData->AppendElement(dataCol->GetElement(index));
-		}
+	}
 }
 
 /******************************************************************************
@@ -215,10 +215,10 @@ GLRaggedFloatTableData::SetRow
 	assert( rowData.GetElementCount() == colCount );
 
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		JArray<JFloat>* dataCol = itsCols->GetElement(i);
 		dataCol->SetElement(index, rowData.GetElement(i));
-		}
+	}
 
 	Broadcast(JTableData::RectChanged(JRect(index, 1, index+1, colCount+1)));
 }
@@ -244,9 +244,9 @@ GLRaggedFloatTableData::GetCol
 	const JSize rowCount = dataCol->GetElementCount();
 
 	for (JIndex i=1; i<=rowCount; i++)
-		{
+	{
 		colData->AppendElement(dataCol->GetElement(i));
-		}
+	}
 }
 
 /******************************************************************************
@@ -269,19 +269,19 @@ GLRaggedFloatTableData::SetCol
 	JFloat v;
 	JIndex i = 1;
 	while (iter->Next(&v))
-		{
+	{
 		dataCol->SetElement(i, v);
 		i++;
-		}
+	}
 
 	jdelete iter;
 	iter = nullptr;
 
 	JRect rect(1, index, rowCount + 1, index + 1);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::RectChanged(rect));
-		}
+	}
 }
 
 /******************************************************************************
@@ -301,23 +301,23 @@ GLRaggedFloatTableData::InsertRow
 
 	JListIterator<JFloat>* iter = nullptr;
 	if (initData != nullptr)
-		{
+	{
 		iter = initData->NewIterator();
-		}
+	}
 
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		JArray<JFloat>* colData = itsCols->GetElement(i);
 		if (index <= colData->GetElementCount())
-			{
+		{
 			JFloat value = 0;
 			if (iter != nullptr)
-				{
+			{
 				iter->Next(&value);
-				}
-			InsertElement(index, i, value);
 			}
+			InsertElement(index, i, value);
 		}
+	}
 
 	jdelete iter;
 }
@@ -336,9 +336,9 @@ GLRaggedFloatTableData::InsertRows
 	)
 {
 	for (JIndex i = 0; i < count; i++)
-		{
+	{
 		InsertRow(i + index, initData);
-		}
+	}
 }
 
 /******************************************************************************
@@ -354,22 +354,22 @@ GLRaggedFloatTableData::DuplicateRow
 {
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		JArray<JFloat>* colData = itsCols->GetElement(i);
 		const JSize rowCount = colData->GetElementCount();
 
 		if (index <= rowCount)
-			{
+		{
 			const JFloat element = colData->GetElement(index);
 			colData->InsertElementAtIndex(index, element);
-			}
 		}
+	}
 
 	RowsAdded(1);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::RowDuplicated(index, index));
-		}
+	}
 }
 
 /******************************************************************************
@@ -387,15 +387,15 @@ GLRaggedFloatTableData::RemoveRow
 
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		JArray<JFloat>* colData = itsCols->GetElement(i);
 		const JSize rowCount = colData->GetElementCount();
 
 		if (index <= rowCount)
-			{
+		{
 			RemoveElement(index, i);
-			}
 		}
+	}
 
 }
 
@@ -409,21 +409,21 @@ GLRaggedFloatTableData::RemoveAllRows()
 {
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		JArray<JFloat>* colData = itsCols->GetElement(i);
 		colData->RemoveAll();
-		}
+	}
 	const JSize count	= GetRowCount();
 	SetRowCount(0);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::RowsRemoved(1, count));
-		}
+	}
 	RowsAdded(1);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::RowsInserted(1, 1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -440,19 +440,19 @@ GLRaggedFloatTableData::MoveRow
 {
 	const JSize colCount = itsCols->GetElementCount();
 	for (JIndex i=1; i<=colCount; i++)
-		{
+	{
 		JArray<JFloat>* colData = itsCols->GetElement(i);
 		const JSize rowCount = colData->GetElementCount();
 		if ( (origIndex <= rowCount) && (newIndex <= rowCount) )
-			{
+		{
 			colData->MoveElementToIndex(origIndex, newIndex);
-			}
 		}
+	}
 
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::RowMoved(origIndex, newIndex));
-		}
+	}
 }
 
 /******************************************************************************
@@ -470,33 +470,33 @@ GLRaggedFloatTableData::InsertCol
 	JIndex trueIndex = index;
 	const JIndex maxIndex = itsCols->GetElementCount()+1;
 	if (trueIndex > maxIndex)
-		{
+	{
 		trueIndex = maxIndex;
-		}
+	}
 
 	JArray<JFloat>* colData = jnew JArray<JFloat>;
 	assert( colData != nullptr );
 	itsCols->InsertAtIndex(trueIndex, colData);
 
 	if (initData != nullptr)
-		{
+	{
 		JListIterator<JFloat>* iter = initData->NewIterator();
 
 		JFloat v;
 		JIndex i = 1;
 		while (iter->Next(&v))
-			{
+		{
 			colData->InsertElementAtIndex(i, v);
-			}
+		}
 
 		jdelete iter;
-		}
+	}
 
 	ColsAdded(1);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::ColsInserted(trueIndex, 1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -513,9 +513,9 @@ GLRaggedFloatTableData::InsertCols
 	)
 {
 	for (JIndex i = 0; i < count; i++)
-		{
+	{
 		InsertCol(i + index, initData);
-		}
+	}
 }
 
 /******************************************************************************
@@ -533,9 +533,9 @@ GLRaggedFloatTableData::DuplicateCol
 	JIndex trueIndex = newIndex;
 	const JIndex maxIndex = itsCols->GetElementCount()+1;
 	if (trueIndex > maxIndex)
-		{
+	{
 		trueIndex = maxIndex;
-		}
+	}
 
 	JArray<JFloat>* origColData = itsCols->GetElement(origIndex);
 	JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
@@ -544,9 +544,9 @@ GLRaggedFloatTableData::DuplicateCol
 
 	ColsAdded(1);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::ColDuplicated(origIndex, trueIndex));
-		}
+	}
 }
 
 /******************************************************************************
@@ -563,20 +563,20 @@ GLRaggedFloatTableData::RemoveCol
 	assert( ColIndexValid(index) );
 	itsCols->DeleteElement(index);
 /*	if (itsCols->GetElementCount() != 1)
-		{
+	{
 		itsCols->DeleteElement(index);
-		}
+	}
 	else
-		{
+	{
 		RemoveAllElements(index);
 		itsCols->DeleteElement(index);
-		}
+	}
 */
 	ColsDeleted(1);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::ColsRemoved(index, 1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -592,14 +592,14 @@ GLRaggedFloatTableData::RemoveAllCols()
 	const JSize count	= GetColCount();
 	SetColCount(0);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::ColsRemoved(1, count));
-		}
+	}
 	ColsAdded(1);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::ColsInserted(1, 1));
-		}
+	}
 }
 
 /******************************************************************************
@@ -616,9 +616,9 @@ GLRaggedFloatTableData::MoveCol
 {
 	itsCols->MoveElementToIndex(origIndex, newIndex);
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(JTableData::ColMoved(origIndex, newIndex));
-		}
+	}
 }
 
 /******************************************************************************
@@ -638,18 +638,18 @@ GLRaggedFloatTableData::InsertElement
 	dataCol->InsertElementAtIndex(row, value);
 	const JSize rowCount = dataCol->GetElementCount();
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(GLRaggedFloatTableData::ElementInserted(row, col));
-		}
+	}
 
 	if (rowCount == GetRowCount())
-		{
+	{
 		RowsAdded(1);
 		if (itsBroadcast)
-			{
+		{
 			Broadcast(JTableData::RowsInserted(rowCount+1, 1));
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -666,9 +666,9 @@ GLRaggedFloatTableData::DuplicateElement
 {
 	JFloat value;
 	if (GetElement(row,col, &value))
-		{
+	{
 		InsertElement(row, col, value);
-		}
+	}
 }
 
 /******************************************************************************
@@ -686,22 +686,22 @@ GLRaggedFloatTableData::RemoveElement
 	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	const JSize rowCount = dataCol->GetElementCount();
 	if (row <= rowCount)
-		{
+	{
 		dataCol->RemoveElement(row);
-		}
+	}
 	if (itsBroadcast)
-		{
+	{
 		Broadcast(GLRaggedFloatTableData::ElementRemoved(row, col));
-		}
+	}
 
 	if (GetMaxRowCount() == GetRowCount() - 2)
-		{
+	{
 		if (itsBroadcast)
-			{
+		{
 			Broadcast(JTableData::RowsRemoved(GetRowCount(), 1));
-			}
-		RowsDeleted(1);
 		}
+		RowsDeleted(1);
+	}
 }
 
 /******************************************************************************
@@ -718,9 +718,9 @@ GLRaggedFloatTableData::RemoveAllElements
 	JArray<JFloat>* dataCol = itsCols->GetElement(col);
 	const JSize rowCount = dataCol->GetElementCount();
 	for (JSize i = 1; i <= rowCount; i++)
-		{
+	{
 		RemoveElement(1, col);
-		}
+	}
 }
 
 /******************************************************************************
@@ -739,10 +739,10 @@ GLRaggedFloatTableData::MoveElement
 {
 	JFloat value;
 	if (GetElement(origRow, origCol, &value))
-		{
+	{
 		InsertElement(newRow, newCol, value);
 		RemoveElement(origRow, origCol);
-		}
+	}
 }
 
 /******************************************************************************
@@ -756,12 +756,12 @@ GLRaggedFloatTableData::GetMaxRowCount()
 	JSize max = 0;
 	const JSize colCount = itsCols->GetElementCount();
 	for (JSize i = 1; i <= colCount; i++)
-		{
+	{
 		JArray<JFloat>* dataCol = itsCols->GetElement(i);
 		if (dataCol->GetElementCount() > max)
-			{
+		{
 			max = dataCol->GetElementCount();
-			}
 		}
+	}
 	return max;
 }

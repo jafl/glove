@@ -15,7 +15,7 @@
 #include "GLPlotFitFunction.h"
 #include "GLFitBase.h"
 #include "GLFitParmsDir.h"
-#include "JPlotDataBase.h"
+#include "J2DPlotDataBase.h"
 #include "J2DPlotData.h"
 #include "J2DVectorData.h"
 #include "GLRaggedFloatTableData.h"
@@ -24,7 +24,7 @@
 #include "GLFitModuleDialog.h"
 #include "GLPlotApp.h"
 #include "GLPlotModuleFit.h"
-#include "J2DPlotJFunction.h"
+#include "J2DPlotFunction.h"
 #include "GLPlotter.h"
 #include "GLGlobals.h"
 #include "GLFitDirector.h"
@@ -137,9 +137,9 @@ GLPlotDir::GLPlotDir
 
 	window->SetMinSize(minW,minH);
 	if (hideOnClose)
-		{
+	{
 		window->SetCloseAction(JXWindow::kDeactivateDirector);
-		}
+	}
 
 	JXMenuBar* menuBar =
 		jnew JXMenuBar(window,
@@ -255,175 +255,175 @@ GLPlotDir::Receive
 	)
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kTitleChanged))
-		{
+	{
 		JString title = itsFileName + ":  " + itsPlot->GetTitle();
 		GetWindow()->SetTitle(title);
 		JString sessiontitle = "Glove session  -  " + title;
 		(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
-		}
+	}
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kPlotChanged))
-		{
+	{
 		itsSupervisor->DataModified();
-		}
+	}
 
 	else if (sender == itsSessionDir && message.Is(GLHistoryDir::kSessionChanged))
-		{
+	{
 		itsSupervisor->DataModified();
-		}
+	}
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kIsEmpty))
-		{
+	{
 		if (!itsPlotIsClosing)
-			{
+		{
 			JXCloseDirectorTask::Close(this);
-			}
 		}
+	}
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveAdded))
-		{
+	{
 		HandleCurveAdded();
-		}
+	}
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
-		{
+	{
 		const J2DPlotWidget::CurveRemoved* info =
 			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert( info != nullptr );
 		HandleCurveRemoved(info->GetIndex());
-		}
+	}
 
 	else if (sender == itsPlotMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandlePlotMenu(selection->GetIndex());
-		}
+	}
 	else if (sender == itsAnalysisMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleAnalysisMenu(selection->GetIndex());
-		}
+	}
 	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleHelpMenu(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsFits &&
 		( 	message.Is(JListT::kElementsInserted) ||
 			message.Is(JListT::kElementsRemoved)))
-		{
+	{
 		UpdateFitParmsMenu();
-		}
+	}
 
 	else if (sender == itsDiffDirs &&
 		( 	message.Is(JListT::kElementsInserted) ||
 			message.Is(JListT::kElementsRemoved)))
-		{
+	{
 		UpdateDiffMenu();
-		}
+	}
 
 
 	else if (sender == itsFitParmsMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsFitParmsDir->Activate();
 		itsFitParmsDir->ShowFit(selection->GetIndex());
-		}
+	}
 
 	else if (sender == itsDiffMenu && message.Is(JXMenu::kItemSelected))
-		{
+	{
 		const JXMenu::ItemSelected* selection =
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		GLPlotDir* dir = itsDiffDirs->GetElement(selection->GetIndex());
 		dir->Activate();
 //		(itsDiffDirs->GetElement(selection->GetIndex()))->Activate();
-		}
+	}
 
 
 	else if (sender == itsFunctionDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			JString fnStr = itsFunctionDialog->GetFunctionString();
 
 			JExprParser p(itsVarList);
 
 			JFunction* f;
 			if (p.Parse(fnStr, &f))
-				{
+			{
 				PlotFunction(f);
-				}
 			}
-		itsFunctionDialog = nullptr;
 		}
+		itsFunctionDialog = nullptr;
+	}
 
 	else if (sender == itsFitModuleDialog && message.Is(JXDialogDirector::kDeactivated))
-		{
+	{
 		const JXDialogDirector::Deactivated* info =
 			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
-			{
+		{
 			JIndex index = itsFitModuleDialog->GetFilterIndex();
-			JPlotDataBase* data = &(itsPlot->GetCurve(itsCurveForFit));
+			J2DPlotDataBase* data = &(itsPlot->GetCurve(itsCurveForFit));
 			GLFitModule* fm;
 			JString modName;
 			(GLGetApplication())->GetFitModulePath(index, &modName);
 			bool success = GLFitModule::Create(&fm, this, data, modName);
 			if (!success)
-				{
+			{
 				JGetUserNotification()->ReportError(JGetString("UnknownError::GLFitModule"));
-				}
 			}
-		itsFitModuleDialog = nullptr;
 		}
+		itsFitModuleDialog = nullptr;
+	}
 
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPageSetupFinished))
-		{
+	{
 		const JPrinter::PageSetupFinished* info =
 			dynamic_cast<const JPrinter::PageSetupFinished*>(&message);
 		assert(info != nullptr);
 		if (info->Changed())
-			{
+		{
 			itsSupervisor->DataModified();
 			// for WYSISYG: adjust display to match new paper size
-			}
 		}
+	}
 
 	else if (sender == itsPrinter &&
 			 message.Is(JPrinter::kPrintSetupFinished))
-		{
+	{
 		const JPrinter::PrintSetupFinished* info =
 			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
-			{
+		{
 			itsPlot->Print(*itsPrinter);
 			if (itsIsPrintAll)
-				{
+			{
 				itsFitParmsDir->SendAllToSession();
 				itsSessionDir->Print();
-				}
 			}
 		}
+	}
 	else
-		{
+	{
 		JXWindowDirector::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -475,9 +475,9 @@ GLPlotDir::ReadSetup
 	GetWindow()->ReadGeometry(is);
 	itsPrinter->ReadXPSSetup(is);
 	if (gloveVersion >= 3)
-		{
+	{
 		itsEPSPrinter->ReadX2DEPSSetup(is);
-		}
+	}
 }
 
 /******************************************************************************
@@ -503,10 +503,10 @@ GLPlotDir::WriteData
 	const JSize diffCount = itsDiffDirs->GetElementCount();
 	os << diffCount << ' ';
 	for (JIndex i = 1; i <= diffCount; i++)
-		{
+	{
 		(itsDiffDirs->GetElement(i))->WriteSetup(os);
 		(itsDiffDirs->GetElement(i))->WriteData(os, data);
-		}
+	}
 	itsSessionDir->WriteData(os);
 }
 
@@ -526,47 +526,47 @@ GLPlotDir::WriteCurves
 	JSize count = 0;
 	JSize i;
 	for (i = 1; i <= tempCount; i++)
-		{
-		JPlotDataBase& jpdb = itsPlot->GetCurve(i);
+	{
+		J2DPlotDataBase& jpdb = itsPlot->GetCurve(i);
 		GloveCurveStats stat = itsCurveStats->GetElement(i);
-		if ((stat.type == kGDataCurve) && (jpdb.GetType() == JPlotDataBase::kScatterPlot))
-			{
+		if ((stat.type == kGDataCurve) && (jpdb.GetType() == J2DPlotDataBase::kScatterPlot))
+		{
 			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&jpdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
-				{
-				count++;
-				}
-			}
-		else if (stat.type == kGFitCurve)
 			{
-			JPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
+				count++;
+			}
+		}
+		else if (stat.type == kGFitCurve)
+		{
+			J2DPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
 			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&pdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
-				{
-				count++;
-				}
-			}
-		else
 			{
-			count++;
+				count++;
 			}
 		}
+		else
+		{
+			count++;
+		}
+	}
 
 	os << count << ' ';
 	for (i = 1; i <= tempCount; i++)
-		{
-		JPlotDataBase& jpdb = itsPlot->GetCurve(i);
+	{
+		J2DPlotDataBase& jpdb = itsPlot->GetCurve(i);
 		GloveCurveStats stat = itsCurveStats->GetElement(i);
 		if (stat.type == kGDataCurve)
+		{
+			if (jpdb.GetType() == J2DPlotDataBase::kScatterPlot)
 			{
-			if (jpdb.GetType() == JPlotDataBase::kScatterPlot)
-				{
 				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&jpdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
-					{
+				{
 					os << (int)kGDataCurve << ' ';
 					os << (int)jpdb.GetType() << ' ';
 					JIndex index;
@@ -577,23 +577,23 @@ GLPlotDir::WriteCurves
 					os << JBoolToString(pd->HasXErrors())
 					   << JBoolToString(pd->HasYErrors()) << ' ';
 					if (pd->HasXErrors())
-						{
+					{
 						const JArray<JFloat>* testArray;
 						pd->GetXPErrorData(&testArray);
 						data->FindColumn(testArray, &index);
 						os << index << ' ';
-						}
+					}
 					if (pd->HasYErrors())
-						{
+					{
 						const JArray<JFloat>* testArray;
 						pd->GetYPErrorData(&testArray);
 						data->FindColumn(testArray, &index);
 						os << index << ' ';
-						}
 					}
 				}
-			else if (jpdb.GetType() == JPlotDataBase::kVectorPlot)
-				{
+			}
+			else if (jpdb.GetType() == J2DPlotDataBase::kVectorPlot)
+			{
 				J2DVectorData* vd = dynamic_cast<J2DVectorData*>(&jpdb);
 				assert( vd != nullptr );
 				os << (int)kGDataCurve << ' ';
@@ -616,51 +616,51 @@ GLPlotDir::WriteCurves
 				array = const_cast< JArray<JFloat>* >(carray);
 				data->FindColumn(array, &index);
 				os << index << ' ';
-				}
 			}
+		}
 		else if (stat.type == kGFitCurve)
-			{
+		{
 			if (stat.fitType == kGModFit)
-				{
+			{
 				os << (int)kGFitCurve << ' ';
 				os << (int)stat.fitType << ' ';
 				os << stat.provider << ' ';
 				GLPlotModuleFit* mf = dynamic_cast<GLPlotModuleFit*>(&jpdb);
 				assert( mf != nullptr );
 				mf->WriteData(os);
-				}
+			}
 			else
-				{
-				JPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
+			{
+				J2DPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
 				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&pdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
-					{
+				{
 					os << (int)kGFitCurve << ' ';
 					os << (int)stat.fitType << ' ';
 					os << stat.provider << ' ';
 
 					if (stat.fitType == kGProxyFit)
-						{
+					{
 						GLPlotFitProxy* pf	= dynamic_cast<GLPlotFitProxy*>(&jpdb);
 						assert(pf != nullptr);
 						pf->WriteData(os);
-						}
 					}
 				}
 			}
+		}
 		else if (stat.type == kGFunctionCurve)
-			{
-			J2DPlotJFunction* pd = dynamic_cast<J2DPlotJFunction*>(&jpdb);
+		{
+			J2DPlotFunction* pd = dynamic_cast<J2DPlotFunction*>(&jpdb);
 			assert( pd != nullptr );
 			os << (int)kGFunctionCurve << ' ';
 			os << pd->GetFunctionString() << ' ';
-			}
-		else
-			{
-			os << (int)kGDiffCurve << ' ';
-			}
 		}
+		else
+		{
+			os << (int)kGDiffCurve << ' ';
+		}
+	}
 }
 
 /******************************************************************************
@@ -680,36 +680,36 @@ GLPlotDir::ReadData
 	is >> version;
 
 	if (version == 0)
-		{
+	{
 		itsPlot->PWReadSetup(is);
 		ReadCurves(is,data);
-		}
+	}
 	else if (version == 1)
-		{
+	{
 		ReadCurves(is,data);
 		itsPlot->PWReadSetup(is);
-		}
+	}
 	else
-		{
+	{
 		ReadCurves(is,data);
 		itsPlot->PWXReadSetup(is);
-		}
+	}
 
 	if (version <= kCurrentSetupVersion)
-		{
+	{
 		itsPlot->PWReadCurveSetup(is);
 
 		JSize diffCount;
 		is >> diffCount;
 		assert(diffCount == itsDiffDirs->GetElementCount());
 		for (JIndex i = 1; i <= diffCount; i++)
-			{
+		{
 			(itsDiffDirs->GetElement(i))->ReadSetup(is, gloveVersion);
 			(itsDiffDirs->GetElement(i))->ReadData(is, data, gloveVersion);
-			}
+		}
 
 		itsSessionDir->ReadData(is);
-		}
+	}
 }
 
 /******************************************************************************
@@ -728,47 +728,47 @@ GLPlotDir::ReadCurves
 	is >> curveCount;
 
 	for (JIndex j = 1; j <= curveCount; j++)
-		{
+	{
 		GCurveType type;
 		int temp;
 		is >> temp;
 		type = (GCurveType)temp;
 		if (type == kGDataCurve)
-			{
+		{
 			is >> temp;
-			if (temp == JPlotDataBase::kScatterPlot)
-				{
+			if (temp == J2DPlotDataBase::kScatterPlot)
+			{
 				JIndex xIndex, yIndex, xErrIndex, yErrIndex;
 				bool xerrors, yerrors;
 				is >> xIndex >> yIndex;
 				is >> JBoolFromString(xerrors) >> JBoolFromString(yerrors);
 				if (xerrors)
-					{
+				{
 					is >> xErrIndex;
-					}
+				}
 				if (yerrors)
-					{
+				{
 					is >> yErrIndex;
-					}
+				}
 				itsCurrentCurveType = kGDataCurve;
 				J2DPlotData* curve;
 				if (J2DPlotData::Create(&curve, data->GetColPointer(xIndex),
 										data->GetColPointer(yIndex), true))
-					{
+				{
 					itsPlot->AddCurve(curve, true, JString::empty);
 
 					if (xerrors)
-						{
+					{
 						curve->SetXErrors(data->GetColPointer(xErrIndex));
-						}
+					}
 					if (yerrors)
-						{
+					{
 						curve->SetYErrors(data->GetColPointer(yErrIndex));
-						}
 					}
 				}
-			else if (temp == JPlotDataBase::kVectorPlot)
-				{
+			}
+			else if (temp == J2DPlotDataBase::kVectorPlot)
+			{
 				JIndex xIndex, yIndex, vxIndex, vyIndex;
 				is >> xIndex >> yIndex >> vxIndex >> vyIndex;
 				itsCurrentCurveType = kGDataCurve;
@@ -777,13 +777,13 @@ GLPlotDir::ReadCurves
 										  data->GetColPointer(yIndex),
 										  data->GetColPointer(vxIndex),
 										  data->GetColPointer(vyIndex), true))
-					{
+				{
 					itsPlot->AddCurve(curve, true, JString::empty, false, false);
-					}
 				}
 			}
+		}
 		else if (type == kGFitCurve)
-			{
+		{
 			GCurveFitType ftype;
 			int temp;
 			is >> temp;
@@ -791,44 +791,44 @@ GLPlotDir::ReadCurves
 			JIndex provider;
 			is >> provider;
 			if (ftype == kGModFit)
-				{
-				JPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
+			{
+				J2DPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
 				GLPlotModuleFit* mf = jnew GLPlotModuleFit(itsPlot, pdata, is);
 				assert(mf != nullptr);
 				if (!AddFitModule(mf, pdata))
-					{
-					jdelete mf;
-					}
-				}
-			else if (ftype == kGProxyFit)
 				{
-				JPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
+					jdelete mf;
+				}
+			}
+			else if (ftype == kGProxyFit)
+			{
+				J2DPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
 				GLPlotFitProxy* pf	= jnew GLPlotFitProxy(itsPlot, pdata, is);
 				assert(pf != nullptr);
 
 				itsFits->Append(pf);
 				AddFit(pf, provider, kGProxyFit);
-				}
-			else
-				{
-				NewFit(provider, ftype);
-				}
 			}
-		else if (type == kGFunctionCurve)
+			else
 			{
+				NewFit(provider, ftype);
+			}
+		}
+		else if (type == kGFunctionCurve)
+		{
 			JString fnString;
 			is >> fnString;
-			J2DPlotJFunction* pf;
+			J2DPlotFunction* pf;
 			JFloat min, max, inc;
 			itsPlot->GetXScale(&min, &max, &inc);
-			if (J2DPlotJFunction::Create(&pf, itsPlot, itsVarList, GetDisplay()->GetFontManager(), fnString, itsXVarIndex, min, max))
-				{
+			if (J2DPlotFunction::Create(&pf, itsPlot, itsVarList, GetDisplay()->GetFontManager(), fnString, itsXVarIndex, min, max))
+			{
 				itsCurrentCurveType = kGFunctionCurve;
 				itsPlot->AddCurve(pf, true, pf->GetFunctionString(), true, false);
 				itsCurrentCurveType = kGDataCurve;
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -888,40 +888,40 @@ GLPlotDir::HandlePlotMenu
 	)
 {
 	if (index == kPageSetupCmd)
-		{
+	{
 		itsPrinter->BeginUserPageSetup();
-		}
+	}
 	else if (index == kPrintCmd)
-		{
+	{
 		itsPrinter->BeginUserPrintSetup();
 		itsIsPrintAll = false;
-		}
+	}
 	else if (index == kPrintSessionCmd)
-		{
+	{
 		itsPrinter->BeginUserPrintSetup();
 		itsIsPrintAll = true;
-		}
+	}
 
 	else if (index == kPrintPlotEPSCmd)
-		{
+	{
 		itsPlot->PrintPlotEPS();
-		}
+	}
 	else if (index == kPrintMarksEPSCmd)
-		{
+	{
 		itsPlot->PrintMarksEPS();
-		}
+	}
 
 	else if (index == kCloseCmd)
-		{
+	{
 		if (itsHideOnClose)
-			{
+		{
 			Deactivate();
-			}
-		else
-			{
-			Close();
-			}
 		}
+		else
+		{
+			Close();
+		}
+	}
 }
 
 /******************************************************************************
@@ -936,15 +936,15 @@ GLPlotDir::HandleAnalysisMenu
 	)
 {
 	if (index == kPlotFunctionCmd)
-		{
+	{
 		CreateFunction();
-		}
+	}
 	else if (index == kFitWindowCmd)
-		{
+	{
 		GLFitDirector* dir = jnew GLFitDirector(this, itsPlot, itsFileName);
 		assert(dir != nullptr);
 		dir->Activate();
-		}
+	}
 }
 
 /******************************************************************************
@@ -976,7 +976,7 @@ GLPlotDir::PlotFunction
 {
 	JFloat min, max, inc;
 	itsPlot->GetXScale(&min, &max, &inc);
-	J2DPlotJFunction* pf = jnew J2DPlotJFunction(itsPlot, itsVarList, f, true, itsXVarIndex, min, max);
+	J2DPlotFunction* pf = jnew J2DPlotFunction(itsPlot, itsVarList, f, true, itsXVarIndex, min, max);
 	itsCurrentCurveType = kGFunctionCurve;
 	itsPlot->AddCurve(pf, true, f->Print(), true, false);
 	itsCurrentCurveType = kGDataCurve;
@@ -995,9 +995,9 @@ GLPlotDir::UpdateFitParmsMenu()
 					   itsFitParmsMenu, nullptr);
 
 	if (itsFits->IsEmpty())
-		{
+	{
 		itsAnalysisMenu->DisableItem(kFitParmsCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1013,9 +1013,9 @@ GLPlotDir::UpdateDiffMenu()
 					   itsDiffMenu, nullptr);
 
 	if (itsDiffDirs->IsEmpty())
-		{
+	{
 		itsAnalysisMenu->DisableItem(kDiffPlotCmd);
-		}
+	}
 }
 
 /******************************************************************************
@@ -1062,51 +1062,51 @@ GLPlotDir::HandleCurveRemoved
 {
 	GloveCurveStats stats = itsCurveStats->GetElement(index);
 	if (stats.type == kGFitCurve)
-		{
+	{
 		RemoveFit(index);
-		}
+	}
 	itsCurveStats->RemoveElement(index);
 	const JSize ccount = itsCurveStats->GetElementCount();
 	JSize count = ccount;
 	JSize i;
 	if (stats.type == kGDataCurve)
-		{
+	{
 		i = index;
 		while (i <= count)
-			{
+		{
 			GloveCurveStats statsi = itsCurveStats->GetElement(i);
 			if (statsi.type == kGFitCurve)
-				{
+			{
 				if (statsi.provider == index)
-					{
+				{
 					itsPlot->RemoveCurve(i);
 					count --;
-					}
+				}
 				else
-					{
+				{
 					statsi.provider--;
 					itsCurveStats->SetElement(i, statsi);
 					i++;
-					}
-				}
-			else
-				{
-				i++;
 				}
 			}
-		}
-	else if (stats.type == kGFunctionCurve)
-		{
-		for (i = index + 1; i <= count; i++)
+			else
 			{
+				i++;
+			}
+		}
+	}
+	else if (stats.type == kGFunctionCurve)
+	{
+		for (i = index + 1; i <= count; i++)
+		{
 			GloveCurveStats statsi = itsCurveStats->GetElement(i);
 			if (statsi.type == kGFitCurve)
-				{
+			{
 				statsi.provider--;
 				itsCurveStats->SetElement(i, statsi);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1128,15 +1128,15 @@ GLPlotDir::RemoveFit
 	const JSize count = itsCurveStats->GetElementCount();
 	JSize i;
 	for (i = index + 1; i <= count; i++)
-		{
+	{
 		stats = itsCurveStats->GetElement(i);
 		if (stats.type == kGFitCurve)
-			{
+		{
 			stats.provider--;
 			stats.fitNumber--;
 			itsCurveStats->SetElement(i, stats);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -1151,41 +1151,41 @@ GLPlotDir::NewFit
 	const GCurveFitType type
 	)
 {
-	JPlotDataBase* data = &(itsPlot->GetCurve(plotindex));
+	J2DPlotDataBase* data = &(itsPlot->GetCurve(plotindex));
 	GLPlotFitFunction* df = nullptr;
 	if (type == kGLinearFit)
-		{
+	{
 		GLPlotLinearFit* lf;
 		JFloat xmax, xmin, ymax, ymin;
 		if (itsPlot->IsUsingRange())
-			{
+		{
 			itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax);
-			}
+		}
 		assert(lf != nullptr);
 		itsFits->Append(lf);
 		df = lf;
-		}
+	}
 	else if (type == kGExpFit)
-		{
+	{
 		GLPlotLinearFit* lf;
 		JFloat xmax, xmin, ymax, ymin;
 		itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 		if (itsPlot->IsUsingRange())
-			{
+		{
 			itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax, ymin, ymax, false, true);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			lf = jnew GLPlotLinearFit(itsPlot, data, xmin, xmax, false, true);
-			}
+		}
 		assert(lf != nullptr);
 		itsFits->Append(lf);
 		df = lf;
@@ -1193,29 +1193,29 @@ GLPlotDir::NewFit
 //		assert(ef != nullptr);
 //		itsFits->Append(ef);
 //		df = ef;
-		}
+	}
 	else if (type == kGQuadFit)
-		{
+	{
 		GLPlotQuadFit* lf;
 		JFloat xmax, xmin, ymax, ymin;
 		if (itsPlot->IsUsingRange())
-			{
+		{
 			itsPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			lf = jnew GLPlotQuadFit(itsPlot, data, xmin, xmax, ymin, ymax);
-			}
+		}
 		else
-			{
+		{
 			data->GetXRange(&xmin, &xmax);
 			lf = jnew GLPlotQuadFit(itsPlot, data, xmin, xmax);
-			}
+		}
 		assert(lf != nullptr);
 		itsFits->Append(lf);
 		df = lf;
-		}
+	}
 	else
-		{
+	{
 		assert( false );
-		}
+	}
 	AddFit(df, plotindex, type);
 }
 
@@ -1227,7 +1227,7 @@ GLPlotDir::NewFit
 void
 GLPlotDir::AddDiffCurve
 	(
-	JPlotDataBase* ddata
+	J2DPlotDataBase* ddata
 	)
 {
 	itsCurrentCurveType = kGDiffCurve;
@@ -1244,15 +1244,15 @@ bool
 GLPlotDir::AddFitModule
 	(
 	GLPlotModuleFit* fit,
-	JPlotDataBase* fitData
+	J2DPlotDataBase* fitData
 	)
 {
 	JIndex plotindex;
 	bool found = itsPlot->GetCurveIndex(fitData, &plotindex);
 	if (!found)
-		{
+	{
 		return false;
-		}
+	}
 	itsFits->Append(fit);
 	AddFit(fit, plotindex, kGModFit);
 	return true;
@@ -1286,7 +1286,7 @@ GLPlotDir::AddFit
 	GLPlotDir* dir = jnew GLPlotDir(this, itsSupervisor, itsFileName, true);
 	assert( dir != nullptr );
 	JXGetDocumentManager()->DocumentMustStayOpen(dir, true);
-	JPlotDataBase* ddata = fit->GetDiffData();
+	J2DPlotDataBase* ddata = fit->GetDiffData();
 	dir->AddDiffCurve(ddata);
 	J2DPlotWidget* plot = dir->GetPlot();
 	JString numS(itsFits->GetElementCount(), 0);
@@ -1332,9 +1332,9 @@ GLPlotDir::CurveIsFit
 	assert(itsCurveStats->IndexValid(index));
 	GloveCurveStats stat = itsCurveStats->GetElement(index);
 	if (stat.type == kGFitCurve)
-		{
+	{
 		return true;
-		}
+	}
 	return false;
 }
 
@@ -1351,25 +1351,25 @@ GLPlotDir::HandleHelpMenu
 	)
 {
 	if (index == kAboutCmd)
-		{
+	{
 		GLGetApplication()->DisplayAbout();
-		}
+	}
 	else if (index == kTOCCmd)
-		{
+	{
 		JXGetHelpManager()->ShowTOC();
-		}
+	}
 	else if (index == kThisWindowCmd)
-		{
+	{
 		JXGetHelpManager()->ShowSection("GLPlotHelp");
-		}
+	}
 	else if (index == kChangesCmd)
-		{
+	{
 		JXGetHelpManager()->ShowChangeLog();
-		}
+	}
 	else if (index == kCreditsCmd)
-		{
+	{
 		JXGetHelpManager()->ShowCredits();
-		}
+	}
 }
 
 /******************************************************************************

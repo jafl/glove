@@ -47,18 +47,18 @@ GLPolyFitDescription::GLPolyFitDescription
 	JFileVersion version;
 	is >> version;
 	if (version > kCurrentSetupVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	JSize count;
 	is >> count;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JIndex power;
 		is >> power;
 		itsPowers->AppendElement(power);
-		}
+	}
 
 	GLPolyFitDescriptionX();
 }
@@ -71,25 +71,25 @@ GLPolyFitDescription::GLPolyFitDescriptionX()
 	
 	JString form;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		JString parm = "a" + JString((JUInt64) i - 1);
 		GetVarList()->AddVariable(parm, 0);
 		JString xTerm;
 		JUInt64 power = itsPowers->GetElement(i);
 		if (power > 0)
-			{
+		{
 			xTerm = " * x";
-			}
+		}
 		if (power > 1)
-			{
+		{
 			xTerm += "^" + JString(power);
-			}
+		}
 		form += parm + xTerm;
 		if (i != count)
-			{
+		{
 			form += " + ";
-			}
 		}
+	}
 	SetFitFunctionString(form);
 }
 
@@ -137,8 +137,8 @@ GLPolyFitDescription::WriteSetup
 	const JSize count	= itsPowers->GetElementCount();
 	os << ' ' << count << ' ';
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		os << ' ' << itsPowers->GetElement(i) << ' ';
-		}
+	}
 	
 }

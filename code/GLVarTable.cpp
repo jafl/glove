@@ -81,24 +81,24 @@ void
 GLVarTable::NewConstant()
 {
 	if (!EndEditing())
-		{
+	{
 		return;
-		}
+	}
 	JIndex parmIndex	= GetRowCount() + 1;
 	JString parm;
 	JIndex index;
 	do
-		{
+	{
 		parm	= "a" + JString((JUInt64) parmIndex);
 		parmIndex ++;
-		}
+	}
 	while (itsVarList->ParseVariableName(parm, &index));
 
 	if (itsVarList->AddVariable(parm, 0))
-		{
+	{
 		AppendRows(1);
 		BeginEditing(JPoint(1,GetRowCount()));
-		}
+	}
 }
 
 /******************************************************************************
@@ -111,11 +111,11 @@ GLVarTable::RemoveSelectedConstant()
 {
 	JPoint cell;
 	if (GetEditedCell(&cell))
-		{
+	{
 		CancelEditing();
 		RemoveRow(cell.y);
 		itsVarList->RemoveVariable(cell.y + kUserParmsOffset);
-		}
+	}
 }
 
 /******************************************************************************
@@ -135,13 +135,13 @@ GLVarTable::HandleMouseDown
 {
 	JPoint cell;
 	if (button == kJXLeftButton && GetCell(pt, &cell))
-		{
+	{
 		BeginEditing(cell);
-		}
+	}
 	else
-		{
+	{
 		ScrollForWheel(button, modifiers);
-		}
+	}
 }
 
 /******************************************************************************
@@ -159,9 +159,9 @@ GLVarTable::TableDrawCell
 {
 	JPoint editCell;
 	if (GetEditedCell(&editCell) && cell == editCell)
-		{
+	{
 		return;
-		}
+	}
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
@@ -215,19 +215,19 @@ GLVarTable::ExtractInputData
 
 	const JString s = itsTextInput->GetVarName();
 	if (s == *itsOrigText)
-		{
+	{
 		return true;
-		}
+	}
 	else if (itsTextInput->InputValid())
-		{
+	{
 		const JIndex varIndex = cell.y + kUserParmsOffset;
 		bool ok = itsVarList->SetVariableName(varIndex, s);
 		return ok;
-		}
+	}
 	else
-		{
+	{
 		return false;
-		}
+	}
 }
 
 /******************************************************************************
@@ -257,10 +257,10 @@ GLVarTable::Receive
 	)
 {
 	if (sender == this && message.Is(kColWidthChanged))
-		{
+	{
 		// do it regardless of which column changed so they can't shrink fn column
 		AdjustColWidths();
-		}
+	}
 
 	JXEditTable::Receive(sender, message);
 }

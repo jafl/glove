@@ -25,7 +25,7 @@ class GLFitBase;
 class GLFitParmsDir;
 class GLRaggedFloatTableData;
 class JXFileDocument;
-class JPlotDataBase;
+class J2DPlotDataBase;
 class GLHistoryDir;
 class JXPSPrinter;
 class GLFitModuleDialog;
@@ -53,7 +53,7 @@ public:
 	void 				ReadData(std::istream& is, GLRaggedFloatTableData* data, const JFloat gloveVersion);
 	virtual bool	NeedsSave() const override;
 	GLHistoryDir*		GetSessionDir();
-	bool			AddFitModule(GLPlotModuleFit* fit, JPlotDataBase* fitData);
+	bool			AddFitModule(GLPlotModuleFit* fit, J2DPlotDataBase* fitData);
 	virtual void		SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
 	virtual bool	GetMenuIcon(const JXImage** icon) const override;
 
@@ -120,7 +120,7 @@ private:
 	void	HandleCurveAdded();
 	void	RemoveFit(const JIndex index);
 	void	NewFit(const JIndex plotindex, const GCurveFitType type);
-	void	AddDiffCurve(JPlotDataBase* ddata);
+	void	AddDiffCurve(J2DPlotDataBase* ddata);
 	void	AddFit(GLPlotFitFunction* fit, const JIndex plotIndex,
 					const GCurveFitType type);
 };

@@ -85,15 +85,15 @@ GLHistory::GLHistory
 	JRegex regex(kFontRegex);
 	if (JXXFontMenu::Create(regex, CompareFontNames, JGetString("FontMenuTitle::JXGlobal"), menuBar,
 							kFixedLeft, kFixedTop, 0,0, 10,10, &itsFontMenu))
-		{
+	{
 		itsSizeMenu = nullptr;
 		itsFontMenu->SetFontName(kDefaultFontName);
 		GetText()->SetDefaultFont(JFontManager::GetDefaultFont());
 		menuBar->AppendMenu(itsFontMenu);
 		ListenTo(itsFontMenu);
-		}
+	}
 	else
-		{
+	{
 		itsFontMenu = nullptr;
 		GetText()->SetDefaultFont(JFontManager::GetDefaultMonospaceFont());
 
@@ -103,7 +103,7 @@ GLHistory::GLHistory
 		menuBar->AppendMenu(itsSizeMenu);
 		itsSizeMenu->SetFontSize(JFontManager::GetDefaultFontSize());
 		ListenTo(itsSizeMenu);
-		}
+	}
 
 	AdjustTabWidth();
 
@@ -133,14 +133,14 @@ GLHistory::Receive
 {
 	if ((sender == itsFontMenu && message.Is(JXXFontMenu::kNameChanged)) ||
 		(sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged)))
-		{
+	{
 		AdjustFont();
-		}
+	}
 
 	else
-		{
+	{
 		JXTEBase::Receive(sender, message);
-		}
+	}
 }
 
 /******************************************************************************
@@ -160,13 +160,13 @@ GLHistory::AdjustFont()
 	const bool hasSelection = HasSelection();
 	bool ok;
 	if (hasSelection)
-		{
+	{
 		ok = GetSelection(&selRange);
-		}
+	}
 	else
-		{
+	{
 		ok = GetCaretLocation(&caretIndex);
-		}
+	}
 	assert( ok );
 
 	// set font or size for entire text
@@ -174,29 +174,29 @@ GLHistory::AdjustFont()
 	SelectAll();
 
 	if (itsFontMenu != nullptr)
-		{
+	{
 		JFont font = JFontManager::GetFont(itsFontMenu->GetFontName());
 		SetCurrentFont(font);
 		GetText()->SetDefaultFont(font);
-		}
+	}
 	else
-		{
+	{
 		assert( itsSizeMenu != nullptr );
 		const JSize size = itsSizeMenu->GetFontSize();
 		SetCurrentFontSize(size);
 		GetText()->SetDefaultFontSize(size);
-		}
+	}
 
 	// restore selection or caret location
 
 	if (hasSelection)
-		{
+	{
 		SetSelection(selRange);
-		}
+	}
 	else
-		{
+	{
 		SetCaretLocation(caretIndex);
-		}
+	}
 
 	// update the tab width
 
@@ -215,16 +215,16 @@ GLHistory::AdjustTabWidth()
 
 	JFontManager* fontMgr = GetFontManager();
 	if (itsFontMenu != nullptr)
-		{
+	{
 		const JFont font = fontMgr->GetFont(itsFontMenu->GetFontName());
 		charWidth = font.GetCharWidth(fontMgr, JUtf8Character(' '));
-		}
+	}
 	else
-		{
+	{
 		assert( itsSizeMenu != nullptr );
 		const JFont font = fontMgr->GetFont(JFontManager::GetDefaultMonospaceFontName(), itsSizeMenu->GetFontSize());
 		charWidth = font.GetCharWidth(fontMgr, JUtf8Character(' '));
-		}
+	}
 
 	SetDefaultTabWidth(itsTabCharCount * charWidth);
 }
@@ -248,15 +248,15 @@ GLHistory::CompareFontNames
 	const int c2 = s2->GetRawBytes()[0] - '0';
 
 	if (c1 > c2)
-		{
+	{
 		return JListT::kFirstGreaterSecond;
-		}
+	}
 	else if (c1 < c2)
-		{
+	{
 		return JListT::kFirstLessSecond;
-		}
+	}
 	else
-		{
+	{
 		JUInt x1, x2;
 		const bool ok1 = JString::ConvertToUInt(s1->GetBytes() + 2, &x1);
 		assert( ok1 );
@@ -264,18 +264,18 @@ GLHistory::CompareFontNames
 		assert( ok2 );
 
 		if (x1 > x2)
-			{
+		{
 			return JListT::kFirstGreaterSecond;
-			}
-		else if (x1 < x2)
-			{
-			return JListT::kFirstLessSecond;
-			}
-		else
-			{
-			return JListT::kFirstEqualSecond;
-			}
 		}
+		else if (x1 < x2)
+		{
+			return JListT::kFirstLessSecond;
+		}
+		else
+		{
+			return JListT::kFirstEqualSecond;
+		}
+	}
 }
 
 /******************************************************************************

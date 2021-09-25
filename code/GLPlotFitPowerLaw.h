@@ -19,9 +19,9 @@ class GLPlotFitPowerLaw : public GLPlotFitBase
 {
 public:
 
-	GLPlotFitPowerLaw(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitPowerLaw(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotFitPowerLaw(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitPowerLaw(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitPowerLaw();	
@@ -55,7 +55,7 @@ private:
 
 	void	CalculateFirstPass();
 
-	void	JPlotFitPowerLawX(J2DPlotWidget* plot, JPlotDataBase* fitData);
+	void	JPlotFitPowerLawX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);
 };
 
 #endif

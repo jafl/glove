@@ -22,9 +22,9 @@ class GLPlotFitBase : public GLPlotFitFunction
 {
 public:
 
-	GLPlotFitBase(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitBase(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotFitBase(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitBase(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitBase();	
@@ -89,7 +89,7 @@ protected:
 private:
 
 	void				JPlotFitBaseX(J2DPlotWidget* plot, 
-										JPlotDataBase* fitData);
+										J2DPlotDataBase* fitData);
 
 	void				AdjustDiffData();
 	JFloat				CalcError(const JVector& parameters, const JIndex constIndex);

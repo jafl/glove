@@ -1,8 +1,5 @@
 /******************************************************************************
- plotter.cpp
-
-	This provides a way to test the JX library and provides sample source
-	code for everyone to study.
+ main.cpp
 
 	Copyright (C) 1996 by John Lindal.
 
@@ -37,9 +34,9 @@ main
 	ParseTextOptions(argc, argv);
 
 	if (!GLMDIServer::WillBeMDIServer(GLPlotApp::GetAppSignature(), argc, argv))
-		{
+	{
 		return 0;
-		}
+	}
 
 	bool displayAbout;
 	JString prevVersStr;
@@ -50,18 +47,18 @@ main
 
 	if (displayAbout &&
 		!JGetUserNotification()->AcceptLicense())
-		{
+	{
 		return 0;
-		}
+	}
 
 	JCheckForNewerVersion(GLGetPrefsMgr(), kVersionCheckID);
 
 	GLGetMDIServer()->HandleCmdLineOptions(argc, argv);
 
 	if (displayAbout)
-		{
+	{
 		app->DisplayAbout(prevVersStr);
-		}
+	}
 
 	app->Run();				// never actually returns
 	return 0;
@@ -86,21 +83,21 @@ ParseTextOptions
 {
 	long index = 1;
 	while (index < argc)
-		{
+	{
 		if (JIsVersionRequest(argv[index]))
-			{
+		{
 			GLPlotApp::InitStrings();
 			PrintVersion();
 			exit(0);
-			}
+		}
 		else if (JIsHelpRequest(argv[index]))
-			{
+		{
 			GLPlotApp::InitStrings();
 			PrintHelp();
 			exit(0);
-			}
-		index++;
 		}
+		index++;
+	}
 }
 
 /******************************************************************************
@@ -112,10 +109,10 @@ void
 PrintHelp()
 {
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	const JString s = JGetString("GLCommandLineHelp", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }
@@ -130,10 +127,10 @@ PrintVersion()
 {
 	std::cout << std::endl;
 	const JUtf8Byte* map[] =
-		{
+	{
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
-		};
+	};
 	std::cout << JGetString("GLDescription", map, sizeof(map));
 	std::cout << std::endl << std::endl;
 }

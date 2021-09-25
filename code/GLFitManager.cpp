@@ -154,10 +154,10 @@ GLFitManager::RemoveFitDescription
 {
 	assert(itsFitDescriptions->IndexValid(index));
 	if (FitIsRemovable(index))
-		{
+	{
 		itsFitDescriptions->DeleteElement(index);
 		Broadcast(FitsChanged());
-		}
+	}
 }
 
 /******************************************************************************
@@ -177,23 +177,23 @@ GLFitManager::ReadPrefs
 	input >> version;
 	
 	if (version > kCurrentPrefsVersion)
-		{
+	{
 		return;
-		}
+	}
 
 	if (version > 0)
-		{
+	{
 		JSize count;
 		input >> count;
 		for (JIndex i = 1; i <= count; i++)
-			{
+		{
 			GLFitDescription* fd;
 			if (GLFitDescription::Create(input, &fd))
-				{
+			{
 				itsFitDescriptions->InsertSorted(fd);
-				}
 			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -212,24 +212,24 @@ GLFitManager::WritePrefs
 	const JSize count	= itsFitDescriptions->GetElementCount();
 	JSize rCount		= 0;
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		GLFitDescription* fd	= itsFitDescriptions->GetElement(i);
 		if (fd->GetType() == GLFitDescription::kPolynomial ||
 			fd->GetType() == GLFitDescription::kNonLinear)
-			{
+		{
 			rCount++;
-			}
 		}
+	}
 	output << ' ' << rCount << ' ';
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		GLFitDescription* fd	= itsFitDescriptions->GetElement(i);
 		if (fd->GetType() == GLFitDescription::kPolynomial ||
 			fd->GetType() == GLFitDescription::kNonLinear)
-			{
+		{
 			fd->WriteSetup(output);
-			}
 		}
+	}
 }
 
 /******************************************************************************
@@ -258,29 +258,29 @@ GLFitManager::InitializeList()
 	const JPtrArray<JString>& paths	= GLGetApplication()->GetModulePath();
 	const JSize count	= paths.GetElementCount();
 	for (JIndex i = 1; i <= count; i++)
-		{
+	{
 		const JString& path	= *(paths.GetElement(i));
 		JString fitPath	= JCombinePathAndName(path, kFitDlDirName);
 		JDirInfo* dir;
 		if (JDirInfo::Create(fitPath, &dir))
-			{
+		{
 			dir->SetWildcardFilter(JString("*.so", JString::kNoCopy));
 			const JSize count	= dir->GetEntryCount();
 			for (JIndex i = 1; i <= count; i++)
-				{
+			{
 				const JDirEntry& entry = dir->GetEntry(i);
 				GLDLFitModule* fit;
 				if (!entry.IsDirectory() && GLDLFitModule::Create(entry.GetFullName(), &fit))
-					{
+				{
 					GLModuleFitDescription* md	= 
 						jnew GLModuleFitDescription(fit);
 					assert(md != nullptr);
 					itsFitDescriptions->InsertSorted(md);
-					}
 				}
-			jdelete dir;
 			}
+			jdelete dir;
 		}
+	}
 }
 
 /******************************************************************************
@@ -298,8 +298,8 @@ GLFitManager::FitIsRemovable
 	GLFitDescription* fd	= itsFitDescriptions->GetElement(index);
 	if (fd->GetType() == GLFitDescription::kPolynomial ||
 		fd->GetType() == GLFitDescription::kNonLinear)
-		{
+	{
 		return true;
-		}
+	}
 	return false;
 }

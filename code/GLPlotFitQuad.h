@@ -18,16 +18,16 @@ class GLPlotFitQuad : public GLPlotFitLinearEq
 {
 public:
 
-	GLPlotFitQuad(J2DPlotWidget* plot, JPlotDataBase* fitData,
+	GLPlotFitQuad(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	GLPlotFitQuad(J2DPlotWidget* plot, JPlotDataBase* fitData, 
+	GLPlotFitQuad(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
 	virtual ~GLPlotFitQuad();	
 
 private:
 
-	void	JPlotFitQuadX(J2DPlotWidget* plot, JPlotDataBase* fitData);	
+	void	JPlotFitQuadX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);	
 };
 
 #endif
