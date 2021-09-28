@@ -12,22 +12,22 @@
 #include "GLPrefsMgr.h"
 #include "GLGlobals.h"
 
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXTextRadioButton.h>
-#include <JXTextCheckbox.h>
-#include <JXIntegerInput.h>
-#include <JXTextMenu.h>
-#include <JXRadioGroup.h>
-#include <JXStaticText.h>
-#include <JXScrollbarSet.h>
-#include <JXColorManager.h>
-#include <JXInputField.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextRadioButton.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXIntegerInput.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXRadioGroup.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXInputField.h>
 
-#include <JStringIterator.h>
-#include <jStreamUtil.h>
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JIndex kDelimiterPrefsVersionID = 1;
 

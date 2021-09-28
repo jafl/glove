@@ -13,17 +13,17 @@
 #include "GLPrefsMgr.h"
 #include "GLGlobals.h"
 
-#include <JXWindow.h>
-#include <JXTextButton.h>
-#include <JXTextMenu.h>
-#include <JXStaticText.h>
-#include <JXScrollbarSet.h>
-#include <JXColorManager.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXColorManager.h>
 
-#include <JPtrArray-JString.h>
-#include <jStreamUtil.h>
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize  kFileByteCount				= 1000;
 const JIndex kFileModulePrefsVersionID 	= 1;

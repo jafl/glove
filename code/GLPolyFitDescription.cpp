@@ -11,7 +11,7 @@
 
 #include <GLPolyFitDescription.h>
 
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentSetupVersion	= 0;
 

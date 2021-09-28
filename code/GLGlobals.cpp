@@ -10,13 +10,13 @@
 #include "GLPrefsMgr.h"
 #include "GLMDIServer.h"
 
-#include <JXPTPrinter.h>
-#include <JXTextMenu.h>
+#include <jx-af/jx/JXPTPrinter.h>
+#include <jx-af/jx/JXTextMenu.h>
 
-#include <JPtrArray-JString.h>
-#include <jDirUtil.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <cstdarg>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static GLFitManager*	itsFitManager	= nullptr;
 static GLPrefsMgr*		itsPrefsMgr 	= nullptr;

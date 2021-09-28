@@ -10,12 +10,12 @@
  ******************************************************************************/
 
 #include "GLVarList.h"
-#include <JStringIterator.h>
-#include <JStringMatch.h>
-#include <jStreamUtil.h>
-#include <jMath.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/JStringMatch.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

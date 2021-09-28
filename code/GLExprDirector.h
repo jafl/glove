@@ -10,7 +10,7 @@
 #ifndef _H_GLExprDirector
 #define _H_GLExprDirector
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class GLVarList;
 class JXExprEditor;

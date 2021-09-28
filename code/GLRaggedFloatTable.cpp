@@ -29,7 +29,7 @@
 #include "GLUndoElementsCut.h"
 #include "GLGlobals.h"
 
-#include "JXToolBar.h"
+#include "jx-af/jx/JXToolBar.h"
 
 #include "editcut.xpm"
 #include "editcopy.xpm"
@@ -38,40 +38,40 @@
 #include "plotvectordata.xpm"
 #include "transform.xpm"
 
-#include <JXApplication.h>
-#include <JXColorManager.h>
-#include <JXDisplay.h>
-#include <JXFloatInput.h>
-#include <JXImage.h>
-#include <JXMenuBar.h>
-#include <JXSelectionManager.h>
-#include <JXTextButton.h>
-#include <JXTextMenu.h>
-#include <JXWindow.h>
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXFloatInput.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXSelectionManager.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
-#include <JExprParser.h>
-#include <JFunctionWithVar.h>
-#include <JFunctionWithArgs.h>
-#include <JPainter.h>
-#include <JFontStyle.h>
-#include <JUserNotification.h>
-#include <JChooseSaveFile.h>
-#include <JTableSelection.h>
-#include <JTableSelectionIterator.h>
-#include <JFontManager.h>
-#include <JString.h>
-#include <JPSPrinter.h>
-#include <JListUtil.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jexpr/JFunctionWithVar.h>
+#include <jx-af/jexpr/JFunctionWithArgs.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JFontStyle.h>
+#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/JChooseSaveFile.h>
+#include <jx-af/jcore/JTableSelection.h>
+#include <jx-af/jcore/JTableSelectionIterator.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JPSPrinter.h>
+#include <jx-af/jcore/JListUtil.h>
 
-#include <jXActionDefs.h>
+#include <jx-af/jx/jXActionDefs.h>
 
-#include <jStreamUtil.h>
-#include <jASCIIConstants.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jASCIIConstants.h>
 #include <sstream>
 
-#include <jMath.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/jAssert.h>
 
 // Setup information
 

@@ -10,8 +10,8 @@
 #ifndef _H_GLUndoBase
 #define _H_GLUndoBase
 
-#include <JUndo.h>
-#include <JPoint.h>
+#include <jx-af/jcore/JUndo.h>
+#include <jx-af/jcore/JPoint.h>
 
 class GLRaggedFloatTable;
 class GLRaggedFloatTableData;

@@ -10,7 +10,7 @@
 #ifndef _H_GLColHeaderWidget
 #define _H_GLColHeaderWidget
 
-#include "JXColHeaderWidget.h"
+#include "jx-af/jx/JXColHeaderWidget.h"
 
 class GLRaggedFloatTable;
 

@@ -13,22 +13,22 @@
 
 #include "GLGlobals.h"
 
-#include <JXApplication.h>
-#include <JXExprEditor.h>
-#include <JXExprEditorSet.h>
-#include <JXInputField.h>
-#include <JXMenuBar.h>
-#include <JXScrollbarSet.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTimerTask.h>
-#include <JXVertPartition.h>
-#include <JXWindow.h>
-#include <JXDeleteObjectTask.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jexpr/JXExprEditor.h>
+#include <jx-af/jexpr/JXExprEditorSet.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXVertPartition.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXDeleteObjectTask.h>
 
-#include <JFontManager.h>
-#include <JFunction.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jexpr/JFunction.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kDeleteButtonUpdateDelay	= 1000;
 

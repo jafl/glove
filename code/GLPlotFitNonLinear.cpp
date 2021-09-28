@@ -11,9 +11,9 @@
 
 #include "GLPlotFitNonLinear.h"
 #include "GLVarList.h"
-#include <JExprParser.h>
-#include <JVector.h>
-#include <jAssert.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jcore/JVector.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

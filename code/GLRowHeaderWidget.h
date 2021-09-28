@@ -10,7 +10,7 @@
 #ifndef _H_GLRowHeaderWidget
 #define _H_GLRowHeaderWidget
 
-#include "JXRowHeaderWidget.h"
+#include "jx-af/jx/JXRowHeaderWidget.h"
 
 class GLRaggedFloatTable;
 

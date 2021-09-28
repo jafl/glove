@@ -11,7 +11,7 @@
 #define _H_GLPlotModuleFit
 
 #include <GLPlotFitFunction.h>
-#include <JPtrArray-JString.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 
 class J2DPlotWidget;
 class JFunction;

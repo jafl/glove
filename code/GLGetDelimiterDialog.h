@@ -10,8 +10,8 @@
 #ifndef _H_GLGetDelimiterDialog
 #define _H_GLGetDelimiterDialog
 
-#include <JXDialogDirector.h>
-#include <JPrefObject.h>
+#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class JXTextMenu;
 class JXRadioGroup;

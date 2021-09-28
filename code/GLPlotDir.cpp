@@ -15,40 +15,40 @@
 #include "GLPlotFitFunction.h"
 #include "GLFitBase.h"
 #include "GLFitParmsDir.h"
-#include "J2DPlotDataBase.h"
-#include "J2DPlotData.h"
-#include "J2DVectorData.h"
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include "jx-af/j2dplot/J2DPlotData.h"
+#include "jx-af/j2dplot/J2DVectorData.h"
 #include "GLRaggedFloatTableData.h"
 #include "GLHistoryDir.h"
 #include "GLFitModule.h"
 #include "GLFitModuleDialog.h"
 #include "GLPlotApp.h"
 #include "GLPlotModuleFit.h"
-#include "J2DPlotFunction.h"
+#include "jx-af/j2dplot/J2DPlotFunction.h"
 #include "GLPlotter.h"
 #include "GLGlobals.h"
 #include "GLFitDirector.h"
 #include "GLPlotFitProxy.h"
 
-#include <JX2DPlotEPSPrinter.h>
-#include <JXTextMenu.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXDocumentMenu.h>
-#include <JXFileDocument.h>
-#include <JXApplication.h>
-#include <JXDialogDirector.h>
-#include <JXPSPrinter.h>
-#include <JXCloseDirectorTask.h>
-#include <JXHelpManager.h>
+#include <jx-af/j2dplot/JX2DPlotEPSPrinter.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXDocumentMenu.h>
+#include <jx-af/jx/JXFileDocument.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/JXCloseDirectorTask.h>
+#include <jx-af/jx/JXHelpManager.h>
 
-#include <JExprParser.h>
-#include <JUserNotification.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jcore/JUserNotification.h>
 
 #include <jx_plain_file_small.xpm>
 
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 // setup information
 

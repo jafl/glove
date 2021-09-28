@@ -15,14 +15,14 @@
 #include <GLFitDirector.h>
 #include <GLGlobals.h>
 
-#include <JXChooseSaveFile.h>
-#include <JXPTPrinter.h>
-#include <JXWindow.h>
+#include <jx-af/jx/JXChooseSaveFile.h>
+#include <jx-af/jx/JXPTPrinter.h>
+#include <jx-af/jx/JXWindow.h>
 
-#include <JPtrArray-JString.h>
-#include <jDirUtil.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/jDirUtil.h>
 #include <unistd.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 2;
 

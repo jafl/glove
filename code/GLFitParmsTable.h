@@ -10,8 +10,8 @@
 #ifndef _H_GLFitParmsTable
 #define _H_GLFitParmsTable
 
-#include <JXTable.h>
-#include <JPtrArray.h>
+#include <jx-af/jx/JXTable.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class JString;
 

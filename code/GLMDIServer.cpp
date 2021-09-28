@@ -14,12 +14,12 @@
 #include <GLPrefsMgr.h>
 #include <GLPlotApp.h>
 
-#include <JXStandAlonePG.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXStandAlonePG.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <jFileUtil.h>
-#include <jFStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

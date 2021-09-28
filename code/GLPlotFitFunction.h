@@ -10,9 +10,9 @@
 #ifndef _H_GLPlotFitFunction
 #define _H_GLPlotFitFunction
 
-#include <J2DPlotFunctionBase.h>
+#include <jx-af/j2dplot/J2DPlotFunctionBase.h>
 #include <GLFitBase.h>
-#include <JArray.h>
+#include <jx-af/jcore/JArray.h>
 
 class J2DPlotWidget;
 class J2DPlotData;

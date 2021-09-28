@@ -8,8 +8,8 @@
  *****************************************************************************/
 
 #include <GLParmColHeaderWidget.h>
-#include <JPagePrinter.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

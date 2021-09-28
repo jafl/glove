@@ -10,9 +10,9 @@
 #ifndef _H_GLRaggedFloatTable
 #define _H_GLRaggedFloatTable
 
-#include <JXEditTable.h>
-#include <JAuxTableData.h>
-#include <JFontStyle.h>
+#include <jx-af/jx/JXEditTable.h>
+#include <jx-af/jcore/JAuxTableData.h>
+#include <jx-af/jcore/JFontStyle.h>
 
 class JString;
 class GLRaggedFloatTableData;

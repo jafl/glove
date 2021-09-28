@@ -10,7 +10,7 @@
 #ifndef _H_GLHistory
 #define _H_GLHistory
 
-#include <JXTEBase.h>
+#include <jx-af/jx/JXTEBase.h>
 
 class JString;
 class JXXFontMenu;

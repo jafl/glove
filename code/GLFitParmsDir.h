@@ -10,8 +10,8 @@
 #ifndef _H_GLFitParmsDir
 #define _H_GLFitParmsDir
 
-#include <JXWindowDirector.h>
-#include <JPtrArray.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class JXTextMenu;
 class GLFitBase;

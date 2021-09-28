@@ -11,7 +11,7 @@
 
 #include <GLModuleFitDescription.h>
 #include "GLDLFitModule.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 
 /******************************************************************************

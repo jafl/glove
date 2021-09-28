@@ -10,7 +10,7 @@
 #ifndef _H_GLPlotApp
 #define _H_GLPlotApp
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
 class GLPlotApp : public JXApplication
 {

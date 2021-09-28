@@ -10,7 +10,7 @@
 #ifndef _H_GLTransformFunctionDialog
 #define _H_GLTransformFunctionDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextButton;
 class JXInputField;

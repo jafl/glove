@@ -13,20 +13,20 @@
 #include "GloveModule.h"
 #include "GLUndoElementsInsert.h"
 
-#include <JXApplication.h>
+#include <jx-af/jx/JXApplication.h>
 
-#include <JOutPipeStream.h>
-#include <JProcess.h>
-#include <JUserNotification.h>
-#include <JCreateProgressDisplay.h>
+#include <jx-af/jcore/JOutPipeStream.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/JCreateProgressDisplay.h>
 
-#include <JXDeleteObjectTask.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXDeleteObjectTask.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <jProcessUtil.h>
-#include <jStreamUtil.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
 #include <sstream>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
  Create

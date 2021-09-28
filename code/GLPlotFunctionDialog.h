@@ -10,7 +10,7 @@
 #ifndef _H_GLPlotFunctionDialog
 #define _H_GLPlotFunctionDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextButton;
 class JXInputField;

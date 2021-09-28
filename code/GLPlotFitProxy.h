@@ -13,8 +13,8 @@
 
 #include <GLPlotFitFunction.h>
 
-#include <JArray.h>
-#include <JString.h>
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/JString.h>
 
 class GLVarList;
 class JFunction;

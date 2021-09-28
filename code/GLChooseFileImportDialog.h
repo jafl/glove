@@ -10,8 +10,8 @@
 #ifndef _H_GLChooseFileImportDialog
 #define _H_GLChooseFileImportDialog
 
-#include <JXDialogDirector.h>
-#include <JPrefObject.h>
+#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jcore/JPrefObject.h>
 
 class JXTextMenu;
 class JXTextButton;

@@ -10,7 +10,7 @@
 #ifndef _H_GLCreateVectorPlotDialog
 #define _H_GLCreateVectorPlotDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextMenu;
 class GLRaggedFloatTableData;

@@ -15,9 +15,9 @@
 #include "GLChooseFileImportDialog.h"
 #include "GLGetDelimiterDialog.h"
 #include "GLPlotDir.h"
-#include "JX2DPlotWidget.h"
-#include "J2DPlotData.h"
-#include "J2DVectorData.h"
+#include "jx-af/j2dplot/JX2DPlotWidget.h"
+#include "jx-af/j2dplot/J2DPlotData.h"
+#include "jx-af/j2dplot/J2DVectorData.h"
 #include "GLRowHeaderWidget.h"
 #include "GLColHeaderWidget.h"
 #include "GLRaggedFloatTableData.h"
@@ -30,33 +30,33 @@
 #include "fileprint.xpm"
 #include "manual.xpm"
 
-#include "JXToolBar.h"
+#include "jx-af/jx/JXToolBar.h"
 
-#include <JXDialogDirector.h>
-#include <JXDocumentMenu.h>
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXScrollbarSet.h>
-#include <JXScrollbar.h>
-#include <JXHelpManager.h>
-#include <JXPSPrinter.h>
-#include <JXImage.h>
-#include <JXTextButton.h>
-#include <jXActionDefs.h>
+#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXDocumentMenu.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXScrollbar.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/jXActionDefs.h>
 
-#include <JUserNotification.h>
-#include <JChooseSaveFile.h>
-#include <JLatentPG.h>
-#include <JOutPipeStream.h>
-#include <JStringIterator.h>
+#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/JChooseSaveFile.h>
+#include <jx-af/jcore/JLatentPG.h>
+#include <jx-af/jcore/JOutPipeStream.h>
+#include <jx-af/jcore/JStringIterator.h>
 
-#include <jErrno.h>
-#include <jProcessUtil.h>
-#include <jStreamUtil.h>
-#include <jFStreamUtil.h>
+#include <jx-af/jcore/jErrno.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jFStreamUtil.h>
 #include <sstream>
-#include <jFileUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kGloveFileSignature = "*** Glove File Format ***";
 static const JFileVersion kCurrentGloveVersion = 3;

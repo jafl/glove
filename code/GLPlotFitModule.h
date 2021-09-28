@@ -12,7 +12,7 @@
 
 // Superclass Header
 #include <GLPlotFitBase.h>
-#include <JString.h>
+#include <jx-af/jcore/JString.h>
 
 class GLDLFitModule;
 class JVector;

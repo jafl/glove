@@ -1,6 +1,6 @@
-#include <jFStreamUtil.h>
-#include <JString.h>
-#include <JArray.h>
+#include <jx-af/jcore/jFStreamUtil.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JArray.h>
 
 main
 	(

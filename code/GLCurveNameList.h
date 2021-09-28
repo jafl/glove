@@ -8,8 +8,8 @@
 #ifndef _H_GLCurveNameList
 #define _H_GLCurveNameList
 
-#include <JXEditTable.h>
-#include <J2DPlotWidget.h>
+#include <jx-af/jx/JXEditTable.h>
+#include <jx-af/j2dplot/J2DPlotWidget.h>
 
 class JXInputField;
 class GLPlotDir;

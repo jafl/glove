@@ -13,17 +13,17 @@
 #include "GLPlotApp.h"
 #include "GLGlobals.h"
 
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXWindowPainter.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXWindowPainter.h>
 
-#include <JProcess.h>
-#include <JOutPipeStream.h>
-#include <JStringIterator.h>
-#include <jProcessUtil.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jcore/JOutPipeStream.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kModuleMenuStr = "Reload modules %l";
 

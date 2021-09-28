@@ -10,7 +10,7 @@
 #ifndef _H_GLAboutDialog
 #define _H_GLAboutDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextButton;
 

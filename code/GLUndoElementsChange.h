@@ -11,8 +11,8 @@
 #define _H_GLUndoElementsChange
 
 #include <GLUndoElementsBase.h>
-#include <JPoint.h>
-#include <JPtrArray.h>
+#include <jx-af/jcore/JPoint.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class GLRaggedFloatTable;
 class GLRaggedFloatTableData;

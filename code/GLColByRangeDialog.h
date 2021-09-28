@@ -10,7 +10,7 @@
 #ifndef _H_GLColByRangeDialog
 #define _H_GLColByRangeDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextMenu;
 class JXFloatInput;

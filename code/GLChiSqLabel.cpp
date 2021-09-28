@@ -11,14 +11,14 @@
 
 #include <GLChiSqLabel.h>
 
-#include <JXColorManager.h>
-#include <JXWindowPainter.h>
-#include <JXFontManager.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXWindowPainter.h>
+#include <jx-af/jx/JXFontManager.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
 
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

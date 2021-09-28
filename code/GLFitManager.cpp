@@ -16,9 +16,9 @@
 #include "GLGlobals.h"
 #include "GLPrefsMgr.h"
 #include "GLPlotApp.h"
-#include <JDirInfo.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion	kCurrentPrefsVersion = 1;
 

@@ -10,10 +10,10 @@
 #ifndef _H_GLPlotDir
 #define _H_GLPlotDir
 
-#include <JXDocument.h>
-#include <JPtrArray.h>
+#include <jx-af/jx/JXDocument.h>
+#include <jx-af/jcore/JPtrArray.h>
 #include "GloveCurveStats.h"
-#include <JXPM.h>
+#include <jx-af/jcore/JXPM.h>
 
 class GLPlotter;
 class JString;

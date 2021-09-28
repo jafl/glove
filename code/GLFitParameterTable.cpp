@@ -11,21 +11,21 @@
 #include "GLFitDescription.h"
 #include <GLParmColHeaderWidget.h>
 
-#include <J2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotWidget.h>
 
-#include <JXColorManager.h>
-#include <JXFloatInput.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXFloatInput.h>
 
-#include <JFontManager.h>
-#include <JPagePrinter.h>
-#include <JPainter.h>
-#include <JTableSelection.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JTableSelection.h>
 
-#include <jGlobals.h>
-#include <jASCIIConstants.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jASCIIConstants.h>
 
-#include <JMinMax.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;

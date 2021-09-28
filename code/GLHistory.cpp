@@ -12,27 +12,27 @@
 #include <GLHistory.h>
 #include <GLGlobals.h>
 
-#include <JXWindow.h>
-#include <JXMenuBar.h>
-#include <JXXFontMenu.h>
-#include <JXFontSizeMenu.h>
-#include <JXScrollbarSet.h>
-#include <JXScrollbar.h>
-#include <JXToolBar.h>
-#include <JXStyledText.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXXFontMenu.h>
+#include <jx-af/jx/JXFontSizeMenu.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXScrollbar.h>
+#include <jx-af/jx/JXToolBar.h>
+#include <jx-af/jx/JXStyledText.h>
 
-#include <JFontManager.h>
-#include <JRegex.h>
-#include <JPagePrinter.h>
-#include <jASCIIConstants.h>
-#include <jFileUtil.h>
-#include <jProcessUtil.h>
-#include <jGlobals.h>
-#include <jTime.h>
-#include <jFStreamUtil.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JRegex.h>
+#include <jx-af/jcore/JPagePrinter.h>
+#include <jx-af/jcore/jASCIIConstants.h>
+#include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jFStreamUtil.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kDefTabCharCount = 4;
 

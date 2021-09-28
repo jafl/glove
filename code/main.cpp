@@ -9,10 +9,10 @@
 #include "GLMDIServer.h"
 #include "GLPrefsMgr.h"
 #include "GLGlobals.h"
-#include <jCommandLine.h>
-#include <jTime.h>
-#include <jWebUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jCommandLine.h>
+#include <jx-af/jcore/jTime.h>
+#include <jx-af/jcore/jWebUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 void ParseTextOptions(const int argc, char* argv[]);
 

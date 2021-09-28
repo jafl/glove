@@ -10,9 +10,9 @@
 #ifndef _H_GLNonLinearFitDialog
 #define _H_GLNonLinearFitDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
-#include <JString.h>
+#include <jx-af/jcore/JString.h>
 
 class GLVarList;
 class GLVarTable;

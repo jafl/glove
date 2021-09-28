@@ -12,7 +12,7 @@
 
 //includes
 
-#include <JXWindowDirector.h>
+#include <jx-af/jx/JXWindowDirector.h>
 
 class GLParmColHeaderWidget;
 class JXExprEditor;

@@ -10,7 +10,7 @@
 #ifndef _H_GLFitBase
 #define _H_GLFitBase
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 class JString;
 

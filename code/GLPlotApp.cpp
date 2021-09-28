@@ -14,14 +14,14 @@
 #include "GLAboutDialog.h"
 #include "GLStringData.h"
 
-#include <JXDocumentManager.h>
+#include <jx-af/jx/JXDocumentManager.h>
 
-#include <JDirInfo.h>
-#include <JPtrArray.h>
-#include <JPoint.h>
-#include <jFileUtil.h>
+#include <jx-af/jcore/JDirInfo.h>
+#include <jx-af/jcore/JPtrArray.h>
+#include <jx-af/jcore/JPoint.h>
+#include <jx-af/jcore/jFileUtil.h>
 #include <stdlib.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kAppSignature = "glove";
 

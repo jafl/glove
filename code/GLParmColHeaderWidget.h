@@ -11,7 +11,7 @@
 #define _H_GLParmColHeaderWidget
 
 
-#include <JXColHeaderWidget.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
 
 class JPagePrinter;
 

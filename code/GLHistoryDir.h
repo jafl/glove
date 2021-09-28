@@ -10,8 +10,8 @@
 #ifndef _H_GLHistoryDir
 #define _H_GLHistoryDir
 
-#include <JXDocument.h>
-#include <JXPM.h>
+#include <jx-af/jx/JXDocument.h>
+#include <jx-af/jcore/JXPM.h>
 
 class GLHistory;
 class JXTextMenu;

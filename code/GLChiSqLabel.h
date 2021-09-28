@@ -10,7 +10,7 @@
 #ifndef _H_GLChiSqLabel
 #define _H_GLChiSqLabel
 
-#include <JXDecorRect.h>
+#include <jx-af/jx/JXDecorRect.h>
 
 class GLChiSqLabel : public JXDecorRect
 {

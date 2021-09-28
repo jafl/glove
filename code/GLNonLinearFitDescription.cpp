@@ -10,8 +10,8 @@
  *****************************************************************************/
 
 #include <GLNonLinearFitDescription.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentSetupVersion	= 0;
 

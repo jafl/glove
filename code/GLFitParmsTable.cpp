@@ -8,13 +8,13 @@
  ******************************************************************************/
 
 #include <GLFitParmsTable.h>
-#include <JXColorManager.h>
-#include <JPainter.h>
-#include <JFontManager.h>
-#include <JFontStyle.h>
-#include <JString.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JFontStyle.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kDefColWidth  = 50;
 const JCoordinate kHMarginWidth = 5;

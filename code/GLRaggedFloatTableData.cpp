@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 #include "GLRaggedFloatTableData.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JUtf8Byte* GLRaggedFloatTableData::kElementInserted = "ElementInserted::GLRaggedFloatTableData";
 const JUtf8Byte* GLRaggedFloatTableData::kElementRemoved  = "ElementRemoved::GLRaggedFloatTableData";

@@ -9,10 +9,10 @@
 
 #include <GLDLFitModule.h>
 
-#include <JVector.h>
+#include <jx-af/jcore/JVector.h>
 
 #include <ace/DLL.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 typedef const JUtf8Byte** (GetParmsFn)();
 typedef JSize (GetParmCountFn)();

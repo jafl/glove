@@ -9,24 +9,24 @@
  
 #include "GLFitModule.h"
 #include "GLPlotDir.h"
-#include "J2DPlotDataBase.h"
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
 #include "GloveModule.h"
 #include "GLPlotModuleFit.h"
 #include "GLPlotter.h"
 #include "GLVarList.h"
 
-#include <JXApplication.h>
-#include <JXDeleteObjectTask.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXDeleteObjectTask.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <JOutPipeStream.h>
-#include <JCreateProgressDisplay.h>
-#include <JProcess.h>
-#include <JExprParser.h>
-#include <JStringIterator.h>
-#include <jProcessUtil.h>
-#include <jStreamUtil.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JOutPipeStream.h>
+#include <jx-af/jcore/JCreateProgressDisplay.h>
+#include <jx-af/jcore/JProcess.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jcore/JStringIterator.h>
+#include <jx-af/jcore/jProcessUtil.h>
+#include <jx-af/jcore/jStreamUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const int kASCIIZero = 48;
 

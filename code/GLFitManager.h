@@ -11,9 +11,9 @@
 #define _H_GLFitManager
 
 #include "GLFitDescription.h"
-#include <JPrefObject.h>
-#include <JBroadcaster.h>
-#include <JPtrArray.h>
+#include <jx-af/jcore/JPrefObject.h>
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class GLFitManager : public JPrefObject, virtual public JBroadcaster
 {

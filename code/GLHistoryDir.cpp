@@ -10,17 +10,17 @@
 #include "GLHistoryDir.h"
 #include "GLHistory.h"
 
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <JXMenu.h>
-#include <JXMenuBar.h>
-#include <JXTextMenu.h>
-#include <JXApplication.h>
-#include <jXGlobals.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXMenu.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <JChooseSaveFile.h>
+#include <jx-af/jcore/JChooseSaveFile.h>
 #include <jx_plain_file_small.xpm>
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kFileMenuStr =
 	"    Save session             %k Meta-S"

@@ -11,7 +11,7 @@
 #define _H_GLPlotFitPowerLaw
 
 #include <GLPlotFitBase.h>
-#include <JString.h>
+#include <jx-af/jcore/JString.h>
 
 class J2DPlotWidget;
 

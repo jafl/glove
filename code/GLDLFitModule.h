@@ -10,8 +10,8 @@
 #ifndef _H_GLDLFitModule
 #define _H_GLDLFitModule
 
-#include <jTypes.h>
-#include <JPtrArray-JString.h>
+#include <jx-af/jcore/jTypes.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 
 typedef JFloat (EvalFn)(const JFloat*, const JFloat);
 typedef JFloat (InitialValFn)(const JSize, const JFloat*, const JFloat*, const JFloat*, const JFloat*, JFloat*);

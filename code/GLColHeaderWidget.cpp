@@ -11,16 +11,16 @@
 
 #include "GLColHeaderWidget.h"
 #include "GLRaggedFloatTable.h"
-#include <JXWindow.h>
-#include <JXScrollbarSet.h>
-#include <JXScrollbar.h>
-#include <JXDragPainter.h>
-#include <JXFontManager.h>
-#include <JXColorManager.h>
-#include <jXPainterUtil.h>
-#include <jXConstants.h>
-#include <jGlobals.h>
-#include <jAssert.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXScrollbar.h>
+#include <jx-af/jx/JXDragPainter.h>
+#include <jx-af/jx/JXFontManager.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/jXPainterUtil.h>
+#include <jx-af/jx/jXConstants.h>
+#include <jx-af/jcore/jGlobals.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JSize kCellFrameWidth = kJXDefaultBorderWidth;
 

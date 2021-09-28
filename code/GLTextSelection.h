@@ -11,8 +11,8 @@
 #define _H_GLTextSelection
 
 
-#include <JXTextSelection.h>
-#include <JString.h>
+#include <jx-af/jx/JXTextSelection.h>
+#include <jx-af/jcore/JString.h>
 
 
 class GLTextSelection : public JXTextSelection

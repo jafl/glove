@@ -10,11 +10,11 @@
 #ifndef _H_GLDataModule
 #define _H_GLDataModule
 
-#include <JArray.h>
+#include <jx-af/jcore/JArray.h>
 
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include <JMessageProtocol.h>	// template which requires ace includes
+#include <jx-af/jcore/JMessageProtocol.h>	// template which requires ace includes
 
 class GLRaggedFloatTable;
 class GLRaggedFloatTableData;

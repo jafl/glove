@@ -10,12 +10,12 @@
 #ifndef _H_GLPlotter
 #define _H_GLPlotter
 
-#include <JX2DPlotWidget.h>
-#include <JArray.h>
+#include <jx-af/j2dplot/JX2DPlotWidget.h>
+#include <jx-af/jcore/JArray.h>
 
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include <JMessageProtocol.h>	// template which requires ace includes
+#include <jx-af/jcore/JMessageProtocol.h>	// template which requires ace includes
 
 class JXTextMenu;
 class GLHistoryDir;

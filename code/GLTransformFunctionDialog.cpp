@@ -12,14 +12,14 @@
 #include "GLExprDirector.h"
 #include "GLGlobals.h"
 
-#include <JXTextButton.h>
-#include <JXInputField.h>
-#include <JXStaticText.h>
-#include <JXTextMenu.h>
-#include <JXWindow.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXWindow.h>
 
-#include <JFunction.h>
-#include <jAssert.h>
+#include <jx-af/jexpr/JFunction.h>
+#include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
  Constructor

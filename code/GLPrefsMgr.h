@@ -12,9 +12,9 @@
 #ifndef _H_GLPrefsMgr
 #define _H_GLPrefsMgr
 
-#include <JXPrefsManager.h>
-#include <JPtrArray.h>
-#include <JString.h>
+#include <jx-af/jx/JXPrefsManager.h>
+#include <jx-af/jcore/JPtrArray.h>
+#include <jx-af/jcore/JString.h>
 
 class JXWindow;
 class JXPTPrinter;

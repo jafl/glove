@@ -8,7 +8,7 @@
 #ifndef _H_GLGlobals
 #define _H_GLGlobals
 
-#include <jXGlobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 class GLFitManager;
 class GLPrefsMgr;

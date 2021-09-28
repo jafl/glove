@@ -12,7 +12,7 @@
 #ifndef _H_GLMDIServer
 #define _H_GLMDIServer
 
-#include <JXMDIServer.h>
+#include <jx-af/jx/JXMDIServer.h>
 
 class GLPlotApp;
 

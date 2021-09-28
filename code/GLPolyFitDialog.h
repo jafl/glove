@@ -10,9 +10,9 @@
 #ifndef _H_GLPolyFitDialog
 #define _H_GLPolyFitDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
-#include <JArray.h>
+#include <jx-af/jcore/JArray.h>
 
 class GLVarList;
 class JString;

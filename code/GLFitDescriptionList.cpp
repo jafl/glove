@@ -16,23 +16,23 @@
 #include "glNonLinearFit.xpm"
 #include "glPolyFit.xpm"
 
-#include <J2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotWidget.h>
 
-#include <JXColorManager.h>
-#include <JXDisplay.h>
-#include <JXImage.h>
-#include <JXInputField.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXInputField.h>
 
-#include <JFontManager.h>
-#include <JPainter.h>
-#include <JTableSelection.h>
+#include <jx-af/jcore/JFontManager.h>
+#include <jx-af/jcore/JPainter.h>
+#include <jx-af/jcore/JTableSelection.h>
 
 #include <jx_executable_small.xpm>
 
-#include <jASCIIConstants.h>
+#include <jx-af/jcore/jASCIIConstants.h>
 
-#include <JMinMax.h>
-#include <jAssert.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kHMarginWidth = 3;
 const JCoordinate kVMarginWidth = 1;

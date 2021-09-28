@@ -10,7 +10,7 @@
 #ifndef _H_GLFitModuleDialog
 #define _H_GLFitModuleDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextMenu;
 class JXTextButton;

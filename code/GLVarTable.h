@@ -10,7 +10,7 @@
 #ifndef _H_GLVarTable
 #define _H_GLVarTable
 
-#include <JXEditTable.h>
+#include <jx-af/jx/JXEditTable.h>
 
 class JXTextMenu;
 class JXExprInput;

@@ -10,8 +10,8 @@
 #ifndef _H_GRaggedFloatTableData
 #define _H_GRaggedFloatTableData
 
-#include <JTableData.h>
-#include <JPtrArray.h>
+#include <jx-af/jcore/JTableData.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class GLRaggedFloatTableData : public JTableData
 {

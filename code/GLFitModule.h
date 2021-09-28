@@ -10,11 +10,11 @@
 #ifndef _H_GLFitModule
 #define _H_GLFitModule
 
-#include <JPtrArray.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 #include <ace/LSOCK_Stream.h>
 #include <ace/UNIX_Addr.h>
-#include <JMessageProtocol.h>	// template which requires ace includes
+#include <jx-af/jcore/JMessageProtocol.h>	// template which requires ace includes
 
 class GLPlotDir;
 class JProgressDisplay;

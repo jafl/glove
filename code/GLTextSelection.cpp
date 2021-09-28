@@ -8,7 +8,7 @@
  *****************************************************************************/
 
 #include "GLTextSelection.h"
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kGloveTextDataXAtomName = "GLOVE_TEXT";
 

@@ -12,17 +12,17 @@
 
 #include "GLGlobals.h"
 
-#include <JXExprEditor.h>
-#include <JXInputField.h>
-#include <JXScrollbarSet.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextCheckbox.h>
-#include <JXWindow.h>
+#include <jx-af/jexpr/JXExprEditor.h>
+#include <jx-af/jx/JXInputField.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXWindow.h>
 
-#include <JExprParser.h>
-#include <JString.h>
-#include <jAssert.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kDeleteButtonUpdateDelay	= 1000;
 

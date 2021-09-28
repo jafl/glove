@@ -11,8 +11,8 @@
 #define _H_GLPlotExpFit
 
 #include <GLPlotLinearFit.h>
-#include <jTypes.h>
-#include <JArray.h>
+#include <jx-af/jcore/jTypes.h>
+#include <jx-af/jcore/JArray.h>
 
 class J2DPlotWidget;
 class JString;

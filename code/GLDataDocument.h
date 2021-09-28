@@ -10,9 +10,9 @@
 #ifndef _H_GLDataDocument
 #define _H_GLDataDocument
 
-#include <JXFileDocument.h>
-#include <JString.h>
-#include <JPtrArray.h>
+#include <jx-af/jx/JXFileDocument.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JPtrArray.h>
 
 class GLRaggedFloatTableData;
 class GLRaggedFloatTable;

@@ -8,17 +8,17 @@
  ********************************************************************************/
 
 #include "GLPlotFitQuad2.h"
-#include "J2DPlotWidget.h"
-#include "J2DPlotDataBase.h"
+#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
 
-#include <JString.h>
-#include <JArray.h>
-#include <JMatrix.h>
-#include <JVector.h>
+#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JArray.h>
+#include <jx-af/jcore/JMatrix.h>
+#include <jx-af/jcore/JVector.h>
 
-#include <jMath.h>
-#include <JMinMax.h>
-#include <jAssert.h>
+#include <jx-af/jcore/jMath.h>
+#include <jx-af/jcore/JMinMax.h>
+#include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
  Constructor 

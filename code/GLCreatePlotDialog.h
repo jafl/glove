@@ -10,7 +10,7 @@
 #ifndef _H_GLCreatePlotDialog
 #define _H_GLCreatePlotDialog
 
-#include <JXDialogDirector.h>
+#include <jx-af/jx/JXDialogDirector.h>
 
 class JXTextMenu;
 class JXTextCheckbox;

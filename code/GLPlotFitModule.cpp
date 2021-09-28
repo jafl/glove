@@ -10,9 +10,9 @@
 #include <GLPlotFitModule.h>
 #include "GLDLFitModule.h"
 
-#include <JVector.h>
+#include <jx-af/jcore/JVector.h>
 
-#include <jAssert.h>
+#include <jx-af/jcore/jAssert.h>
 
 
 /******************************************************************************

@@ -10,7 +10,7 @@
 #ifndef _H_GLCurveStats
 #define _H_GLCurveStats
 
-#include <jTypes.h>
+#include <jx-af/jcore/jTypes.h>
 
 enum GCurveType
 {

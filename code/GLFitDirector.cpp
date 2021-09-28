@@ -40,34 +40,34 @@
 #include "jx_help_specific.xpm"
 #include "jx_help_toc.xpm"
 
-#include <J2DPlotData.h>
-#include <J2DPlotFunction.h>
-#include <JX2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotData.h>
+#include <jx-af/j2dplot/J2DPlotFunction.h>
+#include <jx-af/j2dplot/JX2DPlotWidget.h>
 
-#include <JXToolBar.h>
+#include <jx-af/jx/JXToolBar.h>
 
-#include <JXApplication.h>
-#include <JXColHeaderWidget.h>
-#include <JXColorManager.h>
-#include <JXDownRect.h>
-#include <JXExprEditor.h>
-#include <JXHelpManager.h>
-#include <JXHorizPartition.h>
-#include <JXImage.h>
-#include <JXMenuBar.h>
-#include <JXPSPrinter.h>
-#include <JXScrollbarSet.h>
-#include <JXStaticText.h>
-#include <JXTextButton.h>
-#include <JXTextMenu.h>
-#include <JXUpRect.h>
-#include <JXVertPartition.h>
-#include <JXWindow.h>
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXDownRect.h>
+#include <jx-af/jexpr/JXExprEditor.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXHorizPartition.h>
+#include <jx-af/jx/JXImage.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXUpRect.h>
+#include <jx-af/jx/JXVertPartition.h>
+#include <jx-af/jx/JXWindow.h>
 
-#include <JExprParser.h>
-#include <JVector.h>
-#include <jDirUtil.h>
-#include <jAssert.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jcore/JVector.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kCloseButtonWidth 	= 50;
 const JCoordinate kCurrentPrefsVersion	= 1;

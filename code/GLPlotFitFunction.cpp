@@ -8,11 +8,11 @@
  ********************************************************************************/
 
 #include "GLPlotFitFunction.h"
-#include "J2DPlotWidget.h"
-#include "J2DPlotDataBase.h"
-#include "J2DPlotData.h"
-#include "J2DDataPoint.h"
-#include "jAssert.h"
+#include "jx-af/j2dplot/J2DPlotWidget.h"
+#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include "jx-af/j2dplot/J2DPlotData.h"
+#include "jx-af/j2dplot/J2DDataPoint.h"
+#include "jx-af/jcore/jAssert.h"
 
 /*********************************************************************************
  Constructor 
