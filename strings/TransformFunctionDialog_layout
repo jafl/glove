@@ -1,0 +1,9 @@
+0
+itsDestMenu::TransformFunctionDialog::JXLayout "Destination:"
+itsEditButton::TransformFunctionDialog::JXLayout "Edit"
+itsColNumber::TransformFunctionDialog::JXLayout ""
+itsClearButton::TransformFunctionDialog::JXLayout "Clear"
+itsVarMenu::TransformFunctionDialog::JXLayout "Constants"
+itsTransformButton::TransformFunctionDialog::JXLayout "Transform"
+itsEditButton::TransformFunctionDialog::shortcuts::JXLayout "#E"
+itsCloseButton::TransformFunctionDialog::JXLayout "Close"

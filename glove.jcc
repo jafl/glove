@@ -8,314 +8,314 @@ T
 F
 "./code/main.cpp"
 T
-2 "GLPlotApp.cpp"
+2 "PlotApp.cpp"
 F
-"./code/GLPlotApp.cpp"
+"./code/PlotApp.cpp"
 T
-2 "GLGlobals.cpp"
+2 "globals.cpp"
 F
-"./code/GLGlobals.cpp"
+"./code/globals.cpp"
 T
-2 "GLPrefsMgr.cpp"
+2 "PrefsMgr.cpp"
 F
-"./code/GLPrefsMgr.cpp"
+"./code/PrefsMgr.cpp"
 T
-2 "GLMDIServer.cpp"
+2 "MDIServer.cpp"
 F
-"./code/GLMDIServer.cpp"
+"./code/MDIServer.cpp"
 F
 T
 1 "widgets"
 T
-2 "GLFitParmsTable.cpp"
+2 "FitParmsTable.cpp"
 F
-"./code/GLFitParmsTable.cpp"
+"./code/FitParmsTable.cpp"
 T
-2 "GLHistory.cpp"
+2 "History.cpp"
 F
-"./code/GLHistory.cpp"
+"./code/History.cpp"
 T
-2 "GLPlotter.cpp"
+2 "Plotter.cpp"
 F
-"./code/GLPlotter.cpp"
+"./code/Plotter.cpp"
 T
-2 "GLColHeaderWidget.cpp"
+2 "ColHeaderWidget.cpp"
 F
-"./code/GLColHeaderWidget.cpp"
+"./code/ColHeaderWidget.cpp"
 T
-2 "GLRaggedFloatTable.cpp"
+2 "RaggedFloatTable.cpp"
 F
-"./code/GLRaggedFloatTable.cpp"
+"./code/RaggedFloatTable.cpp"
 T
-2 "GLRowHeaderWidget.cpp"
+2 "RowHeaderWidget.cpp"
 F
-"./code/GLRowHeaderWidget.cpp"
+"./code/RowHeaderWidget.cpp"
 F
 T
 1 "directors"
 T
-2 "GLDataDocument.cpp"
+2 "DataDocument.cpp"
 F
-"./code/GLDataDocument.cpp"
+"./code/DataDocument.cpp"
 T
-2 "GLExprDirector.cpp"
+2 "ExprDirector.cpp"
 F
-"./code/GLExprDirector.cpp"
+"./code/ExprDirector.cpp"
 T
-2 "GLFitModuleDialog.cpp"
+2 "FitModuleDialog.cpp"
 F
-"./code/GLFitModuleDialog.cpp"
+"./code/FitModuleDialog.cpp"
 T
-2 "GLFitParmsDir.cpp"
+2 "FitParmsDir.cpp"
 F
-"./code/GLFitParmsDir.cpp"
+"./code/FitParmsDir.cpp"
 T
-2 "GLAboutDialog.cpp"
+2 "AboutDialog.cpp"
 F
-"./code/GLAboutDialog.cpp"
+"./code/AboutDialog.cpp"
 T
-2 "GLHistoryDir.cpp"
+2 "HistoryDir.cpp"
 F
-"./code/GLHistoryDir.cpp"
+"./code/HistoryDir.cpp"
 T
-2 "GLChooseFileImportDialog.cpp"
+2 "ChooseFileImportDialog.cpp"
 F
-"./code/GLChooseFileImportDialog.cpp"
+"./code/ChooseFileImportDialog.cpp"
 T
-2 "GLColByIncDialog.cpp"
+2 "ColByIncDialog.cpp"
 F
-"./code/GLColByIncDialog.cpp"
+"./code/ColByIncDialog.cpp"
 T
-2 "GLColByRangeDialog.cpp"
+2 "ColByRangeDialog.cpp"
 F
-"./code/GLColByRangeDialog.cpp"
+"./code/ColByRangeDialog.cpp"
 T
-2 "GLCreatePlotDialog.cpp"
+2 "CreatePlotDialog.cpp"
 F
-"./code/GLCreatePlotDialog.cpp"
+"./code/CreatePlotDialog.cpp"
 T
-2 "GLCreateVectorPlotDialog.cpp"
+2 "CreateVectorPlotDialog.cpp"
 F
-"./code/GLCreateVectorPlotDialog.cpp"
+"./code/CreateVectorPlotDialog.cpp"
 T
-2 "GLGetDelimiterDialog.cpp"
+2 "GetDelimiterDialog.cpp"
 F
-"./code/GLGetDelimiterDialog.cpp"
+"./code/GetDelimiterDialog.cpp"
 T
-2 "GLPlotFunctionDialog.cpp"
+2 "PlotFunctionDialog.cpp"
 F
-"./code/GLPlotFunctionDialog.cpp"
+"./code/PlotFunctionDialog.cpp"
 T
-2 "GLTransformFunctionDialog.cpp"
+2 "TransformFunctionDialog.cpp"
 F
-"./code/GLTransformFunctionDialog.cpp"
+"./code/TransformFunctionDialog.cpp"
 T
-2 "GLPlotDir.cpp"
+2 "PlotDir.cpp"
 F
-"./code/GLPlotDir.cpp"
+"./code/PlotDir.cpp"
 F
 T
 1 "misc"
 T
-2 "GLDataModule.cpp"
+2 "DataModule.cpp"
 F
-"./code/GLDataModule.cpp"
+"./code/DataModule.cpp"
 T
-2 "GLFitModule.cpp"
+2 "FitModule.cpp"
 F
-"./code/GLFitModule.cpp"
+"./code/FitModule.cpp"
 T
-2 "GLRaggedFloatTableData.cpp"
+2 "RaggedFloatTableData.cpp"
 F
-"./code/GLRaggedFloatTableData.cpp"
+"./code/RaggedFloatTableData.cpp"
 T
-2 "GLVarList.cpp"
+2 "VarList.cpp"
 F
-"./code/GLVarList.cpp"
+"./code/VarList.cpp"
 T
-2 "GLTextSelection.cpp"
+2 "TextSelection.cpp"
 F
-"./code/GLTextSelection.cpp"
+"./code/TextSelection.cpp"
 F
 T
 1 "fits"
 T
-2 "GLFitBase.cpp"
+2 "FitBase.cpp"
 F
-"./code/GLFitBase.cpp"
+"./code/FitBase.cpp"
 T
-2 "GLPlotFitBase.cpp"
+2 "PlotFitBase.cpp"
 F
-"./code/GLPlotFitBase.cpp"
+"./code/PlotFitBase.cpp"
 T
-2 "GLPlotLinearFit.cpp"
+2 "PlotLinearFit.cpp"
 F
-"./code/GLPlotLinearFit.cpp"
+"./code/PlotLinearFit.cpp"
 T
-2 "GLPlotExpFit.cpp"
+2 "PlotExpFit.cpp"
 F
-"./code/GLPlotExpFit.cpp"
+"./code/PlotExpFit.cpp"
 T
-2 "GLPlotFitFunction.cpp"
+2 "PlotFitFunction.cpp"
 F
-"./code/GLPlotFitFunction.cpp"
+"./code/PlotFitFunction.cpp"
 T
-2 "GLPlotModuleFit.cpp"
+2 "PlotModuleFit.cpp"
 F
-"./code/GLPlotModuleFit.cpp"
+"./code/PlotModuleFit.cpp"
 T
-2 "GLPlotQuadFit.cpp"
+2 "PlotQuadFit.cpp"
 F
-"./code/GLPlotQuadFit.cpp"
+"./code/PlotQuadFit.cpp"
 T
-2 "GLPlotFitQuad.cpp"
+2 "PlotFitQuad.cpp"
 F
-"./code/GLPlotFitQuad.cpp"
+"./code/PlotFitQuad.cpp"
 T
-2 "GLPlotFitLinear.cpp"
+2 "PlotFitLinear.cpp"
 F
-"./code/GLPlotFitLinear.cpp"
+"./code/PlotFitLinear.cpp"
 T
-2 "GLPlotFitExp.cpp"
+2 "PlotFitExp.cpp"
 F
-"./code/GLPlotFitExp.cpp"
+"./code/PlotFitExp.cpp"
 T
-2 "GLPlotFitPowerLaw.cpp"
+2 "PlotFitPowerLaw.cpp"
 F
-"./code/GLPlotFitPowerLaw.cpp"
+"./code/PlotFitPowerLaw.cpp"
 T
-2 "GLPlotFitQuad2.cpp"
+2 "PlotFitQuad2.cpp"
 F
-"./code/GLPlotFitQuad2.cpp"
+"./code/PlotFitQuad2.cpp"
 T
-2 "GLPlotFitLinearEq.cpp"
+2 "PlotFitLinearEq.cpp"
 F
-"./code/GLPlotFitLinearEq.cpp"
+"./code/PlotFitLinearEq.cpp"
 T
-2 "GLPlotFitNonLinear.cpp"
+2 "PlotFitNonLinear.cpp"
 F
-"./code/GLPlotFitNonLinear.cpp"
+"./code/PlotFitNonLinear.cpp"
 T
-2 "GLDLFitModule.cpp"
+2 "DLFitModule.cpp"
 F
-"./code/GLDLFitModule.cpp"
+"./code/DLFitModule.cpp"
 T
-2 "GLPlotFitProxy.cpp"
+2 "PlotFitProxy.cpp"
 F
-"./code/GLPlotFitProxy.cpp"
+"./code/PlotFitProxy.cpp"
 F
 T
 1 "fit manager"
 T
-2 "GLFitDirector.cpp"
+2 "FitDirector.cpp"
 F
-"./code/GLFitDirector.cpp"
+"./code/FitDirector.cpp"
 T
-2 "GLFitManager.cpp"
+2 "FitManager.cpp"
 F
-"./code/GLFitManager.cpp"
+"./code/FitManager.cpp"
 T
-2 "GLCurveNameList.cpp"
+2 "CurveNameList.cpp"
 F
-"./code/GLCurveNameList.cpp"
+"./code/CurveNameList.cpp"
 T
-2 "GLFitDescriptionList.cpp"
+2 "FitDescriptionList.cpp"
 F
-"./code/GLFitDescriptionList.cpp"
+"./code/FitDescriptionList.cpp"
 T
-2 "GLFitParameterTable.cpp"
+2 "FitParameterTable.cpp"
 F
-"./code/GLFitParameterTable.cpp"
+"./code/FitParameterTable.cpp"
 T
-2 "GLParmColHeaderWidget.cpp"
+2 "ParmColHeaderWidget.cpp"
 F
-"./code/GLParmColHeaderWidget.cpp"
+"./code/ParmColHeaderWidget.cpp"
 T
-2 "GLChiSqLabel.cpp"
+2 "ChiSqLabel.cpp"
 F
-"./code/GLChiSqLabel.cpp"
+"./code/ChiSqLabel.cpp"
 T
-2 "GLFitDescription.cpp"
+2 "FitDescription.cpp"
 F
-"./code/GLFitDescription.cpp"
+"./code/FitDescription.cpp"
 T
-2 "GLPolyFitDescription.cpp"
+2 "PolyFitDescription.cpp"
 F
-"./code/GLPolyFitDescription.cpp"
+"./code/PolyFitDescription.cpp"
 T
-2 "GLBuiltinFitDescription.cpp"
+2 "BuiltinFitDescription.cpp"
 F
-"./code/GLBuiltinFitDescription.cpp"
+"./code/BuiltinFitDescription.cpp"
 T
-2 "GLNonLinearFitDescription.cpp"
+2 "NonLinearFitDescription.cpp"
 F
-"./code/GLNonLinearFitDescription.cpp"
+"./code/NonLinearFitDescription.cpp"
 T
-2 "GLModuleFitDescription.cpp"
+2 "ModuleFitDescription.cpp"
 F
-"./code/GLModuleFitDescription.cpp"
+"./code/ModuleFitDescription.cpp"
 T
-2 "GLPlotFitModule.cpp"
+2 "PlotFitModule.cpp"
 F
-"./code/GLPlotFitModule.cpp"
+"./code/PlotFitModule.cpp"
 T
-2 "GLNonLinearFitDialog.cpp"
+2 "NonLinearFitDialog.cpp"
 F
-"./code/GLNonLinearFitDialog.cpp"
+"./code/NonLinearFitDialog.cpp"
 T
-2 "GLVarTable.cpp"
+2 "VarTable.cpp"
 F
-"./code/GLVarTable.cpp"
+"./code/VarTable.cpp"
 T
-2 "GLPolyFitDialog.cpp"
+2 "PolyFitDialog.cpp"
 F
-"./code/GLPolyFitDialog.cpp"
+"./code/PolyFitDialog.cpp"
 F
 T
 1 "undo classes"
 T
-2 "GLUndoBase.cpp"
+2 "UndoBase.cpp"
 F
-"./code/GLUndoBase.cpp"
+"./code/UndoBase.cpp"
 T
-2 "GLUndoElementAppend.cpp"
+2 "UndoElementAppend.cpp"
 F
-"./code/GLUndoElementAppend.cpp"
+"./code/UndoElementAppend.cpp"
 T
-2 "GLUndoElementBase.cpp"
+2 "UndoElementBase.cpp"
 F
-"./code/GLUndoElementBase.cpp"
+"./code/UndoElementBase.cpp"
 T
-2 "GLUndoElementChange.cpp"
+2 "UndoElementChange.cpp"
 F
-"./code/GLUndoElementChange.cpp"
+"./code/UndoElementChange.cpp"
 T
-2 "GLUndoElementCut.cpp"
+2 "UndoElementCut.cpp"
 F
-"./code/GLUndoElementCut.cpp"
+"./code/UndoElementCut.cpp"
 T
-2 "GLUndoElementsBase.cpp"
+2 "UndoElementsBase.cpp"
 F
-"./code/GLUndoElementsBase.cpp"
+"./code/UndoElementsBase.cpp"
 T
-2 "GLUndoElementsChange.cpp"
+2 "UndoElementsChange.cpp"
 F
-"./code/GLUndoElementsChange.cpp"
+"./code/UndoElementsChange.cpp"
 T
-2 "GLUndoElementsCut.cpp"
+2 "UndoElementsCut.cpp"
 F
-"./code/GLUndoElementsCut.cpp"
+"./code/UndoElementsCut.cpp"
 T
-2 "GLUndoElementsInsert.cpp"
+2 "UndoElementsInsert.cpp"
 F
-"./code/GLUndoElementsInsert.cpp"
+"./code/UndoElementsInsert.cpp"
 F
 T
 1 "strings"
 T
-2 "glove_strings"
+2 "strings"
 F
-"./strings/glove_strings"
+"./strings/strings"
 F
 T
 1 "help"

@@ -1,0 +1,6 @@
+0
+okButton::NonLinearFitDialog::JXLayout "OK"
+cancelButton::NonLinearFitDialog::shortcuts::JXLayout "^["
+cancelButton::NonLinearFitDialog::JXLayout "Cancel"
+okButton::NonLinearFitDialog::shortcuts::JXLayout "^M"
+itsHelpButton::NonLinearFitDialog::JXLayout "Help"

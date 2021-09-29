@@ -1,0 +1,3 @@
+0
+fitNameLabel::NonLinearFitDialog::functionLayout "Fit Name:"
+fitFnLabel::NonLinearFitDialog::functionLayout "Fit function:"

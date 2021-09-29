@@ -5,10 +5,10 @@
 
  ******************************************************************************/
 
-#include <GLPlotApp.h>
-#include "GLMDIServer.h"
-#include "GLPrefsMgr.h"
-#include "GLGlobals.h"
+#include <PlotApp.h>
+#include "MDIServer.h"
+#include "PrefsMgr.h"
+#include "globals.h"
 #include <jx-af/jcore/jCommandLine.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jWebUtil.h>
@@ -33,7 +33,7 @@ main
 {
 	ParseTextOptions(argc, argv);
 
-	if (!GLMDIServer::WillBeMDIServer(GLPlotApp::GetAppSignature(), argc, argv))
+	if (!MDIServer::WillBeMDIServer(PlotApp::GetAppSignature(), argc, argv))
 	{
 		return 0;
 	}
@@ -42,7 +42,7 @@ main
 	JString prevVersStr;
 
 	auto* app =
-		jnew GLPlotApp(&argc, argv, &displayAbout, &prevVersStr);
+		jnew PlotApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
 	if (displayAbout &&
@@ -51,9 +51,9 @@ main
 		return 0;
 	}
 
-	JCheckForNewerVersion(GLGetPrefsMgr(), kVersionCheckID);
+	JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);
 
-	GLGetMDIServer()->HandleCmdLineOptions(argc, argv);
+	GetMDIServer()->HandleCmdLineOptions(argc, argv);
 
 	if (displayAbout)
 	{
@@ -86,13 +86,13 @@ ParseTextOptions
 	{
 		if (JIsVersionRequest(argv[index]))
 		{
-			GLPlotApp::InitStrings();
+			PlotApp::InitStrings();
 			PrintVersion();
 			exit(0);
 		}
 		else if (JIsHelpRequest(argv[index]))
 		{
-			GLPlotApp::InitStrings();
+			PlotApp::InitStrings();
 			PrintHelp();
 			exit(0);
 		}
@@ -113,7 +113,7 @@ PrintHelp()
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	const JString s = JGetString("GLCommandLineHelp", map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }
 
@@ -131,6 +131,6 @@ PrintVersion()
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	std::cout << JGetString("GLDescription", map, sizeof(map));
+	std::cout << JGetString("Description", map, sizeof(map));
 	std::cout << std::endl << std::endl;
 }

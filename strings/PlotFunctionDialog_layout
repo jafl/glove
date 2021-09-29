@@ -1,0 +1,10 @@
+0
+itsEditButton::PlotFunctionDialog::shortcuts::JXLayout "#E"
+fnLabel::PlotFunctionDialog::JXLayout "Function:"
+itsVarMenu::PlotFunctionDialog::JXLayout "Constants"
+itsClearButton::PlotFunctionDialog::JXLayout "Clear"
+cancelButton::PlotFunctionDialog::JXLayout "Cancel"
+cancelButton::PlotFunctionDialog::shortcuts::JXLayout "^["
+itsEditButton::PlotFunctionDialog::JXLayout "Edit"
+okButton::PlotFunctionDialog::JXLayout "OK"
+okButton::PlotFunctionDialog::shortcuts::JXLayout "^M"

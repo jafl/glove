@@ -1,0 +1,68 @@
+/******************************************************************************
+ FitManager.h
+
+	Interface for the FitManager class
+
+	Copyright (C) 2000 by Glenn W. Bach.
+	
+ *****************************************************************************/
+
+#ifndef _H_FitManager
+#define _H_FitManager
+
+#include "FitDescription.h"
+#include <jx-af/jcore/JPrefObject.h>
+#include <jx-af/jcore/JBroadcaster.h>
+#include <jx-af/jcore/JPtrArray.h>
+
+class FitManager : public JPrefObject, virtual public JBroadcaster
+{
+public:
+
+public:
+
+	FitManager();
+	virtual ~FitManager();
+
+	JSize					GetFitCount() const;
+	const FitDescription&	GetFitDescription(const JIndex index) const;
+	FitDescription&		GetFitDescription(const JIndex index);
+	
+	void	AddFitDescription(const FitDescription& fit);
+	void	AddFitDescription(FitDescription* fit);
+	void	NewFitDescription(const FitDescription::FitType type);
+	void	RemoveFitDescription(const JIndex index);
+
+	bool	FitIsRemovable(const JIndex index);
+
+protected:
+
+	virtual void	ReadPrefs(std::istream& input);
+	virtual void	WritePrefs(std::ostream& output) const;
+
+private:
+
+	JPtrArray<FitDescription>* itsFitDescriptions;
+
+	bool		itsIsInitialized;
+
+private:
+
+	void	InitializeList();
+
+public:
+
+	static const JUtf8Byte* kFitsChanged;
+
+	class FitsChanged : public JBroadcaster::Message
+		{
+		public:
+
+			FitsChanged()
+				:
+				JBroadcaster::Message(kFitsChanged)
+				{ };
+		};
+};
+
+#endif

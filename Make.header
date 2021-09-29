@@ -3,11 +3,8 @@
 
 JX_ROOT := ../JX
 
-APP_NAME          := glove
-APP_VERSION       := ${shell cat release/VERSION}
-SIGNATURE         := ${APP_NAME}
-MENU_STRINGS_FILE := ./strings/${APP_NAME}_menu_strings
-RPM_LIB_PATH      := /usr/lib/${SIGNATURE}
+APP_NAME  := glove
+SIGNATURE := ${APP_NAME}
 
 J_STRING_FILES := ${filter-out %/${APP_NAME}_menu_strings, \
                     ${shell echo strings/*}} strings/version
@@ -33,54 +30,19 @@ LIB_DEPS := ${JX_LIB_ROOT}/libj2dplot.a \
 # make variables
 
 LOADLIBES := ${J_STD_LIBS}
-ifdef J_SYSTEM_HAS_SHARED_LIBS
-  LDFLAGS := -Xlinker -R${RPM_LIB_PATH}
-endif
+LDFLAGS   := 
 
 #####
 
+EXTRA_MENU_STRING_FILES := \
+    ${JX_INCLUDE_ROOT}/jx-af/jexpr/*.cpp \
+    ${JX_INCLUDE_ROOT}/jx-af/j2dplot/*.cpp
+
 include ${MAKE_INCLUDE}/app_targets
 
-#
-# string data
-#
-
-.PHONY : strings
-strings: build_version_string
-	@${RM} ${MENU_STRINGS_FILE}
-	compile_jstrings ${J_STRING_FILES} \
-      --code kGLDefaultStringData ./code/GLStringData.h
-
-${APP_NAME}:: strings
-
-.PHONY : menu_strings
-menu_strings:
-	@${MENU_STR_CMD} ${MENU_STRINGS_FILE} ${SIGNATURE} \
-     -a ${JX_ACTION_DEFS} \
-     -m ./code/*.cpp ${JX_INCLUDE_ROOT}/jx-af/jx/*.cpp \
-        ${JX_INCLUDE_ROOT}/jx-af/jexpr/*.cpp ${JX_INCLUDE_ROOT}/jx-af/j2dplot/*.cpp
-
-#
-# binary distributions
-#
-
-PROG := Glove-${APP_VERSION}
-
-PROG_RELEASE_TAR_NAME := Glove_${APP_VERSION}.tar
-
-RPM_TAR_FILE  := ${RPM_SRC_DIR}/Glove_${APP_VERSION}.tar
-RPM_SPEC_FILE := ./release/pkg/glove.spec
-
-DEB_CTRL_FILE := ./release/pkg/glove.debctrl
-DEB_PKG_FILE  := glove_${APP_VERSION}_i386.deb
-
-.PHONY : release
-release: pre_build_pkgs default
-	@${J_STRIP_DEBUG} ${EXE_NAME}
-	@${MAKE} PKG_PATH=${PROG} init_tarball
-	@ln -s ../${EXE_NAME} ${PROG}/
-	@ln -s ../fitmodule   ${PROG}/
-	@${MAKE} PKG_PATH=${PROG} SOURCE_TAR_NAME=${PROG_RELEASE_TAR_NAME} build_pkgs
+.PHONY : init_tarball_extra
+init_tarball_extra::
+	@ln -s ../fitmodule ${PKG_PATH}/
 
 # DO NOT DELETE THIS LINE -- Code Crusader depends on it.
 

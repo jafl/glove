@@ -1,0 +1,5 @@
+0
+itsDeleteButton::NonLinearFitDialog::variableLayout "Delete"
+itsNewButton::NonLinearFitDialog::variableLayout "New"
+parmLabel::NonLinearFitDialog::variableLayout "Parameters:"
+itsNewButton::NonLinearFitDialog::shortcuts::variableLayout "#N"

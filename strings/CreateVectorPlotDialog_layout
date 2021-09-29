@@ -1,0 +1,10 @@
+0
+itsX1Menu::CreateVectorPlotDialog::JXLayout "X1"
+okButton::CreateVectorPlotDialog::shortcuts::JXLayout "^M"
+label::CreateVectorPlotDialog::JXLayout "Label:"
+itsY2Menu::CreateVectorPlotDialog::JXLayout "DY"
+itsX2Menu::CreateVectorPlotDialog::JXLayout "DX"
+itsY1Menu::CreateVectorPlotDialog::JXLayout "Y1"
+itsPlotsMenu::CreateVectorPlotDialog::JXLayout "Plot:"
+okButton::CreateVectorPlotDialog::JXLayout "OK"
+cancelButton::CreateVectorPlotDialog::JXLayout "Cancel"

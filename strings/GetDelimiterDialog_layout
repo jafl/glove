@@ -1,0 +1,12 @@
+0
+okButton::GetDelimiterDialog::shortcuts::JXLayout "^M"
+rb[1]::GetDelimiterDialog::JXLayout "Space"
+itsSkipCB::GetDelimiterDialog::JXLayout "Skip first"
+rb[3]::GetDelimiterDialog::JXLayout "Character"
+okButton::GetDelimiterDialog::JXLayout "OK"
+helpLabel::GetDelimiterDialog::JXLayout "text"
+rb[0]::GetDelimiterDialog::JXLayout "White space"
+cancelButton::GetDelimiterDialog::JXLayout "Cancel"
+rb[2]::GetDelimiterDialog::JXLayout "Tab"
+lineLabel::GetDelimiterDialog::JXLayout "lines"
+itsCommentCB::GetDelimiterDialog::JXLayout "Skip lines beginning with:"

@@ -1,0 +1,9 @@
+0
+itsDestMenu::ColByRangeDialog::JXLayout "Destination"
+okButton::ColByRangeDialog::JXLayout "OK"
+countLabel::ColByRangeDialog::JXLayout "Count:"
+minLabel::ColByRangeDialog::JXLayout "Minimum:"
+cancelButton::ColByRangeDialog::JXLayout "Cancel"
+cancelButton::ColByRangeDialog::shortcuts::JXLayout "^["
+okButton::ColByRangeDialog::shortcuts::JXLayout "^M"
+maxLabel::ColByRangeDialog::JXLayout "Maximum:"

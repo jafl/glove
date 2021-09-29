@@ -1,0 +1,7 @@
+0
+itsReloadButton::FitModuleDialog::JXLayout "Reload"
+prompt::FitModuleDialog::JXLayout "Please select the appropriate module."
+itsFilterMenu::FitModuleDialog::JXLayout "Filter:"
+itsOKButton::FitModuleDialog::JXLayout "OK"
+cancelButton::FitModuleDialog::JXLayout "Cancel"
+itsOKButton::FitModuleDialog::shortcuts::JXLayout "^M"

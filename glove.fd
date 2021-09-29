@@ -7,7 +7,7 @@ Number of forms: 15
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
-Name: GLCreatePlotDialog
+Name: CreatePlotDialog
 Width: 370
 Height: 160
 Number of Objects: 10
@@ -193,7 +193,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLChooseFileImportDialog
+Name: ChooseFileImportDialog
 Width: 330
 Height: 230
 Number of Objects: 7
@@ -325,7 +325,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLColByRangeDialog
+Name: ColByRangeDialog
 Width: 210
 Height: 190
 Number of Objects: 10
@@ -511,7 +511,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLColByIncDialog
+Name: ColByIncDialog
 Width: 220
 Height: 190
 Number of Objects: 10
@@ -697,7 +697,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLPlotFunctionDialog
+Name: PlotFunctionDialog
 Width: 500
 Height: 80
 Number of Objects: 8
@@ -847,7 +847,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLNonLinearFitDialog
+Name: NonLinearFitDialog
 Width: 400
 Height: 430
 Number of Objects: 6
@@ -961,7 +961,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLNonLinearFitDialog__functionLayout__container
+Name: NonLinearFitDialog__functionLayout__container
 Width: 380
 Height: 120
 Number of Objects: 5
@@ -1057,7 +1057,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLNonLinearFitDialog__variableLayout__container
+Name: NonLinearFitDialog__variableLayout__container
 Width: 380
 Height: 100
 Number of Objects: 5
@@ -1153,7 +1153,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLNonLinearFitDialog__derivativeLayout__container
+Name: NonLinearFitDialog__derivativeLayout__container
 Width: 380
 Height: 100
 Number of Objects: 4
@@ -1231,7 +1231,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLPolyFitDialog
+Name: PolyFitDialog
 Width: 380
 Height: 450
 Number of Objects: 18
@@ -1561,7 +1561,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLAboutDialog
+Name: AboutDialog
 Width: 430
 Height: 180
 Number of Objects: 7
@@ -1693,7 +1693,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLFitModuleDialog
+Name: FitModuleDialog
 Width: 270
 Height: 100
 Number of Objects: 6
@@ -1807,7 +1807,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLTransformFunctionDialog
+Name: TransformFunctionDialog
 Width: 580
 Height: 90
 Number of Objects: 9
@@ -1975,7 +1975,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLGetDelimiterDialog
+Name: GetDelimiterDialog
 Width: 330
 Height: 360
 Number of Objects: 16
@@ -2269,7 +2269,7 @@ callback:
 argument: 
 
 =============== FORM ===============
-Name: GLCreateVectorPlotDialog
+Name: CreateVectorPlotDialog
 Width: 370
 Height: 160
 Number of Objects: 10
