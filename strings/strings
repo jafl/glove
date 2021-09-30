@@ -53,7 +53,7 @@ NewPlotItemLabel::global	"New Plot"
 SpecifyCurveLabel::global	"You must specify a curve label."
 FitMenuItem::global			"Fit $i"
 
-# GLAboutDialog
+# AboutDialog
 
 WindowTitle::AboutDialog		"About"
 ChangeButtonLabel::AboutDialog	"Changes"
@@ -64,40 +64,40 @@ UpgradeNotice::AboutDialog
 
 You have just upgraded from version $vers"
 
-# GLMDIServer
+# MDIServer
 
 DirectoryAccessDenied::MDIServer	"Unable to access \"$name\"."
 OpenFilesProgress::MDIServer		"Opening files..."
 NotAFile::MDIServer					"\"$name\" is not a regular file, so it cannot be opened."
 
-# GLDataModule
+# DataModule
 
 Finished::DataModule		"Data module completed."
 ColumnRemoved::DataModule	"Module column removed."
 Error::DataModule			"Module Error."
 Loading::DateModule			"Loading data..."
 
-# GLFitModule
+# FitModule
 
 UnknownError::FitModule	"Unknown module error."
 CannotAddFit::FitModule	"Fit could not be added."
 ParseFailed::FitModule	"Function could not be parsed."
 
-# GLHistory
+# History
 
 PrintHeader::History	"Glove session"
 
-# GLPlotter
+# Plotter
 
 ModuleMenuTitle::Plotter	"Cursor modules"
 ModuleError::Plotter		"Module error: "
 
-# GLVarList
+# VarList
 
 UnsupportedVariable::VarList	"Unsupported variable type '${name}'"
 NameUsed::VarList				"This variable name is already used."
 
-# GLRaggedFloatTable
+# RaggedFloatTable
 
 DataMenuTitle::RaggedFloatTable				"Data"
 CopyFailed::RaggedFloatTable				"Unable to copy to the clipboard."
@@ -110,7 +110,7 @@ NoDataToTransform::RaggedFloatTable			"You have no data to transform."
 GenerateIfNoTransform::RaggedFloatTable		"Use \"Generate column\" if you aren't transforming column values."
 MustSelectColumns::RaggedFloatTable			"This module requires $i column(s) to be selected."
 
-# GLDataDocument
+# DataDocument
 
 OpenFilePrompt::DataDocument		"Select data file"
 OpenFailed::DataDocument			"Error opening file."
@@ -128,69 +128,69 @@ LoadFixedWidthFile::DataDocument	"Fixed width is not yet implemented."
 FileTooNew::DataDocument
 "This file was created by a newer version of Glove.  You need the newest version in order to open it."
 
-# GLExprDirector
+# ExprDirector
 
 WindowTitle::ExprDirector	"Function Editor"
 
-# GLChooseFileImportDialog
+# ChooseFileImportDialog
 
 WindowTitle::ChooseFileImportDialog	"Choose Import Filter"
 
-# GLColByIncDialog
+# ColByIncDialog
 
 WindowTitle::ColByIncDialog		"New Column by Increment"
 MissingDestCol::ColByIncDialog	"You must specify the destination column."
 NoData::ColByIncDialog			"Count must be greater than zero."
 
-# GLColByRangeDialog
+# ColByRangeDialog
 
 WindowTitle::ColByRangeDialog	"New Column by Range"
 
-# GLCreatePlotDialog
+# CreatePlotDialog
 
 WindowTitle::CreatePlotDialog	"Choose Plot Data Columns"
 NoneItemLabel::CreatePlotDialog	"None"
 
-# GLPlotFunctionDialog
+# PlotFunctionDialog
 
 WindowTitle::PlotFunctionDialog	"Function Window"
 
-# GLChiSqLabel
+# ChiSqLabel
 
 Label::ChiSqLabel	"Normalized Chi-squared:"
 
-# GLNonLinearFitDialog
+# NonLinearFitDialog
 
 WindowTitle::NonLinearFitDialog		"Non-linear Fit"
 MissingName::NonLinearFitDialog		"You must specify a name for this fit."
 MissingFunction::NonLinearFitDialog	"You must specify a fit function."
 
-# GLPolyFitDialog
+# PolyFitDialog
 
 WindowTitle::PolyFitDialog	"Polynomial Fit"
 MissingPower::PolyFitDialog	"You must add at least one power."
 
-# GLPlotDir
+# PlotDir
 
 PlotMenuTitle::PlotDir		"Plot"
 AnalysisMenuTitle::PlotDir	"Analysis"
 DiffCurveName::PlotDir		"Residual data"
 DiffMenuItem::PlotDir		"Residual plot $i"
 
-# GLFitParameterTable
+# FitParameterTable
 
 ParmNameTitle::FitParameterTable	"Parameter name"
 ParmStartTitle::FitParameterTable	"Start values"
 ParmFitTitle::FitParameterTable		"Fit values"
 ParmErrorTitle::FitParameterTable	"Error values"
 
-# GLBuiltinFitDescription
+# BuiltinFitDescription
 
 LinearName::BuiltinFitDescription		"Linear"
 ExponentialName::BuiltinFitDescription	"Exponential"
 PowerLawName::BuiltinFitDescription		"Power Law"
 
-# GLFitDirector
+# FitDirector
 
 FitMenuTitle::FitDirector	"Fit"
 FitPlotTitle::FitDirector	"Fit"
@@ -201,19 +201,19 @@ CurveTitle::FitDirector		"Curve: "
 FitTitle::FitDirector		"Fit: "
 ChiSqTitle::FitDirector		"Normalized chi-squared (chi^2/n-$i):"
 
-# GLFitModuleDialog
+# FitModuleDialog
 
 WindowTitle::FitModuleDialog	"Choose fit module"
 
-# GLTransformFunctionDialog
+# TransformFunctionDialog
 
 WindowTitle::TransformFunctionDialog	"Transformation Window"
 
-# GLGetDelimiterDialog
+# GetDelimiterDialog
 
 WindowTitle::GetDelimiterDialog	"Choose Delimiter"
 Help::GetDelimiterDialog		"In the text below, → = tab and • = space."
 
-# GLCreateVectorPlotDialog
+# CreateVectorPlotDialog
 
 WindowTitle::CreateVectorPlotDialog	"Choose Vector Data Columns"

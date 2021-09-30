@@ -712,14 +712,14 @@ FitDirector::HandleFitMenu
 
 		JIndex index1;
 		bool ok	= itsCurveList->GetCurrentCurveIndex(&index1);
-		J2DPlotDataBase* data	= &(itsPlot->GetCurve(index1));
+		J2DPlotDataBase* data = &itsPlot->GetCurve(index1);
 		assert(itsCurrentFit != nullptr);
 		PlotFitProxy* proxy	= jnew PlotFitProxy(itsCurrentFit, itsPlot, data);
 		assert(proxy != nullptr);
 		JIndex findex;
 		ok	= itsFitList->GetCurrentFitIndex(&findex);
 		assert(ok);
-		const FitDescription& fd	= GetFitManager()->GetFitDescription(findex);
+		const FitDescription& fd = GetFitManager()->GetFitDescription(findex);
 		itsDir->AddFitProxy(proxy, index1, fd.GetFnName());
 	}
 	else if (index == kShowHistoryCmd)

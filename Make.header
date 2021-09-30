@@ -40,6 +40,8 @@ EXTRA_MENU_STRING_FILES := \
 
 include ${MAKE_INCLUDE}/app_targets
 
+${APP_NAME}:: strings
+
 .PHONY : init_tarball_extra
 init_tarball_extra::
 	@ln -s ../fitmodule ${PKG_PATH}/

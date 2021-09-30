@@ -45,40 +45,41 @@ public:
 	virtual bool	GetGoodnessOfFitName(JString* name) const override;
 	virtual bool	GetGoodnessOfFit(JFloat* value) const override;
 	
-	virtual JString		GetFunctionString() const override;
-	virtual JString		GetFitFunctionString() const override;
+	virtual JString	GetFunctionString() const override;
+	virtual JString	GetFitFunctionString() const override;
 
 	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
-	virtual const J2DPlotDataBase*		GetDataToFit() const;
 
-	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
-										const JFloat ymin, const JFloat ymax);
+	virtual const J2DPlotDataBase*	GetDataToFit() const;
+
+	void	AdjustDataRange(const JFloat xmin, const JFloat xmax,
+							const JFloat ymin, const JFloat ymax);
 
 protected:
 
-	void				Paramin(JFloat ax, JFloat bx, JFloat cx, JFloat* xmin);
-	virtual JFloat		ChiSqr(JFloat Bt);
-	virtual JFloat		ChiSqrErr(JFloat Bt);
-	JFloat				Root(JFloat xtemp);
-	void				GenerateFit();
-	void				SetFunctionName(const JString& name);
-	JFloat				GetCurrentXMax() const;
-	JFloat				GetCurrentXMin() const;
-	JFloat				GetCurrentStepCount() const;
+	void			Paramin(JFloat ax, JFloat bx, JFloat cx, JFloat* xmin);
+	virtual JFloat	ChiSqr(JFloat Bt);
+	virtual JFloat	ChiSqrErr(JFloat Bt);
+	JFloat			Root(JFloat xtemp);
+	void			GenerateFit();
+	void			SetFunctionName(const JString& name);
+	JFloat			GetCurrentXMax() const;
+	JFloat			GetCurrentXMin() const;
+	JFloat			GetCurrentStepCount() const;
 	virtual bool	DataElementValid(const JIndex index) override;
 	virtual bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 private:
 
-	void				JPlotLinearFitX(J2DPlotWidget* plot, 
-										J2DPlotDataBase* fitData, 
-										bool xlog, const bool ylog);
+	void	JPlotLinearFitX(J2DPlotWidget* plot, 
+							J2DPlotDataBase* fitData, 
+							bool xlog, const bool ylog);
 
-	void				LinearLSQ1();
-	void				LinearLSQ2();
-	void				Variance(JFloat* vx, JFloat* vy);
-	
-	void				AdjustDiffData();
+	void	LinearLSQ1();
+	void	LinearLSQ2();
+	void	Variance(JFloat* vx, JFloat* vy);
+
+	void	AdjustDiffData();
 
 private:
 

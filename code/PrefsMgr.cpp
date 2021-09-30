@@ -83,13 +83,10 @@ PrefsMgr::GetGloveVersionStr()
 void
 PrefsMgr::UpgradeData
 	(
-	const bool		isNew,
+	const bool			isNew,
 	const JFileVersion	currentVersion
 	)
 {
-	if (isNew)
-	{
-	}
 }
 
 /******************************************************************************
