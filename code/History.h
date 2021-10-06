@@ -37,9 +37,9 @@ public:
 
 protected:
 
-	virtual void		Receive(JBroadcaster* sender, const Message& message) override;
-	virtual JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
-	virtual void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
+	void		Receive(JBroadcaster* sender, const Message& message) override;
+	JCoordinate	GetPrintHeaderHeight(JPagePrinter& p) const override;
+	void		DrawPrintHeader(JPagePrinter& p, const JCoordinate headerHeight) override;
 
 private:
 

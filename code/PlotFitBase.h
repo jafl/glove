@@ -29,14 +29,14 @@ public:
 					const JFloat ymin, const JFloat ymax);
 	virtual ~PlotFitBase();	
 
-	virtual bool	GetGoodnessOfFitName(JString* name) const override;
-	virtual bool	GetGoodnessOfFit(JFloat* value) const override;
+	bool	GetGoodnessOfFitName(JString* name) const override;
+	bool	GetGoodnessOfFit(JFloat* value) const override;
 	
 	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
 										const JFloat ymin, const JFloat ymax);
 
-	virtual JString		GetFunctionString() const override;
-	virtual JString		GetFitFunctionString() const override;
+	JString		GetFunctionString() const override;
+	JString		GetFitFunctionString() const override;
 
 	void				GenerateFit(const JVector& parameters, const JFloat chi2);
 
@@ -71,10 +71,10 @@ protected:
 								 const JVector& xi);
 	virtual JFloat		ChiSqr(const JVector& p);
 
-	virtual void 		GenerateDiffData() override;
+	void 		GenerateDiffData() override;
 
-	virtual bool	DataElementValid(const JIndex index) override;
-	virtual bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
+	bool	DataElementValid(const JIndex index) override;
+	bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 	J2DDataPoint		GetRealElement(const JIndex index);
 	JSize				GetRealElementCount();

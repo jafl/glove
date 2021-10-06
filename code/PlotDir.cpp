@@ -823,7 +823,7 @@ PlotDir::ReadCurves
 			J2DPlotFunction* pf;
 			JFloat min, max, inc;
 			itsPlot->GetXScale(&min, &max, &inc);
-			if (J2DPlotFunction::Create(&pf, itsPlot, itsVarList, GetDisplay()->GetFontManager(), fnString, itsXVarIndex, min, max))
+			if (J2DPlotFunction::Create(&pf, itsPlot, itsVarList, fnString, itsXVarIndex, min, max))
 			{
 				itsCurrentCurveType = kGFunctionCurve;
 				itsPlot->AddCurve(pf, true, pf->GetFunctionString(), true, false);

@@ -1225,7 +1225,7 @@ FitDirector::TestFit()
 	JFloat xmin, xmax;
 	data->GetXRange(&xmin, &xmax);
 	ok	= J2DPlotFunction::Create(&itsTestFunction, itsFitPlot, fd.GetVarList(),
-			GetDisplay()->GetFontManager(), fd.GetFitFunctionString(), 1, xmin, xmax);
+								  fd.GetFitFunctionString(), 1, xmin, xmax);
 	if (ok)
 	{
 		itsFitPlot->AddCurve(itsTestFunction, false, fd.GetFnName());

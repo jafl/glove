@@ -33,8 +33,8 @@ public:
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual bool	OKToDeactivate() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
+	bool	OKToDeactivate() override;
 
 private:
 

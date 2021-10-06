@@ -25,15 +25,15 @@ public:
 				const JFloat xMin, const JFloat xMax);
 	virtual ~PlotExpFit();	
 
-	virtual bool	GetYRange(const JFloat xMin, const JFloat xMax,
+	bool	GetYRange(const JFloat xMin, const JFloat xMax,
 								  const bool xLinear,
 								  JFloat* yMin, JFloat* yMax) const override;
 
-	virtual bool	GetYValue(const JFloat x, JFloat* y) const override;
-	virtual const J2DPlotDataBase*		GetDataToFit() const override;
+	bool	GetYValue(const JFloat x, JFloat* y) const override;
+	const J2DPlotDataBase*		GetDataToFit() const override;
 
-	virtual bool	GetParameter(const JIndex index, JFloat* value) const override;
-	virtual bool	GetParameterError(const JIndex index, JFloat* value) const override;
+	bool	GetParameter(const JIndex index, JFloat* value) const override;
+	bool	GetParameterError(const JIndex index, JFloat* value) const override;
 //	virtual bool	GetGoodnessOfFit(JFloat* value) const;
 
 private:

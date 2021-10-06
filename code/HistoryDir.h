@@ -29,17 +29,17 @@ public:
 	void			Print();
 	void			WriteData(std::ostream& os);
 	void			ReadData(std::istream& is);
-	virtual bool	NeedsSave() const override;
-	virtual void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
-	virtual bool	GetMenuIcon(const JXImage** icon) const override;
+	bool	NeedsSave() const override;
+	void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
+	bool	GetMenuIcon(const JXImage** icon) const override;
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const Message& message) override;
-	virtual bool	OKToClose() override;
-	virtual bool	OKToRevert() override;
-	virtual bool	CanRevert() override;
-	virtual void	DiscardChanges() override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
+	bool	OKToClose() override;
+	bool	OKToRevert() override;
+	bool	CanRevert() override;
+	void	DiscardChanges() override;
 
 private:
 
