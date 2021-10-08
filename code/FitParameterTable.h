@@ -25,7 +25,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~FitParameterTable();
+	~FitParameterTable() override;
 
 	void	SetColHeaderWidget(ParmColHeaderWidget* widget);
 	void	SetFitDescription(const FitDescription& fit);
@@ -34,7 +34,7 @@ public:
 	void	CopyParmValuesToStart();
 	void	GetValueString(JString* text);
 
-	void		ShowStartCol(const bool show = true);
+	void	ShowStartCol(const bool show = true);
 	bool	IsShowingStartCol() const;
 
 	const JArray<JFloat>&	GetStartValues() const;
@@ -42,28 +42,28 @@ public:
 	void	HandleKeyPress(const JUtf8Character& c,
 								   const int keySym, const JXKeyModifiers& modifiers) override;
 
-	bool		BeginEditingStartValues();
-	void			PrintOnPage(JPagePrinter& p, JCoordinate* height);
+	bool	BeginEditingStartValues();
+	void	PrintOnPage(JPagePrinter& p, JCoordinate* height);
 
 protected:
 
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	JXInputField*	CreateXInputField(const JPoint& cell,
-											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h) override;
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
 	void			PrepareDeleteXInputField() override;
-	bool		ExtractInputData(const JPoint& cell) override;
+	bool			ExtractInputData(const JPoint& cell) override;
 
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
 private:
 
-	JPtrArray<JString>*	itsNameList;	
+	JPtrArray<JString>*	itsNameList;
 	JArray<JFloat>*		itsStartValues;
 	JArray<JFloat>*		itsFitValues;
 	JArray<JFloat>*		itsErrorValues;

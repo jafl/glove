@@ -4,7 +4,7 @@
 	Interface for the FitDirector class
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #ifndef _H_FitDirector
@@ -47,7 +47,7 @@ public:
 public:
 
 	FitDirector(PlotDir* supervisor, J2DPlotWidget* plot, const JString& file);
-	virtual ~FitDirector();
+	~FitDirector() override;
 
 	virtual void	ReadPrefs(std::istream& input);
 	virtual void	WritePrefs(std::ostream& output) const;
@@ -63,10 +63,10 @@ private:
 	JXTextMenu*		itsHelpMenu;
 	JXToolBar*		itsToolBar;
 	J2DPlotWidget*	itsPlot;
-	
-	CurveNameList*		itsCurveList;
-	FitDescriptionList*	itsFitList;
-	FitParameterTable*	itsParameterTable;
+
+	CurveNameList*			itsCurveList;
+	FitDescriptionList*		itsFitList;
+	FitParameterTable*		itsParameterTable;
 	ParmColHeaderWidget*	itsParameterColHeader;
 	JX2DPlotWidget*			itsFitPlot;
 	JX2DPlotWidget*			itsDiffPlot;
@@ -78,13 +78,13 @@ private:
 	JXVertPartition*		itsListPartition;
 	JXVertPartition*		itsPlotPartition;
 
-	HistoryDir*		itsHistory;
+	HistoryDir*				itsHistory;
 
 	JXExprEditor*			itsExprWidget;
 	VarList*				itsExprVarList;
 
-	NonLinearFitDialog*	itsNLFitDialog;
-	PolyFitDialog*		itsPolyFitDialog;
+	NonLinearFitDialog*		itsNLFitDialog;
+	PolyFitDialog*			itsPolyFitDialog;
 
 	PlotDir*				itsDir;
 	JXPSPrinter*			itsPrinter;

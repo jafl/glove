@@ -32,26 +32,26 @@ public:
 				const JCoordinate x, const JCoordinate y,
 				const JCoordinate w, const JCoordinate h);
 
-	virtual ~Plotter();
-	
+	~Plotter() override;
+
 protected:
 
-	virtual void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message);
+	void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message) override;
 
 private:
 
-	typedef JMessageProtocol<ACE_LSOCK_STREAM>	ProcessLink;
+	using ProcessLink = JMessageProtocol<ACE_LSOCK_STREAM>;
 
 private:
 
 	JXTextMenu*		itsModuleMenu;
-	HistoryDir*	itsSessionDir;
+	HistoryDir*		itsSessionDir;
 	JProcess*		itsCursorProcess;
 	ProcessLink*	itsLink;
 	bool			itsIsProcessingCursor;
 	bool			itsCursorFirstPass;
-	
-	
+
+
 private:
 
 	void	UpdateModuleMenu();

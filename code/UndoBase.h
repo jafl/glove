@@ -22,7 +22,7 @@ public:
 
 	UndoBase(RaggedFloatTable* table);
 
-	virtual ~UndoBase();
+	~UndoBase() override;
 
 protected:
 

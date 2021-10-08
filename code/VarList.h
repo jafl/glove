@@ -15,7 +15,7 @@
 
 class JString;
 
-typedef JArray<JFloat>	GNArray;
+using GNArray = JArray<JFloat>;
 
 class VarList : public JVariableList
 {
@@ -25,7 +25,7 @@ public:
 	VarList(const VarList& list);
 	VarList(std::istream& input);
 
-	virtual ~VarList();
+	~VarList() override;
 
 	bool	AddVariable(const JString& name, const JFloat value);
 	void	RemoveVariable(const JIndex index);
@@ -34,34 +34,34 @@ public:
 	bool	IsVariable(const JIndex index) const;
 	bool	SetValue(const JIndex index, const JFloat value);
 	JSize	GetVariableCount() const;
-	bool	SetElementValue(const JIndex variableIndex, 
+	bool	SetElementValue(const JIndex variableIndex,
 							const JIndex elementIndex,
 							const JFloat value);
 
 	void	SetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
-									const JFloat value) override;
+							const JIndex elementIndex,
+							const JFloat value) override;
 	void	SetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex,
-									const JComplex& value) override;
-	
+							const JIndex elementIndex,
+							const JComplex& value) override;
+
 // implementation of JVariableList
 
 	const JString&	GetVariableName(const JIndex index) const override;
 	void			GetVariableName(const JIndex index, JString* name,
-											JString* subscript) const override;
-	bool					SetVariableName(const JIndex index, const JString& str);
+									JString* subscript) const override;
+	bool			SetVariableName(const JIndex index, const JString& str);
 
 	const JPtrArray<JString>&	GetVariables() const;
 
 	bool	IsArray(const JIndex index) const override;
 	bool	ArrayIndexValid(const JIndex variableIndex,
-									const JIndex elementIndex) const override;
+							const JIndex elementIndex) const override;
 
 	bool	GetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex, JFloat* value) const override;
+							const JIndex elementIndex, JFloat* value) const override;
 	bool	GetNumericValue(const JIndex variableIndex,
-									const JIndex elementIndex, JComplex* value) const override;
+							const JIndex elementIndex, JComplex* value) const override;
 
 private:
 

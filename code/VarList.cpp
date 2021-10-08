@@ -44,9 +44,9 @@ VarList::VarList
 	JVariableList()
 {
 	GVarListX();
-	
+
 	*itsValues	= *(list.itsValues);
-	
+
 	const JSize ncount	= list.itsNames->GetElementCount();
 	for (JIndex i = 1; i <= ncount; i++)
 	{
@@ -275,8 +275,8 @@ VarList::SetValue
 void
 VarList::SetNumericValue
 	(
-	const JIndex 	variableIndex, 
-	const JIndex 	elementIndex,
+	const JIndex	variableIndex,
+	const JIndex	elementIndex,
 	const JFloat	value
 	)
 {
@@ -299,8 +299,8 @@ VarList::SetNumericValue
 void
 VarList::SetNumericValue
 	(
-	const JIndex 	variableIndex, 
-	const JIndex 	elementIndex,
+	const JIndex	variableIndex,
+	const JIndex	elementIndex,
 	const JComplex& value
 	)
 {
@@ -359,7 +359,7 @@ VarList::GetVariableName
 bool
 VarList::SetVariableName
 	(
-	const JIndex 	varIndex, 
+	const JIndex	varIndex,
 	const JString&	str
 	)
 {

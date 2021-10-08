@@ -4,7 +4,7 @@
 	Interface for the PlotFitProxy class
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #ifndef _H_PlotFitProxy
@@ -28,22 +28,22 @@ public:
 	PlotFitProxy(PlotFitFunction* fit,
 				  J2DPlotWidget* plot, J2DPlotDataBase* fitData);
 	PlotFitProxy(J2DPlotWidget* plot, J2DPlotDataBase* fitData, std::istream& is);
-	virtual ~PlotFitProxy();
+	~PlotFitProxy() override;
 
 	void	WriteData(std::ostream& os);
 
-	virtual bool	GetParameterName(const JIndex index, JString* name) const;
-	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
+	bool	GetParameterName(const JIndex index, JString* name) const override;
+	bool	GetParameter(const JIndex index, JFloat* value) const override;
 
-	virtual bool	GetParameterError(const JIndex index, JFloat* value) const;
+	bool	GetParameterError(const JIndex index, JFloat* value) const override;
 
-	virtual bool	GetGoodnessOfFitName(JString* name) const;
-	virtual bool	GetGoodnessOfFit(JFloat* value) const;
-	
-	virtual JString	GetFitFunctionString() const;
+	bool	GetGoodnessOfFitName(JString* name) const override;
+	bool	GetGoodnessOfFit(JFloat* value) const override;
 
-	virtual JString	GetFunctionString() const;
-	virtual bool	GetYValue(const JFloat x, JFloat* y) const;
+	JString	GetFitFunctionString() const override;
+
+	JString	GetFunctionString() const override;
+	bool	GetYValue(const JFloat x, JFloat* y) const override;
 
 protected:
 

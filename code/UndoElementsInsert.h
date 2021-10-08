@@ -22,12 +22,12 @@ class UndoElementsInsert : public UndoElementsBase
 public:
 
 	UndoElementsInsert(RaggedFloatTable* table, const JPoint& start,
-						 const JPoint& end, 
+						 const JPoint& end,
 						 const UndoElementsBase::UndoType type);
 
-	virtual ~UndoElementsInsert();
+	~UndoElementsInsert() override;
 
-	virtual void	Undo();
+	void	Undo() override;
 };
 
 #endif

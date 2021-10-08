@@ -22,12 +22,12 @@ class UndoElementsChange : public UndoElementsBase
 public:
 
 	UndoElementsChange(RaggedFloatTable* table, const JPoint& start,
-						 const JPoint& end, 
+						 const JPoint& end,
 						 const UndoElementsBase::UndoType type);
 
-	virtual ~UndoElementsChange();
+	~UndoElementsChange() override;
 
-	virtual void	Undo();
+	void	Undo() override;
 
 private:
 

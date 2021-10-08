@@ -4,7 +4,7 @@
 	BASE CLASS = public JXTextSelection
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include "TextSelection.h"
@@ -19,7 +19,7 @@ static const JUtf8Byte* kGloveTextDataXAtomName = "OVE_TEXT";
 
 TextSelection::TextSelection
 	(
-	JXDisplay* 			display, 
+	JXDisplay*			display,
 	const std::string&	text
 	)
 	:

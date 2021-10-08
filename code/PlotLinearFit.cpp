@@ -17,10 +17,10 @@
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JSize 	ITMAX  = 100;
-const JFloat 	CGOLD  = 0.3819660;
-const JFloat 	ZEPS   = 1.0e-10;
-const JFloat 	TOLL   = 1.0e-10;
+const JSize	ITMAX  = 100;
+const JFloat	CGOLD  = 0.3819660;
+const JFloat	ZEPS   = 1.0e-10;
+const JFloat	TOLL   = 1.0e-10;
 
 /*********************************************************************************
  Constructor
@@ -30,12 +30,12 @@ const JFloat 	TOLL   = 1.0e-10;
 
 PlotLinearFit::PlotLinearFit
 	(
-	J2DPlotWidget* 	plot,
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const bool 	xlog,
-	const bool 	ylog
+	const bool	xlog,
+	const bool	ylog
 	)
 	:
 	PlotFitFunction(plot, fitData, xMin, xMax)
@@ -173,8 +173,8 @@ PlotLinearFit::GetElement
 bool
 PlotLinearFit::GetYValue
 	(
-	const JFloat 	x,
-	JFloat* 		y
+	const JFloat	x,
+	JFloat*		y
 	)
 	const
 {
@@ -514,7 +514,7 @@ PlotLinearFit::LinearLSQ1()
 		{
 			JFloat tTemp = (point.x - avgx)/(sigma.GetElement(counter));
 			t.AppendElement(tTemp);
-			stt += 	tTemp * tTemp;
+			stt +=	tTemp * tTemp;
 			b += tTemp * point.y / sigma.GetElement(counter);
 			counter++;
 		}

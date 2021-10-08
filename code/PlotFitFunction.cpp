@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotFitFunction.cpp
- 
+
 	PlotFitFunction class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -15,15 +15,15 @@
 #include "jx-af/jcore/jAssert.h"
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotFitFunction::PlotFitFunction
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -47,19 +47,19 @@ PlotFitFunction::PlotFitFunction
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotFitFunction::~PlotFitFunction()
 {
 }
 
 /*********************************************************************************
  GenerateDiffData (protected)
- 
+
  ********************************************************************************/
- 
+
 void
 PlotFitFunction::GenerateDiffData()
 {
@@ -93,7 +93,7 @@ PlotFitFunction::GenerateDiffData()
 //				else
 //					{
 					yerrdata.AppendElement(data.yerr);
-//					}				
+//					}
 			}
 			else
 			{
@@ -115,10 +115,10 @@ PlotFitFunction::GenerateDiffData()
 
 /*********************************************************************************
  GetDiffData
- 
+
 
  ********************************************************************************/
- 
+
 J2DPlotData*
 PlotFitFunction::GetDiffData()
 	const
@@ -148,10 +148,10 @@ PlotFitFunction::SetDiffData
 
 /*********************************************************************************
  CalculateStdDev (protected)
- 
+
 
  ********************************************************************************/
- 
+
 void
 PlotFitFunction::CalculateStdDev()
 {
@@ -170,14 +170,14 @@ PlotFitFunction::CalculateStdDev()
 
 /*********************************************************************************
  AdjustDiffDataValue (protected)
- 
+
 
  ********************************************************************************/
- 
+
 void
 PlotFitFunction::AdjustDiffDataValue
 	(
-	const JIndex index, 
+	const JIndex index,
 	const JFloat value
 	)
 {
@@ -185,7 +185,7 @@ PlotFitFunction::AdjustDiffDataValue
 
 /*********************************************************************************
  DataElementValid
- 
+
 
  ********************************************************************************/
 
@@ -200,7 +200,7 @@ PlotFitFunction::DataElementValid
 
 /******************************************************************************
  GetDataElement
- 
+
 
  *****************************************************************************/
 

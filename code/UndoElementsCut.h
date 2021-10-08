@@ -22,12 +22,12 @@ class UndoElementsCut : public UndoElementsBase
 public:
 
 	UndoElementsCut(RaggedFloatTable* table, const JPoint& start,
-						 const JPoint& end, 
-						 const UndoElementsBase::UndoType type);
+					 const JPoint& end,
+					 const UndoElementsBase::UndoType type);
 
-	virtual ~UndoElementsCut();
+	~UndoElementsCut() override;
 
-	virtual void	Undo();
+	void	Undo() override;
 
 private:
 

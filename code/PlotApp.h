@@ -17,28 +17,28 @@ class PlotApp : public JXApplication
 public:
 
 	PlotApp(int* argc, char* argv[], bool* displayAbout, JString* prevVersStr);
-	
-	virtual ~PlotApp();
+
+	~PlotApp() override;
 
 	bool				GetImportModulePath(const JIndex index, JString* path);
-	JPtrArray<JString>* 	GetImportModules();
-	void					ReloadImportModules();
-	
-	bool 				GetExportModulePath(const JIndex index, JString* path);
-	JPtrArray<JString>* 	GetExportModules();
-	void					ReloadExportModules();
-	
-	bool 				GetDataModulePath(const JIndex index, JString* path);
-	JPtrArray<JString>* 	GetDataModules();
-	void					ReloadDataModules();
-	
-	bool 				GetFitModulePath(const JIndex index, JString* path);
-	JPtrArray<JString>* 	GetFitModules();
-	void					ReloadFitModules();
-	
-	bool 				GetCursorModulePath(const JIndex index, JString* path);
-	JPtrArray<JString>* 	GetCursorModules();
-	void					ReloadCursorModules();
+	JPtrArray<JString>*	GetImportModules();
+	void				ReloadImportModules();
+
+	bool				GetExportModulePath(const JIndex index, JString* path);
+	JPtrArray<JString>* GetExportModules();
+	void				ReloadExportModules();
+
+	bool				GetDataModulePath(const JIndex index, JString* path);
+	JPtrArray<JString>* GetDataModules();
+	void				ReloadDataModules();
+
+	bool				GetFitModulePath(const JIndex index, JString* path);
+	JPtrArray<JString>* GetFitModules();
+	void				ReloadFitModules();
+
+	bool				GetCursorModulePath(const JIndex index, JString* path);
+	JPtrArray<JString>* GetCursorModules();
+	void				ReloadCursorModules();
 
 	const JPtrArray<JString>&	GetModulePath() const;
 
@@ -51,11 +51,11 @@ public:
 
 protected:
 
-	virtual void	DirectorClosed(JXDirector* theDirector);
+	void	DirectorClosed(JXDirector* theDirector) override;
 
 private:
-	
-	JIndex 				itsDirNumber;
+
+	JIndex				itsDirNumber;
 
 	JPtrArray<JString>* itsModulePath;
 
@@ -74,5 +74,3 @@ private:
 };
 
 #endif
-
-

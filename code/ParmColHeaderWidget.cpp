@@ -4,7 +4,7 @@
 	BASE CLASS = public JXColHeaderWidget
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include <ParmColHeaderWidget.h>

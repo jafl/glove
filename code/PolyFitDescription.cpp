@@ -6,7 +6,7 @@
 	BASE CLASS = public FitDescription
 
 	Copyright (C) 1999 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include <PolyFitDescription.h>
@@ -22,8 +22,8 @@ const JFileVersion kCurrentSetupVersion	= 0;
 
 PolyFitDescription::PolyFitDescription
 	(
-	const JString&	 		name,
-	const JArray<JIndex>& 	powers
+	const JString&			name,
+	const JArray<JIndex>&	powers
 	)
 	:
 	FitDescription(kPolynomial, JString::empty, name)
@@ -68,7 +68,7 @@ PolyFitDescription::PolyFitDescriptionX()
 {
 	const JSize count	= itsPowers->GetElementCount();
 	SetParameterCount(count);
-	
+
 	JString form;
 	for (JIndex i = 1; i <= count; i++)
 	{
@@ -131,14 +131,14 @@ PolyFitDescription::WriteSetup
 	)
 {
 	FitDescription::WriteSetup(os);
-	
+
 	os << ' ' << kCurrentSetupVersion << ' ' ;
-	
+
 	const JSize count	= itsPowers->GetElementCount();
 	os << ' ' << count << ' ';
 	for (JIndex i = 1; i <= count; i++)
 	{
 		os << ' ' << itsPowers->GetElement(i) << ' ';
 	}
-	
+
 }

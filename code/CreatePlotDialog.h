@@ -27,20 +27,20 @@ public:
 						const JIndex startX, const JIndex startY,
 						const JIndex startXErr, const JIndex startYErr);
 
-	virtual ~CreatePlotDialog();
-	
-	void GetColumns(JIndex* startX, JIndex* startXErr, 
+	~CreatePlotDialog() override;
+
+	void GetColumns(JIndex* startX, JIndex* startXErr,
 					JIndex* startY, JIndex* startYErr);
-					
+
 	bool GetPlotIndex(JIndex* index);
-	
+
 	const JString& GetLabel();
-	
+
 protected:
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 	bool	OKToDeactivate() override;
-	
+
 private:
 
 	JIndex itsStartX;
@@ -63,7 +63,7 @@ private:
 
 private:
 
-	void	BuildWindow(RaggedFloatTableData* data, 
+	void	BuildWindow(RaggedFloatTableData* data,
 						const JIndex startX, const JIndex startY,
 						const JIndex startXErr, const JIndex startYErr);
 };

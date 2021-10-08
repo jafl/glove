@@ -78,7 +78,7 @@
 const JFileVersion	kCurrentTableVersion = 0;
 
 const JCoordinate kDefColWidth  = 100;
-const JCoordinate kDefRowWidth 	= 20;
+const JCoordinate kDefRowWidth	= 20;
 const JCoordinate kHMarginWidth = 2;
 
 // Edit menu information
@@ -160,10 +160,10 @@ static const JUtf8Byte* kGloveTextDataXAtomName = "OVE_TEXT";
 RaggedFloatTable::RaggedFloatTable
 	(
 	DataDocument*			dir,
-	JXTextButton* 			okButton,
+	JXTextButton*			okButton,
 	RaggedFloatTableData*	data,
 	const int				precision,
-	JXMenuBar* 				menuBar,
+	JXMenuBar*				menuBar,
 	JXScrollbarSet*			scrollbarSet,
 	JXContainer*			enclosure,
 	const HSizingOption		hSizing,
@@ -231,15 +231,15 @@ RaggedFloatTable::RaggedFloatTable
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsModuleMenu);
 
-	itsCreatePlotDialog 		= nullptr;
+	itsCreatePlotDialog		= nullptr;
 	itsCreateVectorPlotDialog	= nullptr;
-	itsColByRangeDialog 		= nullptr;
-	itsColByIncDialog 			= nullptr;
-	itsTransDialog 				= nullptr;
+	itsColByRangeDialog		= nullptr;
+	itsColByIncDialog			= nullptr;
+	itsTransDialog				= nullptr;
 	itsTransformVarList			= nullptr;
 
-	itsFirstRedoIndex   		= 1;
-	itsUndoState        		= kIdle;
+	itsFirstRedoIndex		= 1;
+	itsUndoState		= kIdle;
 
 	itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
 	assert(itsUndoList != nullptr);
@@ -2401,7 +2401,7 @@ RaggedFloatTable::WriteData
 void
 RaggedFloatTable::ReadData
 	(
-	std::istream& 		is,
+	std::istream&		is,
 	const JFloat	gloveVersion
 	)
 {

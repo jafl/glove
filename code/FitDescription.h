@@ -4,7 +4,7 @@
 	Interface for the FitDescription class
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #ifndef _H_FitDescription
@@ -36,25 +36,24 @@ public:
 					 const JString& name = JString::empty);
 
 	static bool	Create(std::istream& is, FitDescription** fd);
-	
-	virtual ~FitDescription();
+
+	~FitDescription() override;
 
 	FitType	GetType() const;
-	void	SetType(const FitType type); 
+	void	SetType(const FitType type);
 
-	virtual bool	GetParameterName(const JIndex index, JString* name) const;
-	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
+	bool	GetParameterName(const JIndex index, JString* name) const override;
+	bool	GetParameter(const JIndex index, JFloat* value) const override;
 
-
-	virtual JString	GetFitFunctionString() const;
-	void			SetFitFunctionString(const JString& form);
+	JString	GetFitFunctionString() const override;
+	void	SetFitFunctionString(const JString& form);
 
 	const JString&	GetFnName() const;
 
-	bool		RequiresStartValues() const;
-	bool		CanUseStartValues() const;
+	bool	RequiresStartValues() const;
+	bool	CanUseStartValues() const;
 
-	VarList*		GetVarList();
+	VarList*	GetVarList();
 
 	virtual void	WriteSetup(std::ostream& os); // must call base class first!
 

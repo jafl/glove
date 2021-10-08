@@ -4,7 +4,7 @@
 	Interface for the ParmColHeaderWidget class
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #ifndef _H_ParmColHeaderWidget
@@ -27,7 +27,7 @@ public:
 						  const JCoordinate x, const JCoordinate y,
 						  const JCoordinate w, const JCoordinate h);
 
-	virtual ~ParmColHeaderWidget();
+	~ParmColHeaderWidget() override;
 
 	void	PrintOnPage(JPagePrinter& p);
 };

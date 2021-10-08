@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotFitPowerLaw.cpp
- 
+
 	PlotFitPowerLaw class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -21,15 +21,15 @@
 #include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotFitPowerLaw::PlotFitPowerLaw
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -41,11 +41,11 @@ PlotFitPowerLaw::PlotFitPowerLaw
 
 PlotFitPowerLaw::PlotFitPowerLaw
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -57,7 +57,7 @@ PlotFitPowerLaw::PlotFitPowerLaw
 void
 PlotFitPowerLaw::JPlotFitPowerLawX
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData
 	)
 {
@@ -73,10 +73,10 @@ PlotFitPowerLaw::JPlotFitPowerLawX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotFitPowerLaw::~PlotFitPowerLaw()
 {
 }
@@ -98,14 +98,14 @@ PlotFitPowerLaw::GenerateFit()
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitPowerLaw::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -116,14 +116,14 @@ PlotFitPowerLaw::GetYValue
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitPowerLaw::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -139,20 +139,20 @@ PlotFitPowerLaw::GetParameterName
 	else
 	{
 		return false;
-	}		
+	}
 	return true;
 }
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitPowerLaw::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -168,20 +168,20 @@ PlotFitPowerLaw::GetParameter
 	else
 	{
 		return false;
-	}		
+	}
 	return true;
 }
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitPowerLaw::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -202,7 +202,7 @@ PlotFitPowerLaw::GetParameterError
 	else
 	{
 		return false;
-	}		
+	}
 	return true;
 }
 
@@ -238,10 +238,10 @@ PlotFitPowerLaw::SetErrors
 
 /*********************************************************************************
  FunctionN
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitPowerLaw::FunctionN
 	(
 	const JFloat x
@@ -252,10 +252,10 @@ PlotFitPowerLaw::FunctionN
 
 /*********************************************************************************
  FunctionNPrimed
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitPowerLaw::FunctionNPrimed
 	(
 	const JFloat x
@@ -266,7 +266,7 @@ PlotFitPowerLaw::FunctionNPrimed
 
 /*********************************************************************************
  CalculateFirstPass
- 
+
 
  ********************************************************************************/
 

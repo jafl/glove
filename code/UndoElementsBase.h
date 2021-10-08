@@ -21,18 +21,18 @@ class UndoElementsBase : public UndoBase
 public:
 
 	enum UndoType
-		{
+	{
 		kRows = 1,
 		kCols,
 		kElements
-		};
-	
+	};
+
 public:
 
 	UndoElementsBase(RaggedFloatTable* table, const JPoint& start,
 					   const JPoint& end, const UndoType type);
 
-	virtual ~UndoElementsBase();
+	~UndoElementsBase() override;
 
 protected:
 

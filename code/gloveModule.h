@@ -7,7 +7,7 @@ enum
 	kGloveDataError = 0,
 	kGloveMatrixDataFormat,
 	kGloveRaggedDataFormat,
-	
+
 //  General module values
 	kGloveOK,
 	kGloveFail,
@@ -18,7 +18,7 @@ enum
 	kGloveRequiresNoData,
 	kGloveDataDump,
 	kGloveDataControl,
-	
+
 //  Fit module values
 	kGloveXY,
 	kGloveXYdY,
@@ -27,4 +27,3 @@ enum
 };
 
 #endif
-

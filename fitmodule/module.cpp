@@ -22,8 +22,8 @@ const char* kName			= "Two exponentials + C";
 double
 FunctionN
 	(
-	const double* 	parms,
-	const double 	x
+	const double*	parms,
+	const double	x
 	)
 {
 	return parms[0] + parms[1] * exp(parms[2] * x) + parms[3] * exp(parms[4] * x);
@@ -37,8 +37,8 @@ FunctionN
 double
 FunctionNPrimed
 	(
-	const double* 	parms,
-	const double 	x
+	const double*	parms,
+	const double	x
 	)
 {
 	return parms[1] * parms[2] * exp(parms[2] * x) + parms[3] * parms[4] * exp(parms[4] * x);

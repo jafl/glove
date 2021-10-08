@@ -331,7 +331,7 @@ void
 RaggedFloatTableData::InsertRows
 	(
 	const JIndex				index,
-	const JSize 				count,
+	const JSize				count,
 	const JList<JFloat>*	initData
 	)
 {
@@ -508,7 +508,7 @@ void
 RaggedFloatTableData::InsertCols
 	(
 	const JIndex				index,
-	const JSize 				count,
+	const JSize				count,
 	const JList<JFloat>*	initData
 	)
 {

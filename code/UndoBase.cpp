@@ -21,7 +21,7 @@
 
 UndoBase::UndoBase
 	(
-	RaggedFloatTable* 	table
+	RaggedFloatTable*	table
 	)
 	:
 	JUndo(),

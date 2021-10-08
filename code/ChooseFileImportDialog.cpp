@@ -26,7 +26,7 @@
 #include <jx-af/jcore/jAssert.h>
 
 const JSize  kFileByteCount				= 1000;
-const JIndex kFileModulePrefsVersionID 	= 1;
+const JIndex kFileModulePrefsVersionID	= 1;
 
 /******************************************************************************
  Constructor
@@ -68,7 +68,7 @@ ChooseFileImportDialog::BuildWindow
 	const JString& filename
 	)
 {
-	
+
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 330,230, JString::empty);
@@ -120,18 +120,18 @@ ChooseFileImportDialog::BuildWindow
 	}
 
 	JPtrArray<JString>* names = (GetApplication())->GetImportModules();
-	
+
 	const JSize strCount = names->GetElementCount();
-	
+
 	for (JIndex i=1; i<=strCount; i++)
 	{
 		itsFilterMenu->AppendItem(*(names->GetElement(i)));
 	}
 
 	itsFilterIndex = 1;
-	
+
 	itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
-	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);	
+	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFilterMenu);
 	ListenTo(itsReloadButton);
 
@@ -139,23 +139,23 @@ ChooseFileImportDialog::BuildWindow
 	JString text;
 	text.Read(is, kFileByteCount);
 
-	itsFileText = 
+	itsFileText =
 		jnew JXStaticText(text, false, false, false,
-			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(), 
+			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != nullptr);
 	itsFileText->FitToEnclosure();
 }
 
 /******************************************************************************
- Receive 
+ Receive
 
  ******************************************************************************/
 
 void
 ChooseFileImportDialog::Receive
 	(
-	JBroadcaster* sender, 
+	JBroadcaster* sender,
 	const Message& message
 	)
 {
@@ -166,7 +166,7 @@ ChooseFileImportDialog::Receive
 		assert( selection != nullptr );
 		itsFilterIndex = selection->GetIndex();
 	}
-		
+
 	else if (sender == itsReloadButton && message.Is(JXButton::kPushed))
 	{
 		(GetApplication())->ReloadImportModules();
@@ -187,7 +187,7 @@ ChooseFileImportDialog::Receive
 		itsFilterIndex = 1;
 		itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 	}
-		
+
 	else
 	{
 		JXDialogDirector::Receive(sender, message);
@@ -195,11 +195,11 @@ ChooseFileImportDialog::Receive
 }
 
 /******************************************************************************
- GetFilterIndex 
+ GetFilterIndex
 
  ******************************************************************************/
 
-JIndex 
+JIndex
 ChooseFileImportDialog::GetFilterIndex()
 {
 	return itsFilterIndex;

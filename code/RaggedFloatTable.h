@@ -63,7 +63,7 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~RaggedFloatTable();
+	~RaggedFloatTable() override;
 
 	void SelectRow(const JIndex row);
 	void AddRowToSelection(const JIndex row);
@@ -76,41 +76,41 @@ public:
 	void ReadData(std::istream& is, const JFloat gloveVersion);
 
 	RaggedFloatTableData*				GetFloatData() const;
-	RaggedFloatTable::SelectionType 	GetSelectionType();
+	RaggedFloatTable::SelectionType	GetSelectionType();
 
-	void 		GetSelectionArea(JIndex* rows, JIndex* cols, JIndex* startRow, JIndex* startCol);
-	bool 	WriteDataCols(std::ostream& os, const int cols);
-	void 		ExportDataMatrix(std::ostream& os);
-	void 		ExportData(std::ostream& os);
+	void	GetSelectionArea(JIndex* rows, JIndex* cols, JIndex* startRow, JIndex* startCol);
+	bool	WriteDataCols(std::ostream& os, const int cols);
+	void	ExportDataMatrix(std::ostream& os);
+	void	ExportData(std::ostream& os);
 
-	void		PrintRealTable(JPSPrinter& p);
+	void	PrintRealTable(JPSPrinter& p);
 
 	// needed by undo
 
-	void			Undo();
-	void			Redo();
-	bool		HasUndo() const;
-	bool		HasRedo() const;
+	void	Undo();
+	void	Redo();
+	bool	HasUndo() const;
+	bool	HasRedo() const;
 
-	void			LoadDefaultToolButtons(JXToolBar* toolbar);
+	void	LoadDefaultToolButtons(JXToolBar* toolbar);
 
 protected:
 
 	void Receive(JBroadcaster* sender, const Message& message) override;
 	void HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+						const JSize clickCount,
+						const JXButtonStates& buttonStates,
+						const JXKeyModifiers& modifiers) override;
 	void HandleMouseDrag(const JPoint& pt, const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+						const JXKeyModifiers& modifiers) override;
 	void HandleKeyPress(const JUtf8Character& c, const int keySym,
 								const JXKeyModifiers& modifiers) override;
 
 	void			TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	JXInputField*	CreateXInputField(const JPoint& cell,
-											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h) override;
-	bool		ExtractInputData(const JPoint& cell) override;
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
+	bool			ExtractInputData(const JPoint& cell) override;
 	void			PrepareDeleteXInputField() override;
 
 private:
@@ -142,9 +142,9 @@ private:
 	JXTextMenu*					itsModuleMenu;
 
 	CreatePlotDialog*			itsCreatePlotDialog;
-	CreateVectorPlotDialog*	itsCreateVectorPlotDialog;
+	CreateVectorPlotDialog*		itsCreateVectorPlotDialog;
 	ColByRangeDialog*			itsColByRangeDialog;
-	ColByIncDialog*			itsColByIncDialog;
+	ColByIncDialog*				itsColByIncDialog;
 	TransformFunctionDialog*	itsTransDialog;
 
 	Atom						itsGloveTextXAtom;
@@ -194,9 +194,9 @@ private:
 
 	// needed by undo
 
-	bool 	GetCurrentRedo(JUndo** undo) const;
+	bool	GetCurrentRedo(JUndo** undo) const;
 	bool	GetCurrentUndo(JUndo** undo) const;
-	void 	NewUndo(JUndo* undo);
+	void	NewUndo(JUndo* undo);
 };
 
 

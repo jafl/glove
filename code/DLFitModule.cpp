@@ -4,7 +4,7 @@
 	BASE CLASS = <NONE>
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include <DLFitModule.h>
@@ -14,9 +14,9 @@
 #include <ace/DLL.h>
 #include <jx-af/jcore/jAssert.h>
 
-typedef const JUtf8Byte** (GetParmsFn)();
-typedef JSize (GetParmCountFn)();
-typedef const JUtf8Byte* (GetNameFn)();
+using GetParmsFn     = const JUtf8Byte** (*)();
+using GetParmCountFn = JSize (*)();
+using GetNameFn      = const JUtf8Byte* (*)();
 
 const JUtf8Byte* kInitValName	= "GetStartValues";
 const JUtf8Byte* kFNName		= "FunctionN";
@@ -34,8 +34,8 @@ const JUtf8Byte* kFitName		= "GetFitName";
 bool
 DLFitModule::Create
 	(
-	const JString&		moduleName,
-	DLFitModule**		fit
+	const JString&	moduleName,
+	DLFitModule**	fit
 	)
 {
 	ACE_DLL* module = jnew ACE_DLL(moduleName.GetBytes());
@@ -43,53 +43,55 @@ DLFitModule::Create
 
 	bool ok	= true;
 
-	EvalFn*	fn	= (EvalFn*)module->symbol(kFNName);
+	EvalFn	fn = (EvalFn)module->symbol(kFNName);
 	if (fn == nullptr)
 	{
 		ok	= false;
 	}
-	EvalFn*	fnprimed	= (EvalFn*)module->symbol(kFNPrimedName);
-	GetParmsFn* pf		= (GetParmsFn*)module->symbol(kGetParmsName);
+	EvalFn	fnprimed = (EvalFn)module->symbol(kFNPrimedName);
+	GetParmsFn pf    = (GetParmsFn)module->symbol(kGetParmsName);
 	if (pf == nullptr)
 	{
 		ok	= false;
 	}
-	GetParmCountFn* pc	= (GetParmCountFn*)module->symbol(kParmCountName);
+	GetParmCountFn pc = (GetParmCountFn)module->symbol(kParmCountName);
 	if (pc == nullptr)
 	{
 		ok	= false;
 	}
-	GetNameFn* ff		= (GetNameFn*)module->symbol(kFormName);
+	GetNameFn ff = (GetNameFn)module->symbol(kFormName);
 	if (ff == nullptr)
 	{
 		ok	= false;
 	}
-	GetNameFn* fname	= (GetNameFn*)module->symbol(kFitName);
+	GetNameFn fname	= (GetNameFn)module->symbol(kFitName);
 	if (fname == nullptr)
 	{
 		ok	= false;
 	}
-	InitialValFn* ifn	= (InitialValFn*)module->symbol(kInitValName);
+	InitialValFn ifn = (InitialValFn)module->symbol(kInitValName);
+
 	if (!ok)
 	{
 		jdelete module;
 		return false;
 	}
-	*fit	= jnew DLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
+
+	*fit = jnew DLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
 	assert(*fit != nullptr);
 	return true;
 }
 
 DLFitModule::DLFitModule
 	(
-	ACE_DLL* 			module, 
-	EvalFn* 			function, 
-	EvalFn* 			fprimed,
-	InitialValFn* 		initFn,
-	const JSize 		count, 
-	const JUtf8Byte** 	parms, 
-	const JUtf8Byte* 	form, 
-	const JUtf8Byte* 	name
+	ACE_DLL*			module,
+	EvalFn				function,
+	EvalFn				fprimed,
+	InitialValFn		initFn,
+	const JSize		count,
+	const JUtf8Byte**	parms,
+	const JUtf8Byte*	form,
+	const JUtf8Byte*	name
 	)
 	:
 	itsFunctionalForm(form),
@@ -148,11 +150,11 @@ DLFitModule::HasStartValues()
 bool
 DLFitModule::GetStartValues
 	(
-	const JArray<JFloat>* x, 
-	const JArray<JFloat>* y, 
-	const JArray<JFloat>* xerr, 
-	const JArray<JFloat>* yerr, 
-	JVector* 			  p
+	const JArray<JFloat>* x,
+	const JArray<JFloat>* y,
+	const JArray<JFloat>* xerr,
+	const JArray<JFloat>* yerr,
+	JVector*			  p
 	)
 {
 	if (itsGetStartValFn == nullptr)
@@ -163,10 +165,10 @@ DLFitModule::GetStartValues
 	assert(x != nullptr);
 	assert(y != nullptr);
 
-	
 
-//	itsGetStartValFn(x->GetElementCount(), 
-	
+
+//	itsGetStartValFn(x->GetElementCount(),
+
 	return true;
 }
 
@@ -179,7 +181,7 @@ DLFitModule::GetStartValues
 JFloat
 DLFitModule::Function
 	(
-	const JFloat 	x
+	const JFloat	x
 	)
 {
 	return itsFunction(itsParameters->GetElements(), x);
@@ -205,7 +207,7 @@ DLFitModule::HasFPrimed()
 JFloat
 DLFitModule::FPrimed
 	(
-	const JFloat 	x
+	const JFloat	x
 	)
 {
 	assert(itsFPrimed != nullptr);
@@ -220,7 +222,7 @@ DLFitModule::FPrimed
 void
 DLFitModule::SetCurrentParameters
 	(
-	const JVector& 	p
+	const JVector&	p
 	)
 {
 	assert(p.GetDimensionCount() == itsParameters->GetDimensionCount());

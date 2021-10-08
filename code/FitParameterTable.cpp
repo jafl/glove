@@ -90,7 +90,7 @@ FitParameterTable::FitParameterTable
 FitParameterTable::~FitParameterTable()
 {
 	itsNameList->DeleteAll();
-	jdelete itsNameList;		
+	jdelete itsNameList;
 	jdelete itsStartValues;
 	jdelete itsFitValues;
 	jdelete itsErrorValues;
@@ -104,9 +104,9 @@ FitParameterTable::~FitParameterTable()
 void
 FitParameterTable::HandleMouseDown
 	(
-	const JPoint& 			pt,
-	const JXMouseButton 	button,
-	const JSize 			clickCount,
+	const JPoint&			pt,
+	const JXMouseButton	button,
+	const JSize			clickCount,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
@@ -228,7 +228,7 @@ FitParameterTable::AdjustColWidth
 	JCoordinate lineWidth;
 	JColorID color;
 	GetColBorderInfo(&lineWidth, &color);
-	JSize usedWidth = 
+	JSize usedWidth =
 		2 * GetColWidth(kFitColIndex) + 2 * lineWidth;
 
 	if (itsHasStartValues)
@@ -250,11 +250,11 @@ FitParameterTable::AdjustColWidth
 JXInputField*
 FitParameterTable::CreateXInputField
 	(
-	const JPoint& 		cell,
-	const JCoordinate 	x,
-	const JCoordinate 	y,
-	const JCoordinate 	w,
-	const JCoordinate 	h
+	const JPoint&		cell,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
 	)
 {
 	assert(itsInput == nullptr);
@@ -309,7 +309,7 @@ void
 FitParameterTable::HandleKeyPress
 	(
 	const JUtf8Character&	c,
-	const int 				keySym,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -351,7 +351,7 @@ FitParameterTable::SetColHeaderWidget
 	)
 {
 	itsColHeaderWidget	= widget;
-	
+
 	itsColHeaderWidget->SetColTitle(1, JGetString("ParmNameTitle::FitParameterTable"));
 	itsColHeaderWidget->SetColTitle(2, JGetString("ParmStartTitle::FitParameterTable"));
 	itsColHeaderWidget->SetColTitle(3, JGetString("ParmFitTitle::FitParameterTable"));
@@ -405,7 +405,7 @@ FitParameterTable::SetFitDescription
 		itsStartValues->AppendElement(0);
 		itsFitValues->AppendElement(0);
 		itsErrorValues->AppendElement(0);
-	}			
+	}
 }
 
 /******************************************************************************
@@ -446,8 +446,8 @@ FitParameterTable::ShowStartCol
 void
 FitParameterTable::SetValue
 	(
-	const JIndex index, 
-	const JFloat value, 
+	const JIndex index,
+	const JFloat value,
 	const JFloat error
 	)
 {
@@ -549,8 +549,8 @@ FitParameterTable::GetValueString
 void
 FitParameterTable::PrintOnPage
 	(
-	JPagePrinter& 		p, 
-	JCoordinate* 		height
+	JPagePrinter&		p,
+	JCoordinate*		height
 	)
 {
 	const JSize origWidth	= GetBoundsWidth();
@@ -559,7 +559,7 @@ FitParameterTable::PrintOnPage
 	AdjustSize(printWidth - origWidth, 0);
 //	SetSize(printWidth, GetBoundsHeight());
 	AdjustColWidth(printWidth);
-	
+
 	itsColHeaderWidget->PrintOnPage(p);
 	p.ShiftOrigin(0, itsColHeaderWidget->GetBoundsHeight());
 

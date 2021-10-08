@@ -112,18 +112,18 @@ FitParmsTable::Clear()
 
 /******************************************************************************
  Append
- 
+
 
  ******************************************************************************/
 
 void
 FitParmsTable::Append
 	(
-	const JString& col1, 
+	const JString& col1,
 	const JString& col2
 	)
 {
-	
+
 	JFontManager* fm = GetFontManager();
 	JSize lineHeight = JFontManager::GetDefaultFont().GetLineHeight(fm);
 	AppendRows(1, lineHeight + 2);

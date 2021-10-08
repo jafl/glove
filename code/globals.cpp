@@ -1,7 +1,7 @@
 /******************************************************************************
  globals.h
 
-	Copyright (C) 1997-2000 by Glenn Bach. 
+	Copyright (C) 1997-2000 by Glenn Bach.
 
  ******************************************************************************/
 
@@ -19,8 +19,8 @@
 #include <jx-af/jcore/jAssert.h>
 
 static FitManager*	itsFitManager	= nullptr;
-static PrefsMgr*	itsPrefsMgr 	= nullptr;
-static PlotApp*		itsApplication 	= nullptr;
+static PrefsMgr*	itsPrefsMgr	= nullptr;
+static PlotApp*		itsApplication	= nullptr;
 static JXPTPrinter*	itsPrinter		= nullptr;
 static MDIServer*	itsMDIServer	= nullptr;
 
@@ -29,7 +29,7 @@ static MDIServer*	itsMDIServer	= nullptr;
 
  ******************************************************************************/
 
-bool 
+bool
 InitGlobals
 	(
 	PlotApp* app
@@ -40,7 +40,7 @@ InitGlobals
 	bool isNew;
 	itsPrefsMgr = jnew PrefsMgr(&isNew);
 	assert(itsPrefsMgr != nullptr);
-	
+
 	JXInitHelp();
 
 	itsPrinter = jnew JXPTPrinter();
@@ -62,7 +62,7 @@ InitGlobals
 
  ******************************************************************************/
 
-void 
+void
 DeleteGlobals()
 {
 	itsPrefsMgr->WritePrinterSetup(itsPrinter);
@@ -123,7 +123,7 @@ GetFitManager()
 
  ******************************************************************************/
 
-MDIServer*	
+MDIServer*
 GetMDIServer()
 {
 	assert(itsMDIServer != nullptr);

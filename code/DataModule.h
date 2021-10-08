@@ -2,11 +2,11 @@
  DataModule.h
 
 	Interface for the DataModule class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_DataModule
 #define _H_DataModule
 
@@ -29,26 +29,25 @@ class DataModule : virtual public JBroadcaster
 public:
 
 	static bool Create(	DataModule** module,
-							RaggedFloatTable* table, 
+							RaggedFloatTable* table,
 							RaggedFloatTableData* data,
 							const JString& sysCmd);
-	virtual ~DataModule();
+	~DataModule() override;
 
 protected:
 
 	DataModule(	RaggedFloatTable* table, RaggedFloatTableData* data,
 				JProcess* process, const int fd, JOutPipeStream* output);
 
-	virtual void	Receive(JBroadcaster* sender,
-						const JBroadcaster::Message& message);
+	void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message) override;
 
 private:
 
-	typedef JMessageProtocol<ACE_LSOCK_STREAM>	ProcessLink;
+	using ProcessLink = JMessageProtocol<ACE_LSOCK_STREAM>;
 
 private:
 
-	RaggedFloatTable* 	itsTable;
+	RaggedFloatTable*		itsTable;
 	RaggedFloatTableData*	itsData;
 	JOutPipeStream*			itsOutput;
 	bool					itsHeaderRead;
@@ -63,10 +62,10 @@ private:
 
 private:
 
-	void		HandleInput(const JString& str);
-	void		HandleDataRead(const JString& str);
-	void		HandlePrepareCols(const JSize cols);
-	
+	void	HandleInput(const JString& str);
+	void	HandleDataRead(const JString& str);
+	void	HandlePrepareCols(const JSize cols);
+
 	// not allowed
 
 	DataModule(const DataModule&) = delete;

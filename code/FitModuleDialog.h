@@ -21,7 +21,7 @@ public:
 
 	FitModuleDialog(JXWindowDirector* supervisor);
 
-	virtual ~FitModuleDialog();
+	~FitModuleDialog() override;
 
 	JIndex GetFilterIndex();
 

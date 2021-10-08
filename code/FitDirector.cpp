@@ -70,7 +70,7 @@
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JCoordinate kCloseButtonWidth 	= 50;
+const JCoordinate kCloseButtonWidth	= 50;
 const JCoordinate kCurrentPrefsVersion	= 1;
 
 static const JUtf8Byte* kFitMenuStr =
@@ -136,7 +136,7 @@ enum
 
 FitDirector::FitDirector
 	(
-	PlotDir* 		supervisor,
+	PlotDir*		supervisor,
 	J2DPlotWidget*	plot,
 	const JString&	file
 	)
@@ -702,8 +702,8 @@ FitDirector::HandleFitMenu
 	else if (index == kPlotCmd)
 	{
 //		JString fn	= itsCurrentFit->GetFitFunctionString();
-// 		need to check - via
-// 		JFunction* f;
+//		need to check - via
+//		JFunction* f;
 //		if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
 //			{
 //			return true;

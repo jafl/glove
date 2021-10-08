@@ -23,9 +23,9 @@ public:
 	UndoElementCut(RaggedFloatTable* table, const JPoint& cell,
 					 const JFloat value);
 
-	virtual ~UndoElementCut();
+	~UndoElementCut() override;
 
-	virtual void	Undo();
+	void	Undo() override;
 
 private:
 

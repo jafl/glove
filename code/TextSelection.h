@@ -4,7 +4,7 @@
 	Interface for the TextSelection class
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #ifndef _H_TextSelection
@@ -20,16 +20,16 @@ class TextSelection : public JXTextSelection
 public:
 
 	TextSelection(JXDisplay* display, const std::string& text);
-	virtual ~TextSelection();
+	~TextSelection() override;
 
 	void	SetGloveData(const std::string& text);
 
 protected:
 
-	virtual void		AddTypes(const Atom selectionName);
-	virtual bool	ConvertData(const Atom requestType, Atom* returnType,
-									unsigned char** data, JSize* dataLength,
-									JSize* bitsPerBlock) const;
+	void	AddTypes(const Atom selectionName) override;
+	bool	ConvertData(const Atom requestType, Atom* returnType,
+						unsigned char** data, JSize* dataLength,
+						JSize* bitsPerBlock) const override;
 
 private:
 

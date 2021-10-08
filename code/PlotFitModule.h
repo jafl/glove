@@ -23,27 +23,27 @@ public:
 
 	PlotFitModule(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					  const JFloat xMin, const JFloat xMax);
-	PlotFitModule(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotFitModule(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					  const JFloat xmin, const JFloat xmax,
 					  const JFloat ymin, const JFloat ymax);
-	virtual ~PlotFitModule();
+	~PlotFitModule() override;
 
 	void	SetFitModule(DLFitModule* fit);
 	void	SetInitialParameters(const JVector& p);
 
-	virtual bool	GetParameterName(const JIndex index, JString* name) const;
-	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
+	bool	GetParameterName(const JIndex index, JString* name) const override;
+	bool	GetParameter(const JIndex index, JFloat* value) const override;
 
-	virtual bool	GetParameterError(const JIndex index, JFloat* value) const;
+	bool	GetParameterError(const JIndex index, JFloat* value) const override;
 
-	virtual bool	GetYValue(const JFloat x, JFloat* y) const;
+	bool	GetYValue(const JFloat x, JFloat* y) const override;
 
 protected:
 
-	virtual void		SetCurrentParameters(const JVector& p);
-	virtual void		SetErrors(const JVector& p);
-	virtual JFloat		FunctionN(const JFloat x);
-	virtual JFloat		FunctionNPrimed(const JFloat x);
+	void	SetCurrentParameters(const JVector& p) override;
+	void	SetErrors(const JVector& p) override;
+	JFloat	FunctionN(const JFloat x) override;
+	JFloat	FunctionNPrimed(const JFloat x) override;
 
 private:
 

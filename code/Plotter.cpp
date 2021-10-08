@@ -41,8 +41,8 @@ const int kASCIIZero = 48;
 
 Plotter::Plotter
 	(
-	HistoryDir* 	sessionDir,
-	JXMenuBar* 			menuBar,
+	HistoryDir*	sessionDir,
+	JXMenuBar*			menuBar,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
 	const VSizingOption	vSizing,
@@ -58,13 +58,13 @@ Plotter::Plotter
 	JXTextMenu* cursorMenu = GetCursorMenu();
 	cursorMenu->ShowSeparatorAfter(cursorMenu->GetItemCount());
 	cursorMenu->AppendItem(JGetString("ModuleMenuTitle::Plotter"));
-	
+
 	itsModuleMenu = jnew JXTextMenu(cursorMenu, cursorMenu->GetItemCount(), menuBar);
 	assert( itsModuleMenu != nullptr );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsModuleMenu);
-	
+
 	itsIsProcessingCursor = false;
 	ListenTo(this);
 	UpdateModuleMenu();
@@ -104,7 +104,7 @@ Plotter::Receive
 		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
 	}
-		
+
 	else if (message.Is(JProcess::kFinished))
 	{
 		jdelete itsCursorProcess;
@@ -147,7 +147,7 @@ Plotter::Receive
 			}
 		}
 	}
-		
+
 	else
 	{
 		JX2DPlotWidget::Receive(sender, message);
@@ -156,7 +156,7 @@ Plotter::Receive
 
 /*******************************************************************************
  UpdateModuleMenu
- 
+
 
  ******************************************************************************/
 
@@ -180,7 +180,7 @@ Plotter::UpdateModuleMenu()
 
 /*******************************************************************************
  HandleModuleMenu
- 
+
 
  ******************************************************************************/
 
@@ -194,14 +194,14 @@ Plotter::HandleModuleMenu
 	{
 		UpdateModuleMenu();
 	}
-		
+
 	else
 	{
 		JString modName;
 		(GetApplication())->GetCursorModulePath(index - 1, &modName);
 		int inFD;
 		int outFD;
-		JError err = 
+		JError err =
 			JProcess::Create(&itsCursorProcess, modName,
 							kJCreatePipe, &outFD,
 							kJCreatePipe, &inFD,

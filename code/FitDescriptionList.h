@@ -23,11 +23,11 @@ public:
 					const JCoordinate x, const JCoordinate y,
 					const JCoordinate w, const JCoordinate h);
 
-	virtual ~FitDescriptionList();
+	~FitDescriptionList() override;
 
-	bool		GetCurrentFitIndex(JIndex* index);
+	bool	GetCurrentFitIndex(JIndex* index);
 	void	HandleKeyPress(const JUtf8Character& c,
-								   const int keySym, const JXKeyModifiers& modifiers) override;
+						   const int keySym, const JXKeyModifiers& modifiers) override;
 
 protected:
 
@@ -35,15 +35,15 @@ protected:
 
 	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 	void	HandleMouseDown(const JPoint& pt, const JXMouseButton button,
-									const JSize clickCount,
-									const JXButtonStates& buttonStates,
-									const JXKeyModifiers& modifiers) override;
+							const JSize clickCount,
+							const JXButtonStates& buttonStates,
+							const JXKeyModifiers& modifiers) override;
 
 	JXInputField*	CreateXInputField(const JPoint& cell,
-											  const JCoordinate x, const JCoordinate y,
-											  const JCoordinate w, const JCoordinate h) override;
+									  const JCoordinate x, const JCoordinate y,
+									  const JCoordinate w, const JCoordinate h) override;
 	void			PrepareDeleteXInputField() override;
-	bool		ExtractInputData(const JPoint& cell) override;
+	bool			ExtractInputData(const JPoint& cell) override;
 
 	void	ApertureResized(const JCoordinate dw, const JCoordinate dh) override;
 
@@ -68,7 +68,7 @@ public:
 	static const JUtf8Byte* kFitInitiated;
 
 	class FitSelected : public JBroadcaster::Message
-		{
+	{
 		public:
 
 			FitSelected(const JIndex index)
@@ -86,10 +86,10 @@ public:
 		private:
 
 			JIndex itsIndex;
-		};
+	};
 
 	class FitInitiated : public JBroadcaster::Message
-		{
+	{
 		public:
 
 			FitInitiated(const JIndex index)
@@ -107,7 +107,7 @@ public:
 	private:
 
 		JIndex itsIndex;
-		};
+	};
 };
 
 #endif

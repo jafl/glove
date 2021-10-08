@@ -79,7 +79,7 @@ NonLinearFitDialog::BuildWindow()
 	const JCoordinate kExprEditorHeight	= 100;
 	const JCoordinate kDerTableHeight	= 100;
 	const JCoordinate kVarTableHeight	= 100;
-	
+
 	JArray<JCoordinate> heights(3);
 	heights.AppendElement(kExprEditorHeight + kNameInputHeight);
 	heights.AppendElement(kDerTableHeight);
@@ -91,7 +91,7 @@ NonLinearFitDialog::BuildWindow()
 	minHeights.AppendElement(80);
 	minHeights.AppendElement(80);
 	minHeights.AppendElement(80);
-	
+
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,430, JString::empty);
@@ -160,7 +160,7 @@ NonLinearFitDialog::BuildWindow()
 
 // end functionLayout
 
-	itsFnEditor	= 
+	itsFnEditor	=
 		jnew JXExprEditor(itsVarList, menuBar,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
@@ -197,7 +197,7 @@ NonLinearFitDialog::BuildWindow()
 
 // end derivativeLayout
 
-	itsDerivativeEditor	= 
+	itsDerivativeEditor	=
 		jnew JXExprEditor(itsVarList, itsFnEditor,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
@@ -239,8 +239,8 @@ NonLinearFitDialog::BuildWindow()
 
 // end variableLayout
 
-	itsVarTable	= 
-		jnew VarTable(itsVarList, 
+	itsVarTable	=
+		jnew VarTable(itsVarList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
@@ -293,7 +293,7 @@ NonLinearFitDialog::GetDerivativeString()
 void
 NonLinearFitDialog::Receive
 	(
-	JBroadcaster* 	sender, 
+	JBroadcaster*	sender,
 	const Message&	message
 	)
 {

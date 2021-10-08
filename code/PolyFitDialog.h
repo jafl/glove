@@ -3,7 +3,7 @@
 
 	Interface for the PolyFitDialog class
 
-	Copyright (C) 2000 by Glenn Bach. 
+	Copyright (C) 2000 by Glenn Bach.
 
  ******************************************************************************/
 
@@ -26,7 +26,7 @@ class PolyFitDialog : public JXDialogDirector
 public:
 
 	PolyFitDialog(JXDirector* supervisor);
-	virtual ~PolyFitDialog();
+	~PolyFitDialog() override;
 
 	void			GetPowers(JArray<JIndex>* powers);
 	const JString&	GetFitName() const;

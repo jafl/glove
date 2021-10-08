@@ -1,12 +1,12 @@
 /*********************************************************************************
  PlotQuadFit.h
- 
+
 	Interface for the PlotQuadFit class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_PlotQuadFit
 #define _H_PlotQuadFit
 
@@ -24,10 +24,10 @@ public:
 
 	PlotQuadFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	PlotQuadFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotQuadFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
-	virtual ~PlotQuadFit();	
+	~PlotQuadFit() override;
 
 	bool	GetParameterName(const JIndex index, JString* name) const override;
 	bool	GetParameter(const JIndex index, JFloat* value) const override;
@@ -36,7 +36,7 @@ public:
 
 	bool	GetGoodnessOfFitName(JString* name) const override;
 	bool	GetGoodnessOfFit(JFloat* value) const override;
-	
+
 	JString		GetFunctionString() const override;
 	JString		GetFitFunctionString() const override;
 
@@ -48,42 +48,42 @@ public:
 
 protected:
 
-	JFloat				BracketAndMinimize(	JFloat* parameter, 
-											const JFloat chitemp, 
+	JFloat				BracketAndMinimize(	JFloat* parameter,
+											const JFloat chitemp,
 											const JIndex type);
-	JFloat				Minimize(	JFloat ax, 
-									JFloat bx, 
-									JFloat cx, 
-									JFloat* xmin, 
+	JFloat				Minimize(	JFloat ax,
+									JFloat bx,
+									JFloat cx,
+									JFloat* xmin,
 									const JIndex type);
-	JFloat				MinimizeN(	JVector& p, 
-									JMatrix& xi, 
-									JSize *iter, 
+	JFloat				MinimizeN(	JVector& p,
+									JMatrix& xi,
+									JSize *iter,
 									const JIndex type);
-	JFloat				LinearMinimization(	JVector& p, 
+	JFloat				LinearMinimization(	JVector& p,
 											JVector& xi,
 											const JIndex type);
-	void				Bracket (	JFloat *ax, 
-									JFloat *bx, 
-									JFloat *cx, 
-									JFloat *fa, 
-									JFloat *fb, 
+	void				Bracket (	JFloat *ax,
+									JFloat *bx,
+									JFloat *cx,
+									JFloat *fa,
+									JFloat *fb,
 									JFloat *fc,
 									const JIndex type);
 	void				Shift(	JFloat& a,
 								JFloat& b,
 								JFloat& c,
 								JFloat& d);
-	virtual JFloat		FunctionN(	JVector& parameters, 
+	virtual JFloat		FunctionN(	JVector& parameters,
 									const JIndex type);
-	virtual JFloat		Function(	JFloat Bt, 
+	virtual JFloat		Function(	JFloat Bt,
 									const JIndex type);
-	virtual JFloat		ChiSqr(	JFloat Bt, 
+	virtual JFloat		ChiSqr(	JFloat Bt,
 								const JIndex type);
 
-	JFloat				MinimizeChiSqr(	const JFloat chi2, 
+	JFloat				MinimizeChiSqr(	const JFloat chi2,
 										const JIndex type);
-	
+
 	void				GenerateFit();
 	void				SetFunctionName(const JString& name);
 	JFloat				GetCurrentXMax() const;
@@ -94,12 +94,12 @@ protected:
 
 private:
 
-	void				JPlotQuadFitX(J2DPlotWidget* plot, 
+	void				JPlotQuadFitX(J2DPlotWidget* plot,
 										J2DPlotDataBase* fitData);
 
 	void				QuadFirstPass();
 	void				QuadMinFit();
-	
+
 	void				AdjustDiffData();
 	JFloat				CalcError(const JIndex type);
 
@@ -120,13 +120,13 @@ private:
 	JFloat		itsBParameterT;
 	JFloat		itsCParameterT;
 	JFloat		itsChi2T;
-	JFloat 		itsRangeXMax;
+	JFloat		itsRangeXMax;
 	JFloat		itsRangeXMin;
-	JFloat 		itsRangeYMax;
-	JFloat 		itsRangeYMin;
-	bool 	itsUsingRange;
+	JFloat		itsRangeYMax;
+	JFloat		itsRangeYMin;
+	bool	itsUsingRange;
 	JSize		itsRealCount;
-	
+
 	JArray<J2DDataPoint>* itsRealData;
 
 	JVector*	itsP;
@@ -137,7 +137,7 @@ private:
 
 /*********************************************************************************
  GetDataToFit
- 
+
 
  ********************************************************************************/
 
@@ -150,7 +150,7 @@ PlotQuadFit::GetDataToFit()
 
 /*********************************************************************************
  GetCurrentXMax
- 
+
 
  ********************************************************************************/
 
@@ -163,7 +163,7 @@ PlotQuadFit::GetCurrentXMax()
 
 /*********************************************************************************
  GetCurrentXMin
- 
+
 
  ********************************************************************************/
 
@@ -176,7 +176,7 @@ PlotQuadFit::GetCurrentXMin()
 
 /*********************************************************************************
  GetCurrentStepCount
- 
+
 
  ********************************************************************************/
 

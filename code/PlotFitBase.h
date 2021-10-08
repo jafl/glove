@@ -1,12 +1,12 @@
 /*********************************************************************************
  PlotFitBase.h
- 
+
 	Interface for the PlotFitBase class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_PlotFitBase
 #define _H_PlotFitBase
 
@@ -24,42 +24,42 @@ public:
 
 	PlotFitBase(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	PlotFitBase(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotFitBase(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
-	virtual ~PlotFitBase();	
+	~PlotFitBase() override;
 
 	bool	GetGoodnessOfFitName(JString* name) const override;
 	bool	GetGoodnessOfFit(JFloat* value) const override;
-	
-	void				AdjustDataRange(const JFloat xmin, const JFloat xmax,
-										const JFloat ymin, const JFloat ymax);
 
-	JString		GetFunctionString() const override;
-	JString		GetFitFunctionString() const override;
+	void	AdjustDataRange(const JFloat xmin, const JFloat xmax,
+							const JFloat ymin, const JFloat ymax);
 
-	void				GenerateFit(const JVector& parameters, const JFloat chi2);
+	JString	GetFunctionString() const override;
+	JString	GetFitFunctionString() const override;
+
+	void	GenerateFit(const JVector& parameters, const JFloat chi2);
 
 protected:
 
-	JFloat				Minimize(	JFloat ax, 
-									JFloat bx, 
+	JFloat				Minimize(	JFloat ax,
+									JFloat bx,
 									JFloat cx,
-									const JVector& p, 
+									const JVector& p,
 									const JVector& xi,
 									JFloat* xmin);
-	JFloat				MinimizeN(	JVector* p, 
-									JMatrix* xi, 
+	JFloat				MinimizeN(	JVector* p,
+									JMatrix* xi,
 									JSize *iter);
-	JFloat				LinearMinimization(	JVector* p, 
+	JFloat				LinearMinimization(	JVector* p,
 											JVector* xi);
-	void				Bracket (	JFloat *ax, 
-									JFloat *bx, 
-									JFloat *cx, 
-									JFloat *fa, 
-									JFloat *fb, 
+	void				Bracket (	JFloat *ax,
+									JFloat *bx,
+									JFloat *cx,
+									JFloat *fa,
+									JFloat *fb,
 									JFloat *fc,
-									const JVector& p, 
+									const JVector& p,
 									const JVector& xi);
 	void				Shift(	JFloat& a,
 								JFloat& b,
@@ -67,11 +67,11 @@ protected:
 								JFloat& d);
 	virtual JFloat		ChiSqrSqrt(const JVector& parameters);
 	virtual JFloat		Function(JFloat Bt,
-								 const JVector& p, 
+								 const JVector& p,
 								 const JVector& xi);
 	virtual JFloat		ChiSqr(const JVector& p);
 
-	void 		GenerateDiffData() override;
+	void		GenerateDiffData() override;
 
 	bool	DataElementValid(const JIndex index) override;
 	bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
@@ -83,12 +83,12 @@ protected:
 	virtual void		SetErrors(const JVector& p) = 0;
 	virtual JFloat		FunctionN(const JFloat x) = 0;
 	virtual JFloat		FunctionNPrimed(const JFloat x);
-	
+
 	void				SetFunctionString(const JString& str);
 
 private:
 
-	void				JPlotFitBaseX(J2DPlotWidget* plot, 
+	void				JPlotFitBaseX(J2DPlotWidget* plot,
 										J2DPlotDataBase* fitData);
 
 	void				AdjustDiffData();
@@ -97,13 +97,13 @@ private:
 private:
 
 	JFloat	itsChi2;
-	JFloat 	itsRangeXMax;
+	JFloat	itsRangeXMax;
 	JFloat	itsRangeXMin;
-	JFloat 	itsRangeYMax;
-	JFloat 	itsRangeYMin;
-	bool 	itsUsingRange;
+	JFloat	itsRangeYMax;
+	JFloat	itsRangeYMin;
+	bool	itsUsingRange;
 	JSize	itsRealCount;
-	
+
 	JArray<J2DDataPoint>* itsRealData;
 
 	JIndex		itsCurrentConstantParmIndex;

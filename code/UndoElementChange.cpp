@@ -21,9 +21,9 @@
 
 UndoElementChange::UndoElementChange
 	(
-	RaggedFloatTable* 	table,
-	const JPoint& 			cell,
-	const JFloat 			value
+	RaggedFloatTable*	table,
+	const JPoint&			cell,
+	const JFloat			value
 	)
 	:
 	UndoElementBase(table, cell),
@@ -56,7 +56,7 @@ UndoElementChange::Undo()
 	GetData()->SetElement(GetCell(), itsValue);
 
 	// create undo object to change it back
-	UndoElementChange* undo = 
+	UndoElementChange* undo =
 		jnew UndoElementChange(GetTable(), GetCell(), value);
 	assert(undo != nullptr);
 	NewUndo(undo);

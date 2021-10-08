@@ -22,9 +22,9 @@ public:
 
 	UndoElementAppend(RaggedFloatTable* table, const JPoint& cell);
 
-	virtual ~UndoElementAppend();
+	~UndoElementAppend() override;
 
-	virtual void	Undo();
+	void	Undo() override;
 };
 
 #endif

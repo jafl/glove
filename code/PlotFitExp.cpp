@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotFitExp.cpp
- 
+
 	PlotFitExp class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -22,15 +22,15 @@
 #include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotFitExp::PlotFitExp
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -42,11 +42,11 @@ PlotFitExp::PlotFitExp
 
 PlotFitExp::PlotFitExp
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -58,7 +58,7 @@ PlotFitExp::PlotFitExp
 void
 PlotFitExp::JPlotFitExpX
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData
 	)
 {
@@ -74,10 +74,10 @@ PlotFitExp::JPlotFitExpX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotFitExp::~PlotFitExp()
 {
 }
@@ -100,14 +100,14 @@ PlotFitExp::GenerateFit()
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitExp::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -118,14 +118,14 @@ PlotFitExp::GetYValue
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitExp::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -141,20 +141,20 @@ PlotFitExp::GetParameterName
 	else
 	{
 		return false;
-	}		
+	}
 	return true;
 }
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitExp::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -170,20 +170,20 @@ PlotFitExp::GetParameter
 	else
 	{
 		return false;
-	}		
+	}
 	return true;
 }
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitExp::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -204,7 +204,7 @@ PlotFitExp::GetParameterError
 	else
 	{
 		return false;
-	}		
+	}
 	return true;
 }
 
@@ -240,10 +240,10 @@ PlotFitExp::SetErrors
 
 /*********************************************************************************
  FunctionN
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitExp::FunctionN
 	(
 	const JFloat x
@@ -254,10 +254,10 @@ PlotFitExp::FunctionN
 
 /*********************************************************************************
  FunctionNPrimed
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitExp::FunctionNPrimed
 	(
 	const JFloat x
@@ -268,7 +268,7 @@ PlotFitExp::FunctionNPrimed
 
 /*********************************************************************************
  CalculateFirstPass
- 
+
 
  ********************************************************************************/
 

@@ -4,7 +4,7 @@
 	BASE CLASS = <NONE>
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include <FitDescription.h>
@@ -45,8 +45,8 @@ FitDescription::FitDescription
 bool
 FitDescription::Create
 	(
-	std::istream& 			is,
-	FitDescription** 	fd
+	std::istream&			is,
+	FitDescription**	fd
 	)
 {
 	JFileVersion version;
@@ -55,7 +55,7 @@ FitDescription::Create
 	{
 		return false;
 	}
-		
+
 	int type;
 	is >> type;
 	JString form;
@@ -72,7 +72,7 @@ FitDescription::Create
 		is >> *var;
 		vars.Append(var);
 	}
-	
+
 	if (type == kPolynomial)
 	{
 		PolyFitDescription* pfd	= jnew PolyFitDescription(is);
@@ -88,7 +88,7 @@ FitDescription::Create
 		{
 			(*fd)->itsVarList->AddVariable(*(vars.GetElement(i)), 0);
 		}
-		(*fd)->SetParameterCount(count);		
+		(*fd)->SetParameterCount(count);
 	}
 	else
 	{
@@ -98,7 +98,7 @@ FitDescription::Create
 	vars.DeleteAll();
 	(*fd)->itsFnName	= name;
 	(*fd)->itsFnForm	= form;
-		
+
 	return true;
 }
 
@@ -190,7 +190,7 @@ FitDescription::SetCanUseStartValues
 bool
 FitDescription::GetParameterName
 	(
-	const JIndex 	index, 
+	const JIndex	index,
 	JString*		name
 	)
 	const
@@ -207,7 +207,7 @@ FitDescription::GetParameterName
 bool
 FitDescription::GetParameter
 	(
-	const JIndex 	index, 
+	const JIndex	index,
 	JFloat*			value
 	)
 	const
@@ -287,5 +287,5 @@ FitDescription::CompareFits
 			return JListT::kFirstGreaterSecond;
 		}
 	}
-	
+
 }

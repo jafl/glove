@@ -4,7 +4,7 @@
 	BASE CLASS = public PlotFitBase
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include <PlotFitModule.h>
@@ -22,8 +22,8 @@
 
 PlotFitModule::PlotFitModule
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -36,11 +36,11 @@ PlotFitModule::PlotFitModule
 
 PlotFitModule::PlotFitModule
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -57,7 +57,7 @@ PlotFitModule::PlotFitModule
 
 PlotFitModule::~PlotFitModule()
 {
-//	jdelete itsModule; 		we don't own it
+//	jdelete itsModule;		we don't own it
 	jdelete itsErrors;
 }
 
@@ -163,14 +163,14 @@ PlotFitModule::SetInitialParameters
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitModule::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -183,14 +183,14 @@ PlotFitModule::GetYValue
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitModule::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -206,14 +206,14 @@ PlotFitModule::GetParameterName
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitModule::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -228,14 +228,14 @@ PlotFitModule::GetParameter
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitModule::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -250,5 +250,5 @@ PlotFitModule::GetParameterError
 		return false;
 	}
 	*value	= itsErrors->GetElement(index);
-	return true;		
+	return true;
 }

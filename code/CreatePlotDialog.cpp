@@ -31,9 +31,9 @@
 
 CreatePlotDialog::CreatePlotDialog
 	(
-	DataDocument* supervisor, 
+	DataDocument* supervisor,
 	RaggedFloatTableData* data,
-	const JIndex startX, 
+	const JIndex startX,
 	const JIndex startY,
 	const JIndex startXErr,
 	const JIndex startYErr
@@ -63,13 +63,13 @@ void
 CreatePlotDialog::BuildWindow
 	(
 	RaggedFloatTableData* data,
-	const JIndex startX, 
+	const JIndex startX,
 	const JIndex startY,
-	const JIndex startXErr, 
+	const JIndex startXErr,
 	const JIndex startYErr
 	)
 {
-	
+
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,160, JString::empty);
@@ -127,36 +127,36 @@ CreatePlotDialog::BuildWindow
 
 	window->SetTitle(JGetString("WindowTitle::CreatePlotDialog"));
 	SetButtons(okButton, cancelButton);
-	
+
 	itsXErrMenu->AppendItem(JGetString("NoneItemLabel::CreatePlotDialog"));
 	itsYErrMenu->AppendItem(JGetString("NoneItemLabel::CreatePlotDialog"));
 
 	BuildColumnMenus("Column::global", data->GetDataColCount(),
 					   itsXMenu, itsXErrMenu, itsYMenu, itsYErrMenu, nullptr);
-	
+
 	itsStartX = startX;
 	if (startX == 0)
 	{
 		itsStartX = 1;
 	}
-		
+
 	itsStartXErr = startXErr + 1;
-		
+
 	itsStartY = startY;
 	if (startY == 0)
 	{
 		itsStartY = 1;
 	}
-		
+
 	itsStartYErr = startYErr + 1;
-	
+
 	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
 	itsTableDir->GetPlotNames(names);
-	
+
 	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::global"));
-	
+
 	const JSize strCount = names.GetElementCount();
-	
+
 	for (JSize i = 1; i <= strCount; i++)
 	{
 		itsPlotsMenu->AppendItem(*(names.GetElement(i)));
@@ -165,19 +165,19 @@ CreatePlotDialog::BuildWindow
 	itsPlotsMenu->ShowSeparatorAfter(1, true);
 
 	itsPlotIndex = 1;
-	
+
 	itsXMenu->SetToPopupChoice(true, itsStartX);
 	itsXErrMenu->SetToPopupChoice(true, itsStartXErr);
 	itsYMenu->SetToPopupChoice(true, itsStartY);
 	itsYErrMenu->SetToPopupChoice(true, itsStartYErr);
 	itsPlotsMenu->SetToPopupChoice(true, itsPlotIndex);
-	
+
 	itsXMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsXErrMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsYMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsYErrMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPlotsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	
+
 	ListenTo(itsXMenu);
 	ListenTo(itsXErrMenu);
 	ListenTo(itsYMenu);
@@ -188,15 +188,15 @@ CreatePlotDialog::BuildWindow
 }
 
 /******************************************************************************
- GetColumns 
+ GetColumns
 
  ******************************************************************************/
 
 void
 CreatePlotDialog::GetColumns
 	(
-	JIndex* startX, 
-	JIndex* startXErr, 
+	JIndex* startX,
+	JIndex* startXErr,
 	JIndex* startY,
 	JIndex* startYErr
 	)
@@ -208,14 +208,14 @@ CreatePlotDialog::GetColumns
 }
 
 /******************************************************************************
- GetColumns 
+ GetColumns
 
  ******************************************************************************/
 
 void
 CreatePlotDialog::Receive
 	(
-	JBroadcaster* sender, 
+	JBroadcaster* sender,
 	const Message& message
 	)
 {
@@ -226,7 +226,7 @@ CreatePlotDialog::Receive
 		assert( selection != nullptr );
 		itsStartX = selection->GetIndex();
 	}
-		
+
 	else if (sender == itsXErrMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const JXMenu::ItemSelected* selection =
@@ -234,7 +234,7 @@ CreatePlotDialog::Receive
 		assert( selection != nullptr );
 		itsStartXErr = selection->GetIndex();
 	}
-		
+
 	else if (sender == itsYMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const JXMenu::ItemSelected* selection =
@@ -242,7 +242,7 @@ CreatePlotDialog::Receive
 		assert( selection != nullptr );
 		itsStartY = selection->GetIndex();
 	}
-		
+
 	else if (sender == itsYErrMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const JXMenu::ItemSelected* selection =
@@ -250,7 +250,7 @@ CreatePlotDialog::Receive
 		assert( selection != nullptr );
 		itsStartYErr = selection->GetIndex();
 	}
-		
+
 	else if (sender == itsPlotsMenu && message.Is(JXMenu::kItemSelected))
 	{
 		const JXMenu::ItemSelected* selection =
@@ -258,7 +258,7 @@ CreatePlotDialog::Receive
 		assert( selection != nullptr );
 		itsPlotIndex = selection->GetIndex();
 	}
-		
+
 	else
 	{
 		JXDialogDirector::Receive(sender, message);
@@ -266,11 +266,11 @@ CreatePlotDialog::Receive
 }
 
 /******************************************************************************
- GetPlotIndex 
+ GetPlotIndex
 
  ******************************************************************************/
 
-bool 
+bool
 CreatePlotDialog::GetPlotIndex
 	(
 	JIndex* index
@@ -280,28 +280,28 @@ CreatePlotDialog::GetPlotIndex
 	{
 		return false;
 	}
-		
+
 	*index = itsPlotIndex - 1;
 	return true;
 }
 
 /******************************************************************************
- GetPlotIndex 
+ GetPlotIndex
 
  ******************************************************************************/
 
-const JString& 
+const JString&
 CreatePlotDialog::GetLabel()
 {
 	return itsLabelInput->GetText()->GetText();
-}	
+}
 
 /******************************************************************************
- OKToDeactivate 
+ OKToDeactivate
 
  ******************************************************************************/
 
-bool 
+bool
 CreatePlotDialog::OKToDeactivate()
 {
 	if (Cancelled())

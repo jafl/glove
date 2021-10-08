@@ -86,7 +86,7 @@ HistoryDir::BuildWindow()
 	window->SetMinSize(300,200);
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 //	if (foundWindowPref)
-//	 	{
+//		{
 //		window->Place(dtl.x, dtl.y);
 //		}
 

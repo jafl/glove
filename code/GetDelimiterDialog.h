@@ -38,7 +38,7 @@ public:
 
 	GetDelimiterDialog(JXWindowDirector* supervisor, const JString& text);
 
-	virtual ~GetDelimiterDialog();
+	~GetDelimiterDialog() override;
 
 	DelimiterType	GetDelimiterType();
 	JUtf8Byte		GetCharacter();

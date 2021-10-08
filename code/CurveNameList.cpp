@@ -38,7 +38,7 @@ const JUtf8Byte* CurveNameList::kCurveSelected = "kCurveSelected::CurveNameList"
 CurveNameList::CurveNameList
 	(
 	PlotDir*			dir,
-	J2DPlotWidget* 		plot,
+	J2DPlotWidget*		plot,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,
@@ -108,9 +108,9 @@ CurveNameList::~CurveNameList()
 void
 CurveNameList::HandleMouseDown
 	(
-	const JPoint& 			pt,
-	const JXMouseButton 	button,
-	const JSize 			clickCount,
+	const JPoint&			pt,
+	const JXMouseButton	button,
+	const JSize			clickCount,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
@@ -195,11 +195,11 @@ CurveNameList::AdjustColWidth()
 JXInputField*
 CurveNameList::CreateXInputField
 	(
-	const JPoint& 		cell,
-	const JCoordinate 	x,
-	const JCoordinate 	y,
-	const JCoordinate 	w,
-	const JCoordinate 	h
+	const JPoint&		cell,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
 	)
 {
 	JTableSelection& s = GetTableSelection();
@@ -259,7 +259,7 @@ void
 CurveNameList::HandleKeyPress
 	(
 	const JUtf8Character&	c,
-	const int 				keySym,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -299,13 +299,13 @@ CurveNameList::HandleKeyPress
 void
 CurveNameList::Receive
 	(
-	JBroadcaster* 	sender, 
+	JBroadcaster*	sender,
 	const Message&	message
 	)
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveAdded))
 	{
-		const J2DPlotWidget::CurveAdded* info = 
+		const J2DPlotWidget::CurveAdded* info =
 			dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
 		assert(info != nullptr);
 		AppendRows(1);
@@ -324,7 +324,7 @@ CurveNameList::Receive
 	}
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 	{
-		const J2DPlotWidget::CurveRemoved* info = 
+		const J2DPlotWidget::CurveRemoved* info =
 			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert(info != nullptr);
 		RemoveRow(info->GetIndex());

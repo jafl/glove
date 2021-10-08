@@ -119,9 +119,9 @@ FitDescriptionList::~FitDescriptionList()
 void
 FitDescriptionList::HandleMouseDown
 	(
-	const JPoint& 			pt,
-	const JXMouseButton 	button,
-	const JSize 			clickCount,
+	const JPoint&			pt,
+	const JXMouseButton	button,
+	const JSize			clickCount,
 	const JXButtonStates&	buttonStates,
 	const JXKeyModifiers&	modifiers
 	)
@@ -182,7 +182,7 @@ FitDescriptionList::TableDrawCell
 	{
 		p.Image(*itsBuiltInIcon, itsBuiltInIcon->GetBounds(), irect);
 	}
-	
+
 	JRect r = rect;
 	r.left += kHMarginWidth + kIconWidth;
 	p.String(r, *curveName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
@@ -223,11 +223,11 @@ FitDescriptionList::AdjustColWidth()
 JXInputField*
 FitDescriptionList::CreateXInputField
 	(
-	const JPoint& 		cell,
-	const JCoordinate 	x,
-	const JCoordinate 	y,
-	const JCoordinate 	w,
-	const JCoordinate 	h
+	const JPoint&		cell,
+	const JCoordinate	x,
+	const JCoordinate	y,
+	const JCoordinate	w,
+	const JCoordinate	h
 	)
 {
 	JTableSelection& s = GetTableSelection();
@@ -287,7 +287,7 @@ void
 FitDescriptionList::HandleKeyPress
 	(
 	const JUtf8Character&	c,
-	const int 				keySym,
+	const int				keySym,
 	const JXKeyModifiers&	modifiers
 	)
 {
@@ -349,7 +349,7 @@ FitDescriptionList::GetCurrentFitIndex
 void
 FitDescriptionList::Receive
 	(
-	JBroadcaster* 	sender, 
+	JBroadcaster*	sender,
 	const Message&	message
 	)
 {
@@ -368,12 +368,12 @@ void
 FitDescriptionList::SyncWithManager()
 {
 	RemoveAllRows();
-	
+
 	const JSize count = GetFitManager()->GetFitCount();
 	AppendRows(count);
 
 	itsNameList->DeleteAll();
-	
+
 	for (JIndex i=1; i<=count; i++)
 	{
 		const FitDescription& fd	= GetFitManager()->GetFitDescription(i);
@@ -381,7 +381,7 @@ FitDescriptionList::SyncWithManager()
 		assert(str != nullptr);
 		itsNameList->Append(str);
 
-		const JCoordinate width = 2*kHMarginWidth + kIconWidth + 
+		const JCoordinate width = 2*kHMarginWidth + kIconWidth +
 			JFontManager::GetDefaultFont().GetStringWidth(GetFontManager(), *str);
 		if (width > itsMinColWidth)
 		{

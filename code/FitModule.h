@@ -31,24 +31,23 @@ public:
 							PlotDir* dir,
 							J2DPlotDataBase* fitData,
 							const JString& sysCmd);
-	virtual ~FitModule();
+	~FitModule() override;
 
 protected:
 
 	FitModule(PlotDir* dir, J2DPlotDataBase* fitData, JProcess* process,
 				const int fd, JOutPipeStream* output);
 
-	virtual void	Receive(JBroadcaster* sender,
-							const JBroadcaster::Message& message);
+	void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message) override;
 
 private:
 
-	typedef JMessageProtocol<ACE_LSOCK_STREAM>	ProcessLink;
+	using ProcessLink = JMessageProtocol<ACE_LSOCK_STREAM>;
 
 private:
 
-	PlotDir* 			itsDir;			// We don't own this.
-	J2DPlotDataBase*		itsData;		// We don't own this.
+	PlotDir*			itsDir;			// We don't own this.
+	J2DPlotDataBase*	itsData;		// We don't own this.
 	bool				itsStatusRead;
 	bool				itsHeaderRead;
 	bool				itsFunctionRead;
@@ -64,9 +63,9 @@ private:
 
 private:
 
-	void		HandleInput(JString& str);
-	void		HandleDataRead(JString& str);
-	void		HandleFit();
+	void	HandleInput(JString& str);
+	void	HandleDataRead(JString& str);
+	void	HandleFit();
 
 	// not allowed
 
@@ -75,4 +74,3 @@ private:
 };
 
 #endif
-

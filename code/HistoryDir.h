@@ -23,12 +23,12 @@ public:
 
 	HistoryDir(JXDirector* supervisor);
 
-	virtual ~HistoryDir();
+	~HistoryDir() override;
 
-	void			AppendText(const JString& text, const bool show = true);
-	void			Print();
-	void			WriteData(std::ostream& os);
-	void			ReadData(std::istream& is);
+	void	AppendText(const JString& text, const bool show = true);
+	void	Print();
+	void	WriteData(std::ostream& os);
+	void	ReadData(std::istream& is);
 	bool	NeedsSave() const override;
 	void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
 	bool	GetMenuIcon(const JXImage** icon) const override;
@@ -43,7 +43,7 @@ protected:
 
 private:
 
-	History* 	itsHistory;
+	History*	itsHistory;
 	JXTextMenu*	itsFileMenu;
 	JXMenuBar*	itsMenuBar;
 
@@ -56,17 +56,17 @@ private:
 public:
 
 	static const JUtf8Byte* kSessionChanged;
-	
+
 	class SessionChanged : public JBroadcaster::Message
 	{
 	public:
-	
+
 		SessionChanged()
 			:
 			JBroadcaster::Message(kSessionChanged)
 			{ };
 	};
-	
+
 };
 
 #endif

@@ -108,11 +108,10 @@ RowHeaderWidget::HandleMouseDown
 	{
 		itsTable->ExtendSelectionToRow(itsDragCell.y);
 	}
-	
+
 	else if (button == kJXLeftButton)
 	{
 		itsTable->SelectRow(itsDragCell.y);
 	}
 
 }
-

@@ -24,10 +24,10 @@ class PlotFunctionDialog : public JXDialogDirector
 public:
 
 	PlotFunctionDialog(JXDirector* supervisor, VarList* list);
-	virtual ~PlotFunctionDialog();
-	
+	~PlotFunctionDialog() override;
+
 	const JString& GetFunctionString();
-	
+
 protected:
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
@@ -44,8 +44,8 @@ private:
 
 // end JXLayout
 
-	ExprDirector* itsEditor;
-	VarList* 		itsList;
+	ExprDirector*	itsEditor;
+	VarList*		itsList;
 
 private:
 

@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotFitLinearEq.cpp
- 
+
 	PlotFitLinearEq class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -23,15 +23,15 @@
 const JIndex kPowOptimizationIndex	= 7;
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotFitLinearEq::PlotFitLinearEq
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -43,12 +43,12 @@ PlotFitLinearEq::PlotFitLinearEq
 
 PlotFitLinearEq::PlotFitLinearEq
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
-	const JFloat 	xmin, 
-	const JFloat 	xmax,
-	const JFloat 	ymin, 
-	const JFloat 	ymax
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
+	const JFloat	xmin,
+	const JFloat	xmax,
+	const JFloat	ymin,
+	const JFloat	ymax
 	)
 	:
 	PlotFitBase(plot, fitData, xmin, xmax, ymin, ymax)
@@ -59,12 +59,12 @@ PlotFitLinearEq::PlotFitLinearEq
 void
 PlotFitLinearEq::JPlotFitLinearEqX
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData
 	)
 {
 	itsPowers		= nullptr;
-	itsParameters 	= nullptr;
+	itsParameters	= nullptr;
 	itsErrors		= nullptr;
 }
 
@@ -115,10 +115,10 @@ PlotFitLinearEq::InitializePolynomial
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotFitLinearEq::~PlotFitLinearEq()
 {
 	jdelete itsPowers;
@@ -140,14 +140,14 @@ PlotFitLinearEq::GenerateFit()
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitLinearEq::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -178,14 +178,14 @@ PlotFitLinearEq::GetYValue
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitLinearEq::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -200,14 +200,14 @@ PlotFitLinearEq::GetParameterName
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitLinearEq::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -217,19 +217,19 @@ PlotFitLinearEq::GetParameter
 		return false;
 	}
 	*value	= itsParameters->GetElement(index);
-	return true;		
+	return true;
 }
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitLinearEq::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -244,12 +244,12 @@ PlotFitLinearEq::GetParameterError
 		return false;
 	}
 	*value	= itsErrors->GetElement(index);
-	return true;		
+	return true;
 }
 
 /*********************************************************************************
  CalculateFirstPass
- 
+
 
  ********************************************************************************/
 
@@ -272,7 +272,7 @@ PlotFitLinearEq::CalculateFirstPass()
 		for (JIndex j = 1; j <= pcount; j++)
 		{
 			JIndex power	= itsPowers->GetElement(j);
-			JFloat term 	= 1;
+			JFloat term	= 1;
 			if (power > kPowOptimizationIndex)
 			{
 				term  *= pow((double)point.x, (double)power);
@@ -283,7 +283,7 @@ PlotFitLinearEq::CalculateFirstPass()
 				{
 					term *= point.x;
 				}
-			}			
+			}
 			odata.SetElement(i, j, term/(yerr*yerr));
 		}
 		yData.SetElement(i, point.y/(yerr*yerr));
@@ -314,7 +314,7 @@ PlotFitLinearEq::CalculateFirstPass()
 				for (JIndex k = 1; k <= pcount; k++)
 				{
 					JIndex power	= itsPowers->GetElement(k);
-					JFloat term 	= 1;
+					JFloat term	= 1;
 					if (power > kPowOptimizationIndex)
 					{
 						term  *= pow((double)point.x, (double)power);
@@ -325,7 +325,7 @@ PlotFitLinearEq::CalculateFirstPass()
 						{
 							term *= point.x;
 						}
-					}			
+					}
 					odata2.SetElement(j, k, term/errTerm);
 				}
 				yData2.SetElement(j, point.y/errTerm);
@@ -357,10 +357,10 @@ PlotFitLinearEq::CalculateFirstPass()
 
 /*********************************************************************************
  FunctionN
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitLinearEq::FunctionN
 	(
 	const JFloat x
@@ -373,10 +373,10 @@ PlotFitLinearEq::FunctionN
 
 /*********************************************************************************
  FunctionNPrimed
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitLinearEq::FunctionNPrimed
 	(
 	const JFloat x
@@ -408,7 +408,7 @@ PlotFitLinearEq::FunctionNPrimed
 	}
 
 	return y;
-	
+
 }
 
 /******************************************************************************

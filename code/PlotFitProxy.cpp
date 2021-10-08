@@ -4,7 +4,7 @@
 	BASE CLASS = class PlotFitFunction
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include "PlotFitProxy.h"
@@ -23,8 +23,8 @@
 PlotFitProxy::PlotFitProxy
 	(
 	PlotFitFunction*	fit,
-	J2DPlotWidget* 		plot, 
-	J2DPlotDataBase* 		fitData
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*		fitData
 	)
 	:
 	PlotFitFunction(plot, fitData, 0, 0),
@@ -100,9 +100,9 @@ PlotFitProxy::PlotFitProxy
 
 PlotFitProxy::PlotFitProxy
 	(
-	J2DPlotWidget* 		plot, 
-	J2DPlotDataBase* 		fitData,
-	std::istream& 			is
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*		fitData,
+	std::istream&			is
 	)
 	:
 	PlotFitFunction(plot, fitData, 0, 0),
@@ -131,10 +131,10 @@ PlotFitProxy::PlotFitProxy
 	}
 
 	SetParameterCount(count);
-		
+
 	bool hasParameterErrors;
 	is >> JBoolFromString(hasParameterErrors);
-	
+
 	if (hasParameterErrors)
 	{
 		SetHasParameterErrors(true);
@@ -147,7 +147,7 @@ PlotFitProxy::PlotFitProxy
 			itsErrors->AppendElement(value);
 		}
 	}
-	
+
 	JFloat xMin;
 	JFloat xMax;
 
@@ -157,7 +157,7 @@ PlotFitProxy::PlotFitProxy
 	SetXRange(xMin, xMax);
 
 	is >> itsFnString;
-	
+
 	itsFn = nullptr;
 
 	JExprParser p(itsParms);
@@ -203,15 +203,15 @@ PlotFitProxy::WriteData
 
 	for (JIndex i = 2; i <= count; i++) // don't count 'x'
 	{
-		JString name	= itsParms->GetVariableName(i);		
+		JString name	= itsParms->GetVariableName(i);
 		os << name << ' ';
 		JFloat value;
 		itsParms->GetNumericValue(i, 1, &value);
 		os << value << ' ';
 	}
-		
+
 	os << JBoolToString(HasParameterErrors());
-	
+
 	if (HasParameterErrors())
 	{
 		for (JIndex i = 1; i < count; i++)
@@ -219,7 +219,7 @@ PlotFitProxy::WriteData
 			os << itsErrors->GetElement(i) << ' ';
 		}
 	}
-	
+
 	JFloat xMin;
 	JFloat xMax;
 
@@ -228,7 +228,7 @@ PlotFitProxy::WriteData
 	os << xMin << ' ';
 	os << xMax << ' ';
 
-	os << itsFnString << ' ';	
+	os << itsFnString << ' ';
 }
 
 /******************************************************************************
@@ -239,8 +239,8 @@ PlotFitProxy::WriteData
 bool
 PlotFitProxy::GetParameterName
 	(
-	const JIndex 	index, 
-	JString* 		name
+	const JIndex	index,
+	JString*		name
 	)
 	const
 {
@@ -260,8 +260,8 @@ PlotFitProxy::GetParameterName
 bool
 PlotFitProxy::GetParameter
 	(
-	const JIndex 	index, 
-	JFloat* 		value
+	const JIndex	index,
+	JFloat*		value
 	)
 	const
 {
@@ -276,7 +276,7 @@ PlotFitProxy::GetParameter
 bool
 PlotFitProxy::GetParameterError
 	(
-	const JIndex 	index, 
+	const JIndex	index,
 	JFloat*			value
 	)
 	const
@@ -368,8 +368,8 @@ PlotFitProxy::GetFunctionString()
 bool
 PlotFitProxy::GetYValue
 	(
-	const JFloat 	x, 
-	JFloat* 		y
+	const JFloat	x,
+	JFloat*		y
 	)
 	const
 {

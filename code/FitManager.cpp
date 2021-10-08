@@ -4,7 +4,7 @@
 	BASE CLASS = <NONE>
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include <FitManager.h>
@@ -54,7 +54,7 @@ FitManager::FitManager()
 FitManager::~FitManager()
 {
 	JPrefObject::WritePrefs();
-	
+
 	itsFitDescriptions->DeleteAll();
 	jdelete itsFitDescriptions;
 }
@@ -172,10 +172,10 @@ FitManager::ReadPrefs
 	)
 {
 	itsIsInitialized	= true;
-	
+
 	JFileVersion version;
 	input >> version;
-	
+
 	if (version > kCurrentPrefsVersion)
 	{
 		return;
@@ -240,17 +240,17 @@ FitManager::WritePrefs
 void
 FitManager::InitializeList()
 {
-	BuiltinFitDescription* bd = 
+	BuiltinFitDescription* bd =
 		jnew BuiltinFitDescription(FitDescription::kBLinear);
 	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
-	bd = 
+	bd =
 		jnew BuiltinFitDescription(FitDescription::kBExp);
 	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
-	bd = 
+	bd =
 		jnew BuiltinFitDescription(FitDescription::kBPower);
 	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
@@ -272,7 +272,7 @@ FitManager::InitializeList()
 				DLFitModule* fit;
 				if (!entry.IsDirectory() && DLFitModule::Create(entry.GetFullName(), &fit))
 				{
-					ModuleFitDescription* md	= 
+					ModuleFitDescription* md	=
 						jnew ModuleFitDescription(fit);
 					assert(md != nullptr);
 					itsFitDescriptions->InsertSorted(md);

@@ -23,9 +23,9 @@ public:
 	UndoElementChange(RaggedFloatTable* table, const JPoint& cell,
 						const JFloat value);
 
-	virtual ~UndoElementChange();
+	~UndoElementChange() override;
 
-	virtual void	Undo();
+	void	Undo() override;
 
 private:
 

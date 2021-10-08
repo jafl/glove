@@ -97,12 +97,12 @@ ColHeaderWidget::HandleMouseDown
 	)
 {
 	JPoint cell;
-	
+
 	if (!GetCell(pt,&cell))
 	{
 		return;
 	}
-		
+
 	JPoint itsDragCell;
 
 	const bool inDragRegion = InDragRegion(pt, &itsDragCell);
@@ -111,15 +111,14 @@ ColHeaderWidget::HandleMouseDown
 	{
 		JXColHeaderWidget::HandleMouseDown(pt, button, clickCount, buttonStates, modifiers);
 	}
-		
+
 	else if (modifiers.shift() || button == kJXRightButton)
 	{
 		itsTable->ExtendSelectionToCol(itsDragCell.x);
 	}
-	
+
 	else if (button == kJXLeftButton)
 	{
 		itsTable->SelectCol(itsDragCell.x);
 	}
 }
-

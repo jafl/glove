@@ -22,7 +22,7 @@ public:
 
 	UndoElementBase(RaggedFloatTable* table, const JPoint& cell);
 
-	virtual ~UndoElementBase();
+	~UndoElementBase() override;
 
 protected:
 

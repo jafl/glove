@@ -3,7 +3,7 @@
 
 	Interface for the NonLinearFitDialog class
 
-	Copyright (C) 2000 by Glenn Bach. 
+	Copyright (C) 2000 by Glenn Bach.
 
  ******************************************************************************/
 
@@ -28,12 +28,12 @@ class NonLinearFitDialog : public JXDialogDirector
 public:
 
 	NonLinearFitDialog(JXDirector* supervisor);
-	virtual ~NonLinearFitDialog();
+	~NonLinearFitDialog() override;
 
-	JString				GetFunctionString() const;
-	JString				GetDerivativeString() const;
+	JString			GetFunctionString() const;
+	JString			GetDerivativeString() const;
 	const VarList&	GetVarList() const;
-	const JString&		GetFitName() const;
+	const JString&	GetFitName() const;
 
 protected:
 

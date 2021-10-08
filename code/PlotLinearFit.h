@@ -1,12 +1,12 @@
 /*********************************************************************************
  PlotLinearFit.h
- 
+
 	Interface for the PlotLinearFit class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_PlotLinearFit
 #define _H_PlotLinearFit
 
@@ -20,21 +20,21 @@ class PlotLinearFit : public PlotFitFunction
 {
 public:
 
-	PlotLinearFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotLinearFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax,
 					const bool xlog = false, const bool ylog = false);
-	PlotLinearFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotLinearFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax,
 					const bool xlog = false, const bool ylog = false);
-	virtual ~PlotLinearFit();	
+	~PlotLinearFit() override;
 
 //	virtual void	 GetElement(const JIndex index, J2DDataPoint* data) const;
 	bool	GetYRange(const JFloat xMin, const JFloat xMax,
-								  const bool xLinear,
-								  JFloat* yMin, JFloat* yMax) const override;
+					  const bool xLinear,
+					  JFloat* yMin, JFloat* yMax) const override;
 
-//	virtual	void UpdateFunction(const JFloat xmin, const JFloat xmax, 
+//	virtual	void UpdateFunction(const JFloat xmin, const JFloat xmax,
 //								const JSize steps);
 
 	bool	GetParameterName(const JIndex index, JString* name) const override;
@@ -44,7 +44,7 @@ public:
 
 	bool	GetGoodnessOfFitName(JString* name) const override;
 	bool	GetGoodnessOfFit(JFloat* value) const override;
-	
+
 	JString	GetFunctionString() const override;
 	JString	GetFitFunctionString() const override;
 
@@ -66,13 +66,13 @@ protected:
 	JFloat			GetCurrentXMax() const;
 	JFloat			GetCurrentXMin() const;
 	JFloat			GetCurrentStepCount() const;
-	bool	DataElementValid(const JIndex index) override;
-	bool	GetDataElement(const JIndex index, J2DDataPoint* point) override;
+	bool			DataElementValid(const JIndex index) override;
+	bool			GetDataElement(const JIndex index, J2DDataPoint* point) override;
 
 private:
 
-	void	JPlotLinearFitX(J2DPlotWidget* plot, 
-							J2DPlotDataBase* fitData, 
+	void	JPlotLinearFitX(J2DPlotWidget* plot,
+							J2DPlotDataBase* fitData,
 							bool xlog, const bool ylog);
 
 	void	LinearLSQ1();
@@ -95,20 +95,20 @@ private:
 	JFloat		itsAParameterT;
 	JFloat		itsBParameterT;
 	JFloat		itsChi2T;
-	JFloat 		itsRangeXMax;
+	JFloat		itsRangeXMax;
 	JFloat		itsRangeXMin;
-	JFloat 		itsRangeYMax;
-	JFloat 		itsRangeYMin;
-	bool 	itsUsingRange;
-	bool	itsYIsLog;
-	bool	itsXIsLog;
+	JFloat		itsRangeYMax;
+	JFloat		itsRangeYMin;
+	bool		itsUsingRange;
+	bool		itsYIsLog;
+	bool		itsXIsLog;
 	JSize		itsRealCount;
 
 };
 
 /*********************************************************************************
  GetDataToFit
- 
+
 
  ********************************************************************************/
 
@@ -121,7 +121,7 @@ PlotLinearFit::GetDataToFit()
 
 /*********************************************************************************
  GetCurrentXMax
- 
+
 
  ********************************************************************************/
 
@@ -134,7 +134,7 @@ PlotLinearFit::GetCurrentXMax()
 
 /*********************************************************************************
  GetCurrentXMin
- 
+
 
  ********************************************************************************/
 
@@ -147,7 +147,7 @@ PlotLinearFit::GetCurrentXMin()
 
 /*********************************************************************************
  GetCurrentStepCount
- 
+
 
  ********************************************************************************/
 

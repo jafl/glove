@@ -38,10 +38,10 @@ static const JString kFitSubPath("/fitmodule/", JString::kNoCopy);
 
 PlotApp::PlotApp
 	(
-	int* 		argc, 
-	char* 		argv[],
-	bool* 		displayAbout,
-	JString* 	prevVersStr
+	int*		argc,
+	char*		argv[],
+	bool*		displayAbout,
+	JString*	prevVersStr
 	)
 	:
 	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
@@ -52,12 +52,12 @@ PlotApp::PlotApp
 	assert(itsModulePath != nullptr);
 
 	JString homeDir;
-	
+
 	if (!JGetHomeDirectory(&homeDir))
 	{
 		homeDir = JGetRootDirectory();
 	}
-	
+
 	JAppendDirSeparator(&homeDir);
 
 	JString dmhome = homeDir + ".glove";
@@ -90,7 +90,7 @@ PlotApp::PlotApp
 
 
 	JXCreateDefaultDocumentManager(true);
-	
+
 /*
 	JString fihome = homeDir + ".glove/fileimport/";
 	foundFileImpDir = false;
@@ -101,8 +101,8 @@ PlotApp::PlotApp
 	}
 */
 	itsDirNumber = 1;
-	
-	
+
+
 	itsDataModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	itsCursorModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	itsImportModules = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
@@ -132,7 +132,7 @@ PlotApp::~PlotApp()
 /*
 	itsFileImpProgs->DeleteAll();
 	jdelete itsFileImpProgs;
-	
+
 	if (foundFileImpDir)
 	{
 		jdelete itsFileImpDir;
@@ -164,13 +164,13 @@ PlotApp::~PlotApp()
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::ReloadImportModules()
 {
 	itsImportModules->DeleteAll();
 	itsImportPathIndex->RemoveAll();
 	JDirInfo* info;
-	
+
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 	{
@@ -186,7 +186,7 @@ PlotApp::ReloadImportModules()
 					itsImportModules->Append(str);
 					itsImportPathIndex->AppendElement(i);
 				}
-			}					
+			}
 			jdelete info;
 		}
 	}
@@ -205,25 +205,25 @@ PlotApp::GetImportModulePath
 	)
 {
 	assert (itsImportModules->IndexValid(index));
-	
+
 	JIndex mIndex = itsImportPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kImportSubPath +
 				*(itsImportModules->GetElement(index));
 	return true;
-/*	
+/*
 	if (foundFileImpDir)
 	{
 		assert( itsFileImpProgs->IndexValid(index) );
-		
+
 		JString str = itsFileImpDir->GetCWD();
 		JAppendDirSeparator(&str);
 		str += *(itsFileImpProgs->GetElement(index));
 		*path = str;
 		return true;
 	}
-		
+
 	return false;
-*/		
+*/
 }
 
 /******************************************************************************
@@ -231,7 +231,7 @@ PlotApp::GetImportModulePath
 
  ******************************************************************************/
 
-JPtrArray<JString>* 
+JPtrArray<JString>*
 PlotApp::GetImportModules()
 {
 //	if (foundFileImpDir)
@@ -245,20 +245,20 @@ PlotApp::GetImportModules()
  Receive
 
 
-void 
+void
 PlotApp::Receive
 	(
-	JBroadcaster* sender, 
+	JBroadcaster* sender,
 	const Message& message
 	)
 {
-	if (sender == itsFileImpDir && 
+	if (sender == itsFileImpDir &&
 		(message.Is(JDirInfo::kContentsUpdated) ||
 		message.Is(JDirInfo::kPermissionsChanged) ))
 	{
 		UpdateFileImpProgs();
 	}
-		
+
 }
  ******************************************************************************/
 
@@ -268,7 +268,7 @@ PlotApp::Receive
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::DirectorClosed
 	(
 	JXDirector* theDirector
@@ -282,7 +282,7 @@ PlotApp::DirectorClosed
 
  ******************************************************************************/
 /*
-void 
+void
 PlotApp::UpdateFileImpProgs()
 {
 	for (JSize i = 1; i <= itsFileImpDir->GetEntryCount(); i++)
@@ -302,7 +302,7 @@ PlotApp::UpdateFileImpProgs()
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::NewFile()
 {
 	JString str = "Untitled " + JString((JUInt64) itsDirNumber);
@@ -317,7 +317,7 @@ PlotApp::NewFile()
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::OpenFile
 	(
 	const JString& fileName
@@ -353,13 +353,13 @@ PlotApp::OpenFile
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::ReloadDataModules()
 {
 	itsDataModules->DeleteAll();
 	itsDataPathIndex->RemoveAll();
 	JDirInfo* info;
-	
+
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 	{
@@ -375,7 +375,7 @@ PlotApp::ReloadDataModules()
 					itsDataModules->Append(str);
 					itsDataPathIndex->AppendElement(i);
 				}
-			}					
+			}
 			jdelete info;
 		}
 	}
@@ -394,12 +394,12 @@ PlotApp::GetDataModulePath
 	)
 {
 	assert (itsDataModules->IndexValid(index));
-	
+
 	JIndex mIndex = itsDataPathIndex->GetElement(index);
-	*path = *(itsModulePath->GetElement(mIndex)) + kDataSubPath + 
+	*path = *(itsModulePath->GetElement(mIndex)) + kDataSubPath +
 				*(itsDataModules->GetElement(index));
 	return true;
-		
+
 }
 
 /******************************************************************************
@@ -407,7 +407,7 @@ PlotApp::GetDataModulePath
 
  ******************************************************************************/
 
-JPtrArray<JString>* 
+JPtrArray<JString>*
 PlotApp::GetDataModules()
 {
 	return itsDataModules;
@@ -418,13 +418,13 @@ PlotApp::GetDataModules()
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::ReloadCursorModules()
 {
 	itsCursorModules->DeleteAll();
 	itsCursorPathIndex->RemoveAll();
 	JDirInfo* info;
-	
+
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 	{
@@ -440,7 +440,7 @@ PlotApp::ReloadCursorModules()
 					itsCursorModules->Append(str);
 					itsCursorPathIndex->AppendElement(i);
 				}
-			}					
+			}
 			jdelete info;
 		}
 	}
@@ -459,12 +459,12 @@ PlotApp::GetCursorModulePath
 	)
 {
 	assert (itsCursorModules->IndexValid(index));
-	
+
 	JIndex mIndex = itsCursorPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kCursorSubPath +
 				*(itsCursorModules->GetElement(index));
 	return true;
-		
+
 }
 
 /******************************************************************************
@@ -472,7 +472,7 @@ PlotApp::GetCursorModulePath
 
  ******************************************************************************/
 
-JPtrArray<JString>* 
+JPtrArray<JString>*
 PlotApp::GetCursorModules()
 {
 	return itsCursorModules;
@@ -483,13 +483,13 @@ PlotApp::GetCursorModules()
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::ReloadExportModules()
 {
 	itsExportModules->DeleteAll();
 	itsExportPathIndex->RemoveAll();
 	JDirInfo* info;
-	
+
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 	{
@@ -505,7 +505,7 @@ PlotApp::ReloadExportModules()
 					itsExportModules->Append(str);
 					itsExportPathIndex->AppendElement(i);
 				}
-			}					
+			}
 			jdelete info;
 		}
 	}
@@ -524,12 +524,12 @@ PlotApp::GetExportModulePath
 	)
 {
 	assert (itsExportModules->IndexValid(index));
-	
+
 	JIndex mIndex = itsExportPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kExportSubPath +
 				*(itsExportModules->GetElement(index));
 	return true;
-		
+
 }
 
 /******************************************************************************
@@ -537,7 +537,7 @@ PlotApp::GetExportModulePath
 
  ******************************************************************************/
 
-JPtrArray<JString>* 
+JPtrArray<JString>*
 PlotApp::GetExportModules()
 {
 	return itsExportModules;
@@ -548,13 +548,13 @@ PlotApp::GetExportModules()
 
  ******************************************************************************/
 
-void 
+void
 PlotApp::ReloadFitModules()
 {
 	itsFitModules->DeleteAll();
 	itsFitPathIndex->RemoveAll();
 	JDirInfo* info;
-	
+
 	const JSize count = itsModulePath->GetElementCount();
 	for (JSize i = 1; i <= count; i++)
 	{
@@ -570,7 +570,7 @@ PlotApp::ReloadFitModules()
 					itsFitModules->Append(str);
 					itsFitPathIndex->AppendElement(i);
 				}
-			}					
+			}
 			jdelete info;
 		}
 	}
@@ -589,12 +589,12 @@ PlotApp::GetFitModulePath
 	)
 {
 	assert (itsFitModules->IndexValid(index));
-	
+
 	JIndex mIndex = itsFitPathIndex->GetElement(index);
 	*path = *(itsModulePath->GetElement(mIndex)) + kFitSubPath +
 				*(itsFitModules->GetElement(index));
 	return true;
-		
+
 }
 
 /******************************************************************************
@@ -602,7 +602,7 @@ PlotApp::GetFitModulePath
 
  ******************************************************************************/
 
-JPtrArray<JString>* 
+JPtrArray<JString>*
 PlotApp::GetFitModules()
 {
 	return itsFitModules;

@@ -24,7 +24,7 @@
 
 UndoElementsChange::UndoElementsChange
 	(
-	RaggedFloatTable* 				table,
+	RaggedFloatTable*				table,
 	const JPoint&						start,
 	const JPoint&						end,
 	const UndoElementsBase::UndoType	type
@@ -41,13 +41,13 @@ UndoElementsChange::UndoElementsChange
 	JIndex colend;
 	if (type == UndoElementsBase::kRows)
 	{
-		colstart 	= 1;
-		colend 		= data->GetDataColCount();
+		colstart	= 1;
+		colend		= data->GetDataColCount();
 	}
 	else
 	{
 		colstart	= start.x;
-		colend 		= end.x;
+		colend		= end.x;
 	}
 
 	for (JSize i = colstart; i <= colend; i++)
@@ -55,20 +55,20 @@ UndoElementsChange::UndoElementsChange
 		JArray<JFloat>* col = jnew JArray<JFloat>;
 		assert(col != nullptr);
 		itsValues->Append(col);
-		
+
 		JIndex rowstart;
 		JIndex rowend;
 		if (type == UndoElementsBase::kCols)
 		{
 			rowstart	= 1;
-			rowend 		= data->GetDataRowCount(i);
+			rowend		= data->GetDataRowCount(i);
 		}
-		else 
+		else
 		{
-			rowstart 	= start.y;
-			rowend 		= JMin((JSize)end.y, data->GetDataRowCount(i));
+			rowstart	= start.y;
+			rowend		= JMin((JSize)end.y, data->GetDataRowCount(i));
 		}
-		
+
 		for (JSize j = rowstart; j <= rowend; j++)
 		{
 			JFloat value;
@@ -100,17 +100,17 @@ UndoElementsChange::Undo()
 {
 
 	// we need to create this before we change the data, because
-	// it needs to read the old data first. We can't yet call NewUndo, 
+	// it needs to read the old data first. We can't yet call NewUndo,
 	// though, because that will delete us.
 
 	UndoElementsChange* undo =
 		jnew UndoElementsChange(GetTable(), GetStartCell(), GetEndCell(), GetType());
 	assert(undo != nullptr);
-	
-	RaggedFloatTableData* data 		= GetData();
-	JPoint start 						= GetStartCell();
-	JPoint end 							= GetEndCell();
-	UndoElementsBase::UndoType type 	= GetType();
+
+	RaggedFloatTableData* data		= GetData();
+	JPoint start						= GetStartCell();
+	JPoint end							= GetEndCell();
+	UndoElementsBase::UndoType type	= GetType();
 
 	if (type == UndoElementsBase::kRows)
 	{
@@ -142,6 +142,6 @@ UndoElementsChange::Undo()
 			}
 		}
 	}
-		
+
 	NewUndo(undo);
 }

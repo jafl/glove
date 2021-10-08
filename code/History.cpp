@@ -36,7 +36,7 @@
 
 const JSize kDefTabCharCount = 4;
 
-const JCoordinate kHeaderStartX	= 30;		
+const JCoordinate kHeaderStartX	= 30;
 
 // Font menu
 
@@ -301,13 +301,13 @@ History::GetPrintHeaderHeight
 void
 History::DrawPrintHeader
 	(
-	JPagePrinter& 		p, 
+	JPagePrinter&		p,
 	const JCoordinate	headerHeight
 	)
 {
 	JPoint topLeft;
-	topLeft.y 	= (headerHeight - p.GetLineHeight())/2;
-	topLeft.x 	= kHeaderStartX;
+	topLeft.y	= (headerHeight - p.GetLineHeight())/2;
+	topLeft.x	= kHeaderStartX;
 	p.String(topLeft, JGetString("PrintHeader::History"));
 }
 
@@ -319,7 +319,7 @@ History::DrawPrintHeader
 void
 History::LoadDefaultToolBar
 	(
-	JXToolBar* 		toolBar
+	JXToolBar*		toolBar
 	)
 {
 	JXTextMenu* editMenu;

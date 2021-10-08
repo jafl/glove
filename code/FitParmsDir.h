@@ -3,7 +3,7 @@
 
 	Interface for the FitParmsDir class
 
-	Copyright (C) 1997 by Glenn Bach. 
+	Copyright (C) 1997 by Glenn Bach.
 
  ******************************************************************************/
 
@@ -26,24 +26,25 @@ public:
 
 	FitParmsDir(PlotDir* supervisor, JPtrArray<FitBase>* fits);
 
-	virtual ~FitParmsDir();
+	~FitParmsDir() override;
+
 	void	ShowFit(const JIndex index);
 	void	SendAllToSession();
 
 protected:
 
-	virtual void	Receive(JBroadcaster* sender,
-							const JBroadcaster::Message& message);
+	void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message) override;
+
 private:
 
-	PlotDir*				itsPlotDir;
-	JXTextMenu*				itsFitMenu;
-	JXTextButton*			itsCloseButton;
-	JXTextButton*			itsSessionButton;
+	PlotDir*			itsPlotDir;
+	JXTextMenu*			itsFitMenu;
+	JXTextButton*		itsCloseButton;
+	JXTextButton*		itsSessionButton;
 	FitParmsTable*		itsTable;
 	JPtrArray<FitBase>*	itsFits;	// We don't own this!
-	JIndex					itsCurrentIndex;
-	
+	JIndex				itsCurrentIndex;
+
 private:
 
 	void	SendToSession(const JIndex index);

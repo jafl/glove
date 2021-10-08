@@ -13,14 +13,12 @@
 // Superclass Header
 #include <FitDescription.h>
 
-
-
 class BuiltinFitDescription : public FitDescription
 {
 public:
 
 	BuiltinFitDescription(const FitType type);
-	virtual ~BuiltinFitDescription();
+	~BuiltinFitDescription() override;
 };
 
 #endif

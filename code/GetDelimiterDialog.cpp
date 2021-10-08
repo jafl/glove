@@ -39,7 +39,7 @@ const JIndex kDelimiterPrefsVersionID = 1;
 GetDelimiterDialog::GetDelimiterDialog
 	(
 	JXWindowDirector*	supervisor,
-	const JString& 		text
+	const JString&		text
 	)
 	:
 	JXDialogDirector(supervisor, true),

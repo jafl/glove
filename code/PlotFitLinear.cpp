@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotFitLinear.cpp
- 
+
 	PlotFitLinear class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -21,15 +21,15 @@
 #include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotFitLinear::PlotFitLinear
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -41,11 +41,11 @@ PlotFitLinear::PlotFitLinear
 
 PlotFitLinear::PlotFitLinear
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -57,7 +57,7 @@ PlotFitLinear::PlotFitLinear
 void
 PlotFitLinear::JPlotFitLinearX
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData
 	)
 {
@@ -70,11 +70,10 @@ PlotFitLinear::JPlotFitLinearX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotFitLinear::~PlotFitLinear()
 {
 }
-

@@ -1,12 +1,12 @@
 /*********************************************************************************
  PlotFitLinearEq.h
- 
+
 	Interface for the PlotFitLinearEq class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_PlotFitLinearEq
 #define _H_PlotFitLinearEq
 
@@ -24,44 +24,42 @@ public:
 
 	PlotFitLinearEq(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	PlotFitLinearEq(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotFitLinearEq(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
-	virtual ~PlotFitLinearEq();
+	~PlotFitLinearEq() override;
 
 	void	InitializePolynomial(const JArray<JIndex>& powers);
 	void	GenerateFit();
 
-	virtual bool	GetParameterName(const JIndex index, JString* name) const;
-	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
+	bool	GetParameterName(const JIndex index, JString* name) const override;
+	bool	GetParameter(const JIndex index, JFloat* value) const override;
 
-	virtual bool	GetParameterError(const JIndex index, JFloat* value) const;
+	bool	GetParameterError(const JIndex index, JFloat* value) const override;
 
-	virtual bool	GetYValue(const JFloat x, JFloat* y) const;
+	bool	GetYValue(const JFloat x, JFloat* y) const override;
 
 protected:
 
-	virtual void		SetCurrentParameters(const JVector& p);
-	virtual void		SetErrors(const JVector& p);
-	virtual JFloat		FunctionN(const JFloat x);
-	virtual JFloat		FunctionNPrimed(const JFloat x);
+	void	SetCurrentParameters(const JVector& p) override;
+	void	SetErrors(const JVector& p) override;
+	JFloat	FunctionN(const JFloat x) override;
+	JFloat	FunctionNPrimed(const JFloat x) override;
 
 
 private:
 
-	void				JPlotFitLinearEqX(J2DPlotWidget* plot, 
-										  J2DPlotDataBase* fitData);
-
-	void				CalculateFirstPass();
+	void	JPlotFitLinearEqX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);
+	void	CalculateFirstPass();
 
 private:
 
 	JArray<JIndex>*	itsPowers;
 	JVector*		itsParameters;
 	JVector*		itsErrors;
-	
+
 	JFloat		itsChi2Start;
-	
+
 };
 
 #endif

@@ -1,12 +1,12 @@
 /*********************************************************************************
  PlotFitFunction.h
- 
+
 	Interface for the PlotFitFunction class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_PlotFitFunction
 #define _H_PlotFitFunction
 
@@ -21,9 +21,9 @@ class PlotFitFunction : public J2DPlotFunctionBase, public FitBase
 {
 public:
 
-	PlotFitFunction(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
-						const JFloat xMin, const JFloat xMax);
-	virtual ~PlotFitFunction();	
+	PlotFitFunction(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
+					const JFloat xMin, const JFloat xMax);
+	~PlotFitFunction() override;
 
 	const J2DPlotDataBase*	GetData() const;
 	J2DPlotData*			GetDiffData() const;
@@ -31,28 +31,28 @@ public:
 
 protected:
 
-	virtual void 	GenerateDiffData();
+	virtual void	GenerateDiffData();
 	void			CalculateStdDev();
 	void			AdjustDiffDataValue(const JIndex index, const JFloat value);
 	virtual bool	DataElementValid(const JIndex index);
 	virtual bool	GetDataElement(const JIndex index, J2DDataPoint* point);
 	void			SetDiffData(J2DPlotData* data);
-	
+
 private:
 
 	J2DPlotDataBase*	itsData;
-	J2DPlotData*	itsDiffData;
-	bool			itsHasXErrors;
-	bool			itsHasYErrors;
-	JFloat			itsStdDev;
+	J2DPlotData*		itsDiffData;
+	bool				itsHasXErrors;
+	bool				itsHasYErrors;
+	JFloat				itsStdDev;
 };
 
 /*********************************************************************************
  GetData
- 
+
 
  ********************************************************************************/
- 
+
 inline const J2DPlotDataBase*
 PlotFitFunction::GetData()
 	const
@@ -62,10 +62,10 @@ PlotFitFunction::GetData()
 
 /*********************************************************************************
  GetData
- 
+
 
  ********************************************************************************/
- 
+
 inline JFloat
 PlotFitFunction::GetStdDev()
 	const

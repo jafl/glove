@@ -715,10 +715,10 @@ void
 DataDocument::CreateNewPlot
 	(
 	const JIndex			type,
-	const JArray<JFloat>& 	xCol,
-	const JArray<JFloat>* 	x2Col,
-	const JArray<JFloat>& 	yCol,
-	const JArray<JFloat>* 	y2Col,
+	const JArray<JFloat>&	xCol,
+	const JArray<JFloat>*	x2Col,
+	const JArray<JFloat>&	yCol,
+	const JArray<JFloat>*	y2Col,
 	const bool			linked,
 	const JString&			label
 	)
@@ -905,7 +905,7 @@ DataDocument::WriteTextFile
 void
 DataDocument::ReadPlotData
 	(
-	std::istream& 		is,
+	std::istream&		is,
 	const JFloat	gloveVersion
 	)
 {

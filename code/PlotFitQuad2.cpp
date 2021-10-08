@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotFitQuad2.cpp
- 
+
 	PlotFitQuad2 class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -21,15 +21,15 @@
 #include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotFitQuad2::PlotFitQuad2
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -41,11 +41,11 @@ PlotFitQuad2::PlotFitQuad2
 
 PlotFitQuad2::PlotFitQuad2
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -57,7 +57,7 @@ PlotFitQuad2::PlotFitQuad2
 void
 PlotFitQuad2::JPlotFitQuad2X
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData
 	)
 {
@@ -75,24 +75,24 @@ PlotFitQuad2::JPlotFitQuad2X
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotFitQuad2::~PlotFitQuad2()
 {
 }
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitQuad2::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -104,14 +104,14 @@ PlotFitQuad2::GetYValue
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitQuad2::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -137,14 +137,14 @@ PlotFitQuad2::GetParameterName
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitQuad2::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -165,19 +165,19 @@ PlotFitQuad2::GetParameter
 	{
 		*value = itsCParameter;
 	}
-	return true;		
+	return true;
 }
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitQuad2::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -204,7 +204,7 @@ PlotFitQuad2::GetParameterError
 
 /*********************************************************************************
  GetFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -217,7 +217,7 @@ PlotFitQuad2::GetFunctionString()
 
 /*********************************************************************************
  GetFitFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -231,7 +231,7 @@ PlotFitQuad2::GetFitFunctionString()
 
 /*********************************************************************************
  CalculateFirstPass
- 
+
 
  ********************************************************************************/
 
@@ -242,7 +242,7 @@ PlotFitQuad2::CalculateFirstPass()
 	JFloat tempa, tempb, tempc, det;
 	JSize i,j, k;
 	JArray<JFloat> yAdjError;
-	
+
 	J2DDataPoint point;
 	JSize rcount = GetRealElementCount();
 	for (i=1; i<= rcount; i++)
@@ -322,7 +322,7 @@ PlotFitQuad2::CalculateFirstPass()
 		for (i=1; i<=rcount; i++)
 		{
 			J2DDataPoint point = GetRealElement(i);
-			JFloat newVal = 
+			JFloat newVal =
 				sqrt(point.yerr*point.yerr + (tempb+2*tempc*point.x)*(tempb+2*tempc*point.x)*point.xerr*point.xerr);
 			if (newVal == 0)
 			{
@@ -353,10 +353,10 @@ PlotFitQuad2::CalculateFirstPass()
 
 /*********************************************************************************
  FunctionN
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitQuad2::FunctionN
 	(
 	const JFloat x
@@ -367,10 +367,10 @@ PlotFitQuad2::FunctionN
 
 /*********************************************************************************
  FunctionNPrimed
- 
+
  ********************************************************************************/
 
-JFloat 
+JFloat
 PlotFitQuad2::FunctionNPrimed
 	(
 	const JFloat x

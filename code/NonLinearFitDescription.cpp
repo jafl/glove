@@ -6,7 +6,7 @@
 	BASE CLASS = public FitDescription
 
 	Copyright (C) 1999 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include <NonLinearFitDescription.h>
@@ -22,9 +22,9 @@ const JFileVersion kCurrentSetupVersion	= 0;
 
 NonLinearFitDescription::NonLinearFitDescription
 	(
-	const JString& 				name, 
-	const JString& 				function,
-	const JString& 				fPrimed,
+	const JString&				name,
+	const JString&				function,
+	const JString&				fPrimed,
 	const JPtrArray<JString>&	vars
 	)
 	:

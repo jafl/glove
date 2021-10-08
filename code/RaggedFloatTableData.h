@@ -20,12 +20,12 @@ public:
 	RaggedFloatTableData(const JFloat& defValue);
 	RaggedFloatTableData(const RaggedFloatTableData& source);
 
-	virtual ~RaggedFloatTableData();
+	~RaggedFloatTableData() override;
 
 	bool	GetElement(const JIndex row, const JIndex col, JFloat* value) const;
 	bool	GetElement(const JPoint& cell, JFloat* value) const;
-	void		SetElement(const JIndex row, const JIndex col, const JFloat data);
-	void		SetElement(const JPoint& cell, const JFloat data);
+	void	SetElement(const JIndex row, const JIndex col, const JFloat data);
+	void	SetElement(const JPoint& cell, const JFloat data);
 
 	void	GetRow(const JIndex index, JArray<JFloat>* rowData) const;
 	void	SetRow(const JIndex index, const JArray<JFloat>& rowData);
@@ -78,13 +78,13 @@ private:
 
 	JPtrArray< JArray<JFloat> >*	itsCols;
 	const JFloat					itsDefValue;
-	bool						itsBroadcast;
+	bool							itsBroadcast;
 
 private:
 
-	void 	CreateCellIfNeeded(const JIndex row, const JIndex col);
-	void 	CreateCellIfNeeded(const JPoint cell);
-	JSize 	GetMaxRowCount();
+	void	CreateCellIfNeeded(const JIndex row, const JIndex col);
+	void	CreateCellIfNeeded(const JPoint cell);
+	JSize	GetMaxRowCount();
 
 	// not allowed
 

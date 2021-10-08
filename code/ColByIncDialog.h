@@ -22,28 +22,28 @@ class ColByIncDialog : public JXDialogDirector
 public:
 
 	enum
-		{
+	{
 		kAscending = 1,
 		kDescending
-		};
+	};
 
 public:
 
 	ColByIncDialog(JXWindowDirector* supervisor, const JSize count);
 
-	virtual ~ColByIncDialog();
-	
+	~ColByIncDialog() override;
+
 	void GetDestination(JIndex* source);
-	
+
 	void GetValues(JFloat* beg, JFloat* inc, JInteger* count);
-				
+
 	bool IsAscending();
-	
+
 protected:
 
 	bool	OKToDeactivate() override;
 	void	Receive(JBroadcaster* sender, const Message& message) override;
-	
+
 private:
 
 	JIndex itsDestCol;

@@ -3,7 +3,7 @@
 
 	Interface for the ExprDirector class
 
-	Copyright (C) 1997 by Glenn Bach. 
+	Copyright (C) 1997 by Glenn Bach.
 
  ******************************************************************************/
 
@@ -20,7 +20,7 @@ class ExprDirector : public JXDialogDirector
 public:
 
 	ExprDirector(JXDirector* supervisor, const VarList* list, const JString& function);
-	virtual ~ExprDirector();
+	~ExprDirector() override;
 
 	JString GetString();
 

@@ -23,13 +23,13 @@
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JSize 	ITMAX	= 100;
-const JFloat 	CGOLD	= 0.3819660;
-const JFloat 	ZEPS	= 1.0e-12;
-const JFloat 	TOLL	= 1.0e-10;
-const JFloat 	GOLD 	= 1.618034;
-const JFloat 	IMIT 	= 100.0;
-const JFloat 	TINY 	= 1.0e-20;
+const JSize	ITMAX	= 100;
+const JFloat	CGOLD	= 0.3819660;
+const JFloat	ZEPS	= 1.0e-12;
+const JFloat	TOLL	= 1.0e-10;
+const JFloat	GOLD	= 1.618034;
+const JFloat	IMIT	= 100.0;
+const JFloat	TINY	= 1.0e-20;
 
 enum
 {
@@ -74,8 +74,8 @@ enum
 
 PlotQuadFit::PlotQuadFit
 	(
-	J2DPlotWidget* 	plot,
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -131,7 +131,7 @@ PlotQuadFit::JPlotQuadFitX
 	J2DPlotDataBase* fitData
 	)
 {
-	itsP 	= nullptr;
+	itsP	= nullptr;
 	itsXi	= nullptr;
 
 	SetHasParameterErrors(true);
@@ -185,7 +185,7 @@ PlotQuadFit::~PlotQuadFit()
 bool
 PlotQuadFit::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -677,7 +677,7 @@ PlotQuadFit::CalcError
 
 	*sigParameter = parameter + sig;
 
-	JFloat chiplus 	= sqrt(itsChi2 + 1);
+	JFloat chiplus	= sqrt(itsChi2 + 1);
 	JIndex i = 0;
 	bool ok = true;
 	JSize iter;
@@ -850,8 +850,8 @@ PlotQuadFit::CalcError
 JFloat
 PlotQuadFit::ChiSqr
 	(
-	JFloat 			Bt,
-	const JIndex 	type
+	JFloat			Bt,
+	const JIndex	type
 	)
 {
 	J2DDataPoint point;
@@ -900,8 +900,8 @@ PlotQuadFit::ChiSqr
 JFloat
 PlotQuadFit::Function
 	(
-	JFloat	 		Bt,
-	const JIndex 	type
+	JFloat			Bt,
+	const JIndex	type
 	)
 {
 	assert(itsP != nullptr);
@@ -919,12 +919,12 @@ PlotQuadFit::Function
 JFloat
 PlotQuadFit::FunctionN
 	(
-	JVector& 		parameters,
-	const JIndex 	type
+	JVector&		parameters,
+	const JIndex	type
 	)
 {
 	J2DDataPoint point;
-	JSize rcount = itsRealData->GetElementCount(); 
+	JSize rcount = itsRealData->GetElementCount();
 	JFloat c = 0;
 
 	JFloat A;
@@ -981,9 +981,9 @@ PlotQuadFit::FunctionN
 JFloat
 PlotQuadFit::BracketAndMinimize
 	(
-	JFloat* 		parameter,
-	const JFloat 	chitemp,
-	const JIndex 	type
+	JFloat*		parameter,
+	const JFloat	chitemp,
+	const JIndex	type
 	)
 {
 	JFloat factor=0.01, small=TOLL, bmin, bmax;
@@ -1041,10 +1041,10 @@ PlotQuadFit::BracketAndMinimize
 JFloat
 PlotQuadFit::Minimize
 	(
-	JFloat 			ax,
-	JFloat 			bx,
-	JFloat 			cx,
-	JFloat* 		xmin,
+	JFloat			ax,
+	JFloat			bx,
+	JFloat			cx,
+	JFloat*		xmin,
 	const JIndex	type
 	)
 {
@@ -1214,9 +1214,9 @@ PlotQuadFit::Minimize
 JFloat
 PlotQuadFit::MinimizeN
 	(
-	JVector& 		p,
-	JMatrix& 		xi,
-	JSize 			*iter,
+	JVector&		p,
+	JMatrix&		xi,
+	JSize			*iter,
 	const JIndex	type
 	)
 {
@@ -1278,8 +1278,8 @@ PlotQuadFit::MinimizeN
 JFloat
 PlotQuadFit::LinearMinimization
 	(
-	JVector& 		p,
-	JVector& 		xi,
+	JVector&		p,
+	JVector&		xi,
 	const JIndex	type
 	)
 {
@@ -1319,12 +1319,12 @@ PlotQuadFit::LinearMinimization
 void
 PlotQuadFit::Bracket
 	(
-	JFloat 			*ax,
-	JFloat 			*bx,
-	JFloat 			*cx,
-	JFloat 			*fa,
-	JFloat 			*fb,
-	JFloat 			*fc,
+	JFloat			*ax,
+	JFloat			*bx,
+	JFloat			*cx,
+	JFloat			*fa,
+	JFloat			*fb,
+	JFloat			*fc,
 	const JIndex	type
 	)
 {

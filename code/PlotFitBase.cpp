@@ -22,13 +22,13 @@
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JSize 	ITMAX	= 100;
-const JFloat 	CGOLD	= 0.3819660;
-const JFloat 	ZEPS	= 1.0e-12;
-const JFloat 	TOLL	= 1.0e-10;
-const JFloat 	GOLD 	= 1.618034;
-const JFloat 	IMIT 	= 100.0;
-const JFloat 	TINY 	= 1.0e-20;
+const JSize	ITMAX	= 100;
+const JFloat	CGOLD	= 0.3819660;
+const JFloat	ZEPS	= 1.0e-12;
+const JFloat	TOLL	= 1.0e-10;
+const JFloat	GOLD	= 1.618034;
+const JFloat	IMIT	= 100.0;
+const JFloat	TINY	= 1.0e-20;
 const JFloat	BIG		= 1.0e30;
 const JFloat	SAFE	= 2.0;
 const JFloat	CON		= 1.4;
@@ -42,8 +42,8 @@ const JFloat	CON		= 1.4;
 
 PlotFitBase::PlotFitBase
 	(
-	J2DPlotWidget* 	plot,
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -195,8 +195,8 @@ PlotFitBase::GetGoodnessOfFit
 void
 PlotFitBase::GenerateFit
 	(
-	const JVector& 	parameters,
-	const JFloat 	chi2
+	const JVector&	parameters,
+	const JFloat	chi2
 	)
 {
 	JVector p(parameters);
@@ -239,8 +239,8 @@ PlotFitBase::GenerateFit
 JFloat
 PlotFitBase::CalcError
 	(
-	const JVector& 	parameters,
-	const JIndex 	constIndex
+	const JVector&	parameters,
+	const JIndex	constIndex
 	)
 {
 	itsCurrentConstantParmIndex	= constIndex;
@@ -290,7 +290,7 @@ PlotFitBase::CalcError
 
 	itsCurrentConstantParm	= currentParm + sig;
 
-	JFloat chiplus 	= sqrt(itsChiPlus);
+	JFloat chiplus	= sqrt(itsChiPlus);
 	JIndex i = 0;
 	bool ok = true;
 	JSize iter;
@@ -302,7 +302,7 @@ PlotFitBase::CalcError
 	{
 		if (chitemp > chiplus)
 		{
-			ok 	= false;
+			ok	= false;
 			p	= pSav;
 			xi	= xiSav;
 		}
@@ -311,7 +311,7 @@ PlotFitBase::CalcError
 			lastchi = chitemp;
 			sig *= 10;
 			itsCurrentConstantParm = currentParm + sig;
-			iter 	= 0;
+			iter	= 0;
 //			pSav	= p;
 //			xiSav	= xi;
 			p	= pSav;
@@ -335,7 +335,7 @@ PlotFitBase::CalcError
 	{
 		chi1 = chi3;
 		itsCurrentConstantParm = currentParm + sig * i;
-		iter 	= 0;
+		iter	= 0;
 //		pSav	= p;
 //		xiSav	= xi;
 		p	= pSav;
@@ -355,7 +355,7 @@ PlotFitBase::CalcError
 //			std::cout << "***" << chiplus << "-:- " << x1 << ": " << chi1 << ' ';
 //			std::cout << x2 << ": " << chi2 << ' ';
 //			std::cout << x3 << ": " << chi3 << std::endl;
-			iter 	= 0;
+			iter	= 0;
 			JFloat e1 = (chi3*x1*(x1-x2)*x2+x3*(chi1*x2*(x2-x3)+chi2*x1*(-x1+x3)))/
 						((x1-x2)*(x1-x3)*(x2-x3));
 			JFloat e2 = (chi3*(-x1*x1+x2*x2)+chi2*(x1*x1-x3*x3)+chi1*(-x2*x2+x3*x3))/
@@ -388,7 +388,7 @@ PlotFitBase::CalcError
 		{
 			lastchi = chitemp;
 			itsCurrentConstantParm = currentParm + sig * i;
-			iter 	= 0;
+			iter	= 0;
 			pSav	= p;
 			xiSav	= xi;
 			chitemp = MinimizeN(&p, &xi, &iter);
@@ -406,7 +406,7 @@ PlotFitBase::CalcError
 	{
 		chi1 = chi3;
 		itsCurrentConstantParm = currentParm + sig * j;
-		iter 	= 0;
+		iter	= 0;
 		chitemp = MinimizeN(&p, &xi, &iter);
 		chi3 = chitemp;
 		if (chitemp > chiplus)
@@ -417,7 +417,7 @@ PlotFitBase::CalcError
 			std::cout << "***" << x1 << ' ' << x2 << ' ' << x3 << std::endl;
 			itsCurrentConstantParm = currentParm + x2;
 			chi2 = MinimizeN(&p, &xi, &iter);
-			iter 	= 0;
+			iter	= 0;
 			JFloat e1 = (chi3*x1*(x1-x2)*x2+x3*(chi1*x2*(x2-x3)+chi2*x1*(-x1+x3)))/
 						((x1-x2)*(x1-x3)*(x2-x3));
 			JFloat e2 = (chi3*(-x1*x1+x2*x2)+chi2*(x1*x1-x3*x3)+chi1*(-x2*x2+x3*x3))/
@@ -500,9 +500,9 @@ PlotFitBase::ChiSqr
 JFloat
 PlotFitBase::Function
 	(
-	JFloat	 			Bt,
-	const JVector& 		p,
-	const JVector& 		xi
+	JFloat				Bt,
+	const JVector&		p,
+	const JVector&		xi
 	)
 {
 	JVector xt(p);
@@ -539,12 +539,12 @@ PlotFitBase::ChiSqrSqrt
 JFloat
 PlotFitBase::Minimize
 	(
-	JFloat 			ax,
-	JFloat 			bx,
-	JFloat 			cx,
-	const JVector& 	parms,
-	const JVector& 	xi,
-	JFloat* 		xmin
+	JFloat			ax,
+	JFloat			bx,
+	JFloat			cx,
+	const JVector&	parms,
+	const JVector&	xi,
+	JFloat*		xmin
 	)
 {
 	JFloat oldstep, x, w, v, fx, fw, fv, middle, tol2, ymin, r, q;
@@ -712,9 +712,9 @@ PlotFitBase::Minimize
 JFloat
 PlotFitBase::MinimizeN
 	(
-	JVector* 	p,
-	JMatrix* 	xi,
-	JSize 		*iter
+	JVector*	p,
+	JMatrix*	xi,
+	JSize		*iter
 	)
 {
 	JSize i,ibig;
@@ -807,14 +807,14 @@ PlotFitBase::LinearMinimization
 void
 PlotFitBase::Bracket
 	(
-	JFloat 			*ax,
-	JFloat 			*bx,
-	JFloat 			*cx,
-	JFloat 			*fa,
-	JFloat 			*fb,
-	JFloat 			*fc,
-	const JVector& 		p,
-	const JVector& 		xi
+	JFloat			*ax,
+	JFloat			*bx,
+	JFloat			*cx,
+	JFloat			*fa,
+	JFloat			*fb,
+	JFloat			*fc,
+	const JVector&		p,
+	const JVector&		xi
 	)
 {
 	JFloat ulim,u,r,q,fu,dum;

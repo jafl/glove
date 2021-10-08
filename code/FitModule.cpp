@@ -2,11 +2,11 @@
  FitModule.cpp
 
 	FitModule class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ******************************************************************************/
- 
+
 #include "FitModule.h"
 #include "PlotDir.h"
 #include "jx-af/j2dplot/J2DPlotDataBase.h"
@@ -32,27 +32,27 @@ const int kASCIIZero = 48;
 
 /*********************************************************************************
  Create
- 
+
 
  ********************************************************************************/
 
 bool
 FitModule::Create
 	(
-	FitModule** 	module,
-	PlotDir* 		dir,
-	J2DPlotDataBase* 	fitData,
-	const JString& 	sysCmd
+	FitModule**	module,
+	PlotDir*		dir,
+	J2DPlotDataBase*	fitData,
+	const JString&	sysCmd
 	)
 {
 	int inFD;
 	int outFD;
 	JProcess* process;
-	JError err = 
+	JError err =
 			JProcess::Create(&process, sysCmd,
 							kJCreatePipe, &outFD,
 							kJCreatePipe, &inFD,
-							kJIgnoreConnection, nullptr);						
+							kJIgnoreConnection, nullptr);
 	if (err.OK())
 	{
 		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
@@ -61,21 +61,21 @@ FitModule::Create
 		*module = jnew FitModule(dir, fitData, process, inFD, op);
 		return true;
 	}
-		
+
 	return false;
 }
 
 /*******************************************************************************
  Constructor (protected)
- 
+
 
  ******************************************************************************/
 
 FitModule::FitModule
 	(
-	PlotDir* 		dir, 
-	J2DPlotDataBase* 	fitData,
-	JProcess* 		process, 
+	PlotDir*		dir,
+	J2DPlotDataBase*	fitData,
+	JProcess*		process,
 	const int		fd,
 	JOutPipeStream* output
 	)
@@ -84,7 +84,7 @@ FitModule::FitModule
 	itsData = fitData;
 	itsProcess = process;
 	ListenTo(itsProcess);
-	
+
 	itsLink = new ProcessLink(fd);
 	assert(itsLink != nullptr);
 //	itsLink->set_hanle(input);
@@ -100,7 +100,7 @@ FitModule::FitModule
 	itsHeaderRead = false;
 	itsFunctionRead = false;
 	itsPG = nullptr;
-	
+
 	JIndex type;
 	if (itsData->HasXErrors())
 	{
@@ -111,7 +111,7 @@ FitModule::FitModule
 		else
 		{
 			type = kGloveXYdX;
-		}		
+		}
 	}
 	else
 	{
@@ -122,7 +122,7 @@ FitModule::FitModule
 		else
 		{
 			type = kGloveXY;
-		}		
+		}
 	}
 	*output << type << std::endl;
 	J2DPlotWidget* plot = itsDir->GetPlot();
@@ -186,7 +186,7 @@ FitModule::FitModule
 
 /*******************************************************************************
  Destructor
- 
+
 
  ******************************************************************************/
 
@@ -203,7 +203,7 @@ FitModule::~FitModule()
 
 /*******************************************************************************
  Receive
- 
+
 
  ******************************************************************************/
 
@@ -239,7 +239,7 @@ FitModule::Receive
 
 /*******************************************************************************
  HandleInput
- 
+
 
  ******************************************************************************/
 
@@ -298,7 +298,7 @@ FitModule::HandleInput
 
 /*******************************************************************************
  HandleDataRead
- 
+
 
  ******************************************************************************/
 
@@ -332,7 +332,7 @@ FitModule::HandleDataRead
 
 /*******************************************************************************
  HandleFit
- 
+
 
  ******************************************************************************/
 
@@ -378,9 +378,9 @@ FitModule::HandleFit()
 		{
 			JFloat xmax, xmin, ymax, ymin;
 			itsDir->GetPlot()->GetRange(&xmin, &xmax, &ymin, &ymax);
-			PlotModuleFit* fit = 
-				jnew PlotModuleFit(itsDir->GetPlot(), itsData, xmin, xmax, 
-					itsNames, itsValues, f, list, itsParmsCount, 
+			PlotModuleFit* fit =
+				jnew PlotModuleFit(itsDir->GetPlot(), itsData, xmin, xmax,
+					itsNames, itsValues, f, list, itsParmsCount,
 					itsHasErrors, itsHasGOF);
 			assert(fit != nullptr);
 			if (!(itsDir->AddFitModule(fit, itsData)))

@@ -129,7 +129,7 @@ PlotDir::PlotDir
 
 	itsPrinter          = nullptr;
 
-	JCoordinate w 		= 500;
+	JCoordinate w		= 500;
 	JCoordinate h       = 400;
 	JCoordinate minW	= 400;
 	JCoordinate minH    = 300;
@@ -318,14 +318,14 @@ PlotDir::Receive
 	}
 
 	else if (sender == itsFits &&
-		( 	message.Is(JListT::kElementsInserted) ||
+		(	message.Is(JListT::kElementsInserted) ||
 			message.Is(JListT::kElementsRemoved)))
 	{
 		UpdateFitParmsMenu();
 	}
 
 	else if (sender == itsDiffDirs &&
-		( 	message.Is(JListT::kElementsInserted) ||
+		(	message.Is(JListT::kElementsInserted) ||
 			message.Is(JListT::kElementsRemoved)))
 	{
 		UpdateDiffMenu();
@@ -470,7 +470,7 @@ PlotDir::WriteSetup
 void
 PlotDir::ReadSetup
 	(
-	std::istream& 		is,
+	std::istream&		is,
 	const JFloat	gloveVersion
 	)
 {
@@ -1277,7 +1277,7 @@ PlotDir::AddFit
 	JIndex i = itsPlot->AddCurve(fit, true, fit->GetFunctionString(), true, false);
 	itsCurrentCurveType = kGDataCurve;
 	GloveCurveStats stats = itsCurveStats->GetElement(i);
-	stats.type 		= kGFitCurve;
+	stats.type		= kGFitCurve;
 	stats.provider	= plotindex;
 	stats.fitNumber = itsFits->GetElementCount();
 	stats.fitType	= type;

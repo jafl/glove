@@ -38,7 +38,7 @@ PlotFunctionDialog::PlotFunctionDialog
 	itsEditor = nullptr;
 	BuildWindow();
 	itsList = list;
-	
+
 	for (JIndex i = 1; i <= list->GetElementCount(); i++)
 	{
 		itsVarMenu->AppendItem(list->GetVariableName(i));
@@ -124,7 +124,7 @@ PlotFunctionDialog::BuildWindow()
 void
 PlotFunctionDialog::Receive
 	(
-	JBroadcaster* sender, 
+	JBroadcaster* sender,
 	const Message& message
 	)
 {

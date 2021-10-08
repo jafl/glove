@@ -6,7 +6,7 @@
 	BASE CLASS = public PlotFitBase
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #include "PlotFitNonLinear.h"
@@ -23,8 +23,8 @@
 
 PlotFitNonLinear::PlotFitNonLinear
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -39,11 +39,11 @@ PlotFitNonLinear::PlotFitNonLinear
 
 PlotFitNonLinear::PlotFitNonLinear
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -62,7 +62,7 @@ PlotFitNonLinear::PlotFitNonLinear
 
 PlotFitNonLinear::~PlotFitNonLinear()
 {
-//	jdelete itsVarList; 		we don't own it
+//	jdelete itsVarList;		we don't own it
 	jdelete itsFunction;
 	jdelete itsFPrimed;
 	jdelete itsErrors;
@@ -217,14 +217,14 @@ PlotFitNonLinear::SetInitialParameters
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitNonLinear::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -237,14 +237,14 @@ PlotFitNonLinear::GetYValue
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitNonLinear::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -255,14 +255,14 @@ PlotFitNonLinear::GetParameterName
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitNonLinear::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -273,14 +273,14 @@ PlotFitNonLinear::GetParameter
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 bool
 PlotFitNonLinear::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -295,5 +295,5 @@ PlotFitNonLinear::GetParameterError
 		return false;
 	}
 	*value	= itsErrors->GetElement(index);
-	return true;		
+	return true;
 }

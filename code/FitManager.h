@@ -4,7 +4,7 @@
 	Interface for the FitManager class
 
 	Copyright (C) 2000 by Glenn W. Bach.
-	
+
  *****************************************************************************/
 
 #ifndef _H_FitManager
@@ -22,12 +22,12 @@ public:
 public:
 
 	FitManager();
-	virtual ~FitManager();
+	~FitManager() override;
 
 	JSize					GetFitCount() const;
 	const FitDescription&	GetFitDescription(const JIndex index) const;
-	FitDescription&		GetFitDescription(const JIndex index);
-	
+	FitDescription&			GetFitDescription(const JIndex index);
+
 	void	AddFitDescription(const FitDescription& fit);
 	void	AddFitDescription(FitDescription* fit);
 	void	NewFitDescription(const FitDescription::FitType type);
@@ -37,14 +37,14 @@ public:
 
 protected:
 
-	virtual void	ReadPrefs(std::istream& input);
-	virtual void	WritePrefs(std::ostream& output) const;
+	void	ReadPrefs(std::istream& input) override;
+	void	WritePrefs(std::ostream& output) const override;
 
 private:
 
 	JPtrArray<FitDescription>* itsFitDescriptions;
 
-	bool		itsIsInitialized;
+	bool	itsIsInitialized;
 
 private:
 

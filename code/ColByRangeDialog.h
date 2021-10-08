@@ -22,23 +22,23 @@ public:
 
 	ColByRangeDialog(JXWindowDirector* supervisor, const JSize count);
 
-	virtual ~ColByRangeDialog();
-	
+	~ColByRangeDialog() override;
+
 	void GetDestination(JIndex* dest);
-	
+
 	void GetValues(JFloat* beg, JFloat* end, JInteger* count);
-				
+
 	bool IsAscending();
-	
+
 protected:
 
 	bool	OKToDeactivate() override;
 	void	Receive(JBroadcaster* sender, const Message& message) override;
-	
+
 private:
 
-	JIndex 		itsDestCol;
-	bool 	itsIsAscending;
+	JIndex	itsDestCol;
+	bool	itsIsAscending;
 
 // begin JXLayout
 

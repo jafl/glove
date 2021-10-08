@@ -17,23 +17,23 @@ class NonLinearFitDescription : public FitDescription
 {
 public:
 
-	NonLinearFitDescription(const JString& name, 
-							  const JString& function, 
-							  const JString& fPrimed, 
+	NonLinearFitDescription(const JString& name,
+							  const JString& function,
+							  const JString& fPrimed,
 							  const JPtrArray<JString>& vars);
 	NonLinearFitDescription(std::istream& is);
-								  
-	virtual ~NonLinearFitDescription();
 
-	JString		GetFunctionString() const;
-	JString		GetFunctionPrimedString() const;
+	~NonLinearFitDescription() override;
 
-	virtual void	WriteSetup(std::ostream& os); // must call base class first!
+	JString	GetFunctionString() const;
+	JString	GetFunctionPrimedString() const;
+
+	void	WriteSetup(std::ostream& os) override; // must call base class first!
 
 private:
 
-	JString		itsFunction;
-	JString		itsFPrimed;
+	JString	itsFunction;
+	JString	itsFPrimed;
 };
 
 /******************************************************************************

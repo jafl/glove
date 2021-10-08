@@ -1,12 +1,12 @@
 /*********************************************************************************
  PlotFitLinear.h
- 
+
 	Interface for the PlotFitLinear class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_PlotFitLinear
 #define _H_PlotFitLinear
 
@@ -20,15 +20,14 @@ public:
 
 	PlotFitLinear(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	PlotFitLinear(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotFitLinear(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
-	virtual ~PlotFitLinear();	
+	~PlotFitLinear() override;
 
 private:
 
-	void				JPlotFitLinearX(J2DPlotWidget* plot, 
-										J2DPlotDataBase* fitData);
+	void	JPlotFitLinearX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);
 };
 
 #endif

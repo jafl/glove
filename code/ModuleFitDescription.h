@@ -20,13 +20,13 @@ class ModuleFitDescription : public FitDescription
 public:
 
 	ModuleFitDescription(DLFitModule* fit);
-	virtual ~ModuleFitDescription();
+	~ModuleFitDescription() override;
 
-	DLFitModule*		GetFitModule();
+	DLFitModule*	GetFitModule();
 
 private:
 
-	DLFitModule*		itsModule;
+	DLFitModule*	itsModule;
 };
 
 /******************************************************************************

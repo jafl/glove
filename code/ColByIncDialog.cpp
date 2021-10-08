@@ -34,9 +34,9 @@ ColByIncDialog::ColByIncDialog
 	JXDialogDirector(supervisor, true)
 {
 	BuildWindow();
-	
+
 	BuildColumnMenus("Column::global", count, itsDestMenu, nullptr);
-	
+
 	itsDestMenu->SetToPopupChoice(true, count);
 	itsDestCol = count;
 }
@@ -58,7 +58,7 @@ ColByIncDialog::~ColByIncDialog()
 void
 ColByIncDialog::BuildWindow()
 {
-		
+
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 220,190, JString::empty);
@@ -118,10 +118,10 @@ ColByIncDialog::BuildWindow()
 
 	window->SetTitle(JGetString("WindowTitle::ColByIncDialog"));
 	SetButtons(okButton, cancelButton);
-	
+
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDestMenu);
-	
+
 	itsBeginning->SetIsRequired(true);
 	itsInc->SetIsRequired(true);
 	itsCount->SetIsRequired(true);
@@ -130,7 +130,7 @@ ColByIncDialog::BuildWindow()
 }
 
 /******************************************************************************
- GetDestination 
+ GetDestination
 
  ******************************************************************************/
 
@@ -144,14 +144,14 @@ ColByIncDialog::GetDestination
 }
 
 /******************************************************************************
- Receive 
+ Receive
 
  ******************************************************************************/
 
 void
 ColByIncDialog::Receive
 	(
-	JBroadcaster* sender, 
+	JBroadcaster* sender,
 	const Message& message
 	)
 {
@@ -162,7 +162,7 @@ ColByIncDialog::Receive
 		assert( selection != nullptr );
 		itsDestCol = selection->GetIndex();
 	}
-		
+
 	else
 	{
 		JXDialogDirector::Receive(sender, message);
@@ -170,15 +170,15 @@ ColByIncDialog::Receive
 }
 
 /******************************************************************************
- GetValues 
+ GetValues
 
  ******************************************************************************/
 
-void 
+void
 ColByIncDialog::GetValues
 	(
-	JFloat* beg, 
-	JFloat* inc, 
+	JFloat* beg,
+	JFloat* inc,
 	JInteger* count
 	)
 {
@@ -188,11 +188,11 @@ ColByIncDialog::GetValues
 }
 
 /******************************************************************************
- IsAscending 
+ IsAscending
 
  ******************************************************************************/
 
-bool 
+bool
 ColByIncDialog::IsAscending()
 {
 	JFloat inc;
@@ -205,33 +205,33 @@ ColByIncDialog::IsAscending()
 }
 
 /******************************************************************************
- OKToDeactivate 
+ OKToDeactivate
 
  ******************************************************************************/
 
-bool 
+bool
 ColByIncDialog::OKToDeactivate()
 {
 	if (Cancelled())
 	{
 		return true;
 	}
-		
+
 	if (itsDestCol == 0)
 	{
 		JGetUserNotification()->ReportError(JGetString("MissingDestCol::ColByIncDialog"));
 		return false;
 	}
-		
+
 	JInteger count;
-	
+
 	itsCount->GetValue(&count);
-	
+
 	if (count <= 0)
 	{
 		JGetUserNotification()->ReportError(JGetString("NoData::ColByIncDialog"));
 		return false;
 	}
-		
+
 	return true;
 }

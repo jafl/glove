@@ -25,14 +25,14 @@ class TransformFunctionDialog : public JXDialogDirector
 public:
 
 	TransformFunctionDialog(JXDirector* supervisor, VarList* list, const JSize colCount);
-	virtual ~TransformFunctionDialog();
+	~TransformFunctionDialog() override;
 
 	JIndex	GetDestination();
 	const JString& GetFunctionString();
 
 protected:
 
-	void		Receive(JBroadcaster* sender, const Message& message) override;
+	void	Receive(JBroadcaster* sender, const Message& message) override;
 	bool	OKToDeactivate() override;
 
 private:
@@ -50,8 +50,8 @@ private:
 
 // end JXLayout
 
-	ExprDirector* itsEditor;
-	VarList* 		itsList;
+	ExprDirector*	itsEditor;
+	VarList*		itsList;
 	JIndex			itsDestCol;
 
 private:

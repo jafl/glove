@@ -22,13 +22,13 @@ class History : public JXTEBase
 {
 public:
 
-	History(JXMenuBar* menuBar, 
+	History(JXMenuBar* menuBar,
 				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 				 const HSizingOption hSizing, const VSizingOption vSizing,
 				 const JCoordinate x, const JCoordinate y,
 				 const JCoordinate w, const JCoordinate h);
 
-	virtual ~History();
+	~History() override;
 
 	JSize	GetTabCharCount() const;
 	void	SetTabCharCount(const JSize charCount);

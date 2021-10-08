@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotFitQuad.cpp
- 
+
 	PlotFitQuad class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -21,15 +21,15 @@
 #include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotFitQuad::PlotFitQuad
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
 	const JFloat	xMin,
 	const JFloat	xMax
 	)
@@ -41,11 +41,11 @@ PlotFitQuad::PlotFitQuad
 
 PlotFitQuad::PlotFitQuad
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData,
-	const JFloat xmin, 
+	const JFloat xmin,
 	const JFloat xmax,
-	const JFloat ymin, 
+	const JFloat ymin,
 	const JFloat ymax
 	)
 	:
@@ -57,7 +57,7 @@ PlotFitQuad::PlotFitQuad
 void
 PlotFitQuad::JPlotFitQuadX
 	(
-	J2DPlotWidget* plot, 
+	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData
 	)
 {
@@ -71,11 +71,10 @@ PlotFitQuad::JPlotFitQuadX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotFitQuad::~PlotFitQuad()
 {
 }
-

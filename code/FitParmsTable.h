@@ -24,13 +24,14 @@ public:
 				  const JCoordinate x, const JCoordinate y,
 				  const JCoordinate w, const JCoordinate h);
 
-	virtual ~FitParmsTable();
+	~FitParmsTable() override;
+
 	void	Clear();
 	void	Append(const JString& col1, const JString& col2);
 
 protected:
 
-	virtual void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect);
+	void	TableDrawCell(JPainter& p, const JPoint& cell, const JRect& rect) override;
 
 private:
 

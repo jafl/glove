@@ -1,8 +1,8 @@
 /*********************************************************************************
  PlotModuleFit.cpp
- 
+
 	PlotModuleFit class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ********************************************************************************/
@@ -18,24 +18,24 @@
 #include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************
- Constructor 
- 
+ Constructor
+
 
  ********************************************************************************/
 
 PlotModuleFit::PlotModuleFit
 	(
-	J2DPlotWidget* 		plot, 
-	J2DPlotDataBase* 		fitData,
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*		fitData,
 	const JFloat		xMin,
 	const JFloat		xMax,
-	JPtrArray<JString>*	names, 
-	JArray<JFloat>* 	values,
+	JPtrArray<JString>*	names,
+	JArray<JFloat>*	values,
 	JFunction*			function,
-	VarList* 			list, 
-	const JSize 		parmscount,	
-	const bool 		errors, 
-	const bool 		gof
+	VarList*			list,
+	const JSize		parmscount,
+	const bool		errors,
+	const bool		gof
 	)
 	:
 	PlotFitFunction(plot, fitData, xMin, xMax)
@@ -46,19 +46,19 @@ PlotModuleFit::PlotModuleFit
 
 PlotModuleFit::PlotModuleFit
 	(
-	J2DPlotWidget* 		plot, 
-	J2DPlotDataBase* 		fitData,
-	JPtrArray<JString>*	names, 
-	JArray<JFloat>* 	values,
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*		fitData,
+	JPtrArray<JString>*	names,
+	JArray<JFloat>*	values,
 	JFunction*			function,
-	VarList* 			list,
-	const JFloat 		xmin, 
-	const JFloat 		xmax,
-	const JFloat 		ymin, 
-	const JFloat 		ymax,
-	const JSize 		parmscount,	
-	const bool 		errors, 
-	const bool 		gof
+	VarList*			list,
+	const JFloat		xmin,
+	const JFloat		xmax,
+	const JFloat		ymin,
+	const JFloat		ymax,
+	const JSize		parmscount,
+	const bool		errors,
+	const bool		gof
 	)
 	:
 	PlotFitFunction(plot, fitData, xmin, xmax)
@@ -89,9 +89,9 @@ PlotModuleFit::PlotModuleFit
 
 PlotModuleFit::PlotModuleFit
 	(
-	J2DPlotWidget* 	plot, 
-	J2DPlotDataBase* 	fitData,
-	std::istream& 	is
+	J2DPlotWidget*	plot,
+	J2DPlotDataBase*	fitData,
+	std::istream&	is
 	)
 	:
 	PlotFitFunction(plot, fitData, 0, 10)
@@ -137,21 +137,21 @@ PlotModuleFit::PlotModuleFit
 	const bool ok = p.Parse(fstring, &f);
 	assert( ok );
 
-	JPlotModuleFitX(plot, fitData, names, values, f, list, parmscount, errors, gof);	
+	JPlotModuleFitX(plot, fitData, names, values, f, list, parmscount, errors, gof);
 }
 
 void
 PlotModuleFit::JPlotModuleFitX
 	(
-	J2DPlotWidget* 		plot, 
-	J2DPlotDataBase* 		fitData,
-	JPtrArray<JString>*	names, 
-	JArray<JFloat>* 	values,
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*		fitData,
+	JPtrArray<JString>*	names,
+	JArray<JFloat>*	values,
 	JFunction*			function,
-	VarList* 			list,
-	const JSize 		parmscount,	
-	const bool 		errors, 
-	const bool 		gof
+	VarList*			list,
+	const JSize		parmscount,
+	const bool		errors,
+	const bool		gof
 	)
 {
 	SetHasParameterErrors(errors);
@@ -168,10 +168,10 @@ PlotModuleFit::JPlotModuleFitX
 
 /*********************************************************************************
  Destructor
- 
+
 
  ********************************************************************************/
- 
+
 PlotModuleFit::~PlotModuleFit()
 {
 	itsNames->DeleteAll();
@@ -183,14 +183,14 @@ PlotModuleFit::~PlotModuleFit()
 
 /*********************************************************************************
  GetElement
- 
+
 
  ********************************************************************************/
 
 void
 PlotModuleFit::GetElement
 	(
-	const JIndex index, 
+	const JIndex index,
 	J2DDataPoint* data
 	)
 	const
@@ -206,14 +206,14 @@ PlotModuleFit::GetElement
 
 /*********************************************************************************
  GetYValue
- 
+
 
  ********************************************************************************/
 
 bool
 PlotModuleFit::GetYValue
 	(
-	const JFloat 	x,
+	const JFloat	x,
 	JFloat*			y
 	)
 	const
@@ -225,15 +225,15 @@ PlotModuleFit::GetYValue
 
 /*********************************************************************************
  UpdateFunction
- 
+
 
  ********************************************************************************/
 
 void
 PlotModuleFit::UpdateFunction
 	(
-	const JFloat xmin, 
-	const JFloat xmax, 
+	const JFloat xmin,
+	const JFloat xmax,
 	const JSize steps
 	)
 {
@@ -245,14 +245,14 @@ PlotModuleFit::UpdateFunction
 
 /*********************************************************************************
  GetParameterName
- 
+
 
  ********************************************************************************/
 
 bool
 PlotModuleFit::GetParameterName
 	(
-	const JIndex index, 
+	const JIndex index,
 	JString* name
 	)
 	const
@@ -261,21 +261,21 @@ PlotModuleFit::GetParameterName
 	{
 		return false;
 	}
-	
+
 	*name = itsList->GetVariableName(index + 1);
 	return true;
 }
 
 /*********************************************************************************
  GetParameter
- 
+
 
  ********************************************************************************/
 
 bool
 PlotModuleFit::GetParameter
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -289,14 +289,14 @@ PlotModuleFit::GetParameter
 
 /*********************************************************************************
  GetParameterError
- 
+
 
  ********************************************************************************/
 
 bool
 PlotModuleFit::GetParameterError
 	(
-	const JIndex index, 
+	const JIndex index,
 	JFloat* value
 	)
 	const
@@ -317,7 +317,7 @@ PlotModuleFit::GetParameterError
 
 /*********************************************************************************
  GetGoodnessOfFitName
- 
+
 
  ********************************************************************************/
 
@@ -339,7 +339,7 @@ PlotModuleFit::GetGoodnessOfFitName
 
 /*********************************************************************************
  GetGoodnessOfFit
- 
+
 
  ********************************************************************************/
 
@@ -356,13 +356,13 @@ PlotModuleFit::GetGoodnessOfFit
 	}
 	JIndex arrayIndex = itsValues->GetElementCount();
 	*value = itsValues->GetElement(arrayIndex);
-	
+
 	return true;
 }
 
 /*********************************************************************************
  GetFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -375,7 +375,7 @@ PlotModuleFit::GetFunctionString()
 
 /*********************************************************************************
  GetFitFunctionString
- 
+
 
  ********************************************************************************/
 
@@ -388,7 +388,7 @@ PlotModuleFit::GetFitFunctionString()
 
 /*********************************************************************************
  DataElementValid
- 
+
 
  ********************************************************************************/
 
@@ -401,9 +401,9 @@ PlotModuleFit::DataElementValid
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	data->GetElement(index, &point);
-	
+
 	if (itsUsingRange)
-	{		
+	{
 		if ((point.x >= itsRangeXMin) &&
 			(point.x <= itsRangeXMax) &&
 			(point.y >= itsRangeYMin) &&
@@ -421,7 +421,7 @@ PlotModuleFit::DataElementValid
 
 /******************************************************************************
  GetDataElement
- 
+
 
  *****************************************************************************/
 
@@ -444,7 +444,7 @@ PlotModuleFit::GetDataElement
 
 /*********************************************************************************
  WriteData
- 
+
 
  ********************************************************************************/
 

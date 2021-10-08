@@ -21,7 +21,7 @@
 
 UndoElementsBase::UndoElementsBase
 	(
-	RaggedFloatTable* 	table,
+	RaggedFloatTable*	table,
 	const JPoint&			start,
 	const JPoint&			end,
 	const UndoType			type

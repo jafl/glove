@@ -26,7 +26,7 @@ public:
 						const JIndex startX, const JIndex startY,
 						const JIndex startX2, const JIndex startY2);
 
-	virtual ~CreateVectorPlotDialog();
+	~CreateVectorPlotDialog() override;
 
 	void GetColumns(JIndex* X1, JIndex* Y1,
 					JIndex* X2, JIndex* Y2);

@@ -25,20 +25,20 @@ public:
 
 	ChooseFileImportDialog(DataDocument* supervisor, const JString& filename);
 
-	virtual ~ChooseFileImportDialog();
-	
-	JIndex 			GetFilterIndex();
-	const JString& 	GetFileText();
-	
+	~ChooseFileImportDialog() override;
+
+	JIndex			GetFilterIndex();
+	const JString&	GetFileText();
+
 protected:
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
 	void	ReadPrefs(std::istream& input) override;
 	void	WritePrefs(std::ostream& output) const override;
-	
+
 private:
 
-	JIndex 			itsFilterIndex;
+	JIndex			itsFilterIndex;
 	JXStaticText*	itsFileText;
 	DataDocument*	itsDir;
 

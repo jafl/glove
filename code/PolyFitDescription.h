@@ -21,13 +21,13 @@ public:
 
 	PolyFitDescription(const JString& name, const JArray<JIndex>& powers);
 	PolyFitDescription(std::istream& is);
-	
-	virtual ~PolyFitDescription();
+
+	~PolyFitDescription() override;
 
 	void	GetPowers(JArray<JIndex>* powers) const;
 
-	virtual void	WriteSetup(std::ostream& os); // must call base class first!
-	
+	void	WriteSetup(std::ostream& os) override; // must call base class first!
+
 private:
 
 	JArray<JIndex>*	itsPowers;

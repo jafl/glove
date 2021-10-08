@@ -60,7 +60,7 @@ PolyFitDialog::PolyFitDialog
 
 PolyFitDialog::~PolyFitDialog()
 {
-	// jdelete	itsVarList;	
+	// jdelete	itsVarList;
 	// I need to find a way to safely delete this.
 }
 
@@ -168,8 +168,8 @@ PolyFitDialog::BuildWindow()
 
 // end JXLayout
 
-	itsFn = 
-		jnew JXExprEditor(itsVarList, 
+	itsFn =
+		jnew JXExprEditor(itsVarList,
 			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic,
 			0, 0, 100, 100);
@@ -221,7 +221,7 @@ PolyFitDialog::GetPowers
 void
 PolyFitDialog::Receive
 	(
-	JBroadcaster* 	sender, 
+	JBroadcaster*	sender,
 	const Message&	message
 	)
 {

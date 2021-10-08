@@ -1,12 +1,12 @@
 /*********************************************************************************
  PlotFitQuad2.h
- 
+
 	Interface for the PlotFitQuad2 class.
- 
+
 	Copyright @ 2000 by Glenn W. Bach.
 
  ********************************************************************************/
- 
+
 #ifndef _H_PlotFitQuad2
 #define _H_PlotFitQuad2
 
@@ -24,47 +24,48 @@ public:
 
 	PlotFitQuad2(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xMin, const JFloat xMax);
-	PlotFitQuad2(J2DPlotWidget* plot, J2DPlotDataBase* fitData, 
+	PlotFitQuad2(J2DPlotWidget* plot, J2DPlotDataBase* fitData,
 					const JFloat xmin, const JFloat xmax,
 					const JFloat ymin, const JFloat ymax);
-	virtual ~PlotFitQuad2();	
 
-	virtual bool	GetParameterName(const JIndex index, JString* name) const;
-	virtual bool	GetParameter(const JIndex index, JFloat* value) const;
+	~PlotFitQuad2() override;
 
-	virtual bool	GetParameterError(const JIndex index, JFloat* value) const;
+	bool	GetParameterName(const JIndex index, JString* name) const override;
+	bool	GetParameter(const JIndex index, JFloat* value) const override;
 
-	virtual JString		GetFunctionString() const;
-	virtual JString		GetFitFunctionString() const;
+	bool	GetParameterError(const JIndex index, JFloat* value) const override;
 
-	virtual bool	GetYValue(const JFloat x, JFloat* y) const;
+	JString	GetFunctionString() const override;
+	JString	GetFitFunctionString() const override;
+
+	bool	GetYValue(const JFloat x, JFloat* y) const override;
 
 protected:
 
-	virtual void		SetCurrentParameters(const JVector& p);
-	virtual void		SetErrors(const JVector& p);
-	virtual JFloat		FunctionN(const JFloat x);
-	virtual JFloat		FunctionNPrimed(const JFloat x);
+	void	SetCurrentParameters(const JVector& p) override;
+	void	SetErrors(const JVector& p) override;
+	JFloat	FunctionN(const JFloat x) override;
+	JFloat	FunctionNPrimed(const JFloat x) override;
 
 
 private:
 
-	void				JPlotFitQuad2X(J2DPlotWidget* plot, 
-										J2DPlotDataBase* fitData);
+	void	JPlotFitQuad2X(J2DPlotWidget* plot,
+							J2DPlotDataBase* fitData);
 
-	void				CalculateFirstPass();
+	void	CalculateFirstPass();
 
 private:
 
-	JString		itsFunctionName;
-	JFloat		itsAParameter;
-	JFloat		itsAErrParameter;
-	JFloat		itsBParameter;
-	JFloat		itsBErrParameter;
-	JFloat		itsCParameter;
-	JFloat		itsCErrParameter;
-	JFloat		itsChi2Start;
-	
+	JString	itsFunctionName;
+	JFloat	itsAParameter;
+	JFloat	itsAErrParameter;
+	JFloat	itsBParameter;
+	JFloat	itsBErrParameter;
+	JFloat	itsCParameter;
+	JFloat	itsCErrParameter;
+	JFloat	itsChi2Start;
+
 };
 
 #endif

@@ -2,11 +2,11 @@
  DataModule.cpp
 
 	DataModule class.
- 
+
 	Copyright @ 1997 by Glenn W. Bach.
 
  ******************************************************************************/
- 
+
 #include "DataModule.h"
 #include "RaggedFloatTable.h"
 #include "RaggedFloatTableData.h"
@@ -37,7 +37,7 @@ bool
 DataModule::Create
 	(
 	DataModule** module,
-	RaggedFloatTable* table, 
+	RaggedFloatTable* table,
 	RaggedFloatTableData* data,
 	const JString& sysCmd
 	)
@@ -45,11 +45,11 @@ DataModule::Create
 	int inFD;
 	int outFD;
 	JProcess* process;
-	JError err = 
+	JError err =
 			JProcess::Create(&process, sysCmd,
 							kJCreatePipe, &outFD,
 							kJCreatePipe, &inFD,
-							kJIgnoreConnection, nullptr);	
+							kJIgnoreConnection, nullptr);
 
 	if (err.OK())
 	{
@@ -59,7 +59,7 @@ DataModule::Create
 		*module = jnew DataModule(table, data, process, inFD, op);
 		return true;
 	}
-		
+
 	return false;
 }
 
@@ -70,11 +70,11 @@ DataModule::Create
 
 DataModule::DataModule
 	(
-	RaggedFloatTable* 	table, 
+	RaggedFloatTable*	table,
 	RaggedFloatTableData*	data,
-	JProcess* 				process, 
+	JProcess*				process,
 	const int				fd,
-	JOutPipeStream* 		output
+	JOutPipeStream*		output
 	)
 {
 	itsTable = table;
@@ -168,7 +168,7 @@ DataModule::Receive
 			}
 		}
 	}
-		
+
 	else if (sender == itsData && message.Is(JTableData::kColsInserted))
 	{
 		const JTableData::ColsInserted* info =
@@ -266,7 +266,7 @@ DataModule::HandlePrepareCols
 		itsCols->AppendElement(itsColStart - 1 + i);
 	}
 	UndoElementsInsert* undo =
-		jnew UndoElementsInsert(itsTable, JPoint(itsColStart, 1), 
+		jnew UndoElementsInsert(itsTable, JPoint(itsColStart, 1),
 								 JPoint(itsColStart + itsColNum - 1, itsTable->GetRowCount()),
 								 UndoElementsBase::kCols);
 	assert(undo != nullptr);
@@ -324,7 +324,7 @@ DataModule::HandleDataRead
 			{
 				JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
 				JXDeleteObjectTask<DataModule>::Delete(this);
-				return;		
+				return;
 			}
 		}
 	}
@@ -352,28 +352,28 @@ DataModule::HandleDataRead
 					{
 						JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
 						JXDeleteObjectTask<DataModule>::Delete(this);
-						return;	
+						return;
 					}
 				}
 				else
 				{
 					JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
 					JXDeleteObjectTask<DataModule>::Delete(this);
-					return;	
+					return;
 				}
 			}
 			else
 			{
 				JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
 				JXDeleteObjectTask<DataModule>::Delete(this);
-				return;	
+				return;
 			}
 		}
 		else
 		{
 			JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
 			JXDeleteObjectTask<DataModule>::Delete(this);
-			return;		
+			return;
 		}
 	}
 	const bool keepGoing = itsPG->IncrementProgress();
