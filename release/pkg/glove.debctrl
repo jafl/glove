@@ -1,7 +1,7 @@
 Package: glove
 Version: %VERSION%
-Maintainer: New Planet Software <http://www.newplanetsoftware.com/nps/contact.php>
-Homepage: http://www.newplanetsoftware.com/glove/
+Maintainer: John Lindal <https://about.me/johnlindal>
+Homepage: https://github.com/jafl/glove
 Section: contrib/science
 Priority: optional
 Architecture: i386
