@@ -19,7 +19,7 @@
 #include <jx-af/jx/jXglobals.h>
 
 #include <jx-af/jcore/JChooseSaveFile.h>
-#include <jx_plain_file_small.xpm>
+#include <jx-af/image/jx/jx_plain_file_small.xpm>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kFileMenuStr =

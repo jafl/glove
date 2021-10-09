@@ -47,7 +47,7 @@
 #include <jx-af/jexpr/JFunction.h>
 #include <jx-af/jcore/JUserNotification.h>
 
-#include <jx_plain_file_small.xpm>
+#include <jx-af/image/jx/jx_plain_file_small.xpm>
 
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
