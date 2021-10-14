@@ -1,3 +1,12 @@
+[![Github CI](https://github.com/jafl/glove/actions/workflows/ci.yml/badge.svg)](https://github.com/jafl/glove/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_glove&metric=alert_status)](https://sonarcloud.io/dashboard?id=jafl_glove&branch=main)
+
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_glove&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jafl_glove&branch=main)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_glove&metric=security_rating)](https://sonarcloud.io/dashboard?id=jafl_glove&branch=main)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_glove&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jafl_glove&branch=main)
+
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=main&project=jafl_glove&metric=ncloc)](https://sonarcloud.io/dashboard?id=jafl_glove&branch=main)
+
 # Glove
 
 Glove was designed as a flexible tool to address a number of issues. We needed a generic plotting tool, an interface to data acquisition systems, sophisticated (and correct) statistical analysis, and the ability to easily and intuitively manipulate the data we had.  The [on-line help](http://glove.sourceforge.net/help.html) explains all the features of the program.
