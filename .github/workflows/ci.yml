@@ -82,7 +82,7 @@ jobs:
 
       - name: Build release artifacts
         run: |
-          make VERBOSE=1 release
+          make release
           mv ../glove_*.tar.gz ../glove_*.deb .
 
       - name: Store release artifacts
