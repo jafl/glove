@@ -23,14 +23,14 @@ Glove was designed as a flexible tool to address a number of issues. We needed a
 
 For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
 
-* `brew install --cask xquartz`
-* `brew tap jafl/jx`
-* `brew install jafl/jx/glove`
+    brew install --cask xquartz
+    brew tap jafl/jx
+    brew install jafl/jx/glove
 
 For all other systems, download a package from:
 
 * https://github.com/jafl/glove/releases
-* http://sourceforge.net/p/glove/
+* http://sourceforge.net/p/glove
 
 If you download the tar, unpack it, cd into the directory, and run `sudo ./install`.
 
