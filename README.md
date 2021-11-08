@@ -21,11 +21,20 @@ Glove was designed as a flexible tool to address a number of issues. We needed a
 
 ## Installing a binary
 
-http://sourceforge.net/p/glove/
+For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
 
-The easiest way to install from the binary package is to run `sudo ./install`
+* `brew install --cask xquartz`
+* `brew tap jafl/jx`
+* `brew install jafl/jx/glove`
 
-Otherwise, the program (glove) should be placed in a directory that is on your execution path.  `/usr/bin` or `~/bin` are usually good choices.  Copy the libraries in `lib/` to a directory on your `LD_LIBRARY_PATH`.
+For all other systems, download a package from:
+
+* https://github.com/jafl/glove/releases
+* http://sourceforge.net/p/glove/
+
+If you download the tar, unpack it, cd into the directory, and run `sudo ./install`.
+
+Otherwise, put the program (`glove`) in a directory that is on your execution path.  `~/bin` is typically good choices.
 
 ### Requirements
 
