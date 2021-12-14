@@ -1,5 +1,5 @@
 Summary: Data acquisition, manipulation, and analysis program for X.
-Name: Glove
+Name: %app_name
 Version: %pkg_version
 Release: 1
 License: GPL
@@ -20,24 +20,16 @@ and intuitively manipulate the data we had.
 %install
 
 %define glove_doc_dir   /usr/share/doc/glove
-%define glove_lib_dir   /usr/lib/glove
 %define gnome_app_path  /usr/share/applications
 %define gnome_icon_path /usr/share/pixmaps
 
-./install "$RPM_BUILD_ROOT"
-
-%post
-gunzip %glove_lib_dir/*.gz
-
-%postun
-rm -rf %glove_lib_dir
+./install "$RPM_BUILD_ROOT"/usr
 
 %files
 
 %docdir %glove_doc_dir
 
 /usr/bin/glove
-%glove_lib_dir
 %glove_doc_dir
 
 %gnome_app_path/glove.desktop

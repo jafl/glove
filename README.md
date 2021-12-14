@@ -15,7 +15,7 @@ Glove was designed as a flexible tool to address a number of issues. We needed a
 ## Building from source
 
 1. Install the [JX Application Framework](https://github.com/jafl/jx_application_framework),  and set the `JX_ROOT` environment variable to point to its `include` directory.
-1. `makemake`
+1. `./configure`
 1. `make`
 
 
@@ -30,7 +30,6 @@ For macOS, the easiest way to install is via [Homebrew](https://brew.sh):
 For all other systems, download a package from:
 
 * https://github.com/jafl/glove/releases
-* http://sourceforge.net/p/glove
 
 If you download the tar, unpack it, cd into the directory, and run `sudo ./install`.
 
