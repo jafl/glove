@@ -4,5 +4,5 @@ Makefile
 *.bak
 code/stringData.h
 strings/version
-strings/glove_menu_strings
+strings/menu_strings
 .jcc
