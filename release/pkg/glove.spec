@@ -18,17 +18,17 @@ and intuitively manipulate the data we had.
 
 %install
 
-%define glove_doc_dir   /usr/share/doc/glove
-%define gnome_app_path  /usr/share/applications
-%define gnome_icon_path /usr/share/pixmaps
+%define glove_doc_dir   /usr/local/share/doc/glove
+%define gnome_app_path  /usr/local/share/applications
+%define gnome_icon_path /usr/local/share/pixmaps
 
-./install $RPM_BUILD_ROOT
+./install $RPM_BUILD_ROOT/usr/local
 
 %files
 
 %docdir %glove_doc_dir
 
-/usr/bin/glove
+/usr/local/bin/glove
 %glove_doc_dir
 
 %gnome_app_path/glove.desktop
