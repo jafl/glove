@@ -2,9 +2,10 @@ name: glove
 title: Glove
 base: core20
 version: "2.1.1"
-#source-code: https://github.com/jafl/glove
-#issues: https://github.com/jafl/glove/issues
-#contact: https://johnlindal.wixsite.com/aboutme/contact-me
+license: GPL-3.0-or-later
+source-code: https://github.com/jafl/glove
+issues: https://github.com/jafl/glove/issues
+contact: https://johnlindal.wixsite.com/aboutme/contact-me
 summary: Data acquisition, manipulation, and analysis program for X.
 description: |
   Glove was designed as a flexible tool to address a number of issues. We
