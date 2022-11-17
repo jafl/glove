@@ -1,8 +1,5 @@
 # Edit this file to define constants and custom build targets.
 # Please refer to the makemake documentation for more information.
-#
-# To compile multiple versions of a program or library, please study
-#     http://www.its.caltech.edu/~jafl/jcc/multi_version.html
 
 # Useful directories
 
