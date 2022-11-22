@@ -5,7 +5,7 @@ Release: 1
 License: GPL
 Group: Applications/Scientific
 Source: %pkg_name
-Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre
+Requires: libX11, libXinerama, libXpm, libXft, libxml2, gd, libjpeg, libpng, libicu, pcre, curl
 
 %description 
 Glove was designed as a flexible tool to address a number of issues. We
