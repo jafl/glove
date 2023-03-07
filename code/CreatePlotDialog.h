@@ -10,7 +10,7 @@
 #ifndef _H_CreatePlotDialog
 #define _H_CreatePlotDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextMenu;
 class JXTextCheckbox;
@@ -19,7 +19,7 @@ class DataDocument;
 class JXInputField;
 class JString;
 
-class CreatePlotDialog : public JXDialogDirector
+class CreatePlotDialog : public JXModalDialogDirector
 {
 public:
 

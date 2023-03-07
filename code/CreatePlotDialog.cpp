@@ -1,7 +1,7 @@
 /******************************************************************************
  CreatePlotDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -39,7 +39,7 @@ CreatePlotDialog::CreatePlotDialog
 	const JIndex startYErr
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(supervisor, true)
 {
 	itsTableDir = supervisor;
 	BuildWindow(data, startX, startXErr, startY, startYErr);
@@ -261,7 +261,7 @@ CreatePlotDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

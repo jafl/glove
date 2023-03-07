@@ -41,23 +41,21 @@ main
 	bool displayAbout;
 	JString prevVersStr;
 
-	auto* app =
-		jnew PlotApp(&argc, argv, &displayAbout, &prevVersStr);
+	auto* app = jnew PlotApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
-	if (displayAbout &&
-		!JGetUserNotification()->AcceptLicense())
+	JXApplication::StartFiber([argc, argv]()
 	{
-		return 0;
-	}
-
-	JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);
-
-	GetMDIServer()->HandleCmdLineOptions(argc, argv);
+		GetMDIServer()->HandleCmdLineOptions(argc, argv);
+	});
 
 	if (displayAbout)
 	{
-		app->DisplayAbout(prevVersStr);
+		app->DisplayAbout(true, prevVersStr);
+	}
+	else
+	{
+		JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
 	}
 
 	app->Run();				// never actually returns

@@ -18,7 +18,7 @@ class RaggedFloatTableData;
 class RaggedFloatTable;
 class JXTextMenu;
 class JXPSPrinter;
-class JXDialogDirector;
+class JXModalDialogDirector;
 class ChooseFileImportDialog;
 class PlotDir;
 class JXScrollbarSet;

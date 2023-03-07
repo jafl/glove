@@ -168,7 +168,7 @@ VarTable::TableDrawCell
 
 	const JIndex varIndex = cell.y + kUserParmsOffset;
 	p.String(r, itsVarList->GetVariableName(varIndex),
-				 JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+				 JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

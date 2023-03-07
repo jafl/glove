@@ -595,10 +595,10 @@ FitDirector::Receive
 		}
 		GetWindow()->Refresh();
 	}
-	else if (sender == itsNLFitDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsNLFitDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const JXModalDialogDirector::Deactivated* info =
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
 		{
@@ -612,10 +612,10 @@ FitDirector::Receive
 		}
 		itsNLFitDialog	= nullptr;
 	}
-	else if (sender == itsPolyFitDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsPolyFitDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const JXModalDialogDirector::Deactivated* info =
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert(info != nullptr);
 		if (info->Successful())
 		{

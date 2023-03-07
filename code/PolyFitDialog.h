@@ -10,7 +10,7 @@
 #ifndef _H_PolyFitDialog
 #define _H_PolyFitDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 #include <jx-af/jcore/JArray.h>
 
@@ -21,11 +21,11 @@ class JXInputField;
 class JXTextButton;
 class JXTextCheckbox;
 
-class PolyFitDialog : public JXDialogDirector
+class PolyFitDialog : public JXModalDialogDirector
 {
 public:
 
-	PolyFitDialog(JXDirector* supervisor);
+	PolyFitDialog();
 	~PolyFitDialog() override;
 
 	void			GetPowers(JArray<JIndex>* powers);

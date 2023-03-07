@@ -10,7 +10,7 @@
 #ifndef _H_PlotFunctionDialog
 #define _H_PlotFunctionDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextButton;
 class JXInputField;
@@ -19,7 +19,7 @@ class ExprDirector;
 class JXTextMenu;
 class JString;
 
-class PlotFunctionDialog : public JXDialogDirector
+class PlotFunctionDialog : public JXModalDialogDirector
 {
 public:
 

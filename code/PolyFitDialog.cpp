@@ -1,7 +1,7 @@
 /******************************************************************************
  PolyFitDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2000 by Glenn Bach.
 
@@ -31,12 +31,9 @@ const JCoordinate kDeleteButtonUpdateDelay	= 1000;
 
  ******************************************************************************/
 
-PolyFitDialog::PolyFitDialog
-	(
-	JXDirector* supervisor
-	)
+PolyFitDialog::PolyFitDialog()
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(true)
 {
 	itsVarList	= jnew VarList();
 	assert(itsVarList != nullptr);
@@ -186,9 +183,6 @@ PolyFitDialog::BuildWindow()
 	}
 
 	window->SetTitle(JGetString("WindowTitle::PolyFitDialog"));
-	UseModalPlacement(false);
-	window->PlaceAsDialogWindow();
-	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
 }
 
@@ -277,7 +271,7 @@ PolyFitDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -289,7 +283,7 @@ PolyFitDialog::Receive
 bool
 PolyFitDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}

@@ -329,7 +329,7 @@ RaggedFloatTable::TableDrawCell
 //			{
 //			JRect r = rect;
 //			r.left += kHMarginWidth;
-//			p.String(r, str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
+//			p.String(r, str, JPainter::HAlign::kRight, JPainter::VAlign::kCenter);
 //			}
 		JFloat value;
 		if (itsFloatData->GetElement(cell, &value))
@@ -337,7 +337,7 @@ RaggedFloatTable::TableDrawCell
 			JRect r = rect;
 			r.left += kHMarginWidth;
 			JString str(value, 6);
-			p.String(r, str, JPainter::kHAlignRight, JPainter::kVAlignCenter);
+			p.String(r, str, JPainter::HAlign::kRight, JPainter::VAlign::kCenter);
 		}
 	}
 }
@@ -940,10 +940,10 @@ RaggedFloatTable::Receive
 		HandleModuleMenu(selection->GetIndex());
 	}
 
-	else if (sender == itsCreatePlotDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsCreatePlotDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
 		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -952,10 +952,10 @@ RaggedFloatTable::Receive
 		itsCreatePlotDialog = nullptr;
 	}
 
-	else if (sender == itsCreateVectorPlotDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsCreateVectorPlotDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
 		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -964,10 +964,10 @@ RaggedFloatTable::Receive
 		itsCreateVectorPlotDialog = nullptr;
 	}
 
-	else if (sender == itsTransDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsTransDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
 		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -978,10 +978,10 @@ RaggedFloatTable::Receive
 		itsTransformVarList = nullptr;
 	}
 
-	else if (sender == itsColByIncDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsColByIncDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
 		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -990,10 +990,10 @@ RaggedFloatTable::Receive
 		itsColByIncDialog = nullptr;
 	}
 
-	else if (sender == itsColByRangeDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsColByRangeDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
 		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{

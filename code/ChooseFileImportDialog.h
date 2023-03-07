@@ -10,7 +10,7 @@
 #ifndef _H_ChooseFileImportDialog
 #define _H_ChooseFileImportDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jcore/JPrefObject.h>
 
 class JXTextMenu;
@@ -19,11 +19,11 @@ class JXStaticText;
 class DataDocument;
 class JString;
 
-class ChooseFileImportDialog : public JXDialogDirector, public JPrefObject
+class ChooseFileImportDialog : public JXModalDialogDirector, public JPrefObject
 {
 public:
 
-	ChooseFileImportDialog(DataDocument* supervisor, const JString& filename);
+	ChooseFileImportDialog(const JString& filename);
 
 	~ChooseFileImportDialog() override;
 

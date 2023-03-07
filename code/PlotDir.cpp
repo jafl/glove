@@ -38,7 +38,7 @@
 #include <jx-af/jx/JXDocumentMenu.h>
 #include <jx-af/jx/JXFileDocument.h>
 #include <jx-af/jx/JXApplication.h>
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jx/JXCloseDirectorTask.h>
 #include <jx-af/jx/JXHelpManager.h>
@@ -352,10 +352,10 @@ PlotDir::Receive
 	}
 
 
-	else if (sender == itsFunctionDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsFunctionDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const JXModalDialogDirector::Deactivated* info =
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -372,10 +372,10 @@ PlotDir::Receive
 		itsFunctionDialog = nullptr;
 	}
 
-	else if (sender == itsFitModuleDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsFitModuleDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const JXModalDialogDirector::Deactivated* info =
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{

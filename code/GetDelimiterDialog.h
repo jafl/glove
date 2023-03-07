@@ -10,7 +10,7 @@
 #ifndef _H_GetDelimiterDialog
 #define _H_GetDelimiterDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jcore/JPrefObject.h>
 
 class JXTextMenu;
@@ -22,7 +22,7 @@ class JXInputField;
 class JXIntegerInput;
 class JXTextCheckbox;
 
-class GetDelimiterDialog : public JXDialogDirector, public JPrefObject
+class GetDelimiterDialog : public JXModalDialogDirector, public JPrefObject
 {
 public:
 

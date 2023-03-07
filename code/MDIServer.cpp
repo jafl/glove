@@ -88,7 +88,7 @@ MDIServer::HandleMDIRequest
 	pg.RaiseWhenUpdate();
 	if (argCount > 4)
 	{
-		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpenFilesProgress::MDIServer"), true, false);
+		pg.FixedLengthProcessBeginning(argCount-1, JGetString("OpenFilesProgress::MDIServer"), true, true);
 	}
 
 	for (JIndex i=2; i<=argCount; i++)

@@ -10,13 +10,13 @@
 #ifndef _H_ColByRangeDialog
 #define _H_ColByRangeDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextMenu;
 class JXFloatInput;
 class JXIntegerInput;
 
-class ColByRangeDialog : public JXDialogDirector
+class ColByRangeDialog : public JXModalDialogDirector
 {
 public:
 

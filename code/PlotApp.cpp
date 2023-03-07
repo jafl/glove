@@ -20,6 +20,7 @@
 #include <jx-af/jcore/JPtrArray.h>
 #include <jx-af/jcore/JPoint.h>
 #include <jx-af/jcore/jFileUtil.h>
+#include <jx-af/jcore/jWebUtil.h>
 #include <stdlib.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -618,12 +619,26 @@ PlotApp::GetFitModules()
 void
 PlotApp::DisplayAbout
 	(
-	const JString& prevVersStr
+	const bool		showLicense,
+	const JString&	prevVersStr
 	)
 {
-	auto* dlog = jnew AboutDialog(this, prevVersStr);
-	assert( dlog != nullptr );
-	dlog->BeginDialog();
+	StartFiber([prevVersStr]()
+	{
+		if (!showLicense || JGetUserNotification()->AcceptLicense())
+		{
+			auto* dlog = jnew AboutDialog(prevVersStr);
+			assert( dlog != nullptr );
+			dlog->DoDialog();
+
+			JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
+		}
+		else
+		{
+			ForgetPrefsManager();
+			JXGetApplication()->Quit();
+		}
+	});
 }
 
 /******************************************************************************

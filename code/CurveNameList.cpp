@@ -157,7 +157,7 @@ CurveNameList::TableDrawCell
 							JColorManager::GetGrayColor(60);
 
 	p.SetFontStyle(JFontStyle(false, false, 0, false, color));
-	p.String(r, *curveName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, *curveName, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

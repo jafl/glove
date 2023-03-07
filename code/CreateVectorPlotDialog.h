@@ -10,7 +10,7 @@
 #ifndef _H_CreateVectorPlotDialog
 #define _H_CreateVectorPlotDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextMenu;
 class RaggedFloatTableData;
@@ -18,7 +18,7 @@ class DataDocument;
 class JXInputField;
 class JString;
 
-class CreateVectorPlotDialog : public JXDialogDirector
+class CreateVectorPlotDialog : public JXModalDialogDirector
 {
 public:
 

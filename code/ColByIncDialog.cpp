@@ -1,7 +1,7 @@
 /******************************************************************************
  ColByIncDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -31,7 +31,7 @@ ColByIncDialog::ColByIncDialog
 	const JSize			count
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(supervisor, true)
 {
 	BuildWindow();
 
@@ -165,7 +165,7 @@ ColByIncDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

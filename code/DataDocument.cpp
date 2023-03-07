@@ -32,7 +32,7 @@
 
 #include "jx-af/jx/JXToolBar.h"
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jx/JXDocumentMenu.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXMenuBar.h>
@@ -380,10 +380,10 @@ DataDocument::Receive
 		}
 	}
 
-	else if (sender == itsFileImportDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsFileImportDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
 		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -392,10 +392,10 @@ DataDocument::Receive
 		itsFileImportDialog = nullptr;
 	}
 
-	else if (sender == itsDelimiterDialog && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsDelimiterDialog && message.Is(JXModalDialogDirector::kDeactivated))
 	{
 		const auto* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -637,7 +637,7 @@ DataDocument::LoadImportFile()
 			itsListenToData = false;
 
 			JLatentPG pg(10);
-			pg.VariableLengthProcessBeginning(JGetString("FilterProcess::DataDocument"), true, false);
+			pg.VariableLengthProcessBeginning(JGetString("FilterProcess::DataDocument"), true, true);
 			bool keepGoing = true;
 
 			if (type == kGloveMatrixDataFormat)
@@ -1159,7 +1159,7 @@ DataDocument::LoadDelimitedFile()
 	const JString& commentStr  = itsDelimiterDialog->GetCommentString();
 
 	JLatentPG pg(100);
-	pg.VariableLengthProcessBeginning(JGetString("FilterProcess::DataDocument"), true, false);
+	pg.VariableLengthProcessBeginning(JGetString("FilterProcess::DataDocument"), true, true);
 
 	JIndex row = 0;
 	JString line, strVal;

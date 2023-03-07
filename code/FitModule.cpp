@@ -312,7 +312,7 @@ FitModule::HandleDataRead
 	{
 		itsPG = JGetCreatePG()->New();
 		itsPG->VariableLengthProcessBeginning(
-			JGetString("Loading::DateModule"), true, true);
+			JGetString("Loading::DateModule"), true, false);
 	}
 	std::string s(str.GetRawBytes(), str.GetByteCount());
 	std::istringstream iss(s);
@@ -322,11 +322,10 @@ FitModule::HandleDataRead
 	iss >> value;
 	itsValues->AppendElement(value);
 	itsNames->Append(instr);
-	const bool keepGoing = itsPG->IncrementProgress();
-	if (!keepGoing)
+
+	if (!itsPG->IncrementProgress())
 	{
 		JXDeleteObjectTask<FitModule>::Delete(this);
-		return;
 	}
 }
 
@@ -353,7 +352,7 @@ FitModule::HandleFit()
 	{
 		JGetUserNotification()->ReportError(JGetString("UnknownError::FitModule"));
 		JXDeleteObjectTask<FitModule>::Delete(this);
-		return;;
+		return;
 	}
 	else
 	{
@@ -395,5 +394,4 @@ FitModule::HandleFit()
 		}
 	}
 	JXDeleteObjectTask<FitModule>::Delete(this);
-	return;
 }

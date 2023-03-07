@@ -101,10 +101,10 @@ PrefsMgr::Receive
 	const Message&	message
 	)
 {
-//	if (sender == itsEditPrefsDialog && message.Is(JXDialogDirector::kDeactivated))
+//	if (sender == itsEditPrefsDialog && message.Is(JXModalDialogDirector::kDeactivated))
 //		{
-//		const JXDialogDirector::Deactivated* info =
-//			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+//		const JXModalDialogDirector::Deactivated* info =
+//			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 //		assert( info != nullptr );
 //		if (info->Successful())
 //			{

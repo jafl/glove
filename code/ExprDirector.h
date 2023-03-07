@@ -10,12 +10,12 @@
 #ifndef _H_ExprDirector
 #define _H_ExprDirector
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class VarList;
 class JXExprEditor;
 
-class ExprDirector : public JXDialogDirector
+class ExprDirector : public JXModalDialogDirector
 {
 public:
 

@@ -189,7 +189,7 @@ FitParameterTable::TableDrawCell
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
-	p.String(r, str, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, str, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

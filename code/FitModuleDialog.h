@@ -10,12 +10,12 @@
 #ifndef _H_FitModuleDialog
 #define _H_FitModuleDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextMenu;
 class JXTextButton;
 
-class FitModuleDialog : public JXDialogDirector
+class FitModuleDialog : public JXModalDialogDirector
 {
 public:
 

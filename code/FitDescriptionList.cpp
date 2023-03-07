@@ -185,7 +185,7 @@ FitDescriptionList::TableDrawCell
 
 	JRect r = rect;
 	r.left += kHMarginWidth + kIconWidth;
-	p.String(r, *curveName, JPainter::kHAlignLeft, JPainter::kVAlignCenter);
+	p.String(r, *curveName, JPainter::HAlign::kLeft, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

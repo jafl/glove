@@ -10,14 +10,14 @@
 #ifndef _H_ColByIncDialog
 #define _H_ColByIncDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextMenu;
 class JXFloatInput;
 class JXIntegerInput;
 class JXRadioGroup;
 
-class ColByIncDialog : public JXDialogDirector
+class ColByIncDialog : public JXModalDialogDirector
 {
 public:
 

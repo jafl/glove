@@ -18,6 +18,7 @@ class MDIServer;
 
 FitManager*		GetFitManager();
 PrefsMgr*		GetPrefsMgr();
+void			ForgetPrefsMgr();
 PlotApp*		GetApplication();
 JXPTPrinter*	GetPTPrinter();
 MDIServer*		GetMDIServer();

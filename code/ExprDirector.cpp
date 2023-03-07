@@ -1,7 +1,7 @@
 /******************************************************************************
  ExprDirector.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1997 by Glenn Bach.
 
@@ -30,7 +30,7 @@ ExprDirector::ExprDirector
 	const JString& function
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(supervisor, true)
 {
 	auto* window = jnew JXWindow(this, 300,240, JGetString("WindowTitle::ExprDirector"));
 	assert( window != nullptr );

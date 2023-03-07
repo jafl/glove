@@ -1,7 +1,7 @@
 /******************************************************************************
  CreateVectorPlotDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -37,7 +37,7 @@ CreateVectorPlotDialog::CreateVectorPlotDialog
 	const JIndex startY2
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(supervisor, true)
 {
 	itsTableDir = supervisor;
 	BuildWindow(data, startX, startY, startX2, startY2);
@@ -260,7 +260,7 @@ CreateVectorPlotDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

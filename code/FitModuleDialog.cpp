@@ -1,7 +1,7 @@
 /******************************************************************************
  FitModuleDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -29,7 +29,7 @@ FitModuleDialog::FitModuleDialog
 	JXWindowDirector* supervisor
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(supervisor, true)
 {
 	BuildWindow();
 }
@@ -152,7 +152,7 @@ FitModuleDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

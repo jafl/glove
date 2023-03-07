@@ -1,7 +1,7 @@
 /******************************************************************************
  PlotFunctionDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 1997 by Glenn Bach.
 
@@ -33,7 +33,7 @@ PlotFunctionDialog::PlotFunctionDialog
 	VarList* list
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(supervisor, true)
 {
 	itsEditor = nullptr;
 	BuildWindow();
@@ -140,10 +140,10 @@ PlotFunctionDialog::Receive
 	{
 		itsFunctionString->GetText()->SetText(JString::empty);
 	}
-	else if (sender == itsEditor && message.Is(JXDialogDirector::kDeactivated))
+	else if (sender == itsEditor && message.Is(JXModalDialogDirector::kDeactivated))
 	{
-		const JXDialogDirector::Deactivated* info =
-			dynamic_cast<const JXDialogDirector::Deactivated*>(&message);
+		const JXModalDialogDirector::Deactivated* info =
+			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
 		assert( info != nullptr );
 		if (info->Successful())
 		{
@@ -162,7 +162,7 @@ PlotFunctionDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

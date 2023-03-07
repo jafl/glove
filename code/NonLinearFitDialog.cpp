@@ -1,7 +1,7 @@
 /******************************************************************************
  NonLinearFitDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright (C) 2000 by Glenn Bach.
 
@@ -37,12 +37,9 @@ const JCoordinate kDeleteButtonUpdateDelay	= 1000;
 
  ******************************************************************************/
 
-NonLinearFitDialog::NonLinearFitDialog
-	(
-	JXDirector* supervisor
-	)
+NonLinearFitDialog::NonLinearFitDialog()
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(true)
 {
 	itsVarList	= jnew VarList();
 	assert(itsVarList != nullptr);
@@ -252,12 +249,8 @@ NonLinearFitDialog::BuildWindow()
 	itsDeleteButton->Deactivate();
 
 	window->SetTitle(JGetString("WindowTitle::NonLinearFitDialog"));
-	UseModalPlacement(false);
-	window->PlaceAsDialogWindow();
-	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
 }
-
 
 /******************************************************************************
  GetFunctionString
@@ -325,7 +318,7 @@ NonLinearFitDialog::Receive
 	}
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 
@@ -337,7 +330,7 @@ NonLinearFitDialog::Receive
 bool
 NonLinearFitDialog::OKToDeactivate()
 {
-	if (!JXDialogDirector::OKToDeactivate())
+	if (!JXModalDialogDirector::OKToDeactivate())
 	{
 		return false;
 	}

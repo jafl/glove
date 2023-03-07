@@ -1,7 +1,7 @@
 /******************************************************************************
  ChooseFileImportDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -35,11 +35,10 @@ const JIndex kFileModulePrefsVersionID	= 1;
 
 ChooseFileImportDialog::ChooseFileImportDialog
 	(
-	DataDocument*	supervisor,
-	const JString&	filename
+	const JString& filename
 	)
 	:
-	JXDialogDirector(supervisor, true),
+	JXModalDialogDirector(),
 	JPrefObject(GetPrefsMgr(), kFileModulePrefsID),
 	itsDir(supervisor)
 {
@@ -109,8 +108,6 @@ ChooseFileImportDialog::BuildWindow
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::ChooseFileImportDialog"));
-	window->PlaceAsDialogWindow();
-	UseModalPlacement(true);
 	SetButtons(okButton, cancelButton);
 
 	const JSize dirModCount = itsDir->GetInternalModuleCount();
@@ -190,7 +187,7 @@ ChooseFileImportDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

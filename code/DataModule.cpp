@@ -288,7 +288,7 @@ DataModule::HandleDataRead
 	{
 		itsPG = JGetCreatePG()->New();
 		itsPG->VariableLengthProcessBeginning(
-			JGetString("Loading::DateModule"), true, true);
+			JGetString("Loading::DateModule"), true, false);
 	}
 	std::string s(str.GetRawBytes(), str.GetByteCount());
 	std::istringstream iss(s);
@@ -306,7 +306,8 @@ DataModule::HandleDataRead
 		return;
 	}
 
-	iss >> std::ws;
+	bool success = true;
+
 	JFloat value;
 	if (itsDataIsDump)
 	{
@@ -315,67 +316,42 @@ DataModule::HandleDataRead
 			if (iss.good())
 			{
 				iss >> value;
-				iss >> std::ws;
 				const JIndex cindex = itsCols->GetElement(i+1);
 				assert(itsData->ColIndexValid(cindex));
 				itsData->AppendElement(cindex, value);
 			}
 			else
 			{
-				JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
-				JXDeleteObjectTask<DataModule>::Delete(this);
-				return;
+				success = false;
+				break;
 			}
 		}
 	}
 	else
 	{
+		success = false;
+
 		JSize row, col;
 		if (iss.good())
 		{
-			iss >> row;
-			iss >> std::ws;
-			if (iss.good())
+			iss >> row >> col >> value;
+			if (col <= itsColNum)
 			{
-				iss >> col;
-				iss >> std::ws;
-				if (iss.good())
-				{
-					iss >> value;
-					if (col <= itsColNum)
-					{
-						JIndex cindex = itsCols->GetElement(col);
-						assert(itsData->CellValid(row,cindex));
-						itsData->SetElement(row, cindex, value);
-					}
-					else
-					{
-						JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
-						JXDeleteObjectTask<DataModule>::Delete(this);
-						return;
-					}
-				}
-				else
-				{
-					JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
-					JXDeleteObjectTask<DataModule>::Delete(this);
-					return;
-				}
+				JIndex cindex = itsCols->GetElement(col);
+				assert(itsData->CellValid(row,cindex));
+				itsData->SetElement(row, cindex, value);
+				success = true;
 			}
-			else
-			{
-				JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
-				JXDeleteObjectTask<DataModule>::Delete(this);
-				return;
-			}
-		}
-		else
-		{
-			JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
-			JXDeleteObjectTask<DataModule>::Delete(this);
-			return;
 		}
 	}
+
+	if (!success)
+	{
+		JGetUserNotification()->ReportError(JGetString("Error::DataModule"));
+		JXDeleteObjectTask<DataModule>::Delete(this);
+		return;
+	}
+
 	const bool keepGoing = itsPG->IncrementProgress();
 	if (!keepGoing)
 	{

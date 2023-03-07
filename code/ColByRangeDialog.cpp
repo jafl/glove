@@ -1,7 +1,7 @@
 /******************************************************************************
  ColByRangeDialog.cpp
 
-	BASE CLASS = JXDialogDirector
+	BASE CLASS = JXModalDialogDirector
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -31,7 +31,7 @@ ColByRangeDialog::ColByRangeDialog
 	const JSize count
 	)
 	:
-	JXDialogDirector(supervisor, true)
+	JXModalDialogDirector(supervisor, true)
 {
 	itsDestCol = count;
 
@@ -166,7 +166,7 @@ ColByRangeDialog::Receive
 
 	else
 	{
-		JXDialogDirector::Receive(sender, message);
+		JXModalDialogDirector::Receive(sender, message);
 	}
 }
 

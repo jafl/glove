@@ -10,7 +10,7 @@
 #ifndef _H_NonLinearFitDialog
 #define _H_NonLinearFitDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 #include <jx-af/jcore/JString.h>
 
@@ -23,11 +23,11 @@ class JXTextButton;
 class JXTimerTask;
 class JXVertPartition;
 
-class NonLinearFitDialog : public JXDialogDirector
+class NonLinearFitDialog : public JXModalDialogDirector
 {
 public:
 
-	NonLinearFitDialog(JXDirector* supervisor);
+	NonLinearFitDialog();
 	~NonLinearFitDialog() override;
 
 	JString			GetFunctionString() const;

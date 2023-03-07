@@ -78,7 +78,7 @@ RowHeaderWidget::TableDrawCell
 		JFontStyle(true, false, 0, false, JColorManager::GetBlackColor()));
 	p.SetFont(font);
 	JString str(cell.y, 0);
-	p.String(rect, str, JPainter::kHAlignCenter, JPainter::kVAlignCenter);
+	p.String(rect, str, JPainter::HAlign::kCenter, JPainter::VAlign::kCenter);
 }
 
 /******************************************************************************

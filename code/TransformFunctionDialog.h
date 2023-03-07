@@ -10,7 +10,7 @@
 #ifndef _H_TransformFunctionDialog
 #define _H_TransformFunctionDialog
 
-#include <jx-af/jx/JXDialogDirector.h>
+#include <jx-af/jx/JXModalDialogDirector.h>
 
 class JXTextButton;
 class JXInputField;
@@ -20,7 +20,7 @@ class JXTextMenu;
 class JXStaticText;
 class JString;
 
-class TransformFunctionDialog : public JXDialogDirector
+class TransformFunctionDialog : public JXModalDialogDirector
 {
 public:
 
