@@ -1166,7 +1166,7 @@ DataDocument::LoadDelimitedFile()
 	while (is.good())
 	{
 		line = JReadLine(is);
-		if (line.IsEmpty() || (hasComments && line.BeginsWith(commentStr)))
+		if (line.IsEmpty() || (hasComments && line.StartsWith(commentStr)))
 		{
 			continue;
 		}
