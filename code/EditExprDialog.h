@@ -1,7 +1,7 @@
 /******************************************************************************
- ExprDirector.h
+ EditExprDialog.h
 
-	Interface for the ExprDirector class
+	Interface for the EditExprDialog class
 
 	Copyright (C) 1997 by Glenn Bach.
 
@@ -15,18 +15,28 @@
 class VarList;
 class JXExprEditor;
 
-class ExprDirector : public JXModalDialogDirector
+class EditExprDialog : public JXModalDialogDirector
 {
 public:
 
-	ExprDirector(JXDirector* supervisor, const VarList* list, const JString& function);
-	~ExprDirector() override;
+	EditExprDialog(const VarList* list, const JString& function);
+
+	~EditExprDialog() override;
 
 	JString GetString();
 
 private:
 
+// begin JXLayout
+
+
+// end JXLayout
+
 	JXExprEditor*	itsEditor;
+
+private:
+
+	void	BuildWindow(const VarList* list, const JString& function);
 };
 
 #endif

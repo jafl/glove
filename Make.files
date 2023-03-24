@@ -16,7 +16,7 @@
 .cpp ./code/RaggedFloatTable
 .cpp ./code/RowHeaderWidget
 .cpp ./code/DataDocument
-.cpp ./code/ExprDirector
+.cpp ./code/EditExprDialog
 .cpp ./code/FitModuleDialog
 .cpp ./code/FitParmsDir
 .cpp ./code/AboutDialog
@@ -24,6 +24,7 @@
 .cpp ./code/ChooseFileImportDialog
 .cpp ./code/ColByIncDialog
 .cpp ./code/ColByRangeDialog
+.cpp ./code/CreatePlotDialogBase
 .cpp ./code/CreatePlotDialog
 .cpp ./code/CreateVectorPlotDialog
 .cpp ./code/GetDelimiterDialog

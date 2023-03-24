@@ -23,7 +23,7 @@ class ChooseFileImportDialog : public JXModalDialogDirector, public JPrefObject
 {
 public:
 
-	ChooseFileImportDialog(const JString& filename);
+	ChooseFileImportDialog(DataDocument* supervisor, const JString& filename);
 
 	~ChooseFileImportDialog() override;
 

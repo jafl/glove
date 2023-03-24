@@ -170,8 +170,8 @@ Plotter::UpdateModuleMenu()
 		itsModuleMenu->RemoveItem(2);
 	}
 
-	(GetApplication())->ReloadCursorModules();
-	JPtrArray<JString>* names = (GetApplication())->GetCursorModules();
+	GetApplication()->ReloadCursorModules();
+	JPtrArray<JString>* names = GetApplication()->GetCursorModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
 	{
 		itsModuleMenu->AppendItem(*(names->GetElement(i)));
@@ -198,7 +198,7 @@ Plotter::HandleModuleMenu
 	else
 	{
 		JString modName;
-		(GetApplication())->GetCursorModulePath(index - 1, &modName);
+		GetApplication()->GetCursorModulePath(index - 1, &modName);
 		int inFD;
 		int outFD;
 		JError err =

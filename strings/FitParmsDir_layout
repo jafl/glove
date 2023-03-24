@@ -1,0 +1,5 @@
+0
+itsSessionButton::FitParmsDir::JXLayout "Session"
+itsCloseButton::FitParmsDir::JXLayout "Close"
+itsCloseButton::FitParmsDir::shortcuts::JXLayout "#W"
+itsFitMenu::FitParmsDir::JXLayout "Fit"

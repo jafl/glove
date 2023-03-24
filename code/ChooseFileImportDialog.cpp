@@ -35,6 +35,7 @@ const JIndex kFileModulePrefsVersionID	= 1;
 
 ChooseFileImportDialog::ChooseFileImportDialog
 	(
+	DataDocument* supervisor,
 	const JString& filename
 	)
 	:
@@ -75,29 +76,29 @@ ChooseFileImportDialog::BuildWindow
 
 	auto* errorMessage =
 		jnew JXStaticText(JGetString("errorMessage::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 250,40);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 250,40);
 	assert( errorMessage != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 210,200, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 210,200, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::ChooseFileImportDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 50,200, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,200, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::ChooseFileImportDialog::shortcuts::JXLayout"));
 
 	itsReloadButton =
 		jnew JXTextButton(JGetString("itsReloadButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 130,200, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,200, 70,20);
 	assert( itsReloadButton != nullptr );
 
 	itsFilterMenu =
 		jnew JXTextMenu(JGetString("itsFilterMenu::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 50,160, 70,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,160, 70,30);
 	assert( itsFilterMenu != nullptr );
 
 	auto* textScrollbarSet =
@@ -116,13 +117,9 @@ ChooseFileImportDialog::BuildWindow
 		itsFilterMenu->AppendItem(itsDir->GetInternalModuleName(i));
 	}
 
-	JPtrArray<JString>* names = (GetApplication())->GetImportModules();
-
-	const JSize strCount = names->GetElementCount();
-
-	for (JIndex i=1; i<=strCount; i++)
+	for (const auto* name : *GetApplication()->GetImportModules())
 	{
-		itsFilterMenu->AppendItem(*(names->GetElement(i)));
+		itsFilterMenu->AppendItem(*name);
 	}
 
 	itsFilterIndex = 1;
@@ -166,7 +163,7 @@ ChooseFileImportDialog::Receive
 
 	else if (sender == itsReloadButton && message.Is(JXButton::kPushed))
 	{
-		(GetApplication())->ReloadImportModules();
+		GetApplication()->ReloadImportModules();
 		itsFilterMenu->RemoveAllItems();
 
 		const JSize dirModCount = itsDir->GetInternalModuleCount();
@@ -175,7 +172,7 @@ ChooseFileImportDialog::Receive
 			itsFilterMenu->AppendItem(itsDir->GetInternalModuleName(i));
 		}
 
-		JPtrArray<JString>* names = (GetApplication())->GetImportModules();
+		JPtrArray<JString>* names = GetApplication()->GetImportModules();
 		const JSize strCount = names->GetElementCount();
 		for (JSize i = 1; i <= strCount; i++)
 		{

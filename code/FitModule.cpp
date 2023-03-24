@@ -9,7 +9,7 @@
 
 #include "FitModule.h"
 #include "PlotDir.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include <jx-af/j2dplot/J2DPlotDataBase.h>
 #include "gloveModule.h"
 #include "PlotModuleFit.h"
 #include "Plotter.h"

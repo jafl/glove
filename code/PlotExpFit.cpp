@@ -8,9 +8,9 @@
  ********************************************************************************/
 
 #include "PlotExpFit.h"
-#include "jx-af/j2dplot/J2DPlotWidget.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
-#include "jx-af/j2dplot/J2DPlotData.h"
+#include <jx-af/j2dplot/J2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotDataBase.h>
+#include <jx-af/j2dplot/J2DPlotData.h>
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/jMath.h>

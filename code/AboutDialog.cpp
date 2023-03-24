@@ -12,17 +12,15 @@
 #include "glove_icon.xpm"
 #include "nps.xpm"
 
-#include <jx-af/jx/JXApplication.h>
 #include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXImageWidget.h>
 #include <jx-af/jx/JXImage.h>
-#include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXHelpManager.h>
 
-#include <jx-af/jx/jXglobals.h>
-
+#include <jx-af/jx/jXGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -34,11 +32,10 @@
 
 AboutDialog::AboutDialog
 	(
-	JXDirector*		supervisor,
-	const JString&	prevVersStr
+	const JString& prevVersStr
 	)
 	:
-	JXModalDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	itsIsUpgradeFlag = false;
 
@@ -158,17 +155,17 @@ AboutDialog::Receive
 	{
 		if (itsIsUpgradeFlag)
 		{
-			(JXGetHelpManager())->ShowChangeLog();
+			JXGetHelpManager()->ShowChangeLog();
 		}
 		else
 		{
-			(JXGetHelpManager())->ShowTOC();
+			JXGetHelpManager()->ShowTOC();
 		}
 		EndDialog(false);
 	}
 	else if (sender == itsCreditsButton && message.Is(JXButton::kPushed))
 	{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 		EndDialog(true);
 	}
 

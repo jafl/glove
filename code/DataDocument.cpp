@@ -15,9 +15,6 @@
 #include "ChooseFileImportDialog.h"
 #include "GetDelimiterDialog.h"
 #include "PlotDir.h"
-#include "jx-af/j2dplot/JX2DPlotWidget.h"
-#include "jx-af/j2dplot/J2DPlotData.h"
-#include "jx-af/j2dplot/J2DVectorData.h"
 #include "RowHeaderWidget.h"
 #include "ColHeaderWidget.h"
 #include "RaggedFloatTableData.h"
@@ -30,7 +27,11 @@
 #include "fileprint.xpm"
 #include "manual.xpm"
 
-#include "jx-af/jx/JXToolBar.h"
+#include <jx-af/j2dplot/JX2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotData.h>
+#include <jx-af/j2dplot/J2DVectorData.h>
+
+#include <jx-af/jx/JXToolBar.h>
 
 #include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jx/JXDocumentMenu.h>
@@ -42,10 +43,10 @@
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXChooseFileDialog.h>
+#include <jx-af/jx/JXSaveFileDialog.h>
 #include <jx-af/jx/jXActionDefs.h>
 
-#include <jx-af/jcore/JUserNotification.h>
-#include <jx-af/jcore/JChooseSaveFile.h>
 #include <jx-af/jcore/JLatentPG.h>
 #include <jx-af/jcore/JOutPipeStream.h>
 #include <jx-af/jcore/JStringIterator.h>
@@ -156,15 +157,12 @@ DataDocument::DataDocument
 	itsPlotWindows = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
 	assert( itsPlotWindows != nullptr );
 
-	itsPrinter          = nullptr;
-	itsFileImportDialog = nullptr;
-	itsDelimiterDialog  = nullptr;
+	itsPrinter = nullptr;
 
 	BuildWindow();
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != nullptr );
-	ListenTo(itsPrinter);
 
 	itsPlotNumber = 1;
 	UpdateExportMenu();
@@ -197,25 +195,22 @@ DataDocument::~DataDocument()
 void
 DataDocument::BuildWindow()
 {
-	JSize w = 453;
-	JSize h = 360;
+// begin JXLayout
 
-	auto* window = jnew JXWindow(this, w,h, JString::empty);
+	auto* window = jnew JXWindow(this, 480,370, JString::empty);
 	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop,
-					0,0, w, kJXDefaultMenuBarHeight);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 480,30);
 	assert( menuBar != nullptr );
 
 	auto* toolBar =
-		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
-					window,
-					JXWidget::kHElastic, JXWidget::kVElastic,
-					0,kJXDefaultMenuBarHeight,
-					w,h - kJXDefaultMenuBarHeight);
+		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 480,340);
 	assert( toolBar != nullptr );
+
+// end JXLayout
 
 	window->SetMinSize(150, 150);
 
@@ -239,15 +234,11 @@ DataDocument::BuildWindow()
 	assert(image != nullptr);
 	itsFileMenu->SetItemImage(kPrintCmd, image, true);
 
-	const JCoordinate scrollheight =
-		toolBar->GetWidgetEnclosure()->GetBoundsHeight();
-
 	itsScrollbarSet =
 		jnew JXScrollbarSet(toolBar->GetWidgetEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic,
-					0,0,
-					w, scrollheight);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
 	assert( itsScrollbarSet != nullptr );
+	itsScrollbarSet->FitToEnclosure();
 
 	AdjustWindowTitle();
 
@@ -368,42 +359,6 @@ DataDocument::Receive
 		HandleHelpMenu(selection->GetIndex());
 	}
 
-	else if (sender == itsPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const auto* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert(info != nullptr);
-		if (info->Successful())
-		{
-			itsTable->PrintRealTable(*itsPrinter);
-		}
-	}
-
-	else if (sender == itsFileImportDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			LoadImportFile();
-		}
-		itsFileImportDialog = nullptr;
-	}
-
-	else if (sender == itsDelimiterDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			LoadDelimitedFile();
-		}
-		itsDelimiterDialog = nullptr;
-	}
-
 	else if (sender == itsData && itsListenToData)
 	{
 		DataModified();
@@ -460,14 +415,14 @@ DataDocument::HandleFileMenu
 {
 	if (index == kNewCmd)
 	{
-		(GetApplication())->NewFile();
+		GetApplication()->NewFile();
 	}
 	else if (index == kOpenCmd)
 	{
-		JString filename;
-		if (JGetChooseSaveFile()->ChooseFile(JGetString("OpenFilePrompt::DataDocument"), JString::empty, &filename))
+		auto* dlog = JXChooseFileDialog::Create();
+		if (dlog->DoDialog())
 		{
-			(GetApplication())->OpenFile(filename);
+			GetApplication()->OpenFile(dlog->GetFullName());
 		}
 	}
 	else if (index == kSaveCmd)
@@ -480,11 +435,14 @@ DataDocument::HandleFileMenu
 	}
 	else if (index == kPageSetupCmd)
 	{
-		itsPrinter->BeginUserPageSetup();
+		itsPrinter->EditUserPageSetup();
 	}
 	else if (index == kPrintCmd && itsTable->EndEditing())
 	{
-		itsPrinter->BeginUserPrintSetup();
+		if (itsPrinter->ConfirmUserPrintSetup())
+		{
+			itsTable->PrintRealTable(*itsPrinter);
+		}
 	}
 	else if (index == kCloseCmd)
 	{
@@ -493,7 +451,7 @@ DataDocument::HandleFileMenu
 
 	else if (index == kQuitCmd)
 	{
-		(GetApplication())->Quit();
+		GetApplication()->Quit();
 	}
 }
 
@@ -577,133 +535,129 @@ DataDocument::LoadNativeFile
 void
 DataDocument::ChooseFileFilter()
 {
-	assert (itsFileImportDialog == nullptr);
-	itsFileImportDialog = jnew ChooseFileImportDialog(this, itsCurrentFileName);
-	assert (itsFileImportDialog != nullptr);
-	ListenTo(itsFileImportDialog);
-	itsFileImportDialog->BeginDialog();
-}
-
-/******************************************************************************
- LoadImportFile (private)
-
- ******************************************************************************/
-
-void
-DataDocument::LoadImportFile()
-{
-	JIndex filterIndex = itsFileImportDialog->GetFilterIndex();
-	if (filterIndex <= kInternalModuleCount)
+	auto* dlog = jnew ChooseFileImportDialog(this, itsCurrentFileName);
+	assert (dlog != nullptr);
+	if (!dlog->DoDialog())
 	{
-		LoadInternalFile(filterIndex);
+		return;
 	}
-	else
+
+	const JIndex filterIndex = dlog->GetFilterIndex();
+	if (filterIndex == kDelimitedText)
 	{
-		JString filter;
-		if (!((GetApplication())->GetImportModulePath(filterIndex - kInternalModuleCount, &filter)))
+		LoadDelimitedFile(dlog->GetFileText());
+		return;
+	}
+	else if (filterIndex == kFixedWidthText)
+	{
+		JGetUserNotification()->ReportError(JGetString("LoadFixedWidthFile::DataDocument"));
+		return;
+	}
+
+	JString filter;
+	if (!GetApplication()->GetImportModulePath(filterIndex - kInternalModuleCount, &filter))
+	{
+		return;
+	}
+
+	const JUtf8Byte* argv[] = { filter.GetBytes(), itsCurrentFileName.GetBytes(), nullptr };
+
+	int inFD;
+	pid_t pid;
+	JError err = JExecute(argv, sizeof(argv), &pid,
+						  kJIgnoreConnection, nullptr,
+						  kJCreatePipe, &inFD,
+						  kJIgnoreConnection, nullptr);
+
+	if (!err.OK())
+	{
+		JGetUserNotification()->ReportError(JGetString("FilterError::DataDocument"));
+		return;
+	}
+
+	std::ifstream ip;
+	JString tempName;
+	if (JConvertToStream(inFD, &ip, &tempName))
+	{
+		int type;
+		ip >> type;
+
+		if (type == kGloveDataError)
 		{
+			JGetUserNotification()->ReportError(JGetString("FilterFileError::DataDocument"));
 			return;
 		}
 
-		const JUtf8Byte* argv[] = { filter.GetBytes(), itsCurrentFileName.GetBytes(), nullptr };
+		itsData->ShouldBroadcast(false);
+		itsListenToData = false;
 
-		int inFD;
-		pid_t pid;
-		JError err = JExecute(argv, sizeof(argv), &pid,
-							  kJIgnoreConnection, nullptr,
-							  kJCreatePipe, &inFD,
-							  kJIgnoreConnection, nullptr);
+		JLatentPG pg(10);
+		pg.VariableLengthProcessBeginning(JGetString("FilterProcess::DataDocument"), true, true);
+		bool keepGoing = true;
 
-		if (!err.OK())
+		if (type == kGloveMatrixDataFormat)
 		{
-			JGetUserNotification()->ReportError(JGetString("FilterError::DataDocument"));
-			return;
+			JSize colCount;
+			ip >> colCount;
+
+			for (JIndex i = 1; i <= colCount; i++)
+			{
+				itsData->AppendCol();
+			}
+
+			while (keepGoing)
+			{
+				for (JIndex i = 1; i <= colCount && keepGoing; i++)
+				{
+					JFloat value;
+					ip >> value;
+					if (ip.fail() || (ip.eof() && i < colCount))
+					{
+						keepGoing = false;
+						break;
+					}
+					itsData->AppendElement(i, value);
+					keepGoing = pg.IncrementProgress();
+				}
+			}
 		}
 
-		std::ifstream ip;
-		JString tempName;
-		if (JConvertToStream(inFD, &ip, &tempName))
+		else if (type == kGloveRaggedDataFormat)
 		{
-			int type;
-			ip >> type;
+			JSize colCount;
+			ip >> colCount;
 
-			if (type == kGloveDataError)
+			for (JIndex colIndex=1; colIndex <= colCount && keepGoing; colIndex++)
 			{
-				JGetUserNotification()->ReportError(JGetString("FilterFileError::DataDocument"));
-				return;
-			}
+				itsData->AppendCol();
 
-			itsData->ShouldBroadcast(false);
-			itsListenToData = false;
+				JSize rowCount;
+				ip >> rowCount;
 
-			JLatentPG pg(10);
-			pg.VariableLengthProcessBeginning(JGetString("FilterProcess::DataDocument"), true, true);
-			bool keepGoing = true;
-
-			if (type == kGloveMatrixDataFormat)
-			{
-				JSize colCount;
-				ip >> colCount;
-
-				for (JIndex i = 1; i <= colCount; i++)
+				for (JIndex rowIndex=1; rowIndex <= rowCount && keepGoing; rowIndex++)
 				{
-					itsData->AppendCol();
-				}
-
-				while (keepGoing)
-				{
-					for (JIndex i = 1; i <= colCount && keepGoing; i++)
+					JFloat value;
+					ip >> value;
+					if (ip.fail() || (ip.eof() && rowIndex < rowCount))
 					{
-						JFloat value;
-						ip >> value;
-						if (ip.fail() || (ip.eof() && i < colCount))
-						{
-							keepGoing = false;
-							break;
-						}
-						itsData->AppendElement(i, value);
-						keepGoing = pg.IncrementProgress();
+						keepGoing = false;
+						break;
 					}
+					itsData->AppendElement(colIndex, value);
+
+					keepGoing = pg.IncrementProgress();
 				}
 			}
-
-			else if (type == kGloveRaggedDataFormat)
-			{
-				JSize colCount;
-				ip >> colCount;
-
-				for (JIndex colIndex=1; colIndex <= colCount && keepGoing; colIndex++)
-				{
-					itsData->AppendCol();
-
-					JSize rowCount;
-					ip >> rowCount;
-
-					for (JIndex rowIndex=1; rowIndex <= rowCount && keepGoing; rowIndex++)
-					{
-						JFloat value;
-						ip >> value;
-						if (ip.fail() || (ip.eof() && rowIndex < rowCount))
-						{
-							keepGoing = false;
-							break;
-						}
-						itsData->AppendElement(colIndex, value);
-
-						keepGoing = pg.IncrementProgress();
-					}
-				}
-			}
-
-			ip.close();
-			JRemoveFile(tempName);
-
-			pg.ProcessFinished();
 		}
 
-		itsListenToData = true;
-		itsData->ShouldBroadcast(true);
+		ip.close();
+		JRemoveFile(tempName);
+
+		pg.ProcessFinished();
 	}
+
+	itsListenToData = true;
+	itsData->ShouldBroadcast(true);
 }
 
 /******************************************************************************
@@ -938,55 +892,57 @@ DataDocument::HandleExportMenu
 	if (index == kReloadModuleCmd)
 	{
 		UpdateExportMenu();
+		return;
 	}
-	else
+
+	JString modName;
+	GetApplication()->GetExportModulePath(index - 1, &modName);
+
+	auto* dlog = JXSaveFileDialog::Create(
+			JGetString("ExportPrompt::DataDocument"),
+			JGetString("ExportFileName::DataDocument"));
+	if (!dlog->DoDialog())
 	{
-		JString modName;
-		(GetApplication())->GetExportModulePath(index - 1, &modName);
-		JString filename;
-		if (JGetChooseSaveFile()->SaveFile(
-				JGetString("ExportFileName::DataDocument"),
-				JGetString("ExportPrompt::DataDocument"),
-				JString::empty, &filename))
+		return;
+	}
+
+	const JString fileName = dlog->GetFullName();
+	const JUtf8Byte* argv[] = { modName.GetBytes(), fileName.GetBytes(), nullptr };
+
+	int inFD, outFD;
+	pid_t pid;
+	JError err = JExecute(argv, sizeof(argv), &pid,
+						  kJCreatePipe, &outFD,
+						  kJCreatePipe, &inFD,
+						  kJIgnoreConnection, nullptr);
+
+	if (!err.OK())
+	{
+		JGetUserNotification()->ReportError(JGetString("ModuleError::DataDocument"));
+		return;
+	}
+
+	std::ifstream ip;
+	JString tempName;
+	if (JConvertToStream(inFD, &ip, &tempName))
+	{
+		JOutPipeStream op(outFD, true);
+		assert( op.good() );
+
+		int type;
+		ip >> type;
+
+		if (type == kGloveMatrixDataFormat)
 		{
-			const JUtf8Byte* argv[] = { modName.GetBytes(), filename.GetBytes(), nullptr };
-
-			int inFD, outFD;
-			pid_t pid;
-			JError err = JExecute(argv, sizeof(argv), &pid,
-								  kJCreatePipe, &outFD,
-								  kJCreatePipe, &inFD,
-								  kJIgnoreConnection, nullptr);
-
-			if (!err.OK())
-			{
-				JGetUserNotification()->ReportError(JGetString("ModuleError::DataDocument"));
-				return;
-			}
-
-			std::ifstream ip;
-			JString tempName;
-			if (JConvertToStream(inFD, &ip, &tempName))
-			{
-				JOutPipeStream op(outFD, true);
-				assert( op.good() );
-
-				int type;
-				ip >> type;
-
-				if (type == kGloveMatrixDataFormat)
-				{
-					itsTable->ExportDataMatrix(op);
-				}
-				else
-				{
-					itsTable->ExportData(op);
-				}
-
-				ip.close();
-				JRemoveFile(tempName);
-			}
+			itsTable->ExportDataMatrix(op);
 		}
+		else
+		{
+			itsTable->ExportData(op);
+		}
+
+		ip.close();
+		JRemoveFile(tempName);
 	}
 }
 
@@ -1005,8 +961,8 @@ DataDocument::UpdateExportMenu()
 		itsExportMenu->RemoveItem(2);
 	}
 
-	(GetApplication())->ReloadExportModules();
-	JPtrArray<JString>* names = (GetApplication())->GetExportModules();
+	GetApplication()->ReloadExportModules();
+	JPtrArray<JString>* names = GetApplication()->GetExportModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
 	{
 		itsExportMenu->AppendItem(*(names->GetElement(i)));
@@ -1026,7 +982,7 @@ DataDocument::HandleHelpMenu
 {
 	if (index == kAboutCmd)
 	{
-		(GetApplication())->DisplayAbout();
+		GetApplication()->DisplayAbout();
 	}
 	else if (index == kTOCCmd)
 	{
@@ -1038,11 +994,11 @@ DataDocument::HandleHelpMenu
 	}
 	else if (index == kChangesCmd)
 	{
-		(JXGetHelpManager())->ShowChangeLog();
+		JXGetHelpManager()->ShowChangeLog();
 	}
 	else if (index == kCreditsCmd)
 	{
-		(JXGetHelpManager())->ShowCredits();
+		JXGetHelpManager()->ShowCredits();
 	}
 }
 
@@ -1086,46 +1042,28 @@ DataDocument::GetInternalModuleCount()
 }
 
 /******************************************************************************
- LoadInternalFile (private)
-
- ******************************************************************************/
-
-void
-DataDocument::LoadInternalFile
-	(
-	const JIndex index
-	)
-{
-	if (index == kDelimitedText)
-	{
-		assert(itsDelimiterDialog == nullptr);
-		itsDelimiterDialog =
-			jnew GetDelimiterDialog(this, itsFileImportDialog->GetFileText());
-		assert(itsDelimiterDialog != nullptr);
-		ListenTo(itsDelimiterDialog);
-		itsDelimiterDialog->BeginDialog();
-	}
-	else if (index == kFixedWidthText)
-	{
-		JGetUserNotification()->ReportError(JGetString("LoadFixedWidthFile::DataDocument"));
-	}
-}
-
-/******************************************************************************
  LoadDelimitedFile (private)
 
  ******************************************************************************/
 
 void
-DataDocument::LoadDelimitedFile()
+DataDocument::LoadDelimitedFile
+	(
+	const JString& fileText
+	)
 {
-	assert(itsDelimiterDialog != nullptr);
+	auto* dlog = jnew GetDelimiterDialog(fileText);
+	assert(dlog != nullptr);
+	if (!dlog->DoDialog())
+	{
+		return;
+	}
 
-	const GetDelimiterDialog::DelimiterType type = itsDelimiterDialog->GetDelimiterType();
+	const GetDelimiterDialog::DelimiterType type = dlog->GetDelimiterType();
 	JUtf8Byte delim;
 	if (type == GetDelimiterDialog::kChar)
 	{
-		delim = itsDelimiterDialog->GetCharacter();
+		delim = dlog->GetCharacter();
 	}
 	else if (type == GetDelimiterDialog::kSpace)
 	{
@@ -1143,9 +1081,9 @@ DataDocument::LoadDelimitedFile()
 		return;
 	}
 
-	if (itsDelimiterDialog->IsSkippingLines())
+	if (dlog->IsSkippingLines())
 	{
-		const JSize count = itsDelimiterDialog->GetSkipLineCount();
+		const JSize count = dlog->GetSkipLineCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
 			JIgnoreUntil(is, '\n');
@@ -1155,8 +1093,8 @@ DataDocument::LoadDelimitedFile()
 	itsData->ShouldBroadcast(false);
 	itsListenToData = false;
 
-	const bool hasComments = itsDelimiterDialog->HasComments();
-	const JString& commentStr  = itsDelimiterDialog->GetCommentString();
+	const bool hasComments    = dlog->HasComments();
+	const JString& commentStr = dlog->GetCommentString();
 
 	JLatentPG pg(100);
 	pg.VariableLengthProcessBeginning(JGetString("FilterProcess::DataDocument"), true, true);

@@ -1,7 +1,7 @@
 /******************************************************************************
  CreatePlotDialog.cpp
 
-	BASE CLASS = JXModalDialogDirector
+	BASE CLASS = CreatePlotDialogBase
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -19,9 +19,7 @@
 #include <jx-af/jx/JXInputField.h>
 #include <jx-af/jx/JXStaticText.h>
 
-#include <jx-af/jcore/JPtrArray.h>
-#include <jx-af/jcore/JString.h>
-#include <jx-af/jcore/JUserNotification.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -39,9 +37,9 @@ CreatePlotDialog::CreatePlotDialog
 	const JIndex startYErr
 	)
 	:
-	JXModalDialogDirector(supervisor, true)
+	CreatePlotDialogBase(),
+	itsTableDir(supervisor)
 {
-	itsTableDir = supervisor;
 	BuildWindow(data, startX, startXErr, startY, startYErr);
 }
 
@@ -77,51 +75,51 @@ CreatePlotDialog::BuildWindow
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,130, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CreatePlotDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 180,130, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,130, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::CreatePlotDialog::shortcuts::JXLayout"));
 
-	itsLabelInput =
+	auto* labelInput =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
-	assert( itsLabelInput != nullptr );
+					JXWidget::kHElastic, JXWidget::kFixedTop, 115,10, 200,20);
+	assert( labelInput != nullptr );
 
 	auto* labelLabel =
 		jnew JXStaticText(JGetString("labelLabel::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 65,10, 50,20);
 	assert( labelLabel != nullptr );
 	labelLabel->SetToLabel();
 
 	itsXMenu =
 		jnew JXTextMenu(JGetString("itsXMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 160,30);
 	assert( itsXMenu != nullptr );
 
 	itsXErrMenu =
 		jnew JXTextMenu(JGetString("itsXErrMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 160,30);
 	assert( itsXErrMenu != nullptr );
 
 	itsYErrMenu =
 		jnew JXTextMenu(JGetString("itsYErrMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 160,30);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,80, 160,30);
 	assert( itsYErrMenu != nullptr );
 
 	itsYMenu =
 		jnew JXTextMenu(JGetString("itsYMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 160,30);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,40, 160,30);
 	assert( itsYMenu != nullptr );
 
-	itsPlotsMenu =
-		jnew JXTextMenu(JGetString("itsPlotsMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
-	assert( itsPlotsMenu != nullptr );
+	auto* plotMenu =
+		jnew JXTextMenu(JGetString("plotMenu::CreatePlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 130,30);
+	assert( plotMenu != nullptr );
 
 // end JXLayout
 
@@ -132,59 +130,29 @@ CreatePlotDialog::BuildWindow
 	itsYErrMenu->AppendItem(JGetString("NoneItemLabel::CreatePlotDialog"));
 
 	BuildColumnMenus("Column::global", data->GetDataColCount(),
-					   itsXMenu, itsXErrMenu, itsYMenu, itsYErrMenu, nullptr);
+					 itsXMenu, itsXErrMenu, itsYMenu, itsYErrMenu, nullptr);
 
-	itsStartX = startX;
-	if (startX == 0)
-	{
-		itsStartX = 1;
-	}
-
+	itsStartX = JMax(startX, 1UL);
 	itsStartXErr = startXErr + 1;
-
-	itsStartY = startY;
-	if (startY == 0)
-	{
-		itsStartY = 1;
-	}
-
+	itsStartY = JMax(startY, 1UL);
 	itsStartYErr = startYErr + 1;
-
-	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
-	itsTableDir->GetPlotNames(names);
-
-	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::global"));
-
-	const JSize strCount = names.GetElementCount();
-
-	for (JSize i = 1; i <= strCount; i++)
-	{
-		itsPlotsMenu->AppendItem(*(names.GetElement(i)));
-	}
-
-	itsPlotsMenu->ShowSeparatorAfter(1, true);
-
-	itsPlotIndex = 1;
 
 	itsXMenu->SetToPopupChoice(true, itsStartX);
 	itsXErrMenu->SetToPopupChoice(true, itsStartXErr);
 	itsYMenu->SetToPopupChoice(true, itsStartY);
 	itsYErrMenu->SetToPopupChoice(true, itsStartYErr);
-	itsPlotsMenu->SetToPopupChoice(true, itsPlotIndex);
 
 	itsXMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsXErrMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsYMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsYErrMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPlotsMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	ListenTo(itsXMenu);
 	ListenTo(itsXErrMenu);
 	ListenTo(itsYMenu);
 	ListenTo(itsYErrMenu);
-	ListenTo(itsPlotsMenu);
 
-	itsLabelInput->GetText()->SetText(JGetString("DefaultLabel::global"));
+	SetObjects(itsTableDir, labelInput, plotMenu);
 }
 
 /******************************************************************************
@@ -221,97 +189,34 @@ CreatePlotDialog::Receive
 {
 	if (sender == itsXMenu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartX = selection->GetIndex();
 	}
 
 	else if (sender == itsXErrMenu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartXErr = selection->GetIndex();
 	}
 
 	else if (sender == itsYMenu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartY = selection->GetIndex();
 	}
 
 	else if (sender == itsYErrMenu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartYErr = selection->GetIndex();
 	}
 
-	else if (sender == itsPlotsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsPlotIndex = selection->GetIndex();
-	}
-
 	else
 	{
-		JXModalDialogDirector::Receive(sender, message);
+		CreatePlotDialogBase::Receive(sender, message);
 	}
-}
-
-/******************************************************************************
- GetPlotIndex
-
- ******************************************************************************/
-
-bool
-CreatePlotDialog::GetPlotIndex
-	(
-	JIndex* index
-	)
-{
-	if (itsPlotIndex == 1)
-	{
-		return false;
-	}
-
-	*index = itsPlotIndex - 1;
-	return true;
-}
-
-/******************************************************************************
- GetPlotIndex
-
- ******************************************************************************/
-
-const JString&
-CreatePlotDialog::GetLabel()
-{
-	return itsLabelInput->GetText()->GetText();
-}
-
-/******************************************************************************
- OKToDeactivate
-
- ******************************************************************************/
-
-bool
-CreatePlotDialog::OKToDeactivate()
-{
-	if (Cancelled())
-	{
-		return true;
-	}
-	if (GetLabel().IsEmpty())
-	{
-		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::global"));
-		return false;
-	}
-	return true;
 }

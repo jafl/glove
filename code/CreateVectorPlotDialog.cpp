@@ -1,7 +1,7 @@
 /******************************************************************************
  CreateVectorPlotDialog.cpp
 
-	BASE CLASS = JXModalDialogDirector
+	BASE CLASS = CreatePlotDialogBase
 
 	Copyright @ 1997 by Glenn W. Bach.
 
@@ -19,7 +19,6 @@
 #include <jx-af/jx/JXStaticText.h>
 
 #include <jx-af/jcore/JPtrArray-JString.h>
-#include <jx-af/jcore/JUserNotification.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -37,9 +36,9 @@ CreateVectorPlotDialog::CreateVectorPlotDialog
 	const JIndex startY2
 	)
 	:
-	JXModalDialogDirector(supervisor, true)
+	CreatePlotDialogBase(),
+	itsTableDir(supervisor)
 {
-	itsTableDir = supervisor;
 	BuildWindow(data, startX, startY, startX2, startY2);
 }
 
@@ -74,48 +73,48 @@ CreateVectorPlotDialog::BuildWindow
 
 	itsX1Menu =
 		jnew JXTextMenu(JGetString("itsX1Menu::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,40, 160,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 160,30);
 	assert( itsX1Menu != nullptr );
 
 	itsY1Menu =
 		jnew JXTextMenu(JGetString("itsY1Menu::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 200,40, 160,30);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,40, 160,30);
 	assert( itsY1Menu != nullptr );
 
 	itsX2Menu =
 		jnew JXTextMenu(JGetString("itsX2Menu::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,80, 160,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 160,30);
 	assert( itsX2Menu != nullptr );
 
 	itsY2Menu =
 		jnew JXTextMenu(JGetString("itsY2Menu::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 200,80, 160,30);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,80, 160,30);
 	assert( itsY2Menu != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 280,130, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,130, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::CreateVectorPlotDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 190,130, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,130, 70,20);
 	assert( cancelButton != nullptr );
 
-	itsPlotsMenu =
-		jnew JXTextMenu(JGetString("itsPlotsMenu::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,120, 130,30);
-	assert( itsPlotsMenu != nullptr );
+	auto* plotMenu =
+		jnew JXTextMenu(JGetString("plotMenu::CreateVectorPlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 130,30);
+	assert( plotMenu != nullptr );
 
-	itsLabelInput =
+	auto* labelInput =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 115,10, 200,20);
-	assert( itsLabelInput != nullptr );
+					JXWidget::kHElastic, JXWidget::kFixedTop, 115,10, 200,20);
+	assert( labelInput != nullptr );
 
 	auto* label =
 		jnew JXStaticText(JGetString("label::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 65,10, 50,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 65,10, 50,20);
 	assert( label != nullptr );
 	label->SetToLabel();
 
@@ -151,39 +150,22 @@ CreateVectorPlotDialog::BuildWindow
 		itsStartY2 = 1;
 	}
 
-	JPtrArray<JString> names(JPtrArrayT::kDeleteAll);
-	itsTableDir->GetPlotNames(names);
-
-	itsPlotsMenu->AppendItem(JGetString("NewPlotItemLabel::global"));
-
-	for (auto* name : names)
-	{
-		itsPlotsMenu->AppendItem(*name);
-	}
-
-	itsPlotsMenu->ShowSeparatorAfter(1, true);
-
-	itsPlotIndex = 1;
-
 	itsX1Menu->SetToPopupChoice(true, itsStartX1);
 	itsX2Menu->SetToPopupChoice(true, itsStartX2);
 	itsY1Menu->SetToPopupChoice(true, itsStartY1);
 	itsY2Menu->SetToPopupChoice(true, itsStartY2);
-	itsPlotsMenu->SetToPopupChoice(true, itsPlotIndex);
 
 	itsX1Menu->SetUpdateAction(JXMenu::kDisableNone);
 	itsX2Menu->SetUpdateAction(JXMenu::kDisableNone);
 	itsY1Menu->SetUpdateAction(JXMenu::kDisableNone);
 	itsY2Menu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPlotsMenu->SetUpdateAction(JXMenu::kDisableNone);
 
 	ListenTo(itsX1Menu);
 	ListenTo(itsX2Menu);
 	ListenTo(itsY1Menu);
 	ListenTo(itsY2Menu);
-	ListenTo(itsPlotsMenu);
 
-	itsLabelInput->GetText()->SetText(JGetString("DefaultLabel::global"));
+	SetObjects(itsTableDir, labelInput, plotMenu);
 }
 
 /******************************************************************************
@@ -195,8 +177,8 @@ void
 CreateVectorPlotDialog::GetColumns
 	(
 	JIndex* X1,
-	JIndex* Y1,
 	JIndex* X2,
+	JIndex* Y1,
 	JIndex* Y2
 	)
 {
@@ -207,7 +189,7 @@ CreateVectorPlotDialog::GetColumns
 }
 
 /******************************************************************************
- GetColumns
+ Receive
 
  ******************************************************************************/
 
@@ -220,97 +202,34 @@ CreateVectorPlotDialog::Receive
 {
 	if (sender == itsX1Menu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartX1 = selection->GetIndex();
 	}
 
 	else if (sender == itsX2Menu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartX2 = selection->GetIndex();
 	}
 
 	else if (sender == itsY1Menu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartY1 = selection->GetIndex();
 	}
 
 	else if (sender == itsY2Menu && message.Is(JXMenu::kItemSelected))
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
+		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		itsStartY2 = selection->GetIndex();
 	}
 
-	else if (sender == itsPlotsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsPlotIndex = selection->GetIndex();
-	}
-
 	else
 	{
-		JXModalDialogDirector::Receive(sender, message);
+		CreatePlotDialogBase::Receive(sender, message);
 	}
-}
-
-/******************************************************************************
- GetPlotIndex
-
- ******************************************************************************/
-
-bool
-CreateVectorPlotDialog::GetPlotIndex
-	(
-	JIndex* index
-	)
-{
-	if (itsPlotIndex == 1)
-	{
-		return false;
-	}
-
-	*index = itsPlotIndex - 1;
-	return true;
-}
-
-/******************************************************************************
- GetPlotIndex
-
- ******************************************************************************/
-
-const JString&
-CreateVectorPlotDialog::GetLabel()
-{
-	return itsLabelInput->GetText()->GetText();
-}
-
-/******************************************************************************
- OKToDeactivate
-
- ******************************************************************************/
-
-bool
-CreateVectorPlotDialog::OKToDeactivate()
-{
-	if (Cancelled())
-	{
-		return true;
-	}
-	if (GetLabel().IsEmpty())
-	{
-		JGetUserNotification()->ReportError(JGetString("SpecifyCurveLabel::global"));
-		return false;
-	}
-	return true;
 }

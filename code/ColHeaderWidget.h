@@ -10,7 +10,7 @@
 #ifndef _H_ColHeaderWidget
 #define _H_ColHeaderWidget
 
-#include "jx-af/jx/JXColHeaderWidget.h"
+#include <jx-af/jx/JXColHeaderWidget.h>
 
 class RaggedFloatTable;
 

@@ -32,52 +32,13 @@ FitParmsDir::FitParmsDir
 	JPtrArray<FitBase>* fits
 	)
 	:
-	JXWindowDirector(supervisor)
+	JXWindowDirector(supervisor),
+	itsPlotDir(supervisor),
+	itsFits(fits)
 {
-	itsPlotDir = supervisor;
-	itsFits = fits;
 	ListenTo(itsFits);
 
-	auto* window = jnew JXWindow(this, 260,240, "Fit Parameters");
-	assert( window != nullptr );
-
-	window->LockCurrentSize();
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(window,
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,0,260,190);
-
-	itsTable =
-		jnew FitParmsTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,0,260,190);
-	assert (itsTable != nullptr);
-
-	itsFitMenu =
-		jnew JXTextMenu("Fit", window,
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			10, 210, 90, 20);
-	assert( itsFitMenu != nullptr );
-	itsFitMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFitMenu);
-	UpdateFitMenu();
-
-	itsCloseButton =
-		jnew JXTextButton("Close", window,
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			90, 210, 70, 20);
-	assert( itsCloseButton != nullptr );
-	itsCloseButton->SetShortcuts("#W");
-	ListenTo(itsCloseButton);
-
-	itsSessionButton =
-		jnew JXTextButton("Session", window,
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			180, 210, 70, 20);
-	assert( itsSessionButton != nullptr );
-	ListenTo(itsSessionButton);
-
+	BuildWindow();
 }
 
 /******************************************************************************
@@ -87,6 +48,61 @@ FitParmsDir::FitParmsDir
 
 FitParmsDir::~FitParmsDir()
 {
+}
+
+/******************************************************************************
+ BuildWindow (private)
+
+ ******************************************************************************/
+
+void
+FitParmsDir::BuildWindow()
+{
+// begin JXLayout
+
+	auto* window = jnew JXWindow(this, 260,240, JString::empty);
+	assert( window != nullptr );
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 260,190);
+	assert( scrollbarSet != nullptr );
+
+	itsFitMenu =
+		jnew JXTextMenu(JGetString("itsFitMenu::FitParmsDir::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,210, 60,20);
+	assert( itsFitMenu != nullptr );
+
+	itsCloseButton =
+		jnew JXTextButton(JGetString("itsCloseButton::FitParmsDir::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,210, 70,20);
+	assert( itsCloseButton != nullptr );
+	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::FitParmsDir::shortcuts::JXLayout"));
+
+	itsSessionButton =
+		jnew JXTextButton(JGetString("itsSessionButton::FitParmsDir::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,210, 70,20);
+	assert( itsSessionButton != nullptr );
+
+// end JXLayout
+
+	window->SetTitle(JGetString("WindowTitle::FitParmsDir"));
+	window->PlaceAsDialogWindow();
+	window->LockCurrentSize();
+
+	itsTable =
+		jnew FitParmsTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+			JXWidget::kHElastic, JXWidget::kVElastic,
+			0,0,100,100);
+	assert (itsTable != nullptr);
+	itsTable->FitToEnclosure();
+
+	itsFitMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsFitMenu);
+	UpdateFitMenu();
+
+	ListenTo(itsSessionButton);
+	ListenTo(itsCloseButton);
 }
 
 /******************************************************************************
@@ -185,7 +201,7 @@ FitParmsDir::HandleFitMenu
 	itsTable->Clear();
 	FitBase* fit = itsFits->GetElement(index);
 	const JSize count = fit->GetParameterCount();
-	itsTable->Append("Function:", fit->GetFitFunctionString());
+	itsTable->Append(JGetString("FunctionLabel::FitParmsDir"), fit->GetFitFunctionString());
 	JSize i;
 	for (i = 1; i <= count; i++)
 	{
@@ -194,7 +210,7 @@ FitParmsDir::HandleFitMenu
 		JFloat value;
 		fit->GetParameter(i, &value);
 		JString pstr = str + ":";
-		if ((value < 0.001) || (value > 100000))
+		if (value < 0.001 || value > 100000)
 		{
 			itsTable->Append(pstr, JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5));
 		}
@@ -205,7 +221,7 @@ FitParmsDir::HandleFitMenu
 		if (fit->GetParameterError(i, &value))
 		{
 			str += " error:";
-			if ((value < 0.001) || (value > 100000))
+			if (value < 0.001 || value > 100000)
 			{
 				itsTable->Append(str, JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5));
 			}
@@ -223,7 +239,7 @@ FitParmsDir::HandleFitMenu
 		if (fit->GetGoodnessOfFit(&value))
 		{
 			str += ":";
-			if ((value < 0.001) || (value > 100000))
+			if (value < 0.001 || value > 100000)
 			{
 				itsTable->Append(str, JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5));
 			}
@@ -283,7 +299,7 @@ FitParmsDir::SendToSession
 		JFloat value;
 		fit->GetParameter(i, &value);
 		JString pstr = str + ": ";
-		if ((value < 0.001) || (value > 100000))
+		if (value < 0.001 || value > 100000)
 		{
 			pstr = pstr + JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5);
 		}
@@ -295,7 +311,7 @@ FitParmsDir::SendToSession
 		if (fit->GetParameterError(i, &value))
 		{
 			str += " error: ";
-			if ((value < 0.001) || (value > 100000))
+			if (value < 0.001 || value > 100000)
 			{
 				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5);
 			}
@@ -313,7 +329,7 @@ FitParmsDir::SendToSession
 		if (fit->GetGoodnessOfFit(&value))
 		{
 			str += ": ";
-			if ((value < 0.001) || (value > 100000))
+			if (value < 0.001 || value > 100000)
 			{
 				str = str + JString(value, JString::kPrecisionAsNeeded, JString::kForceExponent, 0, 5);
 			}

@@ -15,13 +15,9 @@
 #include <FitDirector.h>
 #include <globals.h>
 
-#include <jx-af/jx/JXChooseSaveFile.h>
-#include <jx-af/jx/JXPTPrinter.h>
 #include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXPTPrinter.h>
 
-#include <jx-af/jcore/JPtrArray-JString.h>
-#include <jx-af/jcore/jDirUtil.h>
-#include <unistd.h>
 #include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentPrefsFileVersion = 2;
@@ -36,11 +32,9 @@ PrefsMgr::PrefsMgr
 	bool* isNew
 	)
 	:
-   JXPrefsManager(kCurrentPrefsFileVersion, true)
+	JXPrefsManager(kCurrentPrefsFileVersion, true, kChooseSaveFilePrefsID)
 {
 	*isNew = JPrefsManager::UpgradeData();
-	JXGetChooseSaveFile()->SetPrefInfo(this, kChooseSaveFilePrefsID);
-	JXGetChooseSaveFile()->JPrefObject::ReadPrefs();
 }
 
 /******************************************************************************
@@ -50,7 +44,6 @@ PrefsMgr::PrefsMgr
 
 PrefsMgr::~PrefsMgr()
 {
-	JXGetChooseSaveFile()->JPrefObject::WritePrefs();
 	SetData(kProgramVersionID, JGetString("VERSION"));
 	SaveToDisk();
 }
@@ -86,41 +79,6 @@ PrefsMgr::UpgradeData
 	const bool			isNew,
 	const JFileVersion	currentVersion
 	)
-{
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-PrefsMgr::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-//	if (sender == itsEditPrefsDialog && message.Is(JXModalDialogDirector::kDeactivated))
-//		{
-//		const JXModalDialogDirector::Deactivated* info =
-//			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-//		assert( info != nullptr );
-//		if (info->Successful())
-//			{
-//			UpdatePrefs(itsEditPrefsDialog);
-//			}
-//		itsEditPrefsDialog = nullptr;
-//		}
-}
-
-/******************************************************************************
- EditPrefs
-
- ******************************************************************************/
-
-void
-PrefsMgr::EditPrefs()
 {
 }
 

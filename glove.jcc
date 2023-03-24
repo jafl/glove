@@ -1,4 +1,4 @@
-jx_browser_data 90
+jx_browser_data 91
 # project tree
 0 "root"
 T
@@ -58,9 +58,9 @@ T
 F
 "./code/DataDocument.cpp"
 T
-2 "ExprDirector.cpp"
+2 "EditExprDialog.cpp"
 F
-"./code/ExprDirector.cpp"
+"./code/EditExprDialog.cpp"
 T
 2 "FitModuleDialog.cpp"
 F
@@ -89,6 +89,10 @@ T
 2 "ColByRangeDialog.cpp"
 F
 "./code/ColByRangeDialog.cpp"
+T
+2 "CreatePlotDialogBase.cpp"
+F
+"./code/CreatePlotDialogBase.cpp"
 T
 2 "CreatePlotDialog.cpp"
 F
@@ -348,10 +352,10 @@ F
 "${LIB_DEPS}"
 "make -k all"
 # search paths
-T "../JX/include/j2dplot" T
-T "../JX/include/jcore" T
-T "../JX/include/jexpr" T
-T "../JX/include/jx" T
+T "../JX/include/jx-af/j2dplot" T
+T "../JX/include/jx-af/jcore" T
+T "../JX/include/jx-af/jexpr" T
+T "../JX/include/jx-af/jx" T
 T "./code" T
 F
 # C preprocessor

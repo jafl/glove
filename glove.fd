@@ -3,7 +3,7 @@ Magic: 15000
 Internal Form Definition File
     (do not change)
 
-Number of forms: 15
+Number of forms: 22
 Unit of measure: FL_COORD_PIXEL
 
 =============== FORM ===============
@@ -43,7 +43,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -61,7 +61,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -79,8 +79,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: itsLabelInput
+gravity: FL_North FL_NoGravity
+name: (labelInput)
 callback: 
 argument: 
 
@@ -97,7 +97,7 @@ lcol: FL_BLACK
 label: Label:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (labelLabel)
 callback: 
 argument: 
@@ -106,7 +106,7 @@ argument:
 class: FL_MENU
 type: FL_PULLDOWN_MENU
 box: 10 40 160 30
-boxtype: FL_UP_BOX
+boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -115,7 +115,7 @@ lcol: FL_BLACK
 label: X Axis
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsXMenu
 callback: 
 argument: 
@@ -124,7 +124,7 @@ argument:
 class: FL_MENU
 type: FL_PULLDOWN_MENU
 box: 10 80 160 30
-boxtype: FL_UP_BOX
+boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -133,7 +133,7 @@ lcol: FL_BLACK
 label: X Error
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsXErrMenu
 callback: 
 argument: 
@@ -142,7 +142,7 @@ argument:
 class: FL_MENU
 type: FL_PULLDOWN_MENU
 box: 200 80 160 30
-boxtype: FL_UP_BOX
+boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -151,7 +151,7 @@ lcol: FL_BLACK
 label: Y Error
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsYErrMenu
 callback: 
 argument: 
@@ -160,7 +160,7 @@ argument:
 class: FL_MENU
 type: FL_PULLDOWN_MENU
 box: 200 40 160 30
-boxtype: FL_UP_BOX
+boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -169,7 +169,7 @@ lcol: FL_BLACK
 label: Y Axis
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsYMenu
 callback: 
 argument: 
@@ -178,7 +178,7 @@ argument:
 class: FL_MENU
 type: FL_PULLDOWN_MENU
 box: 10 120 130 30
-boxtype: FL_UP_BOX
+boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -187,8 +187,8 @@ lcol: FL_BLACK
 label: Plot
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: itsPlotsMenu
+gravity: FL_NorthWest FL_NoGravity
+name: (plotMenu)
 callback: 
 argument: 
 
@@ -229,7 +229,7 @@ lcol: FL_BLACK
 label: This is not a Glove data file.  Please select the appropriate filter.
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (errorMessage)
 callback: 
 argument: 
@@ -247,7 +247,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_SouthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -265,7 +265,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_SouthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -283,7 +283,7 @@ lcol: FL_BLACK
 label: Reload
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_SouthWest FL_NoGravity
 name: itsReloadButton
 callback: 
 argument: 
@@ -301,7 +301,7 @@ lcol: FL_BLACK
 label: Filter:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_SouthWest FL_NoGravity
 name: itsFilterMenu
 callback: 
 argument: 
@@ -361,7 +361,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsBeginning
 callback: 
 argument: 
@@ -369,7 +369,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 130 160 70 20
+box: 120 160 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -379,7 +379,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -397,7 +397,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -415,7 +415,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsEnd
 callback: 
 argument: 
@@ -433,7 +433,7 @@ lcol: FL_BLACK
 label: Maximum:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (maxLabel)
 callback: 
 argument: 
@@ -451,7 +451,7 @@ lcol: FL_BLACK
 label: Minimum:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (minLabel)
 callback: 
 argument: 
@@ -469,7 +469,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsCount
 callback: 
 argument: 
@@ -487,7 +487,7 @@ lcol: FL_BLACK
 label: Count:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (countLabel)
 callback: 
 argument: 
@@ -496,7 +496,7 @@ argument:
 class: FL_MENU
 type: FL_PULLDOWN_MENU
 box: 15 15 180 30
-boxtype: FL_UP_BOX
+boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -505,21 +505,21 @@ lcol: FL_BLACK
 label: Destination
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsDestMenu
 callback: 
 argument: 
 
 =============== FORM ===============
 Name: ColByIncDialog
-Width: 220
+Width: 210
 Height: 190
 Number of Objects: 10
 
 --------------------
 class: FL_BOX
 type: FL_FLAT_BOX
-box: 0 0 220 190
+box: 0 0 210 190
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -547,7 +547,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsBeginning
 callback: 
 argument: 
@@ -555,7 +555,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_RETURN_BUTTON
-box: 130 160 70 20
+box: 120 160 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -565,7 +565,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -573,7 +573,7 @@ argument:
 --------------------
 class: FL_BUTTON
 type: FL_NORMAL_BUTTON
-box: 10 160 70 20
+box: 20 160 70 20
 boxtype: FL_UP_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
@@ -583,7 +583,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -601,7 +601,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsInc
 callback: 
 argument: 
@@ -619,7 +619,7 @@ lcol: FL_BLACK
 label: Increment:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (incrLabel)
 callback: 
 argument: 
@@ -637,7 +637,7 @@ lcol: FL_BLACK
 label: Minimum:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (minLabel)
 callback: 
 argument: 
@@ -655,7 +655,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsCount
 callback: 
 argument: 
@@ -673,7 +673,7 @@ lcol: FL_BLACK
 label: Count:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (countLabel)
 callback: 
 argument: 
@@ -682,7 +682,7 @@ argument:
 class: FL_MENU
 type: FL_PULLDOWN_MENU
 box: 15 15 180 30
-boxtype: FL_UP_BOX
+boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
@@ -691,7 +691,7 @@ lcol: FL_BLACK
 label: Destination
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsDestMenu
 callback: 
 argument: 
@@ -733,7 +733,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsFunctionString
 callback: 
 argument: 
@@ -751,7 +751,7 @@ lcol: FL_BLACK
 label: Function:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (fnLabel)
 callback: 
 argument: 
@@ -769,7 +769,7 @@ lcol: FL_BLACK
 label: Edit
 shortcut: #E
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsEditButton
 callback: 
 argument: 
@@ -787,7 +787,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -805,7 +805,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -823,7 +823,7 @@ lcol: FL_BLACK
 label: Clear
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsClearButton
 callback: 
 argument: 
@@ -841,7 +841,7 @@ lcol: FL_BLACK
 label: Constants
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsVarMenu
 callback: 
 argument: 
@@ -878,7 +878,7 @@ boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: JXMenuBar
 shortcut: 
@@ -891,12 +891,12 @@ argument:
 --------------------
 class: FL_BOX
 type: FL_NO_BOX
-box: 10 40 380 345
+box: 0 30 400 355
 boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: JXVertPartition(heights, elasticIndex, minHeights,
 shortcut: 
@@ -919,7 +919,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -937,7 +937,7 @@ lcol: FL_BLACK
 label: Help
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: itsHelpButton
 callback: 
 argument: 
@@ -955,7 +955,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -1010,7 +1010,7 @@ boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: JXScrollbarSet
 shortcut: 
@@ -1088,7 +1088,7 @@ boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: JXScrollbarSet
 shortcut: 
@@ -1202,7 +1202,7 @@ boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: JXScrollbarSet
 shortcut: 
@@ -1225,7 +1225,7 @@ lcol: FL_BLACK
 label: (This may be left blank. Glove will then calculate the derivative.)
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (warningText)
 callback: 
 argument: 
@@ -1285,7 +1285,7 @@ lcol: FL_BLACK
 label: 0 (Constant)
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[0]>
 callback: 
 argument: 
@@ -1303,7 +1303,7 @@ lcol: FL_BLACK
 label: 1
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[1]>
 callback: 
 argument: 
@@ -1321,7 +1321,7 @@ lcol: FL_BLACK
 label: 2
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[2]>
 callback: 
 argument: 
@@ -1339,7 +1339,7 @@ lcol: FL_BLACK
 label: 3
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[3]>
 callback: 
 argument: 
@@ -1357,7 +1357,7 @@ lcol: FL_BLACK
 label: 4
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[4]>
 callback: 
 argument: 
@@ -1375,7 +1375,7 @@ lcol: FL_BLACK
 label: 5
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[5]>
 callback: 
 argument: 
@@ -1393,7 +1393,7 @@ lcol: FL_BLACK
 label: 6
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[6]>
 callback: 
 argument: 
@@ -1411,7 +1411,7 @@ lcol: FL_BLACK
 label: 7
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[7]>
 callback: 
 argument: 
@@ -1429,7 +1429,7 @@ lcol: FL_BLACK
 label: 8
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[8]>
 callback: 
 argument: 
@@ -1447,7 +1447,7 @@ lcol: FL_BLACK
 label: 9
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: <itsCB[9]>
 callback: 
 argument: 
@@ -1465,7 +1465,7 @@ lcol: FL_BLACK
 label: Powers:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: (powersLabel)
 callback: 
 argument: 
@@ -1483,7 +1483,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: ^[
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -1501,7 +1501,7 @@ lcol: FL_BLACK
 label: Help
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: itsHelpButton
 callback: 
 argument: 
@@ -1519,7 +1519,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_West FL_South
+gravity: FL_SouthWest FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -1555,7 +1555,7 @@ lcol: FL_BLACK
 label: Fit name:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (fitNameLabel)
 callback: 
 argument: 
@@ -1592,7 +1592,7 @@ boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: JXImageWidget
 shortcut: 
@@ -1628,7 +1628,7 @@ boxtype: FL_NO_BOX
 colors: FL_COL1 FL_COL1
 alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
-size: FL_DEFAULT_SIZE
+size: FL_NORMAL_SIZE
 lcol: FL_BLACK
 label: JXImageWidget
 shortcut: 
@@ -1729,7 +1729,7 @@ lcol: FL_BLACK
 label: Please select the appropriate module.
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (prompt)
 callback: 
 argument: 
@@ -1747,7 +1747,7 @@ lcol: FL_BLACK
 label: Filter:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsFilterMenu
 callback: 
 argument: 
@@ -1765,7 +1765,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -1783,7 +1783,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsOKButton
 callback: 
 argument: 
@@ -1801,7 +1801,7 @@ lcol: FL_BLACK
 label: Reload
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsReloadButton
 callback: 
 argument: 
@@ -1843,7 +1843,7 @@ lcol: FL_BLACK
 label: Transform
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsTransformButton
 callback: 
 argument: 
@@ -1861,7 +1861,7 @@ lcol: FL_BLACK
 label: Close
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsCloseButton
 callback: 
 argument: 
@@ -1879,7 +1879,7 @@ lcol: FL_BLACK
 label: Clear
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsClearButton
 callback: 
 argument: 
@@ -1897,7 +1897,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: itsFunctionString
 callback: 
 argument: 
@@ -1915,7 +1915,7 @@ lcol: FL_BLACK
 label: Edit
 shortcut: #E
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsEditButton
 callback: 
 argument: 
@@ -1933,7 +1933,7 @@ lcol: FL_BLACK
 label: Destination:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsDestMenu
 callback: 
 argument: 
@@ -1951,7 +1951,7 @@ lcol: FL_BLACK
 label: Constants
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsVarMenu
 callback: 
 argument: 
@@ -1969,7 +1969,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsColNumber
 callback: 
 argument: 
@@ -2029,7 +2029,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_SouthEast FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -2047,7 +2047,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_SouthWest FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -2065,7 +2065,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsRG
 callback: 
 argument: 
@@ -2083,7 +2083,7 @@ lcol: FL_BLACK
 label: White space
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: <rb[0]>
 callback: 
 argument: 1
@@ -2101,7 +2101,7 @@ lcol: FL_BLACK
 label: Space
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: <rb[1]>
 callback: 
 argument: 2
@@ -2119,7 +2119,7 @@ lcol: FL_BLACK
 label: Tab
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: <rb[2]>
 callback: 
 argument: 3
@@ -2137,7 +2137,7 @@ lcol: FL_BLACK
 label: Character
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: <rb[3]>
 callback: 
 argument: 4
@@ -2155,7 +2155,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsCharInput
 callback: 
 argument: 
@@ -2173,7 +2173,7 @@ lcol: FL_BLACK
 label: text
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (helpLabel)
 callback: 
 argument: 
@@ -2191,7 +2191,7 @@ lcol: FL_BLACK
 label: Skip first
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsSkipCB
 callback: 
 argument: 
@@ -2209,7 +2209,7 @@ lcol: FL_BLACK
 label: Skip lines beginning with:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsCommentCB
 callback: 
 argument: 
@@ -2227,7 +2227,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsSkipCountInput
 callback: 
 argument: 
@@ -2245,7 +2245,7 @@ lcol: FL_BLACK
 label: lines
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (lineLabel)
 callback: 
 argument: 
@@ -2263,7 +2263,7 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsCommentInput
 callback: 
 argument: 
@@ -2305,7 +2305,7 @@ lcol: FL_BLACK
 label: X1
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsX1Menu
 callback: 
 argument: 
@@ -2323,7 +2323,7 @@ lcol: FL_BLACK
 label: Y1
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsY1Menu
 callback: 
 argument: 
@@ -2341,7 +2341,7 @@ lcol: FL_BLACK
 label: DX
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: itsX2Menu
 callback: 
 argument: 
@@ -2359,7 +2359,7 @@ lcol: FL_BLACK
 label: DY
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: itsY2Menu
 callback: 
 argument: 
@@ -2377,7 +2377,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -2395,7 +2395,7 @@ lcol: FL_BLACK
 label: Cancel
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthEast FL_NoGravity
 name: (cancelButton)
 callback: 
 argument: 
@@ -2410,11 +2410,11 @@ alignment: FL_ALIGN_CENTER
 style: FL_NORMAL_STYLE
 size: FL_NORMAL_SIZE
 lcol: FL_BLACK
-label: Plot:
+label: Plot
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: itsPlotsMenu
+gravity: FL_NorthWest FL_NoGravity
+name: (plotMenu)
 callback: 
 argument: 
 
@@ -2431,8 +2431,8 @@ lcol: FL_BLACK
 label: 
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
-name: itsLabelInput
+gravity: FL_North FL_NoGravity
+name: (labelInput)
 callback: 
 argument: 
 
@@ -2449,8 +2449,500 @@ lcol: FL_BLACK
 label: Label:
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NoGravity FL_NoGravity
+gravity: FL_NorthWest FL_NoGravity
 name: (label)
+callback: 
+argument: 
+
+=============== FORM ===============
+Name: EditExprDialog
+Width: 300
+Height: 240
+Number of Objects: 4
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 300 240
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 0 300 200
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXExprEditorSet(list, &itsEditor,
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: (set)
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 50 210 70 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Cancel
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_SouthWest FL_NoGravity
+name: (cancelButton)
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: FL_RETURN_BUTTON
+box: 170 210 70 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: OK
+shortcut: ^M
+resize: FL_RESIZE_ALL
+gravity: FL_SouthWest FL_NoGravity
+name: (okButton)
+callback: 
+argument: 
+
+=============== FORM ===============
+Name: FitParmsDir
+Width: 260
+Height: 240
+Number of Objects: 5
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 260 240
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 0 260 190
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXScrollbarSet
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: (scrollbarSet)
+callback: 
+argument: 
+
+--------------------
+class: FL_MENU
+type: FL_PULLDOWN_MENU
+box: 10 210 60 20
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_MCOL
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Fit
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_SouthWest FL_NoGravity
+name: itsFitMenu
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 90 210 70 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Close
+shortcut: #W
+resize: FL_RESIZE_ALL
+gravity: FL_SouthWest FL_NoGravity
+name: itsCloseButton
+callback: 
+argument: 
+
+--------------------
+class: FL_BUTTON
+type: FL_NORMAL_BUTTON
+box: 180 210 70 20
+boxtype: FL_UP_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Session
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_SouthWest FL_NoGravity
+name: itsSessionButton
+callback: 
+argument: 
+
+=============== FORM ===============
+Name: HistoryDir
+Width: 480
+Height: 320
+Number of Objects: 3
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 480 320
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 0 480 30
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXMenuBar
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: itsMenuBar
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 30 480 290
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXScrollbarSet
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: (scrollbarSet)
+callback: 
+argument: 
+
+=============== FORM ===============
+Name: DataDocument
+Width: 480
+Height: 370
+Number of Objects: 3
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 480 370
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 0 480 30
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXMenuBar
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: (menuBar)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 30 480 340
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: (toolBar)
+callback: 
+argument: 
+
+=============== FORM ===============
+Name: PlotDir
+Width: 480
+Height: 370
+Number of Objects: 3
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 480 370
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 0 480 30
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXMenuBar
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: (menuBar)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 30 480 340
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: Plotter(itsSessionDir, menuBar,
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: itsPlot
+callback: 
+argument: 
+
+=============== FORM ===============
+Name: FitDirector
+Width: 600
+Height: 420
+Number of Objects: 3
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 600 420
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 0 600 30
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXMenuBar
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_North FL_NoGravity
+name: (menuBar)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_NO_BOX
+box: 0 30 600 390
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXToolBar(GetPrefsMgr(), kFitToolBarID, menuBar,
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: itsToolBar
+callback: 
+argument: 
+
+=============== FORM ===============
+Name: FitDirector__parameterLayout__container
+Width: 361
+Height: 241
+Number of Objects: 4
+
+--------------------
+class: FL_BOX
+type: FL_FLAT_BOX
+box: 0 0 360 240
+boxtype: FL_FLAT_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_DEFAULT_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: 
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_UP_BOX
+box: 0 20 360 200
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: JXScrollbarSet
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_NoGravity FL_NoGravity
+name: (scrollbarSet2)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_UP_BOX
+box: 0 220 170 20
+boxtype: FL_NO_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: ChiSqLabel
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_SouthWest FL_NoGravity
+name: (label)
+callback: 
+argument: 
+
+--------------------
+class: FL_BOX
+type: FL_UP_BOX
+box: 170 220 190 20
+boxtype: FL_DOWN_BOX
+colors: FL_COL1 FL_COL1
+alignment: FL_ALIGN_CENTER
+style: FL_NORMAL_STYLE
+size: FL_NORMAL_SIZE
+lcol: FL_BLACK
+label: 
+shortcut: 
+resize: FL_RESIZE_ALL
+gravity: FL_South FL_NoGravity
+name: (downRect)
 callback: 
 argument: 
 

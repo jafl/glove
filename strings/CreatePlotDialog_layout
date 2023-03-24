@@ -1,8 +1,8 @@
 0
+plotMenu::CreatePlotDialog::JXLayout "Plot"
 cancelButton::CreatePlotDialog::shortcuts::JXLayout "^["
 itsYMenu::CreatePlotDialog::JXLayout "Y Axis"
 okButton::CreatePlotDialog::shortcuts::JXLayout "^M"
-itsPlotsMenu::CreatePlotDialog::JXLayout "Plot"
 okButton::CreatePlotDialog::JXLayout "OK"
 itsYErrMenu::CreatePlotDialog::JXLayout "Y Error"
 cancelButton::CreatePlotDialog::JXLayout "Cancel"

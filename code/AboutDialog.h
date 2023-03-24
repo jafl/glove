@@ -18,7 +18,7 @@ class AboutDialog : public JXModalDialogDirector
 {
 public:
 
-	AboutDialog(JXDirector* supervisor, const JString& prevVersStr);
+	AboutDialog(const JString& prevVersStr);
 
 	~AboutDialog() override;
 

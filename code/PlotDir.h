@@ -11,16 +11,14 @@
 #define _H_PlotDir
 
 #include <jx-af/jx/JXDocument.h>
-#include <jx-af/jcore/JPtrArray.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 #include "gloveCurveStats.h"
 #include <jx-af/jcore/JXPM.h>
 
 class Plotter;
-class JString;
 class JFunction;
 class VarList;
 class JXTextMenu;
-class PlotFunctionDialog;
 class FitBase;
 class FitParmsDir;
 class RaggedFloatTableData;
@@ -28,7 +26,6 @@ class JXFileDocument;
 class J2DPlotDataBase;
 class HistoryDir;
 class JXPSPrinter;
-class FitModuleDialog;
 class PlotModuleFit;
 class PlotFitFunction;
 class PlotFitProxy;
@@ -73,8 +70,7 @@ protected:
 
 private:
 
-	Plotter*					itsPlot;
-	JString					itsFileName;
+	JString						itsFileName;
 	VarList*					itsVarList;
 	JXTextMenu*					itsPlotMenu;
 	JXTextMenu*					itsAnalysisMenu;
@@ -82,7 +78,6 @@ private:
 	JXTextMenu*					itsDiffMenu;
 	JXTextMenu*					itsHelpMenu;
 	JIndex						itsXVarIndex;
-	PlotFunctionDialog*			itsFunctionDialog;
 	JPtrArray<FitBase>*			itsFits;
 	FitParmsDir*				itsFitParmsDir;
 	JArray<GloveCurveStats>*	itsCurveStats;
@@ -90,16 +85,21 @@ private:
 	JXFileDocument*				itsSupervisor;
 	JPtrArray<PlotDir>*			itsDiffDirs;
 	bool						itsHideOnClose;
+	bool						itsPlotIsClosing;
 	HistoryDir*					itsSessionDir;
 	JXPSPrinter*				itsPrinter;
 	JX2DPlotEPSPrinter*			itsEPSPrinter;
-	bool						itsIsPrintAll;
-	FitModuleDialog*			itsFitModuleDialog;
 	JIndex						itsCurveForFit;
 
-	bool	itsPlotIsClosing;
+// begin JXLayout
+
+	Plotter* itsPlot;
+
+// end JXLayout
 
 private:
+
+	void	BuildWindow();
 
 	void	WriteCurves(std::ostream& os, RaggedFloatTableData* data);
 	void	ReadCurves(std::istream& is, RaggedFloatTableData* data);

@@ -9,7 +9,7 @@
 
 #include "PlotFunctionDialog.h"
 #include "VarList.h"
-#include "ExprDirector.h"
+#include "EditExprDialog.h"
 
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXInputField.h>
@@ -29,15 +29,13 @@
 
 PlotFunctionDialog::PlotFunctionDialog
 	(
-	JXDirector* supervisor,
 	VarList* list
 	)
 	:
-	JXModalDialogDirector(supervisor, true)
+	JXModalDialogDirector(),
+	itsList(list)
 {
-	itsEditor = nullptr;
 	BuildWindow();
-	itsList = list;
 
 	for (JIndex i = 1; i <= list->GetElementCount(); i++)
 	{
@@ -69,48 +67,50 @@ PlotFunctionDialog::BuildWindow()
 
 	itsFunctionString =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 80,10, 220,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 80,10, 220,20);
 	assert( itsFunctionString != nullptr );
 
 	auto* fnLabel =
 		jnew JXStaticText(JGetString("fnLabel::PlotFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 70,20);
 	assert( fnLabel != nullptr );
 	fnLabel->SetToLabel();
 
 	itsEditButton =
 		jnew JXTextButton(JGetString("itsEditButton::PlotFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 310,10, 60,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 310,10, 60,20);
 	assert( itsEditButton != nullptr );
 	itsEditButton->SetShortcuts(JGetString("itsEditButton::PlotFunctionDialog::shortcuts::JXLayout"));
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::PlotFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 315,50, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 315,50, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::PlotFunctionDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::PlotFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 115,50, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 115,50, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::PlotFunctionDialog::shortcuts::JXLayout"));
 
 	itsClearButton =
 		jnew JXTextButton(JGetString("itsClearButton::PlotFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 215,50, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 215,50, 70,20);
 	assert( itsClearButton != nullptr );
 
 	itsVarMenu =
 		jnew JXTextMenu(JGetString("itsVarMenu::PlotFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 380,10, 110,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 380,10, 110,20);
 	assert( itsVarMenu != nullptr );
 
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::PlotFunctionDialog"));
 	SetButtons(okButton, cancelButton);
+
 	itsVarMenu->SetUpdateAction(JXMenu::kDisableNone);
+
 	ListenTo(itsClearButton);
 	ListenTo(itsEditButton);
 	ListenTo(itsVarMenu);
@@ -130,26 +130,16 @@ PlotFunctionDialog::Receive
 {
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
 	{
-		assert (itsEditor == nullptr);
-		itsEditor = jnew ExprDirector(this, itsList, itsFunctionString->GetText()->GetText());
-		assert(itsEditor != nullptr);
-		ListenTo(itsEditor);
-		itsEditor->BeginDialog();
+		auto* dlog = jnew EditExprDialog(itsList, itsFunctionString->GetText()->GetText());
+		assert(dlog != nullptr);
+		if (dlog->DoDialog())
+		{
+			itsFunctionString->GetText()->SetText(dlog->GetString());
+		}
 	}
 	else if (sender == itsClearButton && message.Is(JXButton::kPushed))
 	{
 		itsFunctionString->GetText()->SetText(JString::empty);
-	}
-	else if (sender == itsEditor && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const JXModalDialogDirector::Deactivated* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			itsFunctionString->GetText()->SetText(itsEditor->GetString());
-		}
-		itsEditor = nullptr;
 	}
 	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
 	{

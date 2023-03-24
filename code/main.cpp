@@ -40,7 +40,6 @@ main
 
 	bool displayAbout;
 	JString prevVersStr;
-
 	auto* app = jnew PlotApp(&argc, argv, &displayAbout, &prevVersStr);
 	assert( app != nullptr );
 
@@ -55,10 +54,10 @@ main
 	}
 	else
 	{
-		JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
+		JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);
 	}
 
-	app->Run();				// never actually returns
+	app->Run();
 	return 0;
 }
 

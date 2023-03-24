@@ -17,7 +17,6 @@ class JXTextMenu;
 class JXRadioGroup;
 class JXTextButton;
 class JXStaticText;
-class JString;
 class JXInputField;
 class JXIntegerInput;
 class JXTextCheckbox;
@@ -36,7 +35,7 @@ public:
 
 public:
 
-	GetDelimiterDialog(JXWindowDirector* supervisor, const JString& text);
+	GetDelimiterDialog(const JString& text);
 
 	~GetDelimiterDialog() override;
 

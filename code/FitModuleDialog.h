@@ -19,7 +19,7 @@ class FitModuleDialog : public JXModalDialogDirector
 {
 public:
 
-	FitModuleDialog(JXWindowDirector* supervisor);
+	FitModuleDialog();
 
 	~FitModuleDialog() override;
 

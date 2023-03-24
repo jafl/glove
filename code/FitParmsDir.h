@@ -38,16 +38,23 @@ protected:
 private:
 
 	PlotDir*			itsPlotDir;
-	JXTextMenu*			itsFitMenu;
-	JXTextButton*		itsCloseButton;
-	JXTextButton*		itsSessionButton;
 	FitParmsTable*		itsTable;
 	JPtrArray<FitBase>*	itsFits;	// We don't own this!
 	JIndex				itsCurrentIndex;
 
+// begin JXLayout
+
+	JXTextMenu*   itsFitMenu;
+	JXTextButton* itsCloseButton;
+	JXTextButton* itsSessionButton;
+
+// end JXLayout
+
 private:
 
+	void	BuildWindow();
 	void	SendToSession(const JIndex index);
+
 	void	HandleFitMenu(const JIndex index);
 	void	UpdateFitMenu();
 };

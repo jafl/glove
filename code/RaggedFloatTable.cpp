@@ -29,8 +29,6 @@
 #include "UndoElementsCut.h"
 #include "globals.h"
 
-#include "jx-af/jx/JXToolBar.h"
-
 #include "editcut.xpm"
 #include "editcopy.xpm"
 #include "editpaste.xpm"
@@ -39,28 +37,25 @@
 #include "transform.xpm"
 
 #include <jx-af/jx/JXApplication.h>
-#include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXFloatInput.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXSelectionManager.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include <jx-af/jx/JXWindow.h>
-#include <jx-af/jx/JXWindowDirector.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXChooseFileDialog.h>
 
 #include <jx-af/jexpr/JExprParser.h>
 #include <jx-af/jexpr/JFunctionWithVar.h>
 #include <jx-af/jexpr/JFunctionWithArgs.h>
 #include <jx-af/jcore/JPainter.h>
-#include <jx-af/jcore/JFontStyle.h>
-#include <jx-af/jcore/JUserNotification.h>
-#include <jx-af/jcore/JChooseSaveFile.h>
 #include <jx-af/jcore/JTableSelection.h>
-#include <jx-af/jcore/JTableSelectionIterator.h>
 #include <jx-af/jcore/JFontManager.h>
-#include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JPSPrinter.h>
 #include <jx-af/jcore/JListUtil.h>
 
@@ -231,14 +226,7 @@ RaggedFloatTable::RaggedFloatTable
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsModuleMenu);
 
-	itsCreatePlotDialog		= nullptr;
-	itsCreateVectorPlotDialog	= nullptr;
-	itsColByRangeDialog		= nullptr;
-	itsColByIncDialog			= nullptr;
-	itsTransDialog				= nullptr;
-	itsTransformVarList			= nullptr;
-
-	itsFirstRedoIndex		= 1;
+	itsFirstRedoIndex	= 1;
 	itsUndoState		= kIdle;
 
 	itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
@@ -938,68 +926,6 @@ RaggedFloatTable::Receive
 			dynamic_cast<const JXMenu::ItemSelected*>(&message);
 		assert( selection != nullptr );
 		HandleModuleMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsCreatePlotDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			PlotData(kDataPlot);
-		}
-		itsCreatePlotDialog = nullptr;
-	}
-
-	else if (sender == itsCreateVectorPlotDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			PlotData(kVectorPlot);
-		}
-		itsCreateVectorPlotDialog = nullptr;
-	}
-
-	else if (sender == itsTransDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			EvaluateTransformFunction();
-		}
-		itsTransDialog = nullptr;
-		jdelete itsTransformVarList;
-		itsTransformVarList = nullptr;
-	}
-
-	else if (sender == itsColByIncDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			CreateNewColByInc();
-		}
-		itsColByIncDialog = nullptr;
-	}
-
-	else if (sender == itsColByRangeDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const auto* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			CreateNewColByRange();
-		}
-		itsColByRangeDialog = nullptr;
 	}
 
 	else if (sender == itsOKButton && message.Is(JXButton::kPushed))
@@ -2026,11 +1952,11 @@ RaggedFloatTable::HandleDataMenu
 
 	else if (index == kDataModuleCmd)
 	{
-		JString modName;
-		if (JGetChooseSaveFile()->ChooseFile(JGetString("SelectDataModulePrompt::RaggedFloatTable"), JString::empty, &modName))
+		auto* dlog = JXChooseFileDialog::Create();
+		if (dlog->DoDialog())
 		{
 			DataModule* dm;
-			DataModule::Create(&dm, this, itsFloatData, modName);
+			DataModule::Create(&dm, this, itsFloatData, dlog->GetFullName());
 		}
 	}
 }
@@ -2053,7 +1979,7 @@ RaggedFloatTable::HandleModuleMenu
 	else
 	{
 		JString modName;
-		(GetApplication())->GetDataModulePath(index - 1, &modName);
+		GetApplication()->GetDataModulePath(index - 1, &modName);
 		DataModule* dm;
 		DataModule::Create(&dm, this, itsFloatData, modName);
 	}
@@ -2074,8 +2000,8 @@ RaggedFloatTable::UpdateModuleMenu()
 		itsModuleMenu->RemoveItem(2);
 	}
 
-	(GetApplication())->ReloadDataModules();
-	JPtrArray<JString>* names = (GetApplication())->GetDataModules();
+	GetApplication()->ReloadDataModules();
+	JPtrArray<JString>* names = GetApplication()->GetDataModules();
 	for (i = 1; i <= names->GetElementCount(); i++)
 	{
 		itsModuleMenu->AppendItem(*(names->GetElement(i)));
@@ -2137,54 +2063,38 @@ RaggedFloatTable::ChoosePlotColumns
 
 	if (type == kPlotCmd)
 	{
-		assert (itsCreatePlotDialog == nullptr);
-		itsCreatePlotDialog =
-			jnew CreatePlotDialog(itsTableDir, itsFloatData, xCol,x2Col,yCol,y2Col);
-		assert (itsCreatePlotDialog != nullptr);
-		ListenTo(itsCreatePlotDialog);
-		itsCreatePlotDialog->BeginDialog();
+		auto* dlog = jnew CreatePlotDialog(itsTableDir, itsFloatData, xCol,x2Col,yCol,y2Col);
+		assert (dlog != nullptr);
+		if (dlog->DoDialog())
+		{
+			PlotData(kDataPlot, dlog);
+		}
 	}
 	else if (type == kPlotVectorCmd)
 	{
-		assert (itsCreateVectorPlotDialog == nullptr);
-		itsCreateVectorPlotDialog =
-			jnew CreateVectorPlotDialog(itsTableDir, itsFloatData, xCol, yCol, y2Col, x2Col);
-		assert (itsCreateVectorPlotDialog != nullptr);
-		ListenTo(itsCreateVectorPlotDialog);
-		itsCreateVectorPlotDialog->BeginDialog();
+		auto* dlog = jnew CreateVectorPlotDialog(itsTableDir, itsFloatData, xCol, yCol, y2Col, x2Col);
+		assert (dlog != nullptr);
+		if (dlog->DoDialog())
+		{
+			PlotData(kVectorPlot, dlog);
+		}
 	}
 }
 
 /******************************************************************************
- PlotData
+ PlotData (private)
 
  ******************************************************************************/
 
 void
 RaggedFloatTable::PlotData
 	(
-	const JIndex type
+	const JIndex			type,
+	CreatePlotDialogBase*	dlog
 	)
 {
-	if (type == kDataPlot)
-	{
-		assert ( itsCreatePlotDialog != nullptr );
-	}
-	else if (type == kVectorPlot)
-	{
-		assert ( itsCreateVectorPlotDialog != nullptr );
-	}
-
 	JIndex xCol, x2Col, yCol, y2Col;
-	if (type == kDataPlot)
-	{
-		itsCreatePlotDialog->GetColumns(&xCol, &x2Col, &yCol, &y2Col);
-	}
-	else
-	{
-		assert( type == kVectorPlot );
-		itsCreateVectorPlotDialog->GetColumns(&xCol, &yCol, &x2Col, &y2Col);
-	}
+	dlog->GetColumns(&xCol, &x2Col, &yCol, &y2Col);
 
 	const JArray<JFloat>& xData = itsFloatData->GetColPointer(xCol);
 	const JArray<JFloat>& yData = itsFloatData->GetColPointer(yCol);
@@ -2192,31 +2102,19 @@ RaggedFloatTable::PlotData
 	const JArray<JFloat>* xErr = nullptr;
 	if (x2Col != 0)
 	{
-		xErr = &(itsFloatData->GetColPointer(x2Col));
+		xErr = &itsFloatData->GetColPointer(x2Col);
 	}
 
 	const JArray<JFloat>* yErr = nullptr;
 	if (y2Col != 0)
 	{
-		yErr = &(itsFloatData->GetColPointer(y2Col));
+		yErr = &itsFloatData->GetColPointer(y2Col);
 	}
+
+	const JString& label = dlog->GetLabel();
 
 	JIndex index;
-	bool oldPlot;
-	JString label;
-	if (type == kDataPlot)
-	{
-		label = itsCreatePlotDialog->GetLabel();
-		oldPlot = itsCreatePlotDialog->GetPlotIndex(&index);
-	}
-	else
-	{
-		assert( type == kVectorPlot );
-		label = itsCreateVectorPlotDialog->GetLabel();
-		oldPlot = itsCreateVectorPlotDialog->GetPlotIndex(&index);
-	}
-
-	if (oldPlot)
+	if (dlog->GetPlotIndex(&index))
 	{
 		itsTableDir->AddToPlot(index, type, xData, xErr, yData, yErr, true, label);
 	}
@@ -2227,140 +2125,113 @@ RaggedFloatTable::PlotData
 }
 
 /******************************************************************************
- GetNewColByRange
+ GetNewColByRange (private)
 
  ******************************************************************************/
 
 void
 RaggedFloatTable::GetNewColByRange()
 {
-	assert (itsColByRangeDialog == nullptr);
-	itsColByRangeDialog =
-		jnew ColByRangeDialog(GetWindow()->GetDirector(), itsFloatData->GetDataColCount() + 1);
-	assert (itsColByRangeDialog != nullptr);
-	ListenTo(itsColByRangeDialog);
-	itsColByRangeDialog->BeginDialog();
-
-}
-
-/******************************************************************************
- CreateNewColByRange
-
- ******************************************************************************/
-
-void
-RaggedFloatTable::CreateNewColByRange()
-{
-	assert( itsColByRangeDialog != nullptr );
-
-	JIndex dest;
-	itsColByRangeDialog->GetDestination(&dest);
-	JFloat beg;
-	JFloat end;
-	JInteger count;
-	itsColByRangeDialog->GetValues(&beg, &end, &count);
-
-	bool replace = false;
-	JSize colCount = itsFloatData->GetDataColCount();
-	if (dest <= colCount)
+	auto* dlog = jnew ColByRangeDialog(itsFloatData->GetDataColCount() + 1);
+	assert (dlog != nullptr);
+	if (dlog->DoDialog())
 	{
-		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::RaggedFloatTable"));
-	}
+		JIndex dest;
+		dlog->GetDestination(&dest);
+		JFloat beg;
+		JFloat end;
+		JInteger count;
+		dlog->GetValues(&beg, &end, &count);
 
-	if (!replace)
-	{
-		auto* undo =
-			jnew UndoElementsInsert(this, JPoint(dest, 1),
-									 JPoint(dest, 1),
-									 UndoElementsBase::kCols);
-		assert(undo != nullptr);
-		NewUndo(undo);
-		itsFloatData->InsertCols(dest, 1);
-	}
-	else if (dest <= colCount)
-	{
-		auto* undo =
-			jnew UndoElementsChange(this, JPoint(dest, 1),
-									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
-									 UndoElementsBase::kCols);
-		assert(undo != nullptr);
-		NewUndo(undo);
-		itsFloatData->RemoveAllElements(dest);
-	}
+		bool replace = false;
+		const JSize colCount = itsFloatData->GetDataColCount();
+		if (dest <= colCount)
+		{
+			replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::RaggedFloatTable"));
+		}
 
-	// this takes care of whether or not it was ascending.
-	JFloat inc = (end - beg)/(JFloat)( count - 1 );
+		if (!replace)
+		{
+			auto* undo =
+				jnew UndoElementsInsert(this, JPoint(dest, 1),
+										 JPoint(dest, 1),
+										 UndoElementsBase::kCols);
+			assert(undo != nullptr);
+			NewUndo(undo);
+			itsFloatData->InsertCols(dest, 1);
+		}
+		else if (dest <= colCount)
+		{
+			auto* undo =
+				jnew UndoElementsChange(this, JPoint(dest, 1),
+										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
+										 UndoElementsBase::kCols);
+			assert(undo != nullptr);
+			NewUndo(undo);
+			itsFloatData->RemoveAllElements(dest);
+		}
 
-	for (JInteger i = 1; i <= count; i++)
-	{
-		itsFloatData->SetElement(i, dest, beg + inc*(i-1));
+		// this takes care of whether or not it was ascending.
+		const JFloat inc = (end - beg)/(JFloat)( count - 1 );
+
+		for (JInteger i = 1; i <= count; i++)
+		{
+			itsFloatData->SetElement(i, dest, beg + inc*(i-1));
+		}
 	}
 }
 
 /******************************************************************************
- GetNewColByInc
+ GetNewColByInc (private)
 
  ******************************************************************************/
 
 void
 RaggedFloatTable::GetNewColByInc()
 {
-	assert (itsColByIncDialog == nullptr);
-	itsColByIncDialog =
-		jnew ColByIncDialog(GetWindow()->GetDirector(), itsFloatData->GetDataColCount() + 1);
-	assert (itsColByIncDialog != nullptr);
-	ListenTo(itsColByIncDialog);
-	itsColByIncDialog->BeginDialog();
-}
-
-/******************************************************************************
- CreateNewColByInc
-
- ******************************************************************************/
-
-void
-RaggedFloatTable::CreateNewColByInc()
-{
-	assert( itsColByIncDialog != nullptr );
-
-	JIndex dest;
-	itsColByIncDialog->GetDestination(&dest);
-	JFloat beg;
-	JFloat inc;
-	JInteger count;
-	itsColByIncDialog->GetValues(&beg, &inc, &count);
-
-	bool replace = false;
-	JSize colCount = itsFloatData->GetDataColCount();
-	if (dest <= colCount)
+	auto* dlog = jnew ColByIncDialog(itsFloatData->GetDataColCount() + 1);
+	assert (dlog != nullptr);
+	if (dlog->DoDialog())
 	{
-		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::RaggedFloatTable"));
-	}
+		JIndex dest;
+		dlog->GetDestination(&dest);
+		JFloat beg;
+		JFloat inc;
+		JInteger count;
+		dlog->GetValues(&beg, &inc, &count);
 
-	if (!replace)
-	{
-		auto* undo =
-			jnew UndoElementsInsert(this, JPoint(dest, 1),
-									 JPoint(dest, 1),
-									 UndoElementsBase::kCols);
-		assert(undo != nullptr);
-		NewUndo(undo);
-		itsFloatData->InsertCols(dest, 1);
-	}
-	else if (dest <= colCount)
-	{
-		auto* undo =
-			jnew UndoElementsChange(this, JPoint(dest, 1),
-									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
-									 UndoElementsBase::kCols);
-		assert(undo != nullptr);
-		NewUndo(undo);
-		itsFloatData->RemoveAllElements(dest);
-	}
+		bool replace = false;
+		const JSize colCount = itsFloatData->GetDataColCount();
+		if (dest <= colCount)
+		{
+			replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::RaggedFloatTable"));
+		}
 
-	for (JInteger i = 1; i <= count; i++)
-	{
-		itsFloatData->SetElement(i, dest, beg + inc*(i-1));
+		if (!replace)
+		{
+			auto* undo =
+				jnew UndoElementsInsert(this, JPoint(dest, 1),
+										 JPoint(dest, 1),
+										 UndoElementsBase::kCols);
+			assert(undo != nullptr);
+			NewUndo(undo);
+			itsFloatData->InsertCols(dest, 1);
+		}
+		else if (dest <= colCount)
+		{
+			auto* undo =
+				jnew UndoElementsChange(this, JPoint(dest, 1),
+										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
+										 UndoElementsBase::kCols);
+			assert(undo != nullptr);
+			NewUndo(undo);
+			itsFloatData->RemoveAllElements(dest);
+		}
+
+		for (JInteger i = 1; i <= count; i++)
+		{
+			itsFloatData->SetElement(i, dest, beg + inc*(i-1));
+		}
 	}
 }
 
@@ -2439,39 +2310,6 @@ RaggedFloatTable::ReadData
  ******************************************************************************/
 
 void
-RaggedFloatTable::ChooseNewTransformFunction()
-{
-	assert (itsTransDialog == nullptr);
-	assert (itsTransformVarList == nullptr);
-
-	const JSize count = itsFloatData->GetDataColCount() + 1;
-	if (count == 1)
-	{
-		JGetUserNotification()->ReportError(JGetString("NoDataToTransform::RaggedFloatTable"));
-		return;
-	}
-
-	itsTransformVarList = jnew VarList();
-	JArray<JFloat>* ar = jnew JArray<JFloat>;
-	for (JSize i = 1; i < count; i++)
-	{
-		ar->AppendElement(0);
-	}
-	itsTransformVarList->AddArray(JString("col", JString::kNoCopy), *ar);
-
-	itsTransDialog =
-		jnew TransformFunctionDialog(GetWindow()->GetDirector(), itsTransformVarList, count);
-	assert (itsTransDialog != nullptr);
-	ListenTo(itsTransDialog);
-	itsTransDialog->BeginDialog();
-}
-
-/******************************************************************************
- EvaluateTransformFunction
-
- ******************************************************************************/
-
-void
 jCollectColumnIndexes
 	(
 	const JFunction*	root,
@@ -2509,88 +2347,108 @@ jCollectColumnIndexes
 }
 
 void
-RaggedFloatTable::EvaluateTransformFunction()
+RaggedFloatTable::ChooseNewTransformFunction()
 {
-	assert (itsTransDialog != nullptr);
-	JIndex dest =  itsTransDialog->GetDestination();
-	JString fnStr(itsTransDialog->GetFunctionString());
-
-	const JSize count = itsFloatData->GetDataColCount();
-	bool replace = false;
-	if (dest <= count)
+	const JSize count = itsFloatData->GetDataColCount() + 1;
+	if (count == 1)
 	{
-		replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::RaggedFloatTable"));
-	}
-
-	JArray<JFloat> newArray;
-
-	JExprParser p(itsTransformVarList);
-
-	JFunction* f;
-	if (!p.Parse(fnStr, &f))
-	{
+		JGetUserNotification()->ReportError(JGetString("NoDataToTransform::RaggedFloatTable"));
 		return;
 	}
 
-	JArray<JIndex> inds;
-	inds.SetCompareFunction(JCompareIndices);
-	jCollectColumnIndexes(f, &inds);
-
-	const JSize indCount = inds.GetElementCount();
-	if (indCount == 0)
+	VarList xformVarList;
+	JArray<JFloat>* ar = jnew JArray<JFloat>;
+	for (JSize i = 1; i < count; i++)
 	{
-		JGetUserNotification()->ReportError(JGetString("GenerateIfNoTransform::RaggedFloatTable"));
-		jdelete f;
-		return;
+		ar->AppendElement(0);
 	}
+	xformVarList.AddArray(JString("col", JString::kNoCopy), *ar);
 
-	JSize minRowCount = itsFloatData->GetDataRowCount(inds.GetElement(1));
-	for (JIndex i = 2; i <= indCount; i++)
+	auto* dlog = jnew TransformFunctionDialog(&xformVarList, count);
+	assert (dlog != nullptr);
+
+	if (dlog->DoDialog())
 	{
-		const JSize rowCount = itsFloatData->GetDataRowCount(inds.GetElement(i));
-		if (rowCount < minRowCount)
+		const JIndex dest = dlog->GetDestination();
+		const JString& fnStr(dlog->GetFunctionString());
+
+		const JSize count = itsFloatData->GetDataColCount();
+		bool replace = false;
+		if (dest <= count)
 		{
-			minRowCount = rowCount;
+			replace = JGetUserNotification()->AskUserYes(JGetString("ReplaceColWarning::RaggedFloatTable"));
 		}
-	}
 
-	for (JSize r = 1; r <= minRowCount; r++)
-	{
-		for (JIndex i = 1; i <= indCount; i++)
+		JArray<JFloat> newArray;
+
+		JExprParser p(&xformVarList);
+
+		JFunction* f;
+		if (!p.Parse(fnStr, &f))
 		{
+			return;
+		}
+
+		JArray<JIndex> inds;
+		inds.SetCompareFunction(JCompareIndices);
+		jCollectColumnIndexes(f, &inds);
+
+		const JSize indCount = inds.GetElementCount();
+		if (indCount == 0)
+		{
+			JGetUserNotification()->ReportError(JGetString("GenerateIfNoTransform::RaggedFloatTable"));
+			jdelete f;
+			return;
+		}
+
+		JSize minRowCount = itsFloatData->GetDataRowCount(inds.GetElement(1));
+		for (JIndex i = 2; i <= indCount; i++)
+		{
+			const JSize rowCount = itsFloatData->GetDataRowCount(inds.GetElement(i));
+			if (rowCount < minRowCount)
+			{
+				minRowCount = rowCount;
+			}
+		}
+
+		for (JSize r = 1; r <= minRowCount; r++)
+		{
+			for (JIndex i = 1; i <= indCount; i++)
+			{
+				JFloat value;
+				itsFloatData->GetElement(r, inds.GetElement(i), &value);
+				xformVarList.SetNumericValue(1, inds.GetElement(i), value);
+			}
 			JFloat value;
-			itsFloatData->GetElement(r, inds.GetElement(i), &value);
-			itsTransformVarList->SetNumericValue(1, inds.GetElement(i), value);
+			f->Evaluate(&value);
+			newArray.AppendElement(value);
 		}
-		JFloat value;
-		f->Evaluate(&value);
-		newArray.AppendElement(value);
-	}
 
-	if (replace)
-	{
-		auto* undo =
-			jnew UndoElementsChange(this, JPoint(dest, 1),
-									 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
-									 UndoElementsBase::kCols);
-		assert(undo != nullptr);
-		NewUndo(undo);
-		itsFloatData->RemoveAllElements(dest);
-		itsFloatData->SetCol(dest, newArray);
-	}
-	else
-	{
-		auto* undo =
-			jnew UndoElementsInsert(this, JPoint(dest, 1),
-									 JPoint(dest, 1),
-									 UndoElementsBase::kCols);
-		assert(undo != nullptr);
-		NewUndo(undo);
-		itsFloatData->InsertCols(dest, 1);
-		itsFloatData->SetCol(dest, newArray);
-	}
+		if (replace)
+		{
+			auto* undo =
+				jnew UndoElementsChange(this, JPoint(dest, 1),
+										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
+										 UndoElementsBase::kCols);
+			assert(undo != nullptr);
+			NewUndo(undo);
+			itsFloatData->RemoveAllElements(dest);
+			itsFloatData->SetCol(dest, newArray);
+		}
+		else
+		{
+			auto* undo =
+				jnew UndoElementsInsert(this, JPoint(dest, 1),
+										 JPoint(dest, 1),
+										 UndoElementsBase::kCols);
+			assert(undo != nullptr);
+			NewUndo(undo);
+			itsFloatData->InsertCols(dest, 1);
+			itsFloatData->SetCol(dest, newArray);
+		}
 
-	jdelete f;
+		jdelete f;
+	}
 }
 
 /******************************************************************************

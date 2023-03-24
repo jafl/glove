@@ -8,8 +8,8 @@
  ********************************************************************************/
 
 #include "PlotModuleFit.h"
-#include "jx-af/j2dplot/J2DPlotWidget.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include <jx-af/j2dplot/J2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotDataBase.h>
 #include "VarList.h"
 #include <jx-af/jexpr/JExprParser.h>
 #include <jx-af/jexpr/JFunction.h>

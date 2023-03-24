@@ -15,8 +15,7 @@
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXStaticText.h>
-#include <jx-af/jcore/JPtrArray.h>
-#include <jx-af/jcore/JString.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -24,12 +23,9 @@
 
  ******************************************************************************/
 
-FitModuleDialog::FitModuleDialog
-	(
-	JXWindowDirector* supervisor
-	)
+FitModuleDialog::FitModuleDialog()
 	:
-	JXModalDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 }
@@ -58,29 +54,29 @@ FitModuleDialog::BuildWindow()
 
 	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::FitModuleDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 30,10, 230,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,10, 230,20);
 	assert( prompt != nullptr );
 	prompt->SetToLabel();
 
 	itsFilterMenu =
 		jnew JXTextMenu(JGetString("itsFilterMenu::FitModuleDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 70,40, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,40, 70,20);
 	assert( itsFilterMenu != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::FitModuleDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 70,20);
 	assert( cancelButton != nullptr );
 
 	itsOKButton =
 		jnew JXTextButton(JGetString("itsOKButton::FitModuleDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 180,70, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,70, 70,20);
 	assert( itsOKButton != nullptr );
 	itsOKButton->SetShortcuts(JGetString("itsOKButton::FitModuleDialog::shortcuts::JXLayout"));
 
 	itsReloadButton =
 		jnew JXTextButton(JGetString("itsReloadButton::FitModuleDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 100,70, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,70, 70,20);
 	assert( itsReloadButton != nullptr );
 
 // end JXLayout

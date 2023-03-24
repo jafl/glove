@@ -1,0 +1,4 @@
+0
+okButton::EditExprDialog::JXLayout "OK"
+cancelButton::EditExprDialog::JXLayout "Cancel"
+okButton::EditExprDialog::shortcuts::JXLayout "^M"

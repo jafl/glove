@@ -10,8 +10,8 @@
 #include "PlotFitBase.h"
 
 #include <jx-af/j2dplot/J2DPlotData.h>
-#include "jx-af/j2dplot/J2DPlotWidget.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include <jx-af/j2dplot/J2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotDataBase.h>
 
 #include <jx-af/jcore/JString.h>
 #include <jx-af/jcore/JArray.h>
@@ -547,7 +547,7 @@ PlotFitBase::Minimize
 	JFloat*		xmin
 	)
 {
-	JFloat oldstep, x, w, v, fx, fw, fv, middle, tol2, ymin, r, q;
+	JFloat oldstep, x, w, v, fx, fw, fv, middle, tol2, r, q;
 	JFloat p, steptemp, tol1, step, low, high, u, fu;
 	JSize iter;
 
@@ -578,7 +578,6 @@ PlotFitBase::Minimize
 		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
 		{
 			*xmin= x;
-			ymin= fx;
 			return fx;
 		}
 		if (fabs(oldstep) > tol1)

@@ -45,7 +45,12 @@ private:
 
 	History*	itsHistory;
 	JXTextMenu*	itsFileMenu;
-	JXMenuBar*	itsMenuBar;
+
+// begin JXLayout
+
+	JXMenuBar* itsMenuBar;
+
+// end JXLayout
 
 private:
 

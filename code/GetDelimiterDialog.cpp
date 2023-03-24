@@ -38,11 +38,10 @@ const JIndex kDelimiterPrefsVersionID = 1;
 
 GetDelimiterDialog::GetDelimiterDialog
 	(
-	JXWindowDirector*	supervisor,
-	const JString&		text
+	const JString& text
 	)
 	:
-	JXModalDialogDirector(supervisor, true),
+	JXModalDialogDirector(),
 	JPrefObject(GetPrefsMgr(), kDelimiterPrefsID)
 {
 	BuildWindow();
@@ -97,75 +96,75 @@ GetDelimiterDialog::BuildWindow()
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 210,330, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,330, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::GetDelimiterDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 50,330, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,330, 70,20);
 	assert( cancelButton != nullptr );
 
 	itsRG =
 		jnew JXRadioGroup(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,10, 215,110);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 215,110);
 	assert( itsRG != nullptr );
 
 	rb[0] =
 		jnew JXTextRadioButton(1, JGetString("rb[0]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,10, 120,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
 	assert( rb[0] != nullptr );
 
 	rb[1] =
 		jnew JXTextRadioButton(2, JGetString("rb[1]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,30, 120,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 120,20);
 	assert( rb[1] != nullptr );
 
 	rb[2] =
 		jnew JXTextRadioButton(3, JGetString("rb[2]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,50, 120,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
 	assert( rb[2] != nullptr );
 
 	rb[3] =
 		jnew JXTextRadioButton(4, JGetString("rb[3]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kHElastic, JXWidget::kVElastic, 20,70, 100,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
 	assert( rb[3] != nullptr );
 
 	itsCharInput =
 		jnew JXInputField(itsRG,
-					JXWidget::kHElastic, JXWidget::kVElastic, 125,70, 40,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 125,70, 40,20);
 	assert( itsCharInput != nullptr );
 
 	auto* helpLabel =
 		jnew JXStaticText(JGetString("helpLabel::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,200, 310,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,200, 310,20);
 	assert( helpLabel != nullptr );
 	helpLabel->SetToLabel();
 
 	itsSkipCB =
 		jnew JXTextCheckbox(JGetString("itsSkipCB::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,140, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,140, 80,20);
 	assert( itsSkipCB != nullptr );
 
 	itsCommentCB =
 		jnew JXTextCheckbox(JGetString("itsCommentCB::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,160, 170,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 170,20);
 	assert( itsCommentCB != nullptr );
 
 	itsSkipCountInput =
 		jnew JXIntegerInput(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 90,140, 40,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,140, 40,20);
 	assert( itsSkipCountInput != nullptr );
 
 	auto* lineLabel =
 		jnew JXStaticText(JGetString("lineLabel::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 135,140, 60,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,140, 60,20);
 	assert( lineLabel != nullptr );
 	lineLabel->SetToLabel();
 
 	itsCommentInput =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 180,160, 50,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,160, 50,20);
 	assert( itsCommentInput != nullptr );
 
 // end JXLayout

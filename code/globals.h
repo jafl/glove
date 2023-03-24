@@ -23,8 +23,8 @@ PlotApp*		GetApplication();
 JXPTPrinter*	GetPTPrinter();
 MDIServer*		GetMDIServer();
 
-bool		InitGlobals(PlotApp* app);
-void		DeleteGlobals();
+bool	InitGlobals(PlotApp* app);
+void	DeleteGlobals();
 
 void	BuildColumnMenus(const JUtf8Byte* key, const JSize count, ...);
 

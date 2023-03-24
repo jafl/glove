@@ -10,54 +10,42 @@
 #ifndef _H_CreatePlotDialog
 #define _H_CreatePlotDialog
 
-#include <jx-af/jx/JXModalDialogDirector.h>
+#include "CreatePlotDialogBase.h"
 
-class JXTextMenu;
-class JXTextCheckbox;
 class RaggedFloatTableData;
-class DataDocument;
-class JXInputField;
-class JString;
 
-class CreatePlotDialog : public JXModalDialogDirector
+class CreatePlotDialog : public CreatePlotDialogBase
 {
 public:
 
 	CreatePlotDialog(DataDocument* supervisor, RaggedFloatTableData* data,
-						const JIndex startX, const JIndex startY,
-						const JIndex startXErr, const JIndex startYErr);
+					 const JIndex startX, const JIndex startY,
+					 const JIndex startXErr, const JIndex startYErr);
 
 	~CreatePlotDialog() override;
 
 	void GetColumns(JIndex* startX, JIndex* startXErr,
-					JIndex* startY, JIndex* startYErr);
-
-	bool GetPlotIndex(JIndex* index);
-
-	const JString& GetLabel();
+					JIndex* startY, JIndex* startYErr) override;
 
 protected:
 
 	void	Receive(JBroadcaster* sender, const Message& message) override;
-	bool	OKToDeactivate() override;
 
 private:
+
+	DataDocument* itsTableDir;
 
 	JIndex itsStartX;
 	JIndex itsStartXErr;
 	JIndex itsStartY;
 	JIndex itsStartYErr;
-	JIndex itsPlotIndex;
-	DataDocument*	itsTableDir;
 
 // begin JXLayout
 
-	JXInputField* itsLabelInput;
-	JXTextMenu*   itsXMenu;
-	JXTextMenu*   itsXErrMenu;
-	JXTextMenu*   itsYErrMenu;
-	JXTextMenu*   itsYMenu;
-	JXTextMenu*   itsPlotsMenu;
+	JXTextMenu* itsXMenu;
+	JXTextMenu* itsXErrMenu;
+	JXTextMenu* itsYErrMenu;
+	JXTextMenu* itsYMenu;
 
 // end JXLayout
 

@@ -8,8 +8,8 @@
  ********************************************************************************/
 
 #include "PlotQuadFit.h"
-#include "jx-af/j2dplot/J2DPlotWidget.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
+#include <jx-af/j2dplot/J2DPlotWidget.h>
+#include <jx-af/j2dplot/J2DPlotDataBase.h>
 
 #include "PlotFitQuad.h"
 #include "PlotFitQuad2.h"
@@ -1048,7 +1048,7 @@ PlotQuadFit::Minimize
 	const JIndex	type
 	)
 {
-	JFloat oldstep, x, w, v, fx, fw, fv, middle, tol2, ymin, r, q;
+	JFloat oldstep, x, w, v, fx, fw, fv, middle, tol2, r, q;
 	JFloat p, steptemp, tol1, step, low, high, u, fu;
 	JSize iter;
 
@@ -1080,7 +1080,6 @@ PlotQuadFit::Minimize
 		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
 		{
 			*xmin= x;
-			ymin= fx;
 			return fx;
 		}
 		if (fabs(oldstep) > tol1)

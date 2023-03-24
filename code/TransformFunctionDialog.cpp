@@ -9,7 +9,7 @@
 
 #include "TransformFunctionDialog.h"
 #include "VarList.h"
-#include "ExprDirector.h"
+#include "EditExprDialog.h"
 #include "globals.h"
 
 #include <jx-af/jx/JXTextButton.h>
@@ -18,6 +18,7 @@
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXWindow.h>
 
+#include <jx-af/jexpr/JExprParser.h>
 #include <jx-af/jexpr/JFunction.h>
 #include <jx-af/jcore/jAssert.h>
 
@@ -28,16 +29,14 @@
 
 TransformFunctionDialog::TransformFunctionDialog
 	(
-	JXDirector* supervisor,
 	VarList* list,
 	const JSize colCount
 	)
 	:
-	JXModalDialogDirector(supervisor, true)
+	JXModalDialogDirector(),
+	itsList(list)
 {
-	itsEditor = nullptr;
 	BuildWindow();
-	itsList = list;
 
 	BuildColumnMenus("Column::global", colCount, itsDestMenu, nullptr);
 
@@ -76,43 +75,43 @@ TransformFunctionDialog::BuildWindow()
 
 	itsTransformButton =
 		jnew JXTextButton(JGetString("itsTransformButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 370,55, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 370,55, 80,20);
 	assert( itsTransformButton != nullptr );
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 130,55, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,55, 80,20);
 	assert( itsCloseButton != nullptr );
 
 	itsClearButton =
 		jnew JXTextButton(JGetString("itsClearButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 250,55, 80,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,55, 80,20);
 	assert( itsClearButton != nullptr );
 
 	itsFunctionString =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 200,20, 200,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 200,20, 200,20);
 	assert( itsFunctionString != nullptr );
 
 	itsEditButton =
 		jnew JXTextButton(JGetString("itsEditButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 410,20, 50,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,20, 50,20);
 	assert( itsEditButton != nullptr );
 	itsEditButton->SetShortcuts(JGetString("itsEditButton::TransformFunctionDialog::shortcuts::JXLayout"));
 
 	itsDestMenu =
 		jnew JXTextMenu(JGetString("itsDestMenu::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,20, 115,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 115,20);
 	assert( itsDestMenu != nullptr );
 
 	itsVarMenu =
 		jnew JXTextMenu(JGetString("itsVarMenu::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 470,20, 90,20);
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 470,20, 90,20);
 	assert( itsVarMenu != nullptr );
 
 	itsColNumber =
 		jnew JXStaticText(JGetString("itsColNumber::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 135,20, 65,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 65,20);
 	assert( itsColNumber != nullptr );
 	itsColNumber->SetToLabel();
 
@@ -120,9 +119,11 @@ TransformFunctionDialog::BuildWindow()
 
 	window->SetTitle(JGetString("WindowTitle::TransformFunctionDialog"));
 	SetButtons(itsTransformButton, itsCloseButton);
+
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsDestMenu->SetPopupArrowPosition(JXMenu::kArrowAtLeft);
 	itsVarMenu->SetUpdateAction(JXMenu::kDisableNone);
+
 	ListenTo(itsClearButton);
 	ListenTo(itsEditButton);
 	ListenTo(itsDestMenu);
@@ -143,26 +144,16 @@ TransformFunctionDialog::Receive
 {
 	if (sender == itsEditButton && message.Is(JXButton::kPushed))
 	{
-		assert (itsEditor == nullptr);
-		itsEditor = jnew ExprDirector(this, itsList, itsFunctionString->GetText()->GetText());
-		assert(itsEditor != nullptr);
-		ListenTo(itsEditor);
-		itsEditor->BeginDialog();
+		auto* dlog = jnew EditExprDialog(itsList, itsFunctionString->GetText()->GetText());
+		assert(dlog != nullptr);
+		if (dlog->DoDialog())
+		{
+			itsFunctionString->GetText()->SetText(dlog->GetString());
+		}
 	}
 	else if (sender == itsClearButton && message.Is(JXButton::kPushed))
 	{
 		itsFunctionString->GetText()->SetText(JString::empty);
-	}
-	else if (sender == itsEditor && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const JXModalDialogDirector::Deactivated* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			itsFunctionString->GetText()->SetText(itsEditor->GetString());
-		}
-		itsEditor = nullptr;
 	}
 	else if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
 	{
@@ -223,8 +214,13 @@ TransformFunctionDialog::OKToDeactivate()
 	{
 		return true;
 	}
-	JFunction* f = nullptr;
-	if (JParseFunction(itsFunctionString->GetText(), itsList, &f))
+
+	JExprParser p(itsList);
+
+	const JString& s = GetFunctionString();
+
+	JFunction* f;
+	if (!s.IsEmpty() && p.Parse(s, &f))
 	{
 		jdelete f;
 		return true;

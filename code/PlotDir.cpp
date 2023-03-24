@@ -15,16 +15,16 @@
 #include "PlotFitFunction.h"
 #include "FitBase.h"
 #include "FitParmsDir.h"
-#include "jx-af/j2dplot/J2DPlotDataBase.h"
-#include "jx-af/j2dplot/J2DPlotData.h"
-#include "jx-af/j2dplot/J2DVectorData.h"
+#include <jx-af/j2dplot/J2DPlotDataBase.h>
+#include <jx-af/j2dplot/J2DPlotData.h>
+#include <jx-af/j2dplot/J2DVectorData.h>
 #include "RaggedFloatTableData.h"
 #include "HistoryDir.h"
 #include "FitModule.h"
 #include "FitModuleDialog.h"
 #include "PlotApp.h"
 #include "PlotModuleFit.h"
-#include "jx-af/j2dplot/J2DPlotFunction.h"
+#include <jx-af/j2dplot/J2DPlotFunction.h>
 #include "Plotter.h"
 #include "globals.h"
 #include "FitDirector.h"
@@ -121,107 +121,48 @@ PlotDir::PlotDir
 	)
 	:
 	JXDocument(supervisor),
-	itsFileName(filename)
+	itsFileName(filename),
+	itsSupervisor(notifySupervisor),
+	itsHideOnClose(hideOnClose),
+	itsPlotIsClosing(false),
+	itsPrinter(nullptr)
 {
-	itsSupervisor       = notifySupervisor;
-	itsHideOnClose      = hideOnClose;
-	itsPlotIsClosing	= false;
-
-	itsPrinter          = nullptr;
-
-	JCoordinate w		= 500;
-	JCoordinate h       = 400;
-	JCoordinate minW	= 400;
-	JCoordinate minH    = 300;
-
-	JXWindow* window = jnew JXWindow(this, w,h, filename);
-	assert( window != nullptr );
-
-	window->SetMinSize(minW,minH);
-	if (hideOnClose)
-	{
-		window->SetCloseAction(JXWindow::kDeactivateDirector);
-	}
-
-	JXMenuBar* menuBar =
-		jnew JXMenuBar(window,
-			JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, w, kJXDefaultMenuBarHeight);
-	assert( menuBar != nullptr );
-
-	itsPlotMenu = menuBar->AppendTextMenu(JGetString("PlotMenuTitle::PlotDir"));
-	itsPlotMenu->SetMenuItems(kPlotMenuStr);
-	itsPlotMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPlotMenu);
-
-	itsAnalysisMenu = menuBar->AppendTextMenu(JGetString("AnalysisMenuTitle::PlotDir"));
-	itsAnalysisMenu->SetMenuItems(kAnalysisMenuStr);
-	itsAnalysisMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsAnalysisMenu);
-
-	itsFitParmsMenu = jnew JXTextMenu(itsAnalysisMenu, kFitParmsCmd, menuBar);
-	assert( itsFitParmsMenu != nullptr );
-	itsFitParmsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFitParmsMenu);
-	itsAnalysisMenu->DisableItem(kFitParmsCmd);
-
-	itsDiffMenu = jnew JXTextMenu(itsAnalysisMenu, kDiffPlotCmd, menuBar);
-	assert( itsDiffMenu != nullptr );
-	itsDiffMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsDiffMenu);
-	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
-
 	itsSessionDir = jnew HistoryDir(JXGetApplication());
 	assert(itsSessionDir != nullptr);
 	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, true);
 	ListenTo(itsSessionDir);
 
-	itsPlot =
-		jnew Plotter(itsSessionDir, menuBar, window,
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 30, w, h - kJXDefaultMenuBarHeight);
-	assert( itsPlot != nullptr );
-
-	ListenTo(itsPlot);
-
-	JXDocumentMenu* windowListMenu =
-		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
-			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowListMenu != nullptr );
-	menuBar->AppendMenu(windowListMenu);
-
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr);
-	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
-
-	itsVarList	 = jnew VarList();
+	itsVarList = jnew VarList();
+	assert( itsVarList != nullptr );
 	itsVarList->AddVariable(JGetString("DefaultVarName::global"), 0);
+
 	itsXVarIndex = 1;
-	itsFunctionDialog = nullptr;
-	itsFitModuleDialog = nullptr;
 
 	itsFits = jnew JPtrArray<FitBase>(JPtrArrayT::kForgetAll);
 	assert( itsFits != nullptr );
 	ListenTo(itsFits);
+
 	itsFitParmsDir = jnew FitParmsDir(this, itsFits);
 	assert( itsFitParmsDir != nullptr );
+
 	itsCurveStats = jnew JArray<GloveCurveStats>;
 	assert( itsCurveStats != nullptr );
+
 	itsCurrentCurveType = kGDataCurve;
 
 	itsDiffDirs = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
 	assert( itsDiffDirs != nullptr );
 	ListenTo(itsDiffDirs);
 
+	BuildWindow();
+
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != nullptr );
 	itsPrinter->SetOrientation(JPSPrinter::kLandscape);
 
-	itsEPSPrinter	= jnew JX2DPlotEPSPrinter(GetDisplay());
+	itsEPSPrinter = jnew JX2DPlotEPSPrinter(GetDisplay());
 	assert(itsEPSPrinter != nullptr);
 	itsPlot->SetEPSPrinter(itsEPSPrinter);
-
-	ListenTo(itsPrinter);
 }
 
 /******************************************************************************
@@ -245,6 +186,73 @@ PlotDir::~PlotDir()
 }
 
 /******************************************************************************
+ BuildWindow (private)
+
+ ******************************************************************************/
+
+void
+PlotDir::BuildWindow()
+{
+// begin JXLayout
+
+	auto* window = jnew JXWindow(this, 480,370, JString::empty);
+	assert( window != nullptr );
+
+	auto* menuBar =
+		jnew JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 480,30);
+	assert( menuBar != nullptr );
+
+	itsPlot =
+		jnew Plotter(itsSessionDir, menuBar, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 480,340);
+	assert( itsPlot != nullptr );
+
+// end JXLayout
+
+	window->SetMinSize(400, 300);
+	if (itsHideOnClose)
+	{
+		window->SetCloseAction(JXWindow::kDeactivateDirector);
+	}
+
+	ListenTo(itsPlot);
+
+	itsPlotMenu = menuBar->AppendTextMenu(JGetString("PlotMenuTitle::PlotDir"));
+	itsPlotMenu->SetMenuItems(kPlotMenuStr);
+	itsPlotMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsPlotMenu);
+
+	itsAnalysisMenu = menuBar->AppendTextMenu(JGetString("AnalysisMenuTitle::PlotDir"));
+	itsAnalysisMenu->SetMenuItems(kAnalysisMenuStr);
+	itsAnalysisMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsAnalysisMenu);
+
+	itsFitParmsMenu = jnew JXTextMenu(itsAnalysisMenu, kFitParmsCmd, menuBar);
+	assert( itsFitParmsMenu != nullptr );
+	itsFitParmsMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsFitParmsMenu);
+	itsAnalysisMenu->DisableItem(kFitParmsCmd);
+
+	itsDiffMenu = jnew JXTextMenu(itsAnalysisMenu, kDiffPlotCmd, menuBar);
+	assert( itsDiffMenu != nullptr );
+	itsDiffMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsDiffMenu);
+	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
+
+	JXDocumentMenu* windowListMenu =
+		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
+			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
+	assert( windowListMenu != nullptr );
+	menuBar->AppendMenu(windowListMenu);
+
+	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
+	itsHelpMenu->SetMenuItems(kHelpMenuStr);
+	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsHelpMenu);
+}
+
+/******************************************************************************
  Receive
 
  ******************************************************************************/
@@ -260,8 +268,8 @@ PlotDir::Receive
 	{
 		JString title = itsFileName + ":  " + itsPlot->GetTitle();
 		GetWindow()->SetTitle(title);
-		JString sessiontitle = "Glove session  -  " + title;
-		(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
+		JString sessiontitle = JGetString("SessionWindowPrefix::PlotDir") + title;
+		itsSessionDir->GetWindow()->SetTitle(sessiontitle);
 	}
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kPlotChanged))
@@ -351,77 +359,6 @@ PlotDir::Receive
 //		(itsDiffDirs->GetElement(selection->GetIndex()))->Activate();
 	}
 
-
-	else if (sender == itsFunctionDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const JXModalDialogDirector::Deactivated* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			JString fnStr = itsFunctionDialog->GetFunctionString();
-
-			JExprParser p(itsVarList);
-
-			JFunction* f;
-			if (p.Parse(fnStr, &f))
-			{
-				PlotFunction(f);
-			}
-		}
-		itsFunctionDialog = nullptr;
-	}
-
-	else if (sender == itsFitModuleDialog && message.Is(JXModalDialogDirector::kDeactivated))
-	{
-		const JXModalDialogDirector::Deactivated* info =
-			dynamic_cast<const JXModalDialogDirector::Deactivated*>(&message);
-		assert( info != nullptr );
-		if (info->Successful())
-		{
-			JIndex index = itsFitModuleDialog->GetFilterIndex();
-			J2DPlotDataBase* data = &(itsPlot->GetCurve(itsCurveForFit));
-			FitModule* fm;
-			JString modName;
-			(GetApplication())->GetFitModulePath(index, &modName);
-			bool success = FitModule::Create(&fm, this, data, modName);
-			if (!success)
-			{
-				JGetUserNotification()->ReportError(JGetString("UnknownError::FitModule"));
-			}
-		}
-		itsFitModuleDialog = nullptr;
-	}
-
-	else if (sender == itsPrinter &&
-			 message.Is(JPrinter::kPageSetupFinished))
-	{
-		const JPrinter::PageSetupFinished* info =
-			dynamic_cast<const JPrinter::PageSetupFinished*>(&message);
-		assert(info != nullptr);
-		if (info->Changed())
-		{
-			itsSupervisor->DataModified();
-			// for WYSISYG: adjust display to match new paper size
-		}
-	}
-
-	else if (sender == itsPrinter &&
-			 message.Is(JPrinter::kPrintSetupFinished))
-	{
-		const JPrinter::PrintSetupFinished* info =
-			dynamic_cast<const JPrinter::PrintSetupFinished*>(&message);
-		assert(info != nullptr);
-		if (info->Successful())
-		{
-			itsPlot->Print(*itsPrinter);
-			if (itsIsPrintAll)
-			{
-				itsFitParmsDir->SendAllToSession();
-				itsSessionDir->Print();
-			}
-		}
-	}
 	else
 	{
 		JXWindowDirector::Receive(sender, message);
@@ -442,7 +379,7 @@ PlotDir::NewFileName
 	itsFileName = filename;
 	JString title = itsFileName + ":  " + itsPlot->GetTitle();
 	GetWindow()->SetTitle(title);
-	JString sessiontitle = "Glove session  -  " + title;
+	JString sessiontitle = JGetString("SessionWindowPrefix::PlotDir") + title;
 	(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
 }
 
@@ -529,11 +466,11 @@ PlotDir::WriteCurves
 	JSize i;
 	for (i = 1; i <= tempCount; i++)
 	{
-		J2DPlotDataBase& jpdb = itsPlot->GetCurve(i);
+		J2DPlotDataBase* jpdb = itsPlot->GetCurve(i);
 		GloveCurveStats stat = itsCurveStats->GetElement(i);
-		if ((stat.type == kGDataCurve) && (jpdb.GetType() == J2DPlotDataBase::kScatterPlot))
+		if (stat.type == kGDataCurve && jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 		{
-			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&jpdb);
+			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(jpdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
 			{
@@ -542,8 +479,8 @@ PlotDir::WriteCurves
 		}
 		else if (stat.type == kGFitCurve)
 		{
-			J2DPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
-			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&pdb);
+			J2DPlotDataBase* pdb = itsPlot->GetCurve(stat.provider);
+			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(pdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
 			{
@@ -559,18 +496,18 @@ PlotDir::WriteCurves
 	os << count << ' ';
 	for (i = 1; i <= tempCount; i++)
 	{
-		J2DPlotDataBase& jpdb = itsPlot->GetCurve(i);
+		J2DPlotDataBase* jpdb = itsPlot->GetCurve(i);
 		GloveCurveStats stat = itsCurveStats->GetElement(i);
 		if (stat.type == kGDataCurve)
 		{
-			if (jpdb.GetType() == J2DPlotDataBase::kScatterPlot)
+			if (jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 			{
-				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&jpdb);
+				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(jpdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
 				{
 					os << (int)kGDataCurve << ' ';
-					os << (int)jpdb.GetType() << ' ';
+					os << (int)jpdb->GetType() << ' ';
 					JIndex index;
 					data->FindColumn(const_cast< JArray<JFloat>* >(&(pd->GetXData())), &index);
 					os << index << ' ';
@@ -594,12 +531,12 @@ PlotDir::WriteCurves
 					}
 				}
 			}
-			else if (jpdb.GetType() == J2DPlotDataBase::kVectorPlot)
+			else if (jpdb->GetType() == J2DPlotDataBase::kVectorPlot)
 			{
-				J2DVectorData* vd = dynamic_cast<J2DVectorData*>(&jpdb);
+				J2DVectorData* vd = dynamic_cast<J2DVectorData*>(jpdb);
 				assert( vd != nullptr );
 				os << (int)kGDataCurve << ' ';
-				os << (int)jpdb.GetType() << ' ';
+				os << (int)jpdb->GetType() << ' ';
 				JIndex index;
 				const JArray<JFloat>* carray;
 				carray	= &(vd->GetXData());
@@ -627,14 +564,14 @@ PlotDir::WriteCurves
 				os << (int)kGFitCurve << ' ';
 				os << (int)stat.fitType << ' ';
 				os << stat.provider << ' ';
-				PlotModuleFit* mf = dynamic_cast<PlotModuleFit*>(&jpdb);
+				PlotModuleFit* mf = dynamic_cast<PlotModuleFit*>(jpdb);
 				assert( mf != nullptr );
 				mf->WriteData(os);
 			}
 			else
 			{
-				J2DPlotDataBase& pdb = itsPlot->GetCurve(stat.provider);
-				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(&pdb);
+				J2DPlotDataBase* pdb = itsPlot->GetCurve(stat.provider);
+				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(pdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
 				{
@@ -644,7 +581,7 @@ PlotDir::WriteCurves
 
 					if (stat.fitType == kGProxyFit)
 					{
-						PlotFitProxy* pf	= dynamic_cast<PlotFitProxy*>(&jpdb);
+						PlotFitProxy* pf = dynamic_cast<PlotFitProxy*>(jpdb);
 						assert(pf != nullptr);
 						pf->WriteData(os);
 					}
@@ -653,7 +590,7 @@ PlotDir::WriteCurves
 		}
 		else if (stat.type == kGFunctionCurve)
 		{
-			J2DPlotFunction* pd = dynamic_cast<J2DPlotFunction*>(&jpdb);
+			J2DPlotFunction* pd = dynamic_cast<J2DPlotFunction*>(jpdb);
 			assert( pd != nullptr );
 			os << (int)kGFunctionCurve << ' ';
 			os << pd->GetFunctionString() << ' ';
@@ -794,7 +731,7 @@ PlotDir::ReadCurves
 			is >> provider;
 			if (ftype == kGModFit)
 			{
-				J2DPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
+				J2DPlotDataBase* pdata = itsPlot->GetCurve(provider);
 				PlotModuleFit* mf = jnew PlotModuleFit(itsPlot, pdata, is);
 				assert(mf != nullptr);
 				if (!AddFitModule(mf, pdata))
@@ -804,8 +741,8 @@ PlotDir::ReadCurves
 			}
 			else if (ftype == kGProxyFit)
 			{
-				J2DPlotDataBase* pdata = &(itsPlot->GetCurve(provider));
-				PlotFitProxy* pf	= jnew PlotFitProxy(itsPlot, pdata, is);
+				J2DPlotDataBase* pdata = itsPlot->GetCurve(provider);
+				PlotFitProxy* pf = jnew PlotFitProxy(itsPlot, pdata, is);
 				assert(pf != nullptr);
 
 				itsFits->Append(pf);
@@ -891,17 +828,28 @@ PlotDir::HandlePlotMenu
 {
 	if (index == kPageSetupCmd)
 	{
-		itsPrinter->BeginUserPageSetup();
+		if (itsPrinter->EditUserPageSetup())
+		{
+			itsSupervisor->DataModified();
+			// for WYSISYG: adjust display to match new paper size
+		}
 	}
 	else if (index == kPrintCmd)
 	{
-		itsPrinter->BeginUserPrintSetup();
-		itsIsPrintAll = false;
+		if (itsPrinter->ConfirmUserPrintSetup())
+		{
+			itsPlot->Print(*itsPrinter);
+		}
 	}
 	else if (index == kPrintSessionCmd)
 	{
-		itsPrinter->BeginUserPrintSetup();
-		itsIsPrintAll = true;
+		if (itsPrinter->ConfirmUserPrintSetup())
+		{
+			itsPlot->Print(*itsPrinter);
+
+			itsFitParmsDir->SendAllToSession();
+			itsSessionDir->Print();
+		}
 	}
 
 	else if (index == kPrintPlotEPSCmd)
@@ -957,12 +905,19 @@ PlotDir::HandleAnalysisMenu
 void
 PlotDir::CreateFunction()
 {
-	assert(itsFunctionDialog == nullptr);
-	itsFunctionDialog =
-		jnew PlotFunctionDialog(this, itsVarList);
-	assert( itsFunctionDialog != nullptr);
-	ListenTo(itsFunctionDialog);
-	itsFunctionDialog->BeginDialog();
+	auto* dlog = jnew PlotFunctionDialog(itsVarList);
+	assert( dlog != nullptr);
+
+	if (dlog->DoDialog())
+	{
+		JExprParser p(itsVarList);
+
+		JFunction* f;
+		if (p.Parse(dlog->GetFunctionString(), &f))
+		{
+			PlotFunction(f);
+		}
+	}
 }
 
 /******************************************************************************
@@ -1028,12 +983,22 @@ PlotDir::UpdateDiffMenu()
 void
 PlotDir::SelectFitModule()
 {
-	assert(itsFitModuleDialog == nullptr);
-	itsFitModuleDialog =
-		jnew FitModuleDialog(this);
-	assert( itsFitModuleDialog != nullptr);
-	ListenTo(itsFitModuleDialog);
-	itsFitModuleDialog->BeginDialog();
+	auto* dlog = jnew FitModuleDialog();
+	assert( dlog != nullptr);
+
+	if (dlog->DoDialog())
+	{
+		J2DPlotDataBase* data = itsPlot->GetCurve(itsCurveForFit);
+
+		JString modName;
+		GetApplication()->GetFitModulePath(dlog->GetFilterIndex(), &modName);
+
+		FitModule* fm;
+		if (!FitModule::Create(&fm, this, data, modName))
+		{
+			JGetUserNotification()->ReportError(JGetString("UnknownError::FitModule"));
+		}
+	}
 }
 
 /******************************************************************************
@@ -1153,7 +1118,7 @@ PlotDir::NewFit
 	const GCurveFitType type
 	)
 {
-	J2DPlotDataBase* data = &(itsPlot->GetCurve(plotindex));
+	J2DPlotDataBase* data = itsPlot->GetCurve(plotindex);
 	PlotFitFunction* df = nullptr;
 	if (type == kinearFit)
 	{
@@ -1291,8 +1256,13 @@ PlotDir::AddFit
 	J2DPlotDataBase* ddata = fit->GetDiffData();
 	dir->AddDiffCurve(ddata);
 	J2DPlotWidget* plot = dir->GetPlot();
-	JString numS(itsFits->GetElementCount(), 0);
-	JString str = "Residual Plot " + numS;
+	JString numS((JUInt64)itsFits->GetElementCount());
+
+	const JUtf8Byte* map[] =
+	{
+		"n", numS.GetBytes()
+	};
+	const JString str = JGetString("DiffMenuItem::PlotDir", map, sizeof(map));
 	plot->SetTitle(str);
 	plot->SetXLabel(itsPlot->GetXLabel());
 	plot->SetYLabel(itsPlot->GetYLabel());
@@ -1399,8 +1369,6 @@ PlotDir::DiscardChanges()
 
 /******************************************************************************
  GetMenuIcon (virtual)
-
-	Override of JXDocument::GetMenuIcon().
 
  ******************************************************************************/
 

@@ -7,12 +7,12 @@
 
  *****************************************************************************/
 
-#include <FitDescription.h>
-
+#include "FitDescription.h"
 #include "PolyFitDescription.h"
 #include "NonLinearFitDescription.h"
 
-#include <jx-af/jcore/jglobals.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 const JFileVersion kCurrentSetupVersion	= 0;

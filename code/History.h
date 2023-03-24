@@ -23,10 +23,10 @@ class History : public JXTEBase
 public:
 
 	History(JXMenuBar* menuBar,
-				 JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
-				 const HSizingOption hSizing, const VSizingOption vSizing,
-				 const JCoordinate x, const JCoordinate y,
-				 const JCoordinate w, const JCoordinate h);
+			JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
+			const HSizingOption hSizing, const VSizingOption vSizing,
+			const JCoordinate x, const JCoordinate y,
+			const JCoordinate w, const JCoordinate h);
 
 	~History() override;
 

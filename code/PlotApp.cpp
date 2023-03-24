@@ -623,7 +623,7 @@ PlotApp::DisplayAbout
 	const JString&	prevVersStr
 	)
 {
-	StartFiber([prevVersStr]()
+	StartFiber([showLicense, prevVersStr]()
 	{
 		if (!showLicense || JGetUserNotification()->AcceptLicense())
 		{
@@ -631,11 +631,11 @@ PlotApp::DisplayAbout
 			assert( dlog != nullptr );
 			dlog->DoDialog();
 
-			JCheckForNewerVersion(GetPrefsManager(), kVersionCheckID);
+			JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);
 		}
 		else
 		{
-			ForgetPrefsManager();
+			ForgetPrefsMgr();
 			JXGetApplication()->Quit();
 		}
 	});

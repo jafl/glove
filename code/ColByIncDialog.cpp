@@ -17,7 +17,6 @@
 #include <jx-af/jx/JXIntegerInput.h>
 #include <jx-af/jx/JXStaticText.h>
 
-#include <jx-af/jcore/JUserNotification.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -27,11 +26,10 @@
 
 ColByIncDialog::ColByIncDialog
 	(
-	JXWindowDirector*	supervisor,
-	const JSize			count
+	const JSize count
 	)
 	:
-	JXModalDialogDirector(supervisor, true)
+	JXModalDialogDirector()
 {
 	BuildWindow();
 
@@ -61,57 +59,57 @@ ColByIncDialog::BuildWindow()
 
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 220,190, JString::empty);
+	auto* window = jnew JXWindow(this, 210,190, JString::empty);
 	assert( window != nullptr );
 
 	itsBeginning =
 		jnew JXFloatInput(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 95,55, 100,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 95,55, 100,20);
 	assert( itsBeginning != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::ColByIncDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 130,160, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,160, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::ColByIncDialog::shortcuts::JXLayout"));
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::ColByIncDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,160, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 70,20);
 	assert( cancelButton != nullptr );
 	cancelButton->SetShortcuts(JGetString("cancelButton::ColByIncDialog::shortcuts::JXLayout"));
 
 	itsInc =
 		jnew JXFloatInput(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 95,90, 100,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 95,90, 100,20);
 	assert( itsInc != nullptr );
 
 	auto* incrLabel =
 		jnew JXStaticText(JGetString("incrLabel::ColByIncDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 15,90, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,90, 70,20);
 	assert( incrLabel != nullptr );
 	incrLabel->SetToLabel();
 
 	auto* minLabel =
 		jnew JXStaticText(JGetString("minLabel::ColByIncDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 15,55, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,55, 70,20);
 	assert( minLabel != nullptr );
 	minLabel->SetToLabel();
 
 	itsCount =
 		jnew JXIntegerInput(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 95,125, 100,20);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 95,125, 100,20);
 	assert( itsCount != nullptr );
 
 	auto* countLabel =
 		jnew JXStaticText(JGetString("countLabel::ColByIncDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 15,125, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,125, 70,20);
 	assert( countLabel != nullptr );
 	countLabel->SetToLabel();
 
 	itsDestMenu =
 		jnew JXTextMenu(JGetString("itsDestMenu::ColByIncDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 15,15, 180,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 15,15, 180,30);
 	assert( itsDestMenu != nullptr );
 
 // end JXLayout

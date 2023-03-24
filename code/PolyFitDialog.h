@@ -12,10 +12,7 @@
 
 #include <jx-af/jx/JXModalDialogDirector.h>
 
-#include <jx-af/jcore/JArray.h>
-
 class VarList;
-class JString;
 class JXExprEditor;
 class JXInputField;
 class JXTextButton;
@@ -26,6 +23,7 @@ class PolyFitDialog : public JXModalDialogDirector
 public:
 
 	PolyFitDialog();
+
 	~PolyFitDialog() override;
 
 	void			GetPowers(JArray<JIndex>* powers);

@@ -10,8 +10,6 @@
 #ifndef _H_FitDirector
 #define _H_FitDirector
 
-//includes
-
 #include <jx-af/jx/JXWindowDirector.h>
 
 class ParmColHeaderWidget;
@@ -32,8 +30,6 @@ class JX2DPlotWidget;
 class CurveNameList;
 class FitDescriptionList;
 class FitParameterTable;
-class NonLinearFitDialog;
-class PolyFitDialog;
 class PlotDir;
 
 class HistoryDir;
@@ -61,7 +57,6 @@ private:
 	JXTextMenu*		itsFitMenu;
 	JXTextMenu*		itsPrefsMenu;
 	JXTextMenu*		itsHelpMenu;
-	JXToolBar*		itsToolBar;
 	J2DPlotWidget*	itsPlot;
 
 	CurveNameList*			itsCurveList;
@@ -83,11 +78,19 @@ private:
 	JXExprEditor*			itsExprWidget;
 	VarList*				itsExprVarList;
 
-	NonLinearFitDialog*		itsNLFitDialog;
-	PolyFitDialog*			itsPolyFitDialog;
-
 	PlotDir*				itsDir;
 	JXPSPrinter*			itsPrinter;
+
+// begin JXLayout
+
+	JXToolBar* itsToolBar;
+
+// end JXLayout
+
+// begin parameterLayout
+
+
+// end parameterLayout
 
 private:
 

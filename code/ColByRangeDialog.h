@@ -20,7 +20,7 @@ class ColByRangeDialog : public JXModalDialogDirector
 {
 public:
 
-	ColByRangeDialog(JXWindowDirector* supervisor, const JSize count);
+	ColByRangeDialog(const JSize count);
 
 	~ColByRangeDialog() override;
 

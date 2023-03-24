@@ -15,16 +15,15 @@
 class JXTextButton;
 class JXInputField;
 class VarList;
-class ExprDirector;
 class JXTextMenu;
 class JXStaticText;
-class JString;
 
 class TransformFunctionDialog : public JXModalDialogDirector
 {
 public:
 
-	TransformFunctionDialog(JXDirector* supervisor, VarList* list, const JSize colCount);
+	TransformFunctionDialog(VarList* list, const JSize colCount);
+
 	~TransformFunctionDialog() override;
 
 	JIndex	GetDestination();
@@ -50,9 +49,8 @@ private:
 
 // end JXLayout
 
-	ExprDirector*	itsEditor;
-	VarList*		itsList;
-	JIndex			itsDestCol;
+	VarList*	itsList;
+	JIndex		itsDestCol;
 
 private:
 

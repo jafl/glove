@@ -43,8 +43,6 @@ public:
 	PrefsMgr(bool* isNew);
 	~PrefsMgr() override;
 
-	void	EditPrefs();
-
 	JString	GetGloveVersionStr() const;
 
 	void	WritePrinterSetup(JXPTPrinter* printer);
@@ -56,9 +54,6 @@ public:
 protected:
 
 	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
-private:
 
 private:
 

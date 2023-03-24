@@ -29,7 +29,7 @@ public:
 
 public:
 
-	ColByIncDialog(JXWindowDirector* supervisor, const JSize count);
+	ColByIncDialog(const JSize count);
 
 	~ColByIncDialog() override;
 

@@ -103,7 +103,6 @@ DataMenuTitle::RaggedFloatTable				"Data"
 CopyFailed::RaggedFloatTable				"Unable to copy to the clipboard."
 NoSelection::RaggedFloatTable				"Nothing is selected."
 SelectionMismatch::RaggedFloatTable			"The selected area doesn't match the clipboard area."
-SelectDataModulePrompt::RaggedFloatTable	"Select data module"
 NoDataToPlot::RaggedFloatTable				"You have no data to plot."
 ReplaceColWarning::RaggedFloatTable			"Replace destination column?"
 NoDataToTransform::RaggedFloatTable			"You have no data to transform."
@@ -112,7 +111,6 @@ MustSelectColumns::RaggedFloatTable			"This module requires $i column(s) to be s
 
 # DataDocument
 
-OpenFilePrompt::DataDocument		"Select data file"
 OpenFailed::DataDocument			"Error opening file."
 FilterError::DataDocument			"Error executing filter."
 FilterFileError::DataDocument		"This file is not readable by this filter."
@@ -128,9 +126,9 @@ LoadFixedWidthFile::DataDocument	"Fixed width is not yet implemented."
 FileTooNew::DataDocument
 "This file was created by a newer version of Glove.  You need the newest version in order to open it."
 
-# ExprDirector
+# EditExprDialog
 
-WindowTitle::ExprDirector	"Function Editor"
+WindowTitle::EditExprDialog	"Function Editor"
 
 # ChooseFileImportDialog
 
@@ -172,10 +170,11 @@ MissingPower::PolyFitDialog	"You must add at least one power."
 
 # PlotDir
 
-PlotMenuTitle::PlotDir		"Plot"
-AnalysisMenuTitle::PlotDir	"Analysis"
-DiffCurveName::PlotDir		"Residual data"
-DiffMenuItem::PlotDir		"Residual plot $i"
+PlotMenuTitle::PlotDir			"Plot"
+AnalysisMenuTitle::PlotDir		"Analysis"
+DiffCurveName::PlotDir			"Residual data"
+DiffMenuItem::PlotDir			"Residual plot $i"
+SessionWindowPrefix::PlotDir	"Glove session  -  "
 
 # FitParameterTable
 
@@ -217,3 +216,12 @@ Help::GetDelimiterDialog		"In the text below, → = tab and • = space."
 # CreateVectorPlotDialog
 
 WindowTitle::CreateVectorPlotDialog	"Choose Vector Data Columns"
+
+# FitParmsDir
+
+WindowTitle::FitParmsDir	"Fit Parameters"
+FunctionLabel::FitParmsDir	"Function:"
+
+# HistoryDir
+
+WindowTitle::HistoryDir	"Glove session"

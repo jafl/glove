@@ -12,18 +12,17 @@
 
 #include <jx-af/jx/JXModalDialogDirector.h>
 
+class JXTextMenu;
 class JXTextButton;
 class JXInputField;
 class VarList;
-class ExprDirector;
-class JXTextMenu;
-class JString;
 
 class PlotFunctionDialog : public JXModalDialogDirector
 {
 public:
 
-	PlotFunctionDialog(JXDirector* supervisor, VarList* list);
+	PlotFunctionDialog(VarList* list);
+
 	~PlotFunctionDialog() override;
 
 	const JString& GetFunctionString();
@@ -44,8 +43,7 @@ private:
 
 // end JXLayout
 
-	ExprDirector*	itsEditor;
-	VarList*		itsList;
+	VarList*	itsList;
 
 private:
 

@@ -12,22 +12,14 @@
 
 #include <jx-af/jx/JXEditTable.h>
 #include <jx-af/jcore/JAuxTableData.h>
-#include <jx-af/jcore/JFontStyle.h>
 
-class JString;
 class RaggedFloatTableData;
+class CreatePlotDialogBase;
 class JXFloatInput;
 class JTableSelection;
 class JXMenuBar;
 class JXTextMenu;
-class CreatePlotDialog;
-class CreateVectorPlotDialog;
-class GXSimpleTransformDialog;
-class GXFullTransformDialog;
-class ColByIncDialog;
-class ColByRangeDialog;
 class DataDocument;
-class TransformFunctionDialog;
 class VarList;
 class JXToolBar;
 class JXTextButton;
@@ -141,15 +133,8 @@ private:
 	JXTextMenu*					itsDataMenu;
 	JXTextMenu*					itsModuleMenu;
 
-	CreatePlotDialog*			itsCreatePlotDialog;
-	CreateVectorPlotDialog*		itsCreateVectorPlotDialog;
-	ColByRangeDialog*			itsColByRangeDialog;
-	ColByIncDialog*				itsColByIncDialog;
-	TransformFunctionDialog*	itsTransDialog;
-
 	Atom						itsGloveTextXAtom;
 
-	VarList*					itsTransformVarList;
 	JXTextButton*				itsOKButton;
 	DragType					itsDragType;
 
@@ -178,15 +163,11 @@ private:
 	void HandleDeletion();
 
 	void ChoosePlotColumns(const JIndex type);
-	void PlotData(const JIndex type);
+	void PlotData(const JIndex type, CreatePlotDialogBase* dlog);
 
 	void GetNewColByRange();
-	void CreateNewColByRange();
-
 	void GetNewColByInc();
-	void CreateNewColByInc();
 
-	void EvaluateTransformFunction();
 	void ChooseNewTransformFunction();
 
 	void HandleModuleMenu(const JIndex index);

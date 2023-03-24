@@ -19,10 +19,8 @@ class RaggedFloatTable;
 class JXTextMenu;
 class JXPSPrinter;
 class JXModalDialogDirector;
-class ChooseFileImportDialog;
 class PlotDir;
 class JXScrollbarSet;
-class GetDelimiterDialog;
 
 class DataDocument : public JXFileDocument
 {
@@ -64,8 +62,6 @@ private:
 	JXTextMenu*				itsExportMenu;
 	JXTextMenu*				itsHelpMenu;
 
-	ChooseFileImportDialog*	itsFileImportDialog;
-	GetDelimiterDialog*		itsDelimiterDialog;
 	JString					itsCurrentFileName;
 
 	JPtrArray<PlotDir>* itsPlotWindows;
@@ -93,9 +89,7 @@ private:
 	void	HandleHelpMenu(const JIndex item);
 
 	bool	LoadNativeFile(std::istream& is);
-	void	LoadImportFile();
-	void	LoadDelimitedFile();
-	void	LoadInternalFile(const JIndex index);
+	void	LoadDelimitedFile(const JString& fileText);
 
 	void	ChooseFileFilter();
 	void	ReadPlotData(std::istream& is, const JFloat gloveVersion);

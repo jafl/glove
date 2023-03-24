@@ -10,15 +10,14 @@
 #include "HistoryDir.h"
 #include "History.h"
 
+#include <jx-af/jx/JXApplication.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXScrollbarSet.h>
-#include <jx-af/jx/JXMenu.h>
 #include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXMenu.h>
 #include <jx-af/jx/JXTextMenu.h>
-#include <jx-af/jx/JXApplication.h>
-#include <jx-af/jx/jXglobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
-#include <jx-af/jcore/JChooseSaveFile.h>
 #include <jx-af/image/jx/jx_plain_file_small.xpm>
 #include <jx-af/jcore/jAssert.h>
 
@@ -77,52 +76,42 @@ HistoryDir::~HistoryDir()
 void
 HistoryDir::BuildWindow()
 {
-	JCoordinate w = 485;
-	JCoordinate h = 320;
-	JPoint dtl;
-//	bool foundWindowPref = gjdbApp->GetCmdWindowSize(&dtl, &w, &h);
-	auto* window = jnew JXWindow(this, w,h, "Glove session");
+// begin JXLayout
+
+	auto* window = jnew JXWindow(this, 480,320, JString::empty);
 	assert( window != nullptr );
-	window->SetMinSize(300,200);
-	window->SetCloseAction(JXWindow::kDeactivateDirector);
-//	if (foundWindowPref)
-//		{
-//		window->Place(dtl.x, dtl.y);
-//		}
 
 	itsMenuBar =
-		jnew JXMenuBar(window, JXWidget::kHElastic, JXWidget::kFixedTop,
-						0,0, w,kJXDefaultMenuBarHeight);
+		jnew JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 480,30);
 	assert( itsMenuBar != nullptr );
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 480,290);
+	assert( scrollbarSet != nullptr );
+
+// end JXLayout
+
+	window->SetTitle(JGetString("WindowTitle::HistoryDir"));
+	window->SetMinSize(300,200);
+	window->SetCloseAction(JXWindow::kDeactivateDirector);
+
+	itsHistory =
+		jnew History(itsMenuBar, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					 JXWidget::kHElastic, JXWidget::kVElastic, 0, 0, 10, 10);
+	assert( itsHistory != nullptr );
+	itsHistory->FitToEnclosure(true, true);
+	ListenTo(itsHistory);
 
 	itsFileMenu = itsMenuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFileMenu);
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(window,
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,kJXDefaultMenuBarHeight,
-			w,h - kJXDefaultMenuBarHeight);
-	assert( scrollbarSet != nullptr );
-
-	itsHistory =
-		jnew History(itsMenuBar,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 10, 10);
-	assert( itsHistory != nullptr );
-
-	itsHistory->FitToEnclosure(true, true);
-
-	ListenTo(itsHistory);
-
 }
 
 /******************************************************************************
  Receive (virtual protected)
-
 
  ******************************************************************************/
 
