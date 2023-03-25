@@ -19,7 +19,7 @@
 #include <jx-af/jcore/jAssert.h>
 
 static FitManager*	itsFitManager	= nullptr;
-static PrefsMgr*	itsPrefsMgr	= nullptr;
+static PrefsMgr*	itsPrefsMgr		= nullptr;
 static PlotApp*		itsApplication	= nullptr;
 static JXPTPrinter*	itsPrinter		= nullptr;
 static MDIServer*	itsMDIServer	= nullptr;
@@ -51,7 +51,7 @@ InitGlobals
 	itsFitManager = jnew FitManager();
 	assert(itsFitManager != nullptr);
 
-	itsMDIServer	= jnew MDIServer(app);
+	itsMDIServer = jnew MDIServer(app);
 	assert(itsMDIServer != nullptr);
 
 	return isNew;
@@ -65,7 +65,10 @@ InitGlobals
 void
 DeleteGlobals()
 {
-	itsPrefsMgr->WritePrinterSetup(itsPrinter);
+	if (itsPrefsMgr != nullptr)
+	{
+		itsPrefsMgr->WritePrinterSetup(itsPrinter);
+	}
 	jdelete itsPrinter;
 	jdelete itsFitManager;
 	jdelete itsPrefsMgr;
@@ -166,7 +169,7 @@ BuildColumnMenus
 		{
 			"i", str.GetBytes()
 		};
-		str = JGetString(key, map, sizeof("map"));
+		str = JGetString(key, map, sizeof(map));
 
 		std::va_list args2;
 		va_copy(args2, args);

@@ -318,7 +318,7 @@ PlotApp::NewFile()
 
  ******************************************************************************/
 
-void
+bool
 PlotApp::OpenFile
 	(
 	const JString& fileName
@@ -328,24 +328,28 @@ PlotApp::OpenFile
 	if (JXGetDocumentManager()->FileDocumentIsOpen(fileName, &doc))
 	{
 		doc->Activate();
+		return true;
 	}
 	else if (!JFileExists(fileName))
 	{
 		JString msg = fileName;
 		msg += " does not exist.";
 		JGetUserNotification()->ReportError(msg);
+		return false;
 	}
 	else if (!JFileReadable(fileName))
 	{
 		JString msg = fileName;
 		msg += " is not readable.";
 		JGetUserNotification()->ReportError(msg);
+		return false;
 	}
 	else
 	{
 		auto* tableDir = jnew DataDocument(this, fileName, true);
 		assert( tableDir != nullptr);
 		tableDir->Activate();
+		return true;
 	}
 }
 

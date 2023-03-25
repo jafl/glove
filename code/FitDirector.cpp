@@ -70,7 +70,6 @@
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JCoordinate kCloseButtonWidth	= 50;
 const JCoordinate kCurrentPrefsVersion	= 1;
 
 static const JUtf8Byte* kFitMenuStr =
@@ -182,7 +181,7 @@ FitDirector::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 600,420, JString::empty);
+	auto* window = jnew JXWindow(this, 600,500, JString::empty);
 	assert( window != nullptr );
 
 	auto* menuBar =
@@ -192,13 +191,18 @@ FitDirector::BuildWindow()
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsMgr(), kFitToolBarID, menuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,390);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,470);
 	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
+
+	itsFitMenu = menuBar->AppendTextMenu(JGetString("FitMenuTitle::FitDirector"));
+	itsFitMenu->SetMenuItems(kFitMenuStr);
+	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
+	ListenTo(itsFitMenu);
 
 	JArray<JCoordinate> widths(2);
 	widths.AppendElement(155);
@@ -214,7 +218,7 @@ FitDirector::BuildWindow()
 		jnew JXHorizPartition(widths, elasticIndex, minWidths,
 							  itsToolBar->GetWidgetEnclosure(),
 							  JXWidget::kHElastic,JXWidget::kVElastic,
-							  0,0, 100,100);
+							  0,0, 500,100);
 	assert( itsMainPartition != nullptr );
 	itsMainPartition->FitToEnclosure();
 
@@ -237,7 +241,7 @@ FitDirector::BuildWindow()
 	itsListPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
 							 JXWidget::kHElastic, JXWidget::kVElastic,
-							 0,0, 100,100);
+							 0,0, 100,300);
 	assert( itsListPartition != nullptr );
 	itsListPartition->FitToEnclosure();
 
@@ -315,7 +319,7 @@ FitDirector::BuildWindow()
 	assert(itsExprVarList != nullptr);
 
 	itsExprWidget	=
-		jnew JXExprEditor(itsExprVarList, scrollbarSet,
+		jnew JXExprEditor(itsExprVarList, menuBar, scrollbarSet,
 						  scrollbarSet->GetScrollEnclosure(),
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
@@ -329,9 +333,9 @@ FitDirector::BuildWindow()
 	container = itsMainPartition->GetCompartment(2);
 
 	heights.RemoveAll();
-	heights.AppendElement(90);
-	heights.AppendElement(120);
-	heights.AppendElement(120);
+	heights.AppendElement(80);
+	heights.AppendElement(150);
+	heights.AppendElement(150);
 
 	minHeights.RemoveAll();
 	minHeights.AppendElement(70);
@@ -341,7 +345,7 @@ FitDirector::BuildWindow()
 	itsPlotPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
 							 JXWidget::kHElastic, JXWidget::kVElastic,
-							 0,0, 100,100);
+							 0,0, 100,400);
 	assert( itsPlotPartition != nullptr );
 	itsPlotPartition->FitToEnclosure();
 
@@ -383,6 +387,7 @@ FitDirector::BuildWindow()
 		jnew ParmColHeaderWidget(itsParameterTable, scrollbarSet2, container,
 								 JXWidget::kHElastic, JXWidget::kFixedTop,
 								 0,0, 100, kColHeaderHeight);
+	itsParameterColHeader->FitToEnclosure(true, false);
 	assert(itsParameterColHeader != nullptr);
 
 	itsParameterTable->SetColHeaderWidget(itsParameterColHeader);
@@ -424,11 +429,6 @@ FitDirector::BuildWindow()
 
 	// menus & toolbar
 
-	itsFitMenu = menuBar->AppendTextMenu(JGetString("FitMenuTitle::FitDirector"));
-	itsFitMenu->SetMenuItems(kFitMenuStr);
-	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
-	ListenTo(itsFitMenu);
-
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -439,8 +439,8 @@ FitDirector::BuildWindow()
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
 
-	itsHelpMenu->SetItemImage(kTOCCmd, jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, JXPM(jx_help_specific));
+	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
+	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
 	itsCurveList->SetCurrentCurveIndex(1);
 

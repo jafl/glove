@@ -1,8 +1,6 @@
 /******************************************************************************
  PlotFitNonLinear.cpp
 
-	<Description>
-
 	BASE CLASS = public PlotFitBase
 
 	Copyright (C) 2000 by Glenn W. Bach.

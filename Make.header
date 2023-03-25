@@ -31,7 +31,7 @@ LIB_DEPS := ${JX_LIB_ROOT}/libj2dplot.a \
 
 # make variables
 
-LDLIBS := ${J_STD_LIBS}
+LDLIBS := -lreflex ${J_STD_LIBS}
 
 #####
 

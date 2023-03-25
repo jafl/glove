@@ -22,10 +22,10 @@
 
 PlotFitFunction::PlotFitFunction
 	(
-	J2DPlotWidget*	plot,
+	J2DPlotWidget*		plot,
 	J2DPlotDataBase*	fitData,
-	const JFloat	xMin,
-	const JFloat	xMax
+	const JFloat		xMin,
+	const JFloat		xMax
 	)
 	:
 	J2DPlotFunctionBase(J2DPlotDataBase::kScatterPlot, plot, xMin, xMax),

@@ -60,29 +60,23 @@ MDIServer::HandleMDIRequest
 	const JSize argCount = argList.GetElementCount();
 	if (argCount == 1)
 	{
-//		GNBGLGetPrefsMgr()->RestoreProgramState();
 		itsApp->NewFile();
-//		GNBGLGetPrefsMgr()->ForgetProgramState();
 		return;
 	}
-	else
-	{
-//		GNBGLGetPrefsMgr()->ForgetProgramState();
-	}
-
-	JUserNotification* un = JGetUserNotification();
 
 	const JString origDir = JGetCurrentDirectory();
 	if (!JChangeDirectory(dir).OK())
 	{
 		const JUtf8Byte* map[] =
-	{
+		{
 			"name", dir.GetBytes()
-	};
+		};
 		const JString msg = JGetString("DirectoryAccessDenied::MDIServer", map, sizeof(map));
-		un->ReportError(msg);
+		JGetUserNotification()->ReportError(msg);
 		return;
 	}
+
+	bool hasFile = false;
 
 	JXStandAlonePG pg;
 	pg.RaiseWhenUpdate();
@@ -105,11 +99,11 @@ MDIServer::HandleMDIRequest
 		if (!isFile && JNameUsed(fileName))
 		{
 			const JUtf8Byte* map[] =
-		{
+			{
 				"name", fileName.GetBytes()
-		};
+			};
 			const JString msg = JGetString("NotAFile::MDIServer", map, sizeof(map));
-			un->ReportError(msg);
+			JGetUserNotification()->ReportError(msg);
 			shouldOpen = false;
 		}
 		else if (!isFile)
@@ -118,7 +112,7 @@ MDIServer::HandleMDIRequest
 /*			JString msg = "\"";
 			msg += fileName;
 			msg += "\" does not exist.  Do you want to create it?";
-			if (!un->AskUserYes(msg))
+			if (!JGetUserNotification()->AskUserYes(msg))
 			{
 				shouldOpen = false;
 			}
@@ -127,7 +121,7 @@ MDIServer::HandleMDIRequest
 				std::ofstream temp(fileName);
 				if (!temp.good())
 				{
-					un->ReportError("Unable to create it.  "
+					JGetUserNotification()->ReportError("Unable to create it.  "
 						"Please check that the directory is writable.");
 					shouldOpen = false;
 				}
@@ -136,7 +130,7 @@ MDIServer::HandleMDIRequest
 
 		if (shouldOpen)
 		{
-			itsApp->OpenFile(fileName);
+			hasFile = itsApp->OpenFile(fileName) || hasFile;
 		}
 
 		if (pg.ProcessRunning() && !pg.IncrementProgress())
@@ -152,4 +146,9 @@ MDIServer::HandleMDIRequest
 
 	const JError err = JChangeDirectory(origDir);
 	assert_ok( err );
+
+	if (!hasFile)
+	{
+		itsApp->NewFile();
+	}
 }

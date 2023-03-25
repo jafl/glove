@@ -12,8 +12,6 @@
 
 #include <jx-af/jx/JXModalDialogDirector.h>
 
-class VarList;
-class JXExprEditor;
 class JXInputField;
 class JXTextButton;
 class JXTextCheckbox;
@@ -36,8 +34,6 @@ protected:
 
 private:
 
-	JXExprEditor*		itsFn;
-	VarList*			itsVarList;
 	JXTextCheckbox*		itsCB[10];
 
 // begin JXLayout

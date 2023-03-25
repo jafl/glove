@@ -9,9 +9,6 @@
 
 #include "AboutDialog.h"
 
-#include "glove_icon.xpm"
-#include "nps.xpm"
-
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXTextButton.h>
@@ -55,6 +52,9 @@ AboutDialog::~AboutDialog()
  BuildWindow (private)
 
  ******************************************************************************/
+
+#include "glove_icon.xpm"
+#include <jx-af/image/jx/new_planet_software.xpm>
 
 void
 AboutDialog::BuildWindow
@@ -111,7 +111,7 @@ AboutDialog::BuildWindow
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	JString text = JGetString("Description", map1, sizeof(map1));
+	JString text = JGetString("Description::global", map1, sizeof(map1));
 
 	if (!prevVersStr.IsEmpty())
 	{
@@ -127,7 +127,7 @@ AboutDialog::BuildWindow
 	textWidget->GetText()->SetText(text);
 
 	gloveIcon->SetXPM(glove_icon);
-	npsIcon->SetXPM(nps);
+	npsIcon->SetXPM(new_planet_software);
 
 	const JSize bdh = textWidget->GetBoundsHeight();
 	const JSize aph = textWidget->GetApertureHeight();

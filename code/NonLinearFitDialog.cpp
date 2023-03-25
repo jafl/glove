@@ -234,8 +234,6 @@ NonLinearFitDialog::BuildWindow()
 // end variableLayout
 
 	window->SetTitle(JGetString("WindowTitle::NonLinearFitDialog"));
-	UseModalPlacement(false);
-	window->PlaceAsDialogWindow();
 	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
 

@@ -11,7 +11,6 @@
 #define _H_HistoryDir
 
 #include <jx-af/jx/JXDocument.h>
-#include <jx-af/jcore/JXPM.h>
 
 class History;
 class JXTextMenu;
@@ -31,7 +30,6 @@ public:
 	void	ReadData(std::istream& is);
 	bool	NeedsSave() const override;
 	void	SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
-	bool	GetMenuIcon(const JXImage** icon) const override;
 
 protected:
 

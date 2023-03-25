@@ -13,7 +13,6 @@
 #include <jx-af/jx/JXDocument.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
 #include "gloveCurveStats.h"
-#include <jx-af/jcore/JXPM.h>
 
 class Plotter;
 class JFunction;
@@ -52,7 +51,6 @@ public:
 	HistoryDir*	GetSessionDir();
 	bool		AddFitModule(PlotModuleFit* fit, J2DPlotDataBase* fitData);
 	void		SafetySave(const JXDocumentManager::SafetySaveReason reason) override;
-	bool		GetMenuIcon(const JXImage** icon) const override;
 
 	void		AddFitProxy(PlotFitProxy* fit, const JIndex index, const JString& name);
 

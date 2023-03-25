@@ -20,7 +20,7 @@
 #include "CreatePlotDialog.h"
 #include "CreateVectorPlotDialog.h"
 #include "PlotApp.h"
-#include <TextSelection.h>
+#include "TextSelection.h"
 #include "UndoElementChange.h"
 #include "UndoElementAppend.h"
 #include "UndoElementCut.h"
@@ -29,9 +29,12 @@
 #include "UndoElementsCut.h"
 #include "globals.h"
 
-#include "editcut.xpm"
-#include "editcopy.xpm"
-#include "editpaste.xpm"
+#include <jx-af/image/jx/jx_edit_undo.xpm>
+#include <jx-af/image/jx/jx_edit_redo.xpm>
+#include <jx-af/image/jx/jx_edit_cut.xpm>
+#include <jx-af/image/jx/jx_edit_copy.xpm>
+#include <jx-af/image/jx/jx_edit_paste.xpm>
+#include <jx-af/image/jx/jx_edit_clear.xpm>
 #include "plotdata.xpm"
 #include "plotvectordata.xpm"
 #include "transform.xpm"
@@ -42,7 +45,6 @@
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXToolBar.h>
 #include <jx-af/jx/JXFloatInput.h>
-#include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXSelectionManager.h>
 #include <jx-af/jx/JXTextButton.h>
@@ -188,37 +190,21 @@ RaggedFloatTable::RaggedFloatTable
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsEditMenu);
 
-
-	auto* image = jnew JXImage(GetDisplay(), JXPM(editcut));
-	assert(image != nullptr);
-	itsEditMenu->SetItemImage(kCutCmd, image, true);
-
-	image = jnew JXImage(GetDisplay(), JXPM(editcopy));
-	assert(image != nullptr);
-	itsEditMenu->SetItemImage(kCopyCmd, image, true);
-
-	image = jnew JXImage(GetDisplay(), JXPM(editpaste));
-	assert(image != nullptr);
-	itsEditMenu->SetItemImage(kPasteCmd, image, true);
+	itsEditMenu->SetItemImage(kUndoCmd,   jx_edit_undo);
+	itsEditMenu->SetItemImage(kRedoCmd,   jx_edit_redo);
+	itsEditMenu->SetItemImage(kCutCmd,    jx_edit_cut);
+	itsEditMenu->SetItemImage(kCopyCmd,   jx_edit_copy);
+	itsEditMenu->SetItemImage(kPasteCmd,  jx_edit_paste);
+	itsEditMenu->SetItemImage(kDeleteCmd, jx_edit_clear);
 
 	itsDataMenu = menuBar->AppendTextMenu(JGetString("DataMenuTitle::RaggedFloatTable"));
 	itsDataMenu->SetMenuItems(kDataMenuStr);
 	itsDataMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDataMenu);
 
-
-	image = jnew JXImage(GetDisplay(), JXPM(plotdata));
-	assert(image != nullptr);
-	itsDataMenu->SetItemImage(kPlotCmd, image, true);
-
-	image = jnew JXImage(GetDisplay(), JXPM(plotvectordata));
-	assert(image != nullptr);
-	itsDataMenu->SetItemImage(kPlotVectorCmd, image, true);
-
-
-	image = jnew JXImage(GetDisplay(), JXPM(glv_transform));
-	assert(image != nullptr);
-	itsDataMenu->SetItemImage(kTransCmd, image, true);
+	itsDataMenu->SetItemImage(kPlotCmd, plotdata);
+	itsDataMenu->SetItemImage(kPlotVectorCmd, plotvectordata);
+	itsDataMenu->SetItemImage(kTransCmd, glv_transform);
 
 	itsModuleMenu = jnew JXTextMenu(itsDataMenu, kDataModuleCmd, menuBar);
 	assert( itsModuleMenu != nullptr );

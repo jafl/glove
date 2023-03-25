@@ -1,8 +1,6 @@
 /******************************************************************************
  PrefsMgr.cpp
 
-	<Description>
-
 	BASE CLASS = public JXPrefsManager
 
 	Copyright (C) 1998 by Glenn W. Bach.

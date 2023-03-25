@@ -18,7 +18,6 @@
 #include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/jXGlobals.h>
 
-#include <jx-af/image/jx/jx_plain_file_small.xpm>
 #include <jx-af/jcore/jAssert.h>
 
 static const JUtf8Byte* kFileMenuStr =
@@ -310,7 +309,6 @@ HistoryDir::SafetySave
 	const JXDocumentManager::SafetySaveReason reason
 	)
 {
-
 }
 
 /******************************************************************************
@@ -321,19 +319,4 @@ HistoryDir::SafetySave
 void
 HistoryDir::DiscardChanges()
 {
-
-}
-
-/******************************************************************************
- GetMenuIcon (virtual)
-
-	Override of JXDocument::GetMenuIcon().
-
- ******************************************************************************/
-
-JXPM
-HistoryDir::GetMenuIcon()
-	const
-{
-	return JXPM(jx_plain_file_small);
 }

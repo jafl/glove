@@ -98,7 +98,7 @@ PlotExpFit::GetYRange
 	(
 	const JFloat	xMin,
 	const JFloat	xMax,
-	const bool	xLinear,
+	const bool		xLinear,
 	JFloat*			yMin,
 	JFloat*			yMax
 	)

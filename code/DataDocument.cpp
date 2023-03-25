@@ -21,12 +21,6 @@
 #include "globals.h"
 #include "PrefsMgr.h"
 
-#include "filenew.xpm"
-#include "fileopen.xpm"
-#include "filefloppy.xpm"
-#include "fileprint.xpm"
-#include "manual.xpm"
-
 #include <jx-af/j2dplot/JX2DPlotWidget.h>
 #include <jx-af/j2dplot/J2DPlotData.h>
 #include <jx-af/j2dplot/J2DVectorData.h>
@@ -41,7 +35,6 @@
 #include <jx-af/jx/JXScrollbar.h>
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXPSPrinter.h>
-#include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/JXSaveFileDialog.h>
@@ -192,6 +185,13 @@ DataDocument::~DataDocument()
 
  ******************************************************************************/
 
+#include <jx-af/image/jx/jx_file_new.xpm>
+#include <jx-af/image/jx/jx_file_open.xpm>
+#include <jx-af/image/jx/jx_file_save.xpm>
+#include <jx-af/image/jx/jx_file_print.xpm>
+#include <jx-af/image/jx/jx_help_toc.xpm>
+#include <jx-af/image/jx/jx_help_specific.xpm>
+
 void
 DataDocument::BuildWindow()
 {
@@ -218,25 +218,14 @@ DataDocument::BuildWindow()
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	ListenTo(itsFileMenu);
 
-	auto* image = jnew JXImage(GetDisplay(), JXPM(filenew));
-	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kNewCmd, image, true);
-
-	image = jnew JXImage(GetDisplay(), JXPM(fileopen));
-	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kOpenCmd, image, true);
-
-	image = jnew JXImage(GetDisplay(), JXPM(filefloppy));
-	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kSaveCmd, image, true);
-
-	image = jnew JXImage(GetDisplay(), JXPM(fileprint));
-	assert(image != nullptr);
-	itsFileMenu->SetItemImage(kPrintCmd, image, true);
+	itsFileMenu->SetItemImage(kNewCmd,   jx_file_new);
+	itsFileMenu->SetItemImage(kOpenCmd,  jx_file_open);
+	itsFileMenu->SetItemImage(kSaveCmd,  jx_file_save);
+	itsFileMenu->SetItemImage(kPrintCmd, jx_file_print);
 
 	itsScrollbarSet =
 		jnew JXScrollbarSet(toolBar->GetWidgetEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 10,10);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsScrollbarSet != nullptr );
 	itsScrollbarSet->FitToEnclosure();
 
@@ -299,9 +288,8 @@ DataDocument::BuildWindow()
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsHelpMenu);
 
-	image = jnew JXImage(GetDisplay(), JXPM(manual));
-	assert(image != nullptr);
-	itsHelpMenu->SetItemImage(kTOCCmd, image, true);
+	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
+	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
 	toolBar->LoadPrefs();
 	if (toolBar->IsEmpty())

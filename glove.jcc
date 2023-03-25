@@ -23,33 +23,10 @@ T
 2 "MDIServer.cpp"
 F
 "./code/MDIServer.cpp"
-F
 T
-1 "widgets"
-T
-2 "FitParmsTable.cpp"
+2 "AboutDialog.cpp"
 F
-"./code/FitParmsTable.cpp"
-T
-2 "History.cpp"
-F
-"./code/History.cpp"
-T
-2 "Plotter.cpp"
-F
-"./code/Plotter.cpp"
-T
-2 "ColHeaderWidget.cpp"
-F
-"./code/ColHeaderWidget.cpp"
-T
-2 "RaggedFloatTable.cpp"
-F
-"./code/RaggedFloatTable.cpp"
-T
-2 "RowHeaderWidget.cpp"
-F
-"./code/RowHeaderWidget.cpp"
+"./code/AboutDialog.cpp"
 F
 T
 1 "directors"
@@ -69,10 +46,6 @@ T
 2 "FitParmsDir.cpp"
 F
 "./code/FitParmsDir.cpp"
-T
-2 "AboutDialog.cpp"
-F
-"./code/AboutDialog.cpp"
 T
 2 "HistoryDir.cpp"
 F
@@ -117,6 +90,33 @@ T
 2 "PlotDir.cpp"
 F
 "./code/PlotDir.cpp"
+F
+T
+1 "widgets"
+T
+2 "FitParmsTable.cpp"
+F
+"./code/FitParmsTable.cpp"
+T
+2 "History.cpp"
+F
+"./code/History.cpp"
+T
+2 "Plotter.cpp"
+F
+"./code/Plotter.cpp"
+T
+2 "ColHeaderWidget.cpp"
+F
+"./code/ColHeaderWidget.cpp"
+T
+2 "RaggedFloatTable.cpp"
+F
+"./code/RaggedFloatTable.cpp"
+T
+2 "RowHeaderWidget.cpp"
+F
+"./code/RowHeaderWidget.cpp"
 F
 T
 1 "misc"

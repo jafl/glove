@@ -52,10 +52,13 @@ private:
 	JPtrArray<JString>*	itsNameList;	// we don't own the strings
 	JCoordinate			itsMinColWidth;
 	JXInputField*		itsInput;
-	JXImage*			itsBuiltInIcon;
-	JXImage*			itsNonLinearIcon;
-	JXImage*			itsPolyIcon;
-	JXImage*			itsExecutableIcon;
+
+	// not owned
+
+	JXImage*	itsBuiltInIcon;
+	JXImage*	itsNonLinearIcon;
+	JXImage*	itsPolyIcon;
+	JXImage*	itsExecutableIcon;
 
 private:
 

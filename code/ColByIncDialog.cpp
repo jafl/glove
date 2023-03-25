@@ -122,6 +122,7 @@ ColByIncDialog::BuildWindow()
 
 	itsBeginning->SetIsRequired(true);
 	itsInc->SetIsRequired(true);
+	itsInc->SetValue(1);
 	itsCount->SetIsRequired(true);
 	itsCount->SetLowerLimit(2);
 	itsCount->SetValue(2);

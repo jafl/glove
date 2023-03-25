@@ -18,7 +18,7 @@ CHANGE_LOG_URL	"https://glove.sourceforge.net/ChangeLog.html"
 VERSION_URL		"https://glove.sourceforge.net/VERSION"
 DOWNLOAD_URL	"https://github.com/jafl/glove/releases"
 
-GLCommandLineHelp
+CommandLineHelp::global
 
 "Glove $version
 
@@ -36,7 +36,7 @@ glove [ filename ]
 --help     prints this help
 --version  prints version information"
 
-GLDescription
+Description::global
 
 "Glove $version
 

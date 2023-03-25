@@ -1,8 +1,6 @@
 /******************************************************************************
  NonLinearFitDescription.cpp
 
-	<Description>
-
 	BASE CLASS = public FitDescription
 
 	Copyright (C) 1999 by Glenn W. Bach.

@@ -15,21 +15,21 @@
 #include "PlotFitFunction.h"
 #include "FitBase.h"
 #include "FitParmsDir.h"
-#include <jx-af/j2dplot/J2DPlotDataBase.h>
-#include <jx-af/j2dplot/J2DPlotData.h>
-#include <jx-af/j2dplot/J2DVectorData.h>
 #include "RaggedFloatTableData.h"
 #include "HistoryDir.h"
 #include "FitModule.h"
 #include "FitModuleDialog.h"
 #include "PlotApp.h"
 #include "PlotModuleFit.h"
-#include <jx-af/j2dplot/J2DPlotFunction.h>
 #include "Plotter.h"
 #include "globals.h"
 #include "FitDirector.h"
 #include "PlotFitProxy.h"
 
+#include <jx-af/j2dplot/J2DPlotDataBase.h>
+#include <jx-af/j2dplot/J2DPlotData.h>
+#include <jx-af/j2dplot/J2DVectorData.h>
+#include <jx-af/j2dplot/J2DPlotFunction.h>
 #include <jx-af/j2dplot/JX2DPlotEPSPrinter.h>
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindow.h>
@@ -46,8 +46,6 @@
 #include <jx-af/jexpr/JExprParser.h>
 #include <jx-af/jexpr/JFunction.h>
 #include <jx-af/jcore/JUserNotification.h>
-
-#include <jx-af/image/jx/jx_plain_file_small.xpm>
 
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -174,12 +172,11 @@ PlotDir::~PlotDir()
 {
 	jdelete itsFits;
 	jdelete itsCurveStats;
-//	for (JSize i = itsDiffDirs->GetElementCount(); i >= 1; i++)
-//		{
-//		itsDiffDirs->GetElement(i)->Close();
-//		}
 	jdelete itsDiffDirs;
-	itsSessionDir->Close();
+
+	itsSessionDir->Deactivate();
+	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, false);
+
 	jdelete itsVarList;
 	jdelete itsPrinter;
 	jdelete itsEPSPrinter;
@@ -218,7 +215,7 @@ PlotDir::BuildWindow()
 
 	ListenTo(itsPlot);
 
-	itsPlotMenu = menuBar->AppendTextMenu(JGetString("PlotMenuTitle::PlotDir"));
+	itsPlotMenu = menuBar->PrependTextMenu(JGetString("PlotMenuTitle::PlotDir"));
 	itsPlotMenu->SetMenuItems(kPlotMenuStr);
 	itsPlotMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsPlotMenu);
@@ -439,12 +436,12 @@ PlotDir::WriteData
 	itsPlot->PWWriteCurveSetup(os);
 	os << ' ';
 
-	const JSize diffCount = itsDiffDirs->GetElementCount();
-	os << diffCount << ' ';
-	for (JIndex i = 1; i <= diffCount; i++)
+	os << itsDiffDirs->GetElementCount() << ' ';
+
+	for (auto* dir : *itsDiffDirs)
 	{
-		(itsDiffDirs->GetElement(i))->WriteSetup(os);
-		(itsDiffDirs->GetElement(i))->WriteData(os, data);
+		dir->WriteSetup(os);
+		dir->WriteData(os, data);
 	}
 	itsSessionDir->WriteData(os);
 }
@@ -1365,18 +1362,6 @@ PlotDir::SafetySave
 void
 PlotDir::DiscardChanges()
 {
-}
-
-/******************************************************************************
- GetMenuIcon (virtual)
-
- ******************************************************************************/
-
-JXPM
-PlotDir::GetMenuIcon()
-	const
-{
-	return JXPM(jx_plain_file_small);
 }
 
 /******************************************************************************

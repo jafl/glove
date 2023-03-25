@@ -15,20 +15,19 @@
 #include "glBuiltInFit.xpm"
 #include "glNonLinearFit.xpm"
 #include "glPolyFit.xpm"
+#include <jx-af/image/jx/jx_executable_small.xpm>
 
 #include <jx-af/j2dplot/J2DPlotWidget.h>
 
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXImageCache.h>
 #include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXInputField.h>
 
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JTableSelection.h>
-
-#include <jx-af/image/jx/jx_executable_small.xpm>
-
 #include <jx-af/jcore/jASCIIConstants.h>
 
 #include <jx-af/jcore/JMinMax.h>
@@ -77,21 +76,12 @@ FitDescriptionList::FitDescriptionList
 	SetRowBorderInfo(0, JColorManager::GetBlackColor());
 	SetColBorderInfo(0, JColorManager::GetBlackColor());
 
-	itsBuiltInIcon	= jnew JXImage(GetDisplay(), JXPM(glBuiltInFit));
-	assert(itsBuiltInIcon != nullptr);
-	itsBuiltInIcon->ConvertToRemoteStorage();
+	JXImageCache* c = GetDisplay()->GetImageCache();
 
-	itsNonLinearIcon	= jnew JXImage(GetDisplay(), JXPM(glNonLinearFit));
-	assert(itsNonLinearIcon != nullptr);
-	itsNonLinearIcon->ConvertToRemoteStorage();
-
-	itsPolyIcon	= jnew JXImage(GetDisplay(), JXPM(glPolyFit));
-	assert(itsPolyIcon != nullptr);
-	itsPolyIcon->ConvertToRemoteStorage();
-
-	itsExecutableIcon = jnew JXImage(GetDisplay(), JXPM(jx_executable_small));
-	assert( itsExecutableIcon != nullptr );
-	itsExecutableIcon->ConvertToRemoteStorage();
+	itsBuiltInIcon    = c->GetImage(glBuiltInFit);
+	itsNonLinearIcon  = c->GetImage(glNonLinearFit);
+	itsPolyIcon       = c->GetImage(glPolyFit);
+	itsExecutableIcon = c->GetImage(jx_executable_small);
 
 	ListenTo(GetFitManager());
 }
@@ -105,10 +95,6 @@ FitDescriptionList::~FitDescriptionList()
 {
 	itsNameList->DeleteAll();
 	jdelete itsNameList;		// we don't own the strings
-	jdelete itsBuiltInIcon;
-	jdelete itsNonLinearIcon;
-	jdelete itsPolyIcon;
-	jdelete itsExecutableIcon;
 }
 
 /******************************************************************************

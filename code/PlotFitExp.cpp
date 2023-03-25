@@ -29,10 +29,10 @@
 
 PlotFitExp::PlotFitExp
 	(
-	J2DPlotWidget*	plot,
+	J2DPlotWidget*		plot,
 	J2DPlotDataBase*	fitData,
-	const JFloat	xMin,
-	const JFloat	xMax
+	const JFloat		xMin,
+	const JFloat		xMax
 	)
 	:
 	PlotFitBase(plot, fitData, xMin, xMax)
@@ -42,12 +42,12 @@ PlotFitExp::PlotFitExp
 
 PlotFitExp::PlotFitExp
 	(
-	J2DPlotWidget* plot,
-	J2DPlotDataBase* fitData,
-	const JFloat xmin,
-	const JFloat xmax,
-	const JFloat ymin,
-	const JFloat ymax
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*	fitData,
+	const JFloat		xmin,
+	const JFloat		xmax,
+	const JFloat		ymin,
+	const JFloat		ymax
 	)
 	:
 	PlotFitBase(plot, fitData, xmin, xmax, ymin, ymax)
@@ -58,14 +58,14 @@ PlotFitExp::PlotFitExp
 void
 PlotFitExp::JPlotFitExpX
 	(
-	J2DPlotWidget* plot,
-	J2DPlotDataBase* fitData
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*	fitData
 	)
 {
-	itsAParm	= 0;
-	itsBParm	= 0;
-	itsAErr	= 0;
-	itsBErr	= 0;
+	itsAParm = 0;
+	itsBParm = 0;
+	itsAErr	 = 0;
+	itsBErr	 = 0;
 	SetFunctionString(JString("a*e^(b*x)", JString::kNoCopy));
 	SetParameterCount(2);
 	SetHasGoodnessOfFit(true);
@@ -97,10 +97,8 @@ PlotFitExp::GenerateFit()
 	PlotFitBase::GenerateFit(parms, itsChi2Start);
 }
 
-
 /*********************************************************************************
  GetYValue
-
 
  ********************************************************************************/
 
@@ -112,13 +110,12 @@ PlotFitExp::GetYValue
 	)
 	const
 {
-	*y =  itsAParm * exp(itsBParm * x);
+	*y = itsAParm * exp(itsBParm * x);
 	return true;
 }
 
 /*********************************************************************************
  GetParameterName
-
 
  ********************************************************************************/
 
@@ -148,7 +145,6 @@ PlotFitExp::GetParameterName
 /*********************************************************************************
  GetParameter
 
-
  ********************************************************************************/
 
 bool
@@ -176,7 +172,6 @@ PlotFitExp::GetParameter
 
 /*********************************************************************************
  GetParameterError
-
 
  ********************************************************************************/
 
@@ -269,7 +264,6 @@ PlotFitExp::FunctionNPrimed
 /*********************************************************************************
  CalculateFirstPass
 
-
  ********************************************************************************/
 
 void
@@ -336,5 +330,4 @@ PlotFitExp::CalculateFirstPass()
 		}
 		itsChi2Start += pow(point.y - FunctionN(point.x),2)/(yerr*yerr);
 	}
-
 }

@@ -43,7 +43,7 @@ public:
 	const JPtrArray<JString>&	GetModulePath() const;
 
 	void NewFile();
-	void OpenFile(const JString& filename);
+	bool OpenFile(const JString& filename);
 	void DisplayAbout(const bool showLicense = false,
 					  const JString& prevVersStr = JString::empty);
 

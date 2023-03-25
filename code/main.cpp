@@ -110,7 +110,7 @@ PrintHelp()
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	const JString s = JGetString("CommandLineHelp", map, sizeof(map));
+	const JString s = JGetString("CommandLineHelp::global", map, sizeof(map));
 	std::cout << std::endl << s << std::endl << std::endl;
 }
 
@@ -128,6 +128,6 @@ PrintVersion()
 		"version",   JGetString("VERSION").GetBytes(),
 		"copyright", JGetString("COPYRIGHT").GetBytes()
 	};
-	std::cout << JGetString("Description", map, sizeof(map));
+	std::cout << JGetString("Description::global", map, sizeof(map));
 	std::cout << std::endl << std::endl;
 }

@@ -380,7 +380,7 @@ GetDelimiterDialog::WritePrefs
 {
 	output << kDelimiterPrefsVersionID << ' ';
 	output << itsRG->GetSelectedItem() << ' ';
-	output << itsCharInput->GetText() << ' ';
+	output << itsCharInput->GetText()->GetText() << ' ';
 	output << JBoolToString(itsSkipCB->IsChecked()) << ' ';
 	JInteger value;
 	bool ok = itsSkipCountInput->GetValue(&value);
@@ -390,7 +390,7 @@ GetDelimiterDialog::WritePrefs
 		output << value << ' ';
 	}
 	output << JBoolToString(itsCommentCB->IsChecked()) << ' ';
-	output << itsCommentInput->GetText() << ' ';
+	output << itsCommentInput->GetText()->GetText() << ' ';
 	output << GetWindow()->GetDesktopLocation() << ' ';
 	output << GetWindow()->GetFrameWidth() << ' ';
 	output << GetWindow()->GetFrameHeight() << ' ';
