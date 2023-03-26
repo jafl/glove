@@ -1048,14 +1048,10 @@ DataDocument::LoadDelimitedFile
 	}
 
 	const GetDelimiterDialog::DelimiterType type = dlog->GetDelimiterType();
-	JUtf8Byte delim;
+	JUtf8Byte delim = ' ';
 	if (type == GetDelimiterDialog::kChar)
 	{
 		delim = dlog->GetCharacter();
-	}
-	else if (type == GetDelimiterDialog::kSpace)
-	{
-		delim = ' ';
 	}
 	else if (type == GetDelimiterDialog::kTab)
 	{
