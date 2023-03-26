@@ -6,3 +6,4 @@ code/stringData.h
 strings/version
 strings/menu_strings
 .jcc
+*.glv

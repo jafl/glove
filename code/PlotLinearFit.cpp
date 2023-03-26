@@ -25,7 +25,6 @@ const JFloat	TOLL   = 1.0e-10;
 /*********************************************************************************
  Constructor
 
-
  ********************************************************************************/
 
 PlotLinearFit::PlotLinearFit
@@ -116,7 +115,6 @@ PlotLinearFit::JPlotLinearFitX
 /*********************************************************************************
  Destructor
 
-
  ********************************************************************************/
 
 PlotLinearFit::~PlotLinearFit()
@@ -125,7 +123,6 @@ PlotLinearFit::~PlotLinearFit()
 
 /*********************************************************************************
  GetElement
-
 
  ********************************************************************************/
 /*
@@ -167,19 +164,17 @@ PlotLinearFit::GetElement
 /*********************************************************************************
  GetYValue
 
-
  ********************************************************************************/
 
 bool
 PlotLinearFit::GetYValue
 	(
 	const JFloat	x,
-	JFloat*		y
+	JFloat*			y
 	)
 	const
 {
-	JFloat a;
-	JFloat b;
+	JFloat a=0, b=0;
 	GetParameter(1, &a);
 	GetParameter(2, &b);
 
@@ -195,10 +190,8 @@ PlotLinearFit::GetYValue
 	return true;
 }
 
-
 /*********************************************************************************
  GetYRange
-
 
  ********************************************************************************/
 
@@ -225,7 +218,6 @@ PlotLinearFit::GetYRange
 /*********************************************************************************
  UpdateFunction
 
-
  ********************************************************************************/
 /*
 void
@@ -244,7 +236,6 @@ PlotLinearFit::UpdateFunction
 
 /*********************************************************************************
  GetParameterName
-
 
  ********************************************************************************/
 
@@ -274,53 +265,47 @@ PlotLinearFit::GetParameterName
 /*********************************************************************************
  GetParameter
 
-
  ********************************************************************************/
 
 bool
 PlotLinearFit::GetParameter
 	(
-	const JIndex index,
-	JFloat* value
+	const JIndex	index,
+	JFloat*			value
 	)
 	const
 {
-	if ((index > 2) || (index < 1))
+	if (index == 1 && !itsXIsLog && !itsYIsLog)
+	{
+		*value = itsAParameter;
+		return true;
+	}
+	else if (index == 1 && !itsXIsLog)
+	{
+		*value = exp(itsAParameter);
+		return true;
+	}
+	else if (index == 2)
+	{
+		*value = itsBParameter;
+		return true;
+	}
+	else
 	{
 		return false;
 	}
-	if (index == 1)
-	{
-		if (!itsXIsLog)
-		{
-			if (!itsYIsLog)
-			{
-				*value = itsAParameter;
-			}
-			else
-			{
-				*value = exp(itsAParameter);
-			}
-		}
-	}
-	if (index == 2)
-	{
-		*value = itsBParameter;
-	}
-	return true;
 }
 
 /*********************************************************************************
  GetParameterError
-
 
  ********************************************************************************/
 
 bool
 PlotLinearFit::GetParameterError
 	(
-	const JIndex index,
-	JFloat* value
+	const JIndex	index,
+	JFloat*			value
 	)
 	const
 {
@@ -329,30 +314,30 @@ PlotLinearFit::GetParameterError
 	{
 		return false;
 	}
-	if (index == 1)
+
+	if (index == 1 && !itsXIsLog && !itsYIsLog)
 	{
-		if (!itsXIsLog)
-		{
-			if (!itsYIsLog)
-			{
-				*value = itsAErrParameter;
-			}
-			else
-			{
-				*value = exp(itsAParameter) - exp(itsAParameter - itsAErrParameter);
-			}
-		}
+		*value = itsAErrParameter;
+		return true;
+	}
+	else if (index == 1 && !itsXIsLog)
+	{
+		*value = exp(itsAParameter) - exp(itsAParameter - itsAErrParameter);
+		return true;
+	}
+	else if (index == 2)
+	{
+		*value = itsBErrParameter;
+		return true;
 	}
 	else
 	{
-		*value = itsBErrParameter;
+		return false;
 	}
-	return true;
 }
 
 /*********************************************************************************
  GetGoodnessOfFitName
-
 
  ********************************************************************************/
 
@@ -378,7 +363,6 @@ PlotLinearFit::GetGoodnessOfFitName
 /*********************************************************************************
  GetGoodnessOfFit
 
-
  ********************************************************************************/
 
 bool
@@ -402,35 +386,7 @@ PlotLinearFit::GetGoodnessOfFit
 }
 
 /*********************************************************************************
- GetFunctionString
-
-
- ********************************************************************************/
-
-JString
-PlotLinearFit::GetFunctionString()
-	const
-{
-	return itsFunctionName;
-}
-
-/*********************************************************************************
- GetFitFunctionString
-
-
- ********************************************************************************/
-
-JString
-PlotLinearFit::GetFitFunctionString()
-	const
-{
-	return itsFunctionName;
-}
-
-
-/*********************************************************************************
  GenerateFit
-
 
  ********************************************************************************/
 
@@ -447,7 +403,6 @@ PlotLinearFit::GenerateFit()
 
 /*********************************************************************************
  LinearLSQ1
-
 
  ********************************************************************************/
 
@@ -576,7 +531,6 @@ PlotLinearFit::LinearLSQ1()
 /*********************************************************************************
  Variance
 
-
  ********************************************************************************/
 
 void
@@ -624,7 +578,6 @@ PlotLinearFit::Variance
 
 /*********************************************************************************
  LinearLSQ2
-
 
  ********************************************************************************/
 
@@ -720,7 +673,6 @@ PlotLinearFit::LinearLSQ2()
 /*********************************************************************************
  ChiSqr
 
-
  ********************************************************************************/
 
 JFloat
@@ -778,7 +730,6 @@ PlotLinearFit::ChiSqr
 /*********************************************************************************
  Paramin
 
-
  ********************************************************************************/
 
 void
@@ -790,35 +741,23 @@ PlotLinearFit::Paramin
 	JFloat* xmin
 	)
 {
-	JFloat oldstep, x, w, v, fx, fw, fv, middle, tol2, r, q;
-	JFloat p, steptemp, tol1, step, low, high, u, fu;
-	JSize iter;
+	JFloat fv=0, step=0, oldstep=0;
 
-	oldstep = 0.0;
-	x = bx;
-	w = bx;
-	v = bx;
+	JFloat x = bx;
+	JFloat w = bx;
+	JFloat v = bx;
 
+	JFloat fx = ChiSqr(bx);
+	JFloat fw = fx;
+	JFloat low = JMin(ax,cx);
+	JFloat high = JMax(ax,cx);
 
-	fx = ChiSqr(bx);
-	fw = fx;
-	fw = fx;
-	if (ax<cx)
-	{
-		low = ax;
-		high = cx;
-	}
-	else
-	{
-		low = cx;
-		high = ax;
-	}
-	iter = 1;
+	JSize iter = 1;
 	while (iter<= ITMAX)
 	{
-		middle=0.5*(low+high);
-		tol1=TOLL*fabs(x)+ZEPS;
-		tol2 = 2.0*(tol1);
+		const JFloat middle=0.5*(low+high);
+		JFloat tol1=TOLL*fabs(x)+ZEPS;
+		JFloat tol2 = 2.0*(tol1);
 		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
 		{
 			*xmin= x;
@@ -826,18 +765,18 @@ PlotLinearFit::Paramin
 		}
 		if (fabs(oldstep) > tol1)
 		{
-			r=(x - w) * (fx - fv);
-			q=(x - v) * (fx - fw);
-			p=(x - v) * q + (w - x)* r;
+			const JFloat r=(x - w) * (fx - fv);
+			JFloat q=(x - v) * (fx - fw);
+			JFloat p=(x - v) * q + (w - x)* r;
 			q= 2.0 * (q - r);
 			if (q > 0.0)
 			{
 				p = -p;
 			}
 			q = fabs(q);
-			steptemp = oldstep;
+			const JFloat steptemp = oldstep;
 			oldstep = step;
-			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x)))
+			if (fabs(p) >= fabs(0.5*q*steptemp) || p <= q*(low-x) || p >= q*(high-x))
 			{
 				if (x >= middle)
 				{
@@ -852,10 +791,10 @@ PlotLinearFit::Paramin
 			else
 			{
 				step = p/q;
-				u = x + step;
-				if ((u-low < tol2) || (high-u < tol2))
+				const JFloat u = x + step;
+				if (u-low < tol2 || high-u < tol2)
 				{
-					if ((middle - x) > 0.0)
+					if (middle - x > 0.0)
 					{
 						step = fabs(tol1);
 					}
@@ -879,22 +818,11 @@ PlotLinearFit::Paramin
 			step = CGOLD*oldstep;
 		}
 
-		if (fabs(step) >= tol1)
-		{
-			u = x + step;
-		}
-		else
-		{
-			if (step > 0.0)
-			{
-				u = x + fabs(tol1);
-			}
-			else
-			{
-				u = x - fabs(tol1);
-			}
-		}
-		fu = ChiSqr(u);
+		const JFloat u =
+			fabs(step) >= tol1 ? x + step :
+			step > 0.0 ? x + fabs(tol1) : x - fabs(tol1);
+
+		const JFloat fu = ChiSqr(u);
 		if (fu <= fx)
 		{
 			if (u >= x)
@@ -922,7 +850,7 @@ PlotLinearFit::Paramin
 			{
 				high = u;
 			}
-			if ((fu <= fw) || (w == x))
+			if (fu <= fw || w == x)
 			{
 				v = w;
 				w = u;
@@ -931,7 +859,7 @@ PlotLinearFit::Paramin
 			}
 			else
 			{
-				if ((fu <= fv) || (v == x) || (v == w))
+				if (fu <= fv || v == x || v == w)
 				{
 					v = u;
 					fv = fu;
@@ -948,7 +876,6 @@ PlotLinearFit::Paramin
 /*********************************************************************************
  Root
 
-
  ********************************************************************************/
 
 JFloat
@@ -957,28 +884,26 @@ PlotLinearFit::Root
 	JFloat xtemp
 	)
 {
-	JFloat small=TOLL, factor=0.1, xmin, xmax, ypos=0, yneg=0;
-	JFloat x, x1, x2, x3, y1, y2, y3, middle, tol1, p, q, r, s;
-	JFloat min1, min2, step1, step2, ymin, ymax, xpos, xneg;
-	int iter;
+	JFloat xmin, xmax;
 
-	iter = 1;
-
-	if (fabs(xtemp) < small)
+	if (fabs(xtemp) < TOLL)
 	{
-		xtemp = small;
-		xmin = small;
-		xmax = small;
+		xtemp = TOLL;
+		xmin = TOLL;
+		xmax = TOLL;
 	}
 	else
 	{
 		xmin = xtemp;
 		xmax = xtemp;
-}
+	}
 
+	JFloat factor=0.1, xpos=0;
+	JFloat ymin=0, ymax=0, xneg=0, ypos=0, yneg=0;
+
+	JSize iter = 1;
 	while (iter < 100)
 	{
-
 		xmin = xmin - xtemp*factor;
 		xmax = xmax + xtemp*factor;
 
@@ -989,13 +914,12 @@ PlotLinearFit::Root
 			yneg = ymin;
 			xneg = xmin;
 		}
-		else
+		else if (ymin > 0 && (ymin < ypos || ypos==0))
 		{
-			if(ymin > 0 && (ymin < ypos || ypos==0)) {
 			ypos = ymin;
 			xpos = xmin;
 		}
-	}
+
 		ymax = ChiSqrErr(xmax);
 		if(ymax < 0 && (ymax > yneg || yneg==0))
 		{
@@ -1018,17 +942,19 @@ PlotLinearFit::Root
 		iter++;
 	}
 
-	x1 = xpos;
-	x2 = xneg;
-	x3 = xneg;
-	y1 = ypos;
-	y2 = yneg;
-	y3 = yneg;
-	iter = 1;
+	JFloat x1 = xpos;
+	JFloat x2 = xneg;
+	JFloat x3 = xneg;
+	JFloat y1 = ypos;
+	JFloat y2 = yneg;
+	JFloat y3 = yneg;
 
+	JFloat step1=0, step2=0;
+	JFloat x=0, p, q, r, s;
+
+	iter = 1;
 	while (iter < 100)
 	{
-
 		if ((y2 > 0 && y3 > 0) || (y2 < 0 && y3 < 0))
 		{
 			x3 = x1;
@@ -1045,18 +971,18 @@ PlotLinearFit::Root
 			y2 = y3;
 			y3 = y1;
 		}
-		tol1 = 2*fabs(x2)*(3e-8)+0.5*TOLL;
-		middle=0.5*(x3-x2);
-		if ((fabs(middle) <= tol1) || (x2 == 0.0))
+		const JFloat tol1 = 2*fabs(x2)*(3e-8)+0.5*TOLL;
+		JFloat middle=0.5*(x3-x2);
+		if (fabs(middle) <= tol1 || x2 == 0.0)
 		{
 			x = x2;
 			break;
 		}
 
-		if ((fabs(step1) >= tol1) && (fabs(x1) > fabs(x2)))
+		if (fabs(step1) >= tol1 && fabs(x1) > fabs(x2))
 		{
 			s = y2/y1;
-			if(x1 == x3)
+			if (x1 == x3)
 			{
 				p = 2*middle*s;
 				q = 1 - s;
@@ -1073,10 +999,12 @@ PlotLinearFit::Root
 				q = -q;
 			}
 			p = fabs(p);
-			min1 = 3*middle*q - fabs(tol1*q);
-			min2 = fabs(step1*q);
+			JFloat min1 = 3*middle*q - fabs(tol1*q);
+			JFloat min2 = fabs(step1*q);
 			if (min1 <min2)
-			min2 = min1;
+			{
+				min2 = min1;
+			}
 			if (2*p < min2)
 			{
 				step1 = step2;
@@ -1115,6 +1043,7 @@ PlotLinearFit::Root
 		y2 = ChiSqrErr(x2);
 		iter = iter + 1;
 	}
+
 	if (iter > 100)
 	{
 		x = x2;
@@ -1124,7 +1053,6 @@ PlotLinearFit::Root
 
 /*********************************************************************************
  ChiSqrErr
-
 
  ********************************************************************************/
 
@@ -1141,23 +1069,7 @@ PlotLinearFit::ChiSqrErr
 }
 
 /*********************************************************************************
- SetFunctionName
-
-
- ********************************************************************************/
-
-void
-PlotLinearFit::SetFunctionName
-	(
-	const JString& name
-	)
-{
-	itsFunctionName = name;
-}
-
-/*********************************************************************************
  DataElementValid
-
 
  ********************************************************************************/
 
@@ -1205,7 +1117,6 @@ PlotLinearFit::DataElementValid
 /******************************************************************************
  GetDataElement
 
-
  *****************************************************************************/
 
 bool
@@ -1238,7 +1149,6 @@ PlotLinearFit::GetDataElement
 
 /*****************************************************************************
  AdjustDiffData
-
 
  *****************************************************************************/
 

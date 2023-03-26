@@ -11,7 +11,6 @@
 #define _H_PlotLinearFit
 
 #include <PlotFitFunction.h>
-#include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/JString.h>
 
 class J2DPlotWidget;
@@ -106,9 +105,9 @@ private:
 
 };
 
+
 /*********************************************************************************
  GetDataToFit
-
 
  ********************************************************************************/
 
@@ -122,7 +121,6 @@ PlotLinearFit::GetDataToFit()
 /*********************************************************************************
  GetCurrentXMax
 
-
  ********************************************************************************/
 
 inline JFloat
@@ -134,7 +132,6 @@ PlotLinearFit::GetCurrentXMax()
 
 /*********************************************************************************
  GetCurrentXMin
-
 
  ********************************************************************************/
 
@@ -148,7 +145,6 @@ PlotLinearFit::GetCurrentXMin()
 /*********************************************************************************
  GetCurrentStepCount
 
-
  ********************************************************************************/
 
 inline JFloat
@@ -158,5 +154,42 @@ PlotLinearFit::GetCurrentStepCount()
 	return itsCurrentStepCount;
 }
 
+/*********************************************************************************
+ GetFunctionString
+
+ ********************************************************************************/
+
+inline JString
+PlotLinearFit::GetFunctionString()
+	const
+{
+	return itsFunctionName;
+}
+
+/*********************************************************************************
+ GetFitFunctionString
+
+ ********************************************************************************/
+
+inline JString
+PlotLinearFit::GetFitFunctionString()
+	const
+{
+	return itsFunctionName;
+}
+
+/*********************************************************************************
+ SetFunctionName
+
+ ********************************************************************************/
+
+inline void
+PlotLinearFit::SetFunctionName
+	(
+	const JString& name
+	)
+{
+	itsFunctionName = name;
+}
 
 #endif

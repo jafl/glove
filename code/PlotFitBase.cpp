@@ -37,7 +37,6 @@ const JFloat	CON		= 1.4;
 /*********************************************************************************
  Constructor
 
-
  ********************************************************************************/
 
 PlotFitBase::PlotFitBase
@@ -128,7 +127,6 @@ PlotFitBase::JPlotFitBaseX
 /*********************************************************************************
  Destructor
 
-
  ********************************************************************************/
 
 PlotFitBase::~PlotFitBase()
@@ -137,7 +135,6 @@ PlotFitBase::~PlotFitBase()
 
 /*********************************************************************************
  GetGoodnessOfFitName
-
 
  ********************************************************************************/
 
@@ -162,7 +159,6 @@ PlotFitBase::GetGoodnessOfFitName
 
 /*********************************************************************************
  GetGoodnessOfFit
-
 
  ********************************************************************************/
 
@@ -529,7 +525,6 @@ PlotFitBase::ChiSqrSqrt
 /*********************************************************************************
  Minimize
 
-
  ********************************************************************************/
 
 JFloat
@@ -540,53 +535,41 @@ PlotFitBase::Minimize
 	JFloat			cx,
 	const JVector&	parms,
 	const JVector&	xi,
-	JFloat*		xmin
+	JFloat*			xmin
 	)
 {
-	JFloat oldstep = 0.0, x, w, v, fx, fw, fv, middle, tol2, r, q;
-	JFloat p, steptemp, tol1, step, low, high, u, fu;
-	JSize iter;
+	JFloat oldstep=0, fv=0, step=0;
 
-	x = bx;
-	w = bx;
-	v = bx;
+	JFloat x = bx, w = bx, v = bx;
 
-	fx = Function(bx, parms, xi);
-	fw = fx;
-	fw = fx;
-	if (ax<cx)
-	{
-		low = ax;
-		high = cx;
-	}
-	else
-	{
-		low = cx;
-		high = ax;
-	}
-	iter = 1;
+	JFloat fx = Function(bx, parms, xi);
+	JFloat fw = fx;
+	JFloat low = JMin(ax,cx);
+	JFloat high = JMax(ax,cx);
+
+	JSize iter=1;
 	while (iter <= ITMAX)
 	{
-		middle=0.5*(low+high);
-		tol1=TOLL*fabs(x)+ZEPS;
-		tol2 = 2.0*(tol1);
-		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
+		const JFloat middle=0.5*(low+high);
+		const JFloat tol1=TOLL*fabs(x)+ZEPS;
+		const JFloat tol2 = 2.0*(tol1);
+		if (fabs(x-middle) <= tol2-0.5*(high-low))
 		{
 			*xmin= x;
 			return fx;
 		}
 		if (fabs(oldstep) > tol1)
 		{
-			r=(x - w) * (fx - fv);
-			q=(x - v) * (fx - fw);
-			p=(x - v) * q + (w - x)* r;
+			const JFloat r=(x - w) * (fx - fv);
+			JFloat q=(x - v) * (fx - fw);
+			JFloat p=(x - v) * q + (w - x)* r;
 			q= 2.0 * (q - r);
 			if (q > 0.0)
 			{
 				p = -p;
 			}
 			q = fabs(q);
-			steptemp = oldstep;
+			const JFloat steptemp = oldstep;
 			oldstep = step;
 			if (fabs(p) >= fabs(0.5*q*steptemp) || p <= q*(low-x) || p >= q*(high-x))
 			{
@@ -603,10 +586,10 @@ PlotFitBase::Minimize
 			else
 			{
 				step = p/q;
-				u = x + step;
+				const JFloat u = x + step;
 				if (u-low < tol2 || high-u < tol2)
 				{
-					if ((middle - x) > 0.0)
+					if (middle - x > 0.0)
 					{
 						step = fabs(tol1);
 					}
@@ -630,22 +613,11 @@ PlotFitBase::Minimize
 			step = CGOLD*oldstep;
 		}
 
-		if (fabs(step) >= tol1)
-		{
-			u = x + step;
-		}
-		else
-		{
-			if (step > 0.0)
-			{
-				u = x + fabs(tol1);
-			}
-			else
-			{
-				u = x - fabs(tol1);
-			}
-		}
-		fu = Function(u, parms, xi);
+		const JFloat u =
+			fabs(step) >= tol1 ? x + step :
+			step > 0.0 ? x + fabs(tol1) : x - fabs(tol1);
+
+		const JFloat fu = Function(u, parms, xi);
 		if (fu <= fx)
 		{
 			if (u >= x)
@@ -673,6 +645,7 @@ PlotFitBase::Minimize
 			{
 				high = u;
 			}
+
 			if (fu <= fw || w == x)
 			{
 				v = w;
@@ -680,13 +653,10 @@ PlotFitBase::Minimize
 				fv = fw;
 				fw = fu;
 			}
-			else
+			else if (fu <= fv || v == x || v == w)
 			{
-				if (fu <= fv || v == x || v == w)
-				{
-					v = u;
-					fv = fu;
-				}
+				v = u;
+				fv = fu;
 			}
 		}
 
@@ -700,7 +670,6 @@ PlotFitBase::Minimize
 /*********************************************************************************
  MinimizeN
 
-
  ********************************************************************************/
 
 JFloat
@@ -708,7 +677,7 @@ PlotFitBase::MinimizeN
 	(
 	JVector*	p,
 	JMatrix*	xi,
-	JSize		*iter
+	JSize*		iter
 	)
 {
 	JSize i,ibig;
@@ -762,7 +731,6 @@ PlotFitBase::MinimizeN
 /*********************************************************************************
  LinearMinimization
 
-
  ********************************************************************************/
 
 JFloat
@@ -794,7 +762,6 @@ PlotFitBase::LinearMinimization
 
 /*********************************************************************************
  Bracket
-
 
  ********************************************************************************/
 
@@ -903,7 +870,6 @@ PlotFitBase::Shift
 /*********************************************************************************
  DataElementValid
 
-
  ********************************************************************************/
 
 bool
@@ -936,7 +902,6 @@ PlotFitBase::DataElementValid
 /******************************************************************************
  GetDataElement
 
-
  *****************************************************************************/
 
 bool
@@ -958,7 +923,6 @@ PlotFitBase::GetDataElement
 
 /*****************************************************************************
  AdjustDiffData
-
 
  *****************************************************************************/
 
