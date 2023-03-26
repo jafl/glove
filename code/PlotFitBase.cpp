@@ -244,10 +244,9 @@ PlotFitBase::CalcError
 {
 	itsCurrentConstantParmIndex	= constIndex;
 	itsCurrentConstantParm		= parameters.GetElement(constIndex);
-
 	JFloat currentParm			= itsCurrentConstantParm;
 
-	const JSize n	= parameters.GetDimensionCount() - 1;
+	const JSize n = parameters.GetDimensionCount() - 1;
 	JVector p(n);
 	JMatrix xi(n,n);
 	for (JIndex i = 1; i <= n; i++)
@@ -295,7 +294,7 @@ PlotFitBase::CalcError
 	JSize iter;
 	JFloat chitemp = MinimizeN(&p, &xi, &iter);
 //	std::cout << "Chitemp start: " << chitemp << std::endl;
-	JFloat lastchi;
+	JFloat lastchi = 0;
 
 	do
 	{
@@ -321,7 +320,7 @@ PlotFitBase::CalcError
 			i++;
 		}
 	}
-	while ((i < 20) && ok);
+	while (i < 20 && ok);
 
 	sig /= 10;
 	chitemp = lastchi;
@@ -367,7 +366,7 @@ PlotFitBase::CalcError
 		}
 		i++;
 	}
-	while ((i <= 10) && ok);
+	while (i <= 10 && ok);
 
 	return 0;
 /*
@@ -394,7 +393,7 @@ PlotFitBase::CalcError
 			i++;
 		}
 	}
-	while ((i <= 10) && ok);
+	while (i <= 10 && ok);
 	sig *= i - 2;
 
 	JFloat j = 1.1;
@@ -433,8 +432,6 @@ PlotFitBase::CalcError
 
 	return 0;*/
 }
-
-
 
 /*********************************************************************************
  ChiSqr
@@ -475,7 +472,7 @@ PlotFitBase::ChiSqr
 		point = itsRealData->GetElement(i);
 		JFloat sy = point.yerr;
 		JFloat sx = point.xerr;
-		if ((sy == 0) && (sx == 0))
+		if (sy == 0 && sx == 0)
 		{
 			sy = 1;
 		}
@@ -546,11 +543,10 @@ PlotFitBase::Minimize
 	JFloat*		xmin
 	)
 {
-	JFloat oldstep, x, w, v, fx, fw, fv, middle, tol2, r, q;
+	JFloat oldstep = 0.0, x, w, v, fx, fw, fv, middle, tol2, r, q;
 	JFloat p, steptemp, tol1, step, low, high, u, fu;
 	JSize iter;
 
-	oldstep = 0.0;
 	x = bx;
 	w = bx;
 	v = bx;
@@ -592,7 +588,7 @@ PlotFitBase::Minimize
 			q = fabs(q);
 			steptemp = oldstep;
 			oldstep = step;
-			if ((fabs(p) >= fabs(0.5*q*steptemp)) || (p <= q*(low-x)) || (p >= q*(high-x)))
+			if (fabs(p) >= fabs(0.5*q*steptemp) || p <= q*(low-x) || p >= q*(high-x))
 			{
 				if (x >= middle)
 				{
@@ -608,7 +604,7 @@ PlotFitBase::Minimize
 			{
 				step = p/q;
 				u = x + step;
-				if ((u-low < tol2) || (high-u < tol2))
+				if (u-low < tol2 || high-u < tol2)
 				{
 					if ((middle - x) > 0.0)
 					{
@@ -677,7 +673,7 @@ PlotFitBase::Minimize
 			{
 				high = u;
 			}
-			if ((fu <= fw) || (w == x))
+			if (fu <= fw || w == x)
 			{
 				v = w;
 				w = u;
@@ -686,7 +682,7 @@ PlotFitBase::Minimize
 			}
 			else
 			{
-				if ((fu <= fv) || (v == x) || (v == w))
+				if (fu <= fv || v == x || v == w)
 				{
 					v = u;
 					fv = fu;
@@ -1007,12 +1003,12 @@ PlotFitBase::FunctionNPrimed
 	const JFloat x
 	)
 {
-	JFloat y;
+	JFloat y = 0;
 	const JIndex matrixSize	= 10;
 	JMatrix	a(matrixSize, matrixSize);
 	JFloat xmin, xmax;
 	GetXRange(&xmin, &xmax);
-	JFloat delta	= (xmax - xmin)/100;
+	JFloat delta = (xmax - xmin)/100;
 	a.SetElement(1, 1, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
 	JFloat err	= BIG;
 	for (JIndex i = 2; i <= matrixSize; i++)
