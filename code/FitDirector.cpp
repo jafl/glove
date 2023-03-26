@@ -159,6 +159,8 @@ FitDirector::FitDirector
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
 	assert( itsPrinter != nullptr );
 	itsPrinter->SetOrientation(JPSPrinter::kPortrait);
+
+	GetPrefsMgr()->ReadFitDirectorSetup(this);
 }
 
 /******************************************************************************
@@ -443,8 +445,6 @@ FitDirector::BuildWindow()
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
 	itsCurveList->SetCurrentCurveIndex(1);
-
-	GetPrefsMgr()->ReadFitDirectorSetup(this);
 
 	itsToolBar->LoadPrefs();
 	if (itsToolBar->IsEmpty())
@@ -837,9 +837,9 @@ FitDirector::Fit()
 	JXGetApplication()->DisplayBusyCursor();
 	RemoveFit();
 	JIndex index;
-	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
+	bool ok = itsCurveList->GetCurrentCurveIndex(&index);
 	J2DPlotDataBase* data = itsPlot->GetCurve(index);
-	ok	= itsFitList->GetCurrentFitIndex(&index);
+	ok = itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
 	const FitDescription& fd = GetFitManager()->GetFitDescription(index);
 	if (fd.GetType() == FitDescription::kPolynomial)
@@ -868,7 +868,7 @@ FitDirector::Fit()
 		{
 			JVector p(const_cast<FitDescription&>(fd).GetVarList()->GetVariableCount() - 1);
 			const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
-			const JSize count	= p.GetDimensionCount();
+			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
 				p.SetElement(i, parms.GetElement(i));
@@ -902,14 +902,14 @@ FitDirector::Fit()
 		}
 		fit->SetVarList(nd.GetVarList());
 		fit->SetFunction(nd.GetFunctionString());
-		JString fp	= nd.GetFunctionPrimedString();
+		JString fp = nd.GetFunctionPrimedString();
 		if (!fp.IsEmpty())
 		{
 			fit->SetFPrimed(fp);
 		}
 		JVector p(nd.GetVarList()->GetVariableCount() - 1);
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
-		const JSize count	= p.GetDimensionCount();
+		const JSize count = p.GetDimensionCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
 			p.SetElement(i, parms.GetElement(i));
@@ -937,7 +937,7 @@ FitDirector::Fit()
 		{
 			JVector p(const_cast<FitDescription&>(fd).GetVarList()->GetVariableCount() - 1);
 			const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
-			const JSize count	= p.GetDimensionCount();
+			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
 				p.SetElement(i, parms.GetElement(i));
@@ -970,7 +970,7 @@ FitDirector::Fit()
 		{
 			JVector p(const_cast<FitDescription&>(fd).GetVarList()->GetVariableCount() - 1);
 			const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
-			const JSize count	= p.GetDimensionCount();
+			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
 				p.SetElement(i, parms.GetElement(i));
@@ -1047,7 +1047,7 @@ FitDirector::Fit()
 	}
 	itsFitPlot->AddCurve(itsCurrentFit, false, fd.GetFnName());
 	itsDiffPlot->AddCurve(itsCurrentFit->GetDiffData(), false, fd.GetFnName());
-	const JSize count	= itsCurrentFit->GetParameterCount();
+	const JSize count = itsCurrentFit->GetParameterCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
 		JFloat value;

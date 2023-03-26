@@ -20,7 +20,7 @@ enum GCurveType
 
 enum GCurveFitType
 {
-	kinearFit = 1,
+	kLinearFit = 1,
 	kGQuadFit,
 	kGExpFit,
 	kGPowFit,

@@ -189,7 +189,6 @@ PlotFitBase::GetGoodnessOfFit
 /*********************************************************************************
  GenerateFit
 
-
  ********************************************************************************/
 
 void
@@ -203,7 +202,7 @@ PlotFitBase::GenerateFit
 	JVector err(p.GetDimensionCount());
 
 	itsChi2	= chi2;
-	const JSize n	= p.GetDimensionCount();
+	const JSize n = p.GetDimensionCount();
 	JMatrix xi(n,n);
 	JSize iter;
 

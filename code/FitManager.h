@@ -28,9 +28,7 @@ public:
 	const FitDescription&	GetFitDescription(const JIndex index) const;
 	FitDescription&			GetFitDescription(const JIndex index);
 
-	void	AddFitDescription(const FitDescription& fit);
 	void	AddFitDescription(FitDescription* fit);
-	void	NewFitDescription(const FitDescription::FitType type);
 	void	RemoveFitDescription(const JIndex index);
 
 	bool	FitIsRemovable(const JIndex index);

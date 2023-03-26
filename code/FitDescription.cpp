@@ -45,7 +45,7 @@ FitDescription::FitDescription
 bool
 FitDescription::Create
 	(
-	std::istream&			is,
+	std::istream&		is,
 	FitDescription**	fd
 	)
 {
@@ -110,76 +110,6 @@ FitDescription::Create
 FitDescription::~FitDescription()
 {
 	jdelete itsVarList;
-}
-
-/******************************************************************************
- SetType (public)
-
- ******************************************************************************/
-
-void
-FitDescription::SetType
-	(
-	const FitType type
-	)
-{
-	itsType	= type;
-}
-
-/******************************************************************************
- SetFnForm (public)
-
- ******************************************************************************/
-
-void
-FitDescription::SetFitFunctionString
-	(
-	const JString& form
-	)
-{
-	itsFnForm = form;
-}
-
-/******************************************************************************
- SetFnName (protected)
-
- ******************************************************************************/
-
-void
-FitDescription::SetFnName
-	(
-	const JString& name
-	)
-{
-	itsFnName = name;
-}
-
-/******************************************************************************
- DoesRequireStartValues (protected)
-
- ******************************************************************************/
-
-void
-FitDescription::DoesRequireStartValues
-	(
-	const bool require
-	)
-{
-	itsRequiresStartValues	= require;
-}
-
-/******************************************************************************
- SetCanUseStartValues (protected)
-
- ******************************************************************************/
-
-void
-FitDescription::SetCanUseStartValues
-	(
-	const bool use
-	)
-{
-	itsCanUseStartValues	= use;
 }
 
 /******************************************************************************

@@ -28,10 +28,10 @@
 
 PlotFitLinear::PlotFitLinear
 	(
-	J2DPlotWidget*	plot,
+	J2DPlotWidget*		plot,
 	J2DPlotDataBase*	fitData,
-	const JFloat	xMin,
-	const JFloat	xMax
+	const JFloat		xMin,
+	const JFloat		xMax
 	)
 	:
 	PlotFitLinearEq(plot, fitData, xMin, xMax)
@@ -57,8 +57,8 @@ PlotFitLinear::PlotFitLinear
 void
 PlotFitLinear::JPlotFitLinearX
 	(
-	J2DPlotWidget* plot,
-	J2DPlotDataBase* fitData
+	J2DPlotWidget*		plot,
+	J2DPlotDataBase*	fitData
 	)
 {
 	JArray<JIndex> powers;

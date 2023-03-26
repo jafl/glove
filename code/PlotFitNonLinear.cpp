@@ -120,7 +120,7 @@ PlotFitNonLinear::FunctionN
 }
 
 /******************************************************************************
- FunctionN (virtual protected)
+ FunctionNPrimed (virtual protected)
 
  ******************************************************************************/
 
@@ -216,7 +216,6 @@ PlotFitNonLinear::SetInitialParameters
 /*********************************************************************************
  GetYValue
 
-
  ********************************************************************************/
 
 bool
@@ -227,7 +226,7 @@ PlotFitNonLinear::GetYValue
 	)
 	const
 {
-	PlotFitNonLinear* th	= const_cast< PlotFitNonLinear* >(this);
+	PlotFitNonLinear* th = const_cast< PlotFitNonLinear* >(this);
 	*y	= th->FunctionN(x);
 	return true;
 }
@@ -235,7 +234,6 @@ PlotFitNonLinear::GetYValue
 
 /*********************************************************************************
  GetParameterName
-
 
  ********************************************************************************/
 
@@ -247,13 +245,12 @@ PlotFitNonLinear::GetParameterName
 	)
 	const
 {
-	*name	= itsVarList->GetVariableName(index + 1);
+	*name = itsVarList->GetVariableName(index + 1);
 	return true;
 }
 
 /*********************************************************************************
  GetParameter
-
 
  ********************************************************************************/
 
@@ -271,7 +268,6 @@ PlotFitNonLinear::GetParameter
 
 /*********************************************************************************
  GetParameterError
-
 
  ********************************************************************************/
 

@@ -233,7 +233,7 @@ PlotExpFit::GetParameterError
 	JFloat aVal;
 	bool success = PlotLinearFit::GetParameterError(index, &linVal);
 	PlotLinearFit::GetParameter(index, &aVal);
-		if (index == 1)
+	if (index == 1)
 	{
 		*value = exp(aVal) - exp(aVal - linVal);
 	}

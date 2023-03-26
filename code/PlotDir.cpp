@@ -720,10 +720,9 @@ PlotDir::ReadCurves
 		}
 		else if (type == kGFitCurve)
 		{
-			GCurveFitType ftype;
 			int temp;
 			is >> temp;
-			ftype = (GCurveFitType)temp;
+			GCurveFitType ftype = (GCurveFitType)temp;
 			JIndex provider;
 			is >> provider;
 			if (ftype == kGModFit)
@@ -1117,7 +1116,7 @@ PlotDir::NewFit
 {
 	J2DPlotDataBase* data = itsPlot->GetCurve(plotindex);
 	PlotFitFunction* df = nullptr;
-	if (type == kinearFit)
+	if (type == kLinearFit)
 	{
 		PlotLinearFit* lf;
 		JFloat xmax, xmin, ymax, ymin;

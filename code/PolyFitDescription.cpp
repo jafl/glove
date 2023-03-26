@@ -26,7 +26,7 @@ PolyFitDescription::PolyFitDescription
 	:
 	FitDescription(kPolynomial, JString::empty, name)
 {
-	itsPowers	= jnew JArray<JIndex>(powers);
+	itsPowers = jnew JArray<JIndex>(powers);
 	assert(itsPowers != nullptr);
 
 	PolyFitDescriptionX();
@@ -39,7 +39,7 @@ PolyFitDescription::PolyFitDescription
 	:
 	FitDescription(kPolynomial, JString::empty, JString::empty)
 {
-	itsPowers	= jnew JArray<JIndex>;
+	itsPowers = jnew JArray<JIndex>;
 	assert(itsPowers != nullptr);
 
 	JFileVersion version;
@@ -91,7 +91,6 @@ PolyFitDescription::PolyFitDescriptionX()
 	SetFitFunctionString(form);
 }
 
-
 /******************************************************************************
  Destructor
 
@@ -103,7 +102,7 @@ PolyFitDescription::~PolyFitDescription()
 }
 
 /******************************************************************************
- GetPowers (public)
+ GetPowers
 
  ******************************************************************************/
 
@@ -118,7 +117,7 @@ PolyFitDescription::GetPowers
 }
 
 /******************************************************************************
- WriteSetup (public)
+ WriteSetup
 
  ******************************************************************************/
 
@@ -138,5 +137,4 @@ PolyFitDescription::WriteSetup
 	{
 		os << ' ' << itsPowers->GetElement(i) << ' ';
 	}
-
 }

@@ -20,11 +20,11 @@
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JFileVersion	kCurrentPrefsVersion = 1;
+const JFileVersion kCurrentPrefsVersion = 1;
 
 const JString kFitDlDirName("fitdlmodule", JString::kNoCopy);
 
-const JUtf8Byte* FitManager::kFitsChanged	= "kFitsChanged::FitManager";
+const JUtf8Byte* FitManager::kFitsChanged = "kFitsChanged::FitManager";
 
 /******************************************************************************
  Constructor
@@ -105,40 +105,11 @@ FitManager::GetFitDescription
 void
 FitManager::AddFitDescription
 	(
-	const FitDescription& fit
-	)
-{
-//	FitDescription* fd	= jnew FitDescription(fit);
-//	assert(fd != nullptr);
-
-//	itsFitDescriptions->InsertSorted(fd);
-}
-
-void
-FitManager::AddFitDescription
-	(
 	FitDescription* fit
 	)
 {
 	itsFitDescriptions->InsertSorted(fit);
 	Broadcast(FitsChanged());
-}
-
-/******************************************************************************
- NewFitDescription (public)
-
- ******************************************************************************/
-
-void
-FitManager::NewFitDescription
-	(
-	const FitDescription::FitType type
-	)
-{
-//	FitDescription* fd	= jnew FitDescription(type);
-//	assert(fd != nullptr);
-
-//	itsFitDescriptions->InsertSorted(fd);
 }
 
 /******************************************************************************
@@ -171,7 +142,7 @@ FitManager::ReadPrefs
 	std::istream& input
 	)
 {
-	itsIsInitialized	= true;
+	itsIsInitialized = true;
 
 	JFileVersion version;
 	input >> version;
@@ -245,35 +216,27 @@ FitManager::InitializeList()
 	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
-	bd =
-		jnew BuiltinFitDescription(FitDescription::kBExp);
+	bd = jnew BuiltinFitDescription(FitDescription::kBExp);
 	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
-	bd =
-		jnew BuiltinFitDescription(FitDescription::kBPower);
+	bd = jnew BuiltinFitDescription(FitDescription::kBPower);
 	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
-	const JPtrArray<JString>& paths	= GetApplication()->GetModulePath();
-	const JSize count	= paths.GetElementCount();
-	for (JIndex i = 1; i <= count; i++)
+	for (const auto* path : GetApplication()->GetModulePath())
 	{
-		const JString& path	= *(paths.GetElement(i));
-		JString fitPath	= JCombinePathAndName(path, kFitDlDirName);
+		JString fitPath	= JCombinePathAndName(*path, kFitDlDirName);
 		JDirInfo* dir;
 		if (JDirInfo::Create(fitPath, &dir))
 		{
 			dir->SetWildcardFilter(JString("*.so", JString::kNoCopy));
-			const JSize count	= dir->GetEntryCount();
-			for (JIndex i = 1; i <= count; i++)
+			for (const auto* entry : *dir)
 			{
-				const JDirEntry& entry = dir->GetEntry(i);
 				DLFitModule* fit;
-				if (!entry.IsDirectory() && DLFitModule::Create(entry.GetFullName(), &fit))
+				if (!entry->IsDirectory() && DLFitModule::Create(entry->GetFullName(), &fit))
 				{
-					ModuleFitDescription* md	=
-						jnew ModuleFitDescription(fit);
+					ModuleFitDescription* md = jnew ModuleFitDescription(fit);
 					assert(md != nullptr);
 					itsFitDescriptions->InsertSorted(md);
 				}

@@ -88,6 +88,15 @@ FitDescription::GetType()
 	return itsType;
 }
 
+inline void
+FitDescription::SetType
+	(
+	const FitType type
+	)
+{
+	itsType	= type;
+}
+
 /******************************************************************************
  GetFitFunctionString (public)
 
@@ -98,6 +107,15 @@ FitDescription::GetFitFunctionString()
 	const
 {
 	return itsFnForm;
+}
+
+inline void
+FitDescription::SetFitFunctionString
+	(
+	const JString& form
+	)
+{
+	itsFnForm = form;
 }
 
 /******************************************************************************
@@ -112,6 +130,17 @@ FitDescription::GetFnName()
 	return itsFnName;
 }
 
+ // protected
+
+inline void
+FitDescription::SetFnName
+	(
+	const JString& name
+	)
+{
+	itsFnName = name;
+}
+
 /******************************************************************************
  RequiresStartValues (public)
 
@@ -124,6 +153,17 @@ FitDescription::RequiresStartValues()
 	return itsRequiresStartValues;
 }
 
+// protected
+
+inline void
+FitDescription::DoesRequireStartValues
+	(
+	const bool require
+	)
+{
+	itsRequiresStartValues = require;
+}
+
 /******************************************************************************
  CanUseStartValues (public)
 
@@ -134,6 +174,17 @@ FitDescription::CanUseStartValues()
 	const
 {
 	return itsCanUseStartValues;
+}
+
+// protected
+
+inline void
+FitDescription::SetCanUseStartValues
+	(
+	const bool use
+	)
+{
+	itsCanUseStartValues = use;
 }
 
 /******************************************************************************
