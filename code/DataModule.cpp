@@ -21,7 +21,7 @@
 #include <jx-af/jcore/JCreateProgressDisplay.h>
 
 #include <jx-af/jx/JXDeleteObjectTask.h>
-#include <jx-af/jx/jXglobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 #include <jx-af/jcore/jProcessUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>

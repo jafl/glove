@@ -15,7 +15,7 @@
 #include <PlotApp.h>
 
 #include <jx-af/jx/JXStandAlonePG.h>
-#include <jx-af/jx/jXglobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jFStreamUtil.h>

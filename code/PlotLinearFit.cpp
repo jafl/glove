@@ -574,7 +574,7 @@ PlotLinearFit::LinearLSQ1()
 }
 
 /*********************************************************************************
- variance
+ Variance
 
 
  ********************************************************************************/
@@ -649,7 +649,7 @@ PlotLinearFit::LinearLSQ2()
 		ctemp = itsChi2;
 		iter = 1;
 
-		 if (fabs(btemp)<small)
+		if (fabs(btemp)<small)
 		{
 			btemp = small;
 		}
@@ -693,7 +693,7 @@ PlotLinearFit::LinearLSQ2()
 		Paramin(bmin, btemp, bmax, &Bt);
 		itsBParameter = Bt;
 		itsChi2 = ChiSqr(Bt);
-}
+	}
 	itsAParameter = itsAParameterT;
 
 	itsBErrParameter = Root(itsBParameter*1e-8);

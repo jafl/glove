@@ -74,10 +74,10 @@ enum
 
 PlotQuadFit::PlotQuadFit
 	(
-	J2DPlotWidget*	plot,
+	J2DPlotWidget*		plot,
 	J2DPlotDataBase*	fitData,
-	const JFloat	xMin,
-	const JFloat	xMax
+	const JFloat		xMin,
+	const JFloat		xMax
 	)
 	:
 	PlotFitFunction(plot, fitData, xMin, xMax)

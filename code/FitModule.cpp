@@ -17,7 +17,7 @@
 
 #include <jx-af/jx/JXApplication.h>
 #include <jx-af/jx/JXDeleteObjectTask.h>
-#include <jx-af/jx/jXglobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 #include <jx-af/jcore/JOutPipeStream.h>
 #include <jx-af/jcore/JCreateProgressDisplay.h>

@@ -8,7 +8,7 @@
 #ifndef _H_globals
 #define _H_globals
 
-#include <jx-af/jx/jXglobals.h>
+#include <jx-af/jx/jXGlobals.h>
 
 class FitManager;
 class PrefsMgr;
