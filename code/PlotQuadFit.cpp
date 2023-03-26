@@ -668,7 +668,7 @@ PlotQuadFit::CalcError
 	bool ok = true;
 	JSize iter;
 	JFloat chitemp = MinimizeN(p, xi, &iter, fitType);
-	JFloat lastchi;
+	JFloat lastchi=0;
 
 	do
 	{
@@ -686,7 +686,7 @@ PlotQuadFit::CalcError
 			i++;
 		}
 	}
-	while ((i < 20) && ok);
+	while (i < 20 && ok);
 
 	sig /= 10;
 	chitemp = lastchi;
@@ -721,7 +721,7 @@ PlotQuadFit::CalcError
 		}
 		i++;
 	}
-	while ((i <= 10) && ok);
+	while (i <= 10 && ok);
 	sig *= 10;
 	if (type == kAError)
 	{
