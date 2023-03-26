@@ -21,7 +21,7 @@
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JTableSelection.h>
 
-#include <jx-af/jcore/jglobals.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jASCIIConstants.h>
 
 #include <jx-af/jcore/JMinMax.h>

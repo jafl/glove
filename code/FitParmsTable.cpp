@@ -13,7 +13,7 @@
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JFontStyle.h>
 #include <jx-af/jcore/JString.h>
-#include <jx-af/jcore/jglobals.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kDefColWidth  = 50;

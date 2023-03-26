@@ -27,7 +27,7 @@
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jProcessUtil.h>
-#include <jx-af/jcore/jglobals.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jTime.h>
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <stdlib.h>

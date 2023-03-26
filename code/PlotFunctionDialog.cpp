@@ -19,7 +19,7 @@
 
 #include <jx-af/jexpr/JExprParser.h>
 #include <jx-af/jexpr/JFunction.h>
-#include <jx-af/jcore/jglobals.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

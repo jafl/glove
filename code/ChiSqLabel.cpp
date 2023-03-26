@@ -17,7 +17,7 @@
 #include <jx-af/jx/jXPainterUtil.h>
 #include <jx-af/jx/jXConstants.h>
 
-#include <jx-af/jcore/jglobals.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

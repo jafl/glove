@@ -14,7 +14,7 @@
 #include <jx-af/jcore/JStringMatch.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jMath.h>
-#include <jx-af/jcore/jglobals.h>
+#include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
