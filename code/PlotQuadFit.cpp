@@ -1152,26 +1152,24 @@ PlotQuadFit::MinimizeN
 	const JIndex	type
 	)
 {
-	JSize i,ibig;
-	JFloat del,fp,fptt,t, fret;
 	JIndex n = p.GetDimensionCount();
 
 	JVector pt(n);
 	JVector ptt(n);
 	JVector xit(n);
 
-	fret = FunctionN(p, type);
+	JFloat fret = FunctionN(p, type);
 	pt = p;
 
 	for (*iter = 1; *iter <= ITMAX; ++(*iter))
 	{
-		fp = fret;
-		ibig=0;
-		del=0.0;
-		for (i = 1; i <= n; i++)
+		JFloat fp = fret;
+		JIndex ibig=0;
+		JFloat del=0.0;
+		for (JIndex i = 1; i <= n; i++)
 		{
 			xit = xi.GetColVector(i);
-			fptt = fret;
+			const JFloat fptt = fret;
 			fret = LinearMinimization(p, xit, type);
 			if (fabs(fptt-fret) > del)
 			{
@@ -1186,10 +1184,10 @@ PlotQuadFit::MinimizeN
 		ptt = 2.0*p - pt;
 		xit = p - pt;
 		pt = p;
-		fptt = FunctionN(ptt, type);
+		const JFloat fptt = FunctionN(ptt, type);
 		if (fptt < fp)
 		{
-			t = 2.0*(fp - 2.0*fret+fptt) * (fp-fret-del)*(fp-fret-del) -del*(fp-fptt)*(fp-fptt);
+			const JFloat t = 2.0*(fp - 2.0*fret+fptt)*(fp-fret-del)*(fp-fret-del) - del*(fp-fptt)*(fp-fptt);
 			if (t < 0.0)
 			{
 				fret = LinearMinimization(p, xit, type);
