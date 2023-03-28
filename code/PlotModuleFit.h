@@ -73,9 +73,7 @@ protected:
 
 private:
 
-	void		JPlotModuleFitX(J2DPlotWidget* plot,
-								J2DPlotDataBase* fitData,
-								JPtrArray<JString>* names,
+	void		JPlotModuleFitX(JPtrArray<JString>* names,
 								JArray<JFloat>* values,
 								JFunction*	function,
 								VarList* list,

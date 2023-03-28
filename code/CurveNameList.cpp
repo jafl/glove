@@ -334,7 +334,7 @@ CurveNameList::Receive
 }
 
 /******************************************************************************
- GetCurrentCurveIndex (public)
+ GetCurrentCurveIndex
 
  ******************************************************************************/
 
@@ -354,7 +354,7 @@ CurveNameList::GetCurrentCurveIndex
 }
 
 /******************************************************************************
- SetCurrentCurveIndex (public)
+ SetCurrentCurveIndex
 
  ******************************************************************************/
 
@@ -366,7 +366,7 @@ CurveNameList::SetCurrentCurveIndex
 {
 	if (GetRowCount() > 0)
 	{
-		JPoint cell(1, 1);
+		JPoint cell(1, index);
 		SelectSingleCell(cell);
 		Broadcast(CurveSelected(cell.y));
 	}

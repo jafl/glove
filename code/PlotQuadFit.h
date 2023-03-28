@@ -94,8 +94,7 @@ protected:
 
 private:
 
-	void				JPlotQuadFitX(J2DPlotWidget* plot,
-										J2DPlotDataBase* fitData);
+	void				JPlotQuadFitX(J2DPlotDataBase* fitData);
 
 	void				QuadFirstPass();
 	void				QuadMinFit();

@@ -36,7 +36,7 @@ PlotFitExp::PlotFitExp
 	:
 	PlotFitBase(plot, fitData, xMin, xMax)
 {
-	JPlotFitExpX(plot, fitData);
+	JPlotFitExpX();
 }
 
 PlotFitExp::PlotFitExp
@@ -51,15 +51,11 @@ PlotFitExp::PlotFitExp
 	:
 	PlotFitBase(plot, fitData, xmin, xmax, ymin, ymax)
 {
-	JPlotFitExpX(plot, fitData);
+	JPlotFitExpX();
 }
 
 void
-PlotFitExp::JPlotFitExpX
-	(
-	J2DPlotWidget*		plot,
-	J2DPlotDataBase*	fitData
-	)
+PlotFitExp::JPlotFitExpX()
 {
 	itsAParm = 0;
 	itsBParm = 0;

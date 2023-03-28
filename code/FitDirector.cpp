@@ -647,12 +647,13 @@ FitDirector::HandleFitMenu
 
 		JIndex index1;
 		bool ok	= itsCurveList->GetCurrentCurveIndex(&index1);
+		assert(ok);
 		J2DPlotDataBase* data = itsPlot->GetCurve(index1);
 		assert(itsCurrentFit != nullptr);
 		PlotFitProxy* proxy	= jnew PlotFitProxy(itsCurrentFit, itsPlot, data);
 		assert(proxy != nullptr);
 		JIndex findex;
-		ok	= itsFitList->GetCurrentFitIndex(&findex);
+		ok = itsFitList->GetCurrentFitIndex(&findex);
 		assert(ok);
 		const FitDescription& fd = GetFitManager()->GetFitDescription(findex);
 		itsDir->AddFitProxy(proxy, index1, fd.GetFnName());
@@ -835,6 +836,7 @@ FitDirector::Fit()
 	RemoveFit();
 	JIndex index;
 	bool ok = itsCurveList->GetCurrentCurveIndex(&index);
+	assert(ok);
 	J2DPlotDataBase* data = itsPlot->GetCurve(index);
 	ok = itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
@@ -1145,6 +1147,7 @@ FitDirector::TestFit()
 	RemoveFit();
 	JIndex index;
 	bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
+	assert(ok);
 	J2DPlotDataBase* data = itsPlot->GetCurve(index);
 	ok	= itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);

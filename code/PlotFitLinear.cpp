@@ -35,7 +35,7 @@ PlotFitLinear::PlotFitLinear
 	:
 	PlotFitLinearEq(plot, fitData, xMin, xMax)
 {
-	JPlotFitLinearX(plot, fitData);
+	JPlotFitLinearX();
 }
 
 PlotFitLinear::PlotFitLinear
@@ -50,15 +50,11 @@ PlotFitLinear::PlotFitLinear
 	:
 	PlotFitLinearEq(plot, fitData, xmin, xmax, ymin, ymax)
 {
-	JPlotFitLinearX(plot, fitData);
+	JPlotFitLinearX();
 }
 
 void
-PlotFitLinear::JPlotFitLinearX
-	(
-	J2DPlotWidget*		plot,
-	J2DPlotDataBase*	fitData
-	)
+PlotFitLinear::JPlotFitLinearX()
 {
 	JArray<JIndex> powers;
 	powers.AppendElement(0);

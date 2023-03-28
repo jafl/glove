@@ -70,9 +70,7 @@ protected:
 
 private:
 
-	void	JPlotLinearFitX(J2DPlotWidget* plot,
-							J2DPlotDataBase* fitData,
-							bool xlog, const bool ylog);
+	void	JPlotLinearFitX(const bool xlog, const bool ylog);
 
 	void	LinearLSQ1();
 	void	LinearLSQ2();

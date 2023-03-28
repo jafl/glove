@@ -40,24 +40,24 @@ PlotModuleFit::PlotModuleFit
 	PlotFitFunction(plot, fitData, xMin, xMax)
 {
 	itsUsingRange = false;
-	JPlotModuleFitX(plot, fitData, names, values, function, list, parmscount, errors, gof);
+	JPlotModuleFitX(names, values, function, list, parmscount, errors, gof);
 }
 
 PlotModuleFit::PlotModuleFit
 	(
 	J2DPlotWidget*		plot,
-	J2DPlotDataBase*		fitData,
+	J2DPlotDataBase*	fitData,
 	JPtrArray<JString>*	names,
-	JArray<JFloat>*	values,
+	JArray<JFloat>*		values,
 	JFunction*			function,
 	VarList*			list,
 	const JFloat		xmin,
 	const JFloat		xmax,
 	const JFloat		ymin,
 	const JFloat		ymax,
-	const JSize		parmscount,
-	const bool		errors,
-	const bool		gof
+	const JSize			parmscount,
+	const bool			errors,
+	const bool			gof
 	)
 	:
 	PlotFitFunction(plot, fitData, xmin, xmax)
@@ -83,7 +83,7 @@ PlotModuleFit::PlotModuleFit
 		itsRangeYMin = ymax;
 	}
 	itsUsingRange = true;
-	JPlotModuleFitX(plot, fitData, names, values, function, list, parmscount, errors, gof);
+	JPlotModuleFitX(names, values, function, list, parmscount, errors, gof);
 }
 
 PlotModuleFit::PlotModuleFit
@@ -136,14 +136,12 @@ PlotModuleFit::PlotModuleFit
 	const bool ok = p.Parse(fstring, &f);
 	assert( ok );
 
-	JPlotModuleFitX(plot, fitData, names, values, f, list, parmscount, errors, gof);
+	JPlotModuleFitX(names, values, f, list, parmscount, errors, gof);
 }
 
 void
 PlotModuleFit::JPlotModuleFitX
 	(
-	J2DPlotWidget*		plot,
-	J2DPlotDataBase*	fitData,
 	JPtrArray<JString>*	names,
 	JArray<JFloat>*		values,
 	JFunction*			function,

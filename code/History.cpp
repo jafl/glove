@@ -131,7 +131,7 @@ History::Receive
 	const Message&	message
 	)
 {
-	if ((sender == itsFontMenu && message.Is(JXXFontMenu::kNameChanged)) ||
+	if ((sender == itsFontMenu && message.Is(JXFontNameMenu::kNameChanged)) ||
 		(sender == itsSizeMenu && message.Is(JXFontSizeMenu::kSizeChanged)))
 	{
 		AdjustFont();
@@ -216,13 +216,13 @@ History::AdjustTabWidth()
 	JFontManager* fontMgr = GetFontManager();
 	if (itsFontMenu != nullptr)
 	{
-		const JFont font = fontMgr->GetFont(itsFontMenu->GetFontName());
+		const JFont font = JFontManager::GetFont(itsFontMenu->GetFontName());
 		charWidth = font.GetCharWidth(fontMgr, JUtf8Character(' '));
 	}
 	else
 	{
 		assert( itsSizeMenu != nullptr );
-		const JFont font = fontMgr->GetFont(JFontManager::GetDefaultMonospaceFontName(), itsSizeMenu->GetFontSize());
+		const JFont font = JFontManager::GetFont(JFontManager::GetDefaultMonospaceFontName(), itsSizeMenu->GetFontSize());
 		charWidth = font.GetCharWidth(fontMgr, JUtf8Character(' '));
 	}
 

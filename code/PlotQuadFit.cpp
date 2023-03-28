@@ -82,9 +82,7 @@ PlotQuadFit::PlotQuadFit
 	PlotFitFunction(plot, fitData, xMin, xMax)
 {
 	itsUsingRange = false;
-	JPlotQuadFitX(plot, fitData);
-	PlotFitQuad junk(plot, fitData, xMin, xMax);
-//	PlotFitQuad2 junk2(plot, fitData, xMin, xMax);
+	JPlotQuadFitX(fitData);
 }
 
 PlotQuadFit::PlotQuadFit
@@ -120,13 +118,12 @@ PlotQuadFit::PlotQuadFit
 		itsRangeYMin = ymax;
 	}
 	itsUsingRange = true;
-	JPlotQuadFitX(plot, fitData);
+	JPlotQuadFitX(fitData);
 }
 
 void
 PlotQuadFit::JPlotQuadFitX
 	(
-	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData
 	)
 {
@@ -392,16 +389,13 @@ PlotQuadFit::GenerateFit()
 void
 PlotQuadFit::QuadFirstPass()
 {
-	JFloat Y, X, X2, YX, X3, YX2, X4, Sig;
-	JFloat tempa, tempb, tempc, det;
-	JSize i,j, k;
 	JArray<JFloat> yAdjError;
 
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
 	const JSize count = data->GetElementCount();
 	JSize rcount = itsRealData->GetElementCount();
-	for (i=1; i<= count; i++)
+	for (JIndex i=1; i<= count; i++)
 	{
 		J2DDataPoint point;
 		if (GetDataElement(i, &point))
@@ -417,7 +411,7 @@ PlotQuadFit::QuadFirstPass()
 
 	JMatrix odata(rcount, 3, 1.0);
 	JVector yData(rcount);
-	for (i=1; i<= rcount; i++)
+	for (JIndex i=1; i<= rcount; i++)
 	{
 		point = itsRealData->GetElement(i);
 		odata.SetElement(i, 1, 1);
@@ -431,17 +425,11 @@ PlotQuadFit::QuadFirstPass()
 	JMatrix parms(3,1);
 	JGaussianElimination(lData, rData, &parms);
 
-	for (k=1; k<= 4; k++)
+	JFloat tempa, tempb, tempc, det;
+	for (JIndex k=1; k<= 4; k++)
 	{
-		Y = 0;
-		X = 0;
-		X2 = 0;
-		YX = 0;
-		X3 = 0;
-		YX2 = 0;
-		X4 = 0;
-		Sig = 0;
-		for (i=1; i<= rcount; i++)
+		JFloat Y = 0, X = 0, X2 = 0, YX = 0, X3 = 0, YX2 = 0, X4 = 0, Sig = 0;
+		for (JIndex i=1; i<= rcount; i++)
 		{
 			point = itsRealData->GetElement(i);
 			JFloat yerr = yAdjError.GetElement(i);
@@ -456,13 +444,13 @@ PlotQuadFit::QuadFirstPass()
 			itsRealCount++;
 		}
 		JFloat cv1 = 0, cv2 = 0, cv3 = 0;
-		for (i=1; i<= rcount; i++)
+		for (JIndex i=1; i<= rcount; i++)
 		{
 			point = itsRealData->GetElement(i);
 			JFloat syi = yAdjError.GetElement(i);
 			JFloat yi = point.y;
 			JFloat xi = point.x;
-			for (j = 1; j <= rcount; j++)
+			for (JIndex j = 1; j <= rcount; j++)
 			{
 				point = itsRealData->GetElement(j);
 				JFloat syj = yAdjError.GetElement(j);
@@ -480,7 +468,7 @@ PlotQuadFit::QuadFirstPass()
 		tempc = (Sig*cv1 + X*cv2 + Y*cv3)/det;
 
 		JSize index = 1;
-		for (i=1; i<=count; i++)
+		for (JIndex i=1; i<=count; i++)
 		{
 			if (GetDataElement(i, &point))
 			{
@@ -505,7 +493,7 @@ PlotQuadFit::QuadFirstPass()
 //	itsBParameter = parms.GetElement(2,1);
 //	itsCParameter = parms.GetElement(3,1);
 	itsChi2 = 0;
-	for (i=1; i<= rcount; i++)
+	for (JIndex i=1; i<= rcount; i++)
 	{
 		point = itsRealData->GetElement(i);
 		JFloat yerr = yAdjError.GetElement(i);
@@ -585,11 +573,11 @@ PlotQuadFit::MinimizeChiSqr
 	JFloat oldB = itsBParameterT;
 	JFloat oldC = itsCParameterT;
 
-	while ((i < ITMAX) &&
-		((i == 1) ||
-		(fabs((oldA-itsAParameterT)/oldA) > 0.000001) ||
-		(fabs((oldC-itsCParameterT)/oldC) > 0.000001) ||
-		(fabs((oldB-itsBParameterT)/oldB) > 0.000001)))
+	while (i < ITMAX &&
+		(i == 1 ||
+		 fabs((oldA-itsAParameterT)/oldA) > 0.000001 ||
+		 fabs((oldC-itsCParameterT)/oldC) > 0.000001 ||
+		 fabs((oldB-itsBParameterT)/oldB) > 0.000001))
 	{
 		i++;
 		oldC = itsCParameterT;
@@ -651,21 +639,22 @@ PlotQuadFit::CalcError
 		p.SetElement(1, itsAParameter);
 		p.SetElement(2, itsCParameter);
 	}
-	else if (type == kCError)
+	else
 	{
+		assert( type == kCError );
+
 		sigParameter = &itsCParameterT;
 		parameter = itsCParameter;
 		fitType = kCFixed;
 		p.SetElement(1, itsAParameter);
 		p.SetElement(2, itsBParameter);
 	}
-	JFloat sig = *sigParameter*(0.000000001);
+	JFloat sig = *sigParameter*0.000000001;
 
 	*sigParameter = parameter + sig;
 
 	JFloat chiplus	= sqrt(itsChi2 + 1);
 	JIndex i = 0;
-	bool ok = true;
 	JSize iter;
 	JFloat chitemp = MinimizeN(p, xi, &iter, fitType);
 	JFloat lastchi=0;
@@ -674,29 +663,25 @@ PlotQuadFit::CalcError
 	{
 		if (chitemp > chiplus)
 		{
-			ok = false;
+			break;
 		}
-		else
-		{
-			lastchi = chitemp;
-			*sigParameter = parameter + sig * 10;
-			sig *= 10;
-			chitemp = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
-			//std::cout << "1: " << sig << " " << chitemp << std::endl;
-			i++;
-		}
+
+		lastchi = chitemp;
+		*sigParameter = parameter + sig * 10;
+		sig *= 10;
+		chitemp = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
+		//std::cout << "1: " << sig << " " << chitemp << std::endl;
+		i++;
 	}
-	while (i < 20 && ok);
+	while (i < 20);
 
 	sig /= 10;
-	chitemp = lastchi;
 
-	ok = true;
 	i = 2;
-	JFloat chi1, chi2, chi3 = lastchi;
+	JFloat chi2, chi3 = lastchi;
 	do
 	{
-		chi1 = chi3;
+		JFloat chi1 = chi3;
 		*sigParameter = parameter + sig* i;
 		chitemp = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
 		//std::cout << "2: " << sig << " " << chitemp << std::endl;
@@ -704,8 +689,8 @@ PlotQuadFit::CalcError
 		if (chitemp > chiplus)
 		{
 			JFloat x1 = sig*(i-1);
-			JFloat x2 = sig*(i-.5);
-			JFloat x3 = sig*(i);
+			JFloat x2 = sig*(i-0.5);
+			JFloat x3 = sig*i;
 			*sigParameter = parameter + x2;
 			chi2 = sqrt(ChiSqr(0,kDefaultType));//MinimizeN(p, xi, &iter, fitType);
 			JFloat e1 = (chi3*x1*(x1-x2)*x2+x3*(chi1*x2*(x2-x3)+chi2*x1*(-x1+x3)))/
@@ -717,11 +702,12 @@ PlotQuadFit::CalcError
 			JFloat tsig = fabs((-e2+JSign(parameter)*sqrt(e2*e2+4*e3*(chiplus-e1)))/2/e3);
 			sig = tsig;
 			//std::cout << "3: " << sig << " " << chitemp << std::endl;
-			ok = false;
+			break;
 		}
 		i++;
 	}
-	while (i <= 10 && ok);
+	while (i <= 10);
+
 	sig *= 10;
 	if (type == kAError)
 	{
@@ -753,37 +739,32 @@ PlotQuadFit::CalcError
 //std::cout << "1b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 
 	i = 0;
-	ok = true;
 	do
 	{
 		if (chitemp > chiplus)
 		{
-			ok = false;
+			break;
 		}
-		else
-		{
-			lastchi = chitemp;
-			*sigParameter = parameter + sig * 10;
-			sig *= 10;
-			chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
-		//std::cout << "Iter: " << iter << std::endl;
-		//std::cout << "2a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
-//			chitemp = MinimizeN(p, xi, &iter, fitType);
+
+		lastchi = chitemp;
+		*sigParameter = parameter + sig * 10;
+		sig *= 10;
+		chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
+//		std::cout << "Iter: " << iter << std::endl;
+//		std::cout << "2a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
+//		chitemp = MinimizeN(p, xi, &iter, fitType);
 //		std::cout << "2b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
-			i++;
-		}
+		i++;
 	}
-	while ((i < 20) && ok);
+	while (i < 20);
 
 	sig /= 10;
-	chitemp = lastchi;
 
-	ok = true;
 	i = 2;
 	chi3 = lastchi;
 	do
 	{
-		chi1 = chi3;
+		JFloat chi1 = chi3;
 		*sigParameter = parameter + sig* i;
 		chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
 	//std::cout << "Iter: " << iter << std::endl;
@@ -794,8 +775,8 @@ PlotQuadFit::CalcError
 		if (chitemp > chiplus)
 		{
 			JFloat x1 = sig*(i-1);
-			JFloat x2 = sig*(i-.5);
-			JFloat x3 = sig*(i);
+			JFloat x2 = sig*(i-0.5);
+			JFloat x3 = sig*i;
 		//std::cout << x1 << " " << x2 << " " << x3 << std::endl;
 			*sigParameter = parameter + x2;
 			chi2 = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
@@ -817,16 +798,13 @@ PlotQuadFit::CalcError
 			}
 			//std::cout << "*****" << tsig << "*****" << std::endl;
 			return tsig;
-			ok = false;
+			break;
 		}
 		i++;
 	}
-	while ((i <= 10) && ok);
+	while (i <= 10);
 	return 0;
-
 }
-
-
 
 /*********************************************************************************
  ChiSqr
@@ -971,23 +949,18 @@ PlotQuadFit::BracketAndMinimize
 	const JIndex	type
 	)
 {
-	JFloat factor=0.01, small=TOLL, bmin, bmax;
-	JFloat cbmax, cbmin, btemp;
-	int iter;
+	JFloat factor=0.01;
 
-	btemp = *parameter;
+	JFloat btemp = *parameter;
 
-	bmax = btemp*(1+factor);
-	bmin = btemp*(1-factor);
+	JFloat bmax = btemp*(1+factor);
+	JFloat bmin = btemp*(1-factor);
 
-	cbmax = Function(bmax, type);
-	cbmin = Function(bmin, type);
-
-	iter = 1;
+	JIndex iter = 1;
 	while (iter < 100)
 	{
-		cbmax = Function(bmax, type);
-		cbmin = Function(bmin, type);
+		JFloat cbmax = Function(bmax, type);
+		JFloat cbmin = Function(bmin, type);
 		if ((cbmin > chitemp) && (cbmax > chitemp))
 		{
 			break;
@@ -1005,9 +978,9 @@ PlotQuadFit::BracketAndMinimize
 				bmax = btemp*(1+factor);
 			}
 		}
-		if (fabs(btemp) < small)
+		if (fabs(btemp) < TOLL)
 		{
-			btemp = small;
+			btemp = TOLL;
 		}
 		factor = factor*1.2;
 		iter++;
@@ -1048,8 +1021,8 @@ PlotQuadFit::Minimize
 	{
 		const JFloat middle=0.5*(low+high);
 		const JFloat tol1=TOLL*fabs(x)+ZEPS;
-		const JFloat tol2 = 2.0*(tol1);
-		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
+		const JFloat tol2 = 2.0*tol1;
+		if (fabs(x-middle) <= tol2-0.5*(high-low))
 		{
 			*xmin= x;
 			return fx;
@@ -1085,7 +1058,7 @@ PlotQuadFit::Minimize
 				const JFloat u = x + step;
 				if (u-low < tol2 || high-u < tol2)
 				{
-					if ((middle - x) > 0.0)
+					if (middle - x > 0.0)
 					{
 						step = fabs(tol1);
 					}
@@ -1141,7 +1114,7 @@ PlotQuadFit::Minimize
 			{
 				high = u;
 			}
-			if ((fu <= fw) || (w == x))
+			if (fu <= fw || w == x)
 			{
 				v = w;
 				w = u;
@@ -1150,7 +1123,7 @@ PlotQuadFit::Minimize
 			}
 			else
 			{
-				if ((fu <= fv) || (v == x) || (v == w))
+				if (fu <= fv || v == x || v == w)
 				{
 					v = u;
 					fv = fu;

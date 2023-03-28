@@ -114,7 +114,7 @@ PlotFitNonLinear::FunctionN
 	assert(itsVarList != nullptr);
 	assert(itsFunction != nullptr);
 	itsVarList->SetValue(1, x);
-	JFloat y = 0;;
+	JFloat y = 0;
 	itsFunction->Evaluate(&y);
 	return y;
 }

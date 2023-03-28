@@ -141,9 +141,8 @@ PlotExpFit::AdjustData()
 		itsXErrData->RemoveAll();
 	}
 	J2DDataPoint point;
-	JSize count = data->GetElementCount();
-	JSize i;
-	for (i = 1; i <= count; i++)
+	const JSize count = data->GetElementCount();
+	for (JIndex i = 1; i <= count; i++)
 	{
 		data->GetElement(i, &point);
 		if (point.y > 0)

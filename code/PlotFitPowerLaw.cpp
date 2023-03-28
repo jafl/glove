@@ -35,7 +35,7 @@ PlotFitPowerLaw::PlotFitPowerLaw
 	:
 	PlotFitBase(plot, fitData, xMin, xMax)
 {
-	JPlotFitPowerLawX(plot, fitData);
+	JPlotFitPowerLawX();
 }
 
 PlotFitPowerLaw::PlotFitPowerLaw
@@ -50,15 +50,11 @@ PlotFitPowerLaw::PlotFitPowerLaw
 	:
 	PlotFitBase(plot, fitData, xmin, xmax, ymin, ymax)
 {
-	JPlotFitPowerLawX(plot, fitData);
+	JPlotFitPowerLawX();
 }
 
 void
-PlotFitPowerLaw::JPlotFitPowerLawX
-	(
-	J2DPlotWidget* plot,
-	J2DPlotDataBase* fitData
-	)
+PlotFitPowerLaw::JPlotFitPowerLawX()
 {
 	itsAParm	= 0;
 	itsBParm	= 0;

@@ -202,8 +202,8 @@ FitParmsDir::HandleFitMenu
 	FitBase* fit = itsFits->GetElement(index);
 	const JSize count = fit->GetParameterCount();
 	itsTable->Append(JGetString("FunctionLabel::FitParmsDir"), fit->GetFitFunctionString());
-	JSize i;
-	for (i = 1; i <= count; i++)
+
+	for (JIndex i = 1; i <= count; i++)
 	{
 		JString str;
 		fit->GetParameterName(i, &str);

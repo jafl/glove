@@ -27,7 +27,7 @@ public:
 
 private:
 
-	void	JPlotFitLinearX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);
+	void	JPlotFitLinearX();
 };
 
 #endif

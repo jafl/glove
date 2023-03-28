@@ -29,18 +29,18 @@ const JFloat	TOLL   = 1.0e-10;
 
 PlotLinearFit::PlotLinearFit
 	(
-	J2DPlotWidget*	plot,
+	J2DPlotWidget*		plot,
 	J2DPlotDataBase*	fitData,
-	const JFloat	xMin,
-	const JFloat	xMax,
-	const bool	xlog,
-	const bool	ylog
+	const JFloat		xMin,
+	const JFloat		xMax,
+	const bool			xlog,
+	const bool			ylog
 	)
 	:
 	PlotFitFunction(plot, fitData, xMin, xMax)
 {
 	itsUsingRange = false;
-	JPlotLinearFitX(plot, fitData, xlog, ylog);
+	JPlotLinearFitX(xlog, ylog);
 }
 
 PlotLinearFit::PlotLinearFit
@@ -78,14 +78,12 @@ PlotLinearFit::PlotLinearFit
 		itsRangeYMin = ymax;
 	}
 	itsUsingRange = true;
-	JPlotLinearFitX(plot, fitData, xlog, ylog);
+	JPlotLinearFitX(xlog, ylog);
 }
 
 void
 PlotLinearFit::JPlotLinearFitX
 	(
-	J2DPlotWidget* plot,
-	J2DPlotDataBase* fitData,
 	const bool xlog,
 	const bool ylog
 	)
@@ -590,16 +588,12 @@ PlotLinearFit::LinearLSQ2()
 
 	JFloat factor=0.01;
 	JFloat small=TOLL;
-	JSize i;
 
-	JFloat btemp = itsBParameter;
-	JFloat ctemp = itsChi2;
-	JSize iter = 1;
-
-	for (i = 1; i <= 3; i++)
+	JIndex iter = 1;
+	for (JIndex i = 1; i <= 3; i++)
 	{
-		btemp = itsBParameter;
-		ctemp = itsChi2;
+		JFloat btemp = itsBParameter;
+		JFloat ctemp = itsChi2;
 		iter = 1;
 
 		if (fabs(btemp)<small)
@@ -610,30 +604,25 @@ PlotLinearFit::LinearLSQ2()
 		JFloat bmax = btemp*(1+factor);
 		JFloat bmin = btemp*(1-factor);
 
-		JFloat cbmax = ChiSqr(bmax);
-		JFloat cbmin = ChiSqr(bmin);
-
 		while (iter < 100)
 		{
-			cbmax = ChiSqr(bmax);
-			cbmin = ChiSqr(bmin);
-			if ((cbmin > ctemp) && (cbmax > ctemp))
+			JFloat cbmax = ChiSqr(bmax);
+			JFloat cbmin = ChiSqr(bmin);
+			if (cbmin > ctemp && cbmax > ctemp)
 			{
 				break;
 			}
+			else if (cbmin <= cbmax)
+			{
+				btemp = bmin;
+				bmin = btemp*(1-factor);
+			}
 			else
 			{
-				if (cbmin <= cbmax)
-				{
-					btemp = bmin;
-					bmin = btemp*(1-factor);
-				}
-				else
-				{
-					btemp = bmax;
-					bmax = btemp*(1+factor);
-				}
+				btemp = bmax;
+				bmax = btemp*(1+factor);
 			}
+
 			if (fabs(btemp) < small)
 			{
 				btemp = small;
@@ -652,7 +641,7 @@ PlotLinearFit::LinearLSQ2()
 	itsBErrParameter = Root(itsBParameter*1e-8);
 
 	JFloat W=0;
-	for (i = 1; i <= count; i++)
+	for (JIndex i = 1; i <= count; i++)
 	{
 		if (GetDataElement(i, &point))
 		{
@@ -757,8 +746,8 @@ PlotLinearFit::Paramin
 	{
 		const JFloat middle=0.5*(low+high);
 		JFloat tol1=TOLL*fabs(x)+ZEPS;
-		JFloat tol2 = 2.0*(tol1);
-		if (fabs(x-middle) <= (tol2-0.5*(high-low)))
+		JFloat tol2 = 2.0*tol1;
+		if (fabs(x-middle) <= tol2-0.5*(high-low))
 		{
 			*xmin= x;
 			return;
@@ -938,7 +927,7 @@ PlotLinearFit::Root
 		{
 			break;
 		}
-		factor = factor*(1.2);
+		factor = factor*1.2;
 		iter++;
 	}
 
@@ -971,7 +960,7 @@ PlotLinearFit::Root
 			y2 = y3;
 			y3 = y1;
 		}
-		const JFloat tol1 = 2*fabs(x2)*(3e-8)+0.5*TOLL;
+		const JFloat tol1 = 2*fabs(x2)*3e-8 + 0.5*TOLL;
 		JFloat middle=0.5*(x3-x2);
 		if (fabs(middle) <= tol1 || x2 == 0.0)
 		{
@@ -1083,34 +1072,28 @@ PlotLinearFit::DataElementValid
 	J2DDataPoint point;
 	data->GetElement(index, &point);
 
-	if (itsYIsLog)
+	if (itsYIsLog && point.y <= 0)
 	{
-		if (point.y <= 0)
-		{
-			return false;
-		}
+		return false;
 	}
-	if (itsXIsLog)
+	if (itsXIsLog && point.x <= 0)
 	{
-		if (point.x <= 0)
-		{
-			return false;
-		}
+		return false;
 	}
-	if (itsUsingRange)
+
+	if (itsUsingRange &&
+		point.x >= itsRangeXMin &&
+		point.x <= itsRangeXMax &&
+		point.y >= itsRangeYMin &&
+		point.y <= itsRangeYMax)
 	{
-		if ((point.x >= itsRangeXMin) &&
-			(point.x <= itsRangeXMax) &&
-			(point.y >= itsRangeYMin) &&
-			(point.y <= itsRangeYMax))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return true;
 	}
+	else if (itsUsingRange)
+	{
+		return false;
+	}
+
 	return true;
 }
 

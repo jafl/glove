@@ -1089,8 +1089,7 @@ PlotDir::RemoveFit
 	dir->Close();
 	itsDiffDirs->RemoveElement(stats.fitNumber);
 	const JSize count = itsCurveStats->GetElementCount();
-	JSize i;
-	for (i = index + 1; i <= count; i++)
+	for (JIndex i = index + 1; i <= count; i++)
 	{
 		stats = itsCurveStats->GetElement(i);
 		if (stats.type == kGFitCurve)

@@ -50,8 +50,7 @@ protected:
 
 private:
 
-	void	JPlotFitQuad2X(J2DPlotWidget* plot,
-							J2DPlotDataBase* fitData);
+	void	JPlotFitQuad2X();
 
 	void	CalculateFirstPass();
 

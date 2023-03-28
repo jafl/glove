@@ -49,7 +49,7 @@ protected:
 
 private:
 
-	void	JPlotFitLinearEqX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);
+	void	JPlotFitLinearEqX();
 	void	CalculateFirstPass();
 
 private:

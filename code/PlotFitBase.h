@@ -88,8 +88,7 @@ protected:
 
 private:
 
-	void				JPlotFitBaseX(J2DPlotWidget* plot,
-										J2DPlotDataBase* fitData);
+	void				JPlotFitBaseX(J2DPlotDataBase* fitData);
 
 	void				AdjustDiffData();
 	JFloat				CalcError(const JVector& parameters, const JIndex constIndex);

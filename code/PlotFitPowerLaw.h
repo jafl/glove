@@ -55,7 +55,7 @@ private:
 
 	void	CalculateFirstPass();
 
-	void	JPlotFitPowerLawX(J2DPlotWidget* plot, J2DPlotDataBase* fitData);
+	void	JPlotFitPowerLawX();
 };
 
 #endif

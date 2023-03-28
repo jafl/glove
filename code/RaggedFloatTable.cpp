@@ -1865,6 +1865,8 @@ RaggedFloatTable::GetSelectionArea
 	{
 		*rows = 1;
 		*cols = 1;
+		*startRow = 1;
+		*startCol = 1;
 		return;
 	}
 
@@ -2049,7 +2051,7 @@ RaggedFloatTable::ChoosePlotColumns
 
 	if (type == kPlotCmd)
 	{
-		auto* dlog = jnew CreatePlotDialog(itsTableDir, itsFloatData, xCol,x2Col,yCol,y2Col);
+		auto* dlog = jnew CreatePlotDialog(itsTableDir, itsFloatData, xCol,yCol, x2Col,y2Col);
 		assert (dlog != nullptr);
 		if (dlog->DoDialog())
 		{
@@ -2058,7 +2060,7 @@ RaggedFloatTable::ChoosePlotColumns
 	}
 	else if (type == kPlotVectorCmd)
 	{
-		auto* dlog = jnew CreateVectorPlotDialog(itsTableDir, itsFloatData, xCol, yCol, y2Col, x2Col);
+		auto* dlog = jnew CreateVectorPlotDialog(itsTableDir, itsFloatData, xCol,yCol, x2Col,y2Col);
 		assert (dlog != nullptr);
 		if (dlog->DoDialog())
 		{

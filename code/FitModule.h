@@ -28,15 +28,15 @@ class FitModule : virtual public JBroadcaster
 public:
 
 	static bool Create(	FitModule** module,
-							PlotDir* dir,
-							J2DPlotDataBase* fitData,
-							const JString& sysCmd);
+						PlotDir* dir,
+						J2DPlotDataBase* fitData,
+						const JString& sysCmd);
 	~FitModule() override;
 
 protected:
 
 	FitModule(PlotDir* dir, J2DPlotDataBase* fitData, JProcess* process,
-				const int fd, JOutPipeStream* output);
+			  const int fd, JOutPipeStream* output);
 
 	void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message) override;
 

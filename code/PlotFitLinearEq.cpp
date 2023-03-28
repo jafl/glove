@@ -37,7 +37,7 @@ PlotFitLinearEq::PlotFitLinearEq
 	:
 	PlotFitBase(plot, fitData, xMin, xMax)
 {
-	JPlotFitLinearEqX(plot, fitData);
+	JPlotFitLinearEqX();
 }
 
 PlotFitLinearEq::PlotFitLinearEq
@@ -52,15 +52,11 @@ PlotFitLinearEq::PlotFitLinearEq
 	:
 	PlotFitBase(plot, fitData, xmin, xmax, ymin, ymax)
 {
-	JPlotFitLinearEqX(plot, fitData);
+	JPlotFitLinearEqX();
 }
 
 void
-PlotFitLinearEq::JPlotFitLinearEqX
-	(
-	J2DPlotWidget*	plot,
-	J2DPlotDataBase*	fitData
-	)
+PlotFitLinearEq::JPlotFitLinearEqX()
 {
 	itsPowers		= nullptr;
 	itsParameters	= nullptr;
@@ -149,7 +145,7 @@ PlotFitLinearEq::GetYValue
 	)
 	const
 {
-	const JSize count	= itsPowers->GetElementCount();
+	const JSize count = itsPowers->GetElementCount();
 	*y	= 0;
 	for (JIndex i = 1; i <= count; i++)
 	{
@@ -157,7 +153,7 @@ PlotFitLinearEq::GetYValue
 		JFloat term  = itsParameters->GetElement(i);
 		if (power > kPowOptimizationIndex)
 		{
-			term  *= pow((double)x, (double)power);
+			term  *= pow(x, (JFloat)power);
 		}
 		else
 		{
@@ -264,11 +260,11 @@ PlotFitLinearEq::CalculateFirstPass()
 		}
 		for (JIndex j = 1; j <= pcount; j++)
 		{
-			JIndex power	= itsPowers->GetElement(j);
+			JIndex power = itsPowers->GetElement(j);
 			JFloat term	= 1;
 			if (power > kPowOptimizationIndex)
 			{
-				term  *= pow((double)point.x, (double)power);
+				term  *= pow(point.x, (JFloat)power);
 			}
 			else
 			{
@@ -287,9 +283,9 @@ PlotFitLinearEq::CalculateFirstPass()
 	JMatrix parms(pcount,1);
 	JGaussianElimination(lData, rData, &parms);
 	SetCurrentParameters(parms.GetColVector(1));
-
+/*
 	const J2DPlotDataBase* data = GetData();
-	if (0 && data->HasXErrors())
+	if (data->HasXErrors())
 	{
 		for (JIndex i = 1; i <= 3; i++)
 		{
@@ -310,7 +306,7 @@ PlotFitLinearEq::CalculateFirstPass()
 					JFloat term	= 1;
 					if (power > kPowOptimizationIndex)
 					{
-						term  *= pow((double)point.x, (double)power);
+						term *= pow(point.x, (JFloat)power);
 					}
 					else
 					{
@@ -332,7 +328,7 @@ PlotFitLinearEq::CalculateFirstPass()
 			SetCurrentParameters(parms2.GetColVector(1));
 		}
 	}
-
+*/
 	itsChi2Start = 0;
 	for (JIndex i = 1; i <= rcount; i++)
 	{
@@ -342,7 +338,7 @@ PlotFitLinearEq::CalculateFirstPass()
 		{
 			yerr = 1;
 		}
-		itsChi2Start += pow((double)(point.y - FunctionN(point.x)),(double)2)/(yerr*yerr);
+		itsChi2Start += pow((point.y - FunctionN(point.x)),2.0)/(yerr*yerr);
 	}
 
 	itsErrors->SetAllElements(0);
@@ -387,7 +383,7 @@ PlotFitLinearEq::FunctionNPrimed
 		JFloat term  = itsParameters->GetElement(i);
 		if (power - 1 > kPowOptimizationIndex)
 		{
-			term  *= pow((double)x, (double)(power - 1));
+			term *= pow(x, (JFloat)(power - 1));
 		}
 		else
 		{

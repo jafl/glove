@@ -35,7 +35,7 @@ PlotFitQuad2::PlotFitQuad2
 	:
 	PlotFitBase(plot, fitData, xMin, xMax)
 {
-	JPlotFitQuad2X(plot, fitData);
+	JPlotFitQuad2X();
 }
 
 PlotFitQuad2::PlotFitQuad2
@@ -50,15 +50,11 @@ PlotFitQuad2::PlotFitQuad2
 	:
 	PlotFitBase(plot, fitData, xmin, xmax, ymin, ymax)
 {
-	JPlotFitQuad2X(plot, fitData);
+	JPlotFitQuad2X();
 }
 
 void
-PlotFitQuad2::JPlotFitQuad2X
-	(
-	J2DPlotWidget* plot,
-	J2DPlotDataBase* fitData
-	)
+PlotFitQuad2::JPlotFitQuad2X()
 {
 	SetParameterCount(3);
 	SetHasGoodnessOfFit(true);
@@ -229,14 +225,11 @@ PlotFitQuad2::GetFitFunctionString()
 void
 PlotFitQuad2::CalculateFirstPass()
 {
-	JFloat Y, X, X2, YX, X3, YX2, X4, Sig;
-	JFloat tempa, tempb, tempc, det;
-	JSize i,j, k;
 	JArray<JFloat> yAdjError;
 
 	J2DDataPoint point;
 	JSize rcount = GetRealElementCount();
-	for (i=1; i<= rcount; i++)
+	for (JIndex i=1; i<= rcount; i++)
 	{
 		J2DDataPoint point = GetRealElement(i);
 		JFloat newVal = 1;
@@ -249,7 +242,7 @@ PlotFitQuad2::CalculateFirstPass()
 
 	JMatrix odata(rcount, 3, 1.0);
 	JVector yData(rcount);
-	for (i=1; i<= rcount; i++)
+	for (JIndex i=1; i<= rcount; i++)
 	{
 		point = GetRealElement(i);
 		JFloat yerr = yAdjError.GetElement(i);
@@ -264,17 +257,12 @@ PlotFitQuad2::CalculateFirstPass()
 	JMatrix parms(3,1);
 	JGaussianElimination(lData, rData, &parms);
 
-	for (k=1; k<= 4; k++)
+	JFloat tempa, tempb, tempc, det;
+
+	for (JIndex k=1; k<= 4; k++)
 	{
-		Y = 0;
-		X = 0;
-		X2 = 0;
-		YX = 0;
-		X3 = 0;
-		YX2 = 0;
-		X4 = 0;
-		Sig = 0;
-		for (i=1; i<= rcount; i++)
+		JFloat Y = 0, X = 0, X2 = 0, YX = 0, X3 = 0, YX2 = 0, X4 = 0, Sig = 0;
+		for (JIndex i=1; i<= rcount; i++)
 		{
 			point = GetRealElement(i);
 			JFloat yerr = yAdjError.GetElement(i);
@@ -288,13 +276,13 @@ PlotFitQuad2::CalculateFirstPass()
 			Sig += 1/(yerr*yerr);
 		}
 		JFloat cv1 = 0, cv2 = 0, cv3 = 0;
-		for (i=1; i<= rcount; i++)
+		for (JIndex i=1; i<= rcount; i++)
 		{
 			point = GetRealElement(i);
 			JFloat syi = yAdjError.GetElement(i);
 			JFloat yi = point.y;
 			JFloat xi = point.x;
-			for (j = 1; j <= rcount; j++)
+			for (JIndex j = 1; j <= rcount; j++)
 			{
 				point = GetRealElement(j);
 				JFloat syj = yAdjError.GetElement(j);
@@ -310,7 +298,7 @@ PlotFitQuad2::CalculateFirstPass()
 		tempb = (Sig*(YX*X4-YX2*X3) + Y*(X3*X2-X*X4) + X2*(X*YX2-YX*X2))/det;
 		tempc = (Sig*cv1 + X*cv2 + Y*cv3)/det;
 
-		for (i=1; i<=rcount; i++)
+		for (JIndex i=1; i<=rcount; i++)
 		{
 			J2DDataPoint point = GetRealElement(i);
 			JFloat newVal =
@@ -330,7 +318,7 @@ PlotFitQuad2::CalculateFirstPass()
 	itsCParameter	= parms.GetElement(3, 1);
 
 	itsChi2Start = 0;
-	for (i=1; i<= rcount; i++)
+	for (JIndex i=1; i<= rcount; i++)
 	{
 		point = GetRealElement(i);
 		JFloat yerr = yAdjError.GetElement(i);

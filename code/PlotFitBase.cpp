@@ -41,16 +41,16 @@ const JFloat	CON		= 1.4;
 
 PlotFitBase::PlotFitBase
 	(
-	J2DPlotWidget*	plot,
+	J2DPlotWidget*		plot,
 	J2DPlotDataBase*	fitData,
-	const JFloat	xMin,
-	const JFloat	xMax
+	const JFloat		xMin,
+	const JFloat		xMax
 	)
 	:
 	PlotFitFunction(plot, fitData, xMin, xMax)
 {
 	itsUsingRange = false;
-	JPlotFitBaseX(plot, fitData);
+	JPlotFitBaseX(fitData);
 }
 
 PlotFitBase::PlotFitBase
@@ -86,13 +86,12 @@ PlotFitBase::PlotFitBase
 		itsRangeYMin = ymax;
 	}
 	itsUsingRange = true;
-	JPlotFitBaseX(plot, fitData);
+	JPlotFitBaseX(fitData);
 }
 
 void
 PlotFitBase::JPlotFitBaseX
 	(
-	J2DPlotWidget* plot,
 	J2DPlotDataBase* fitData
 	)
 {
@@ -319,7 +318,6 @@ PlotFitBase::CalcError
 	while (i < 20 && ok);
 
 	sig /= 10;
-	chitemp = lastchi;
 
 	i = 2;
 	JFloat chi1, chi2, chi3 = lastchi;
@@ -341,7 +339,7 @@ PlotFitBase::CalcError
 		{
 			JFloat x1 = sig*(i - 1);
 			JFloat x2 = sig*(i - 0.5);
-			JFloat x3 = sig*(i);
+			JFloat x3 = sig*i;
 			p	= pSav;
 			xi	= xiSav;
 			itsCurrentConstantParm = currentParm + x2;
@@ -552,7 +550,7 @@ PlotFitBase::Minimize
 	{
 		const JFloat middle=0.5*(low+high);
 		const JFloat tol1=TOLL*fabs(x)+ZEPS;
-		const JFloat tol2 = 2.0*(tol1);
+		const JFloat tol2 = 2.0*tol1;
 		if (fabs(x-middle) <= tol2-0.5*(high-low))
 		{
 			*xmin= x;
@@ -680,22 +678,21 @@ PlotFitBase::MinimizeN
 	JSize*		iter
 	)
 {
-	JSize i,ibig;
-	JFloat del,fp,fptt,t, fret;
-	JIndex n = p->GetDimensionCount();
+	const JIndex n = p->GetDimensionCount();
 
 	JVector pt(*p);
 	JVector ptt(n);
 	JVector xit(n);
 
-	fret = ChiSqrSqrt(*p);
+	JFloat fret = ChiSqrSqrt(*p);
 
 	for (*iter = 1; *iter <= ITMAX; ++(*iter))
 	{
-		fp = fret;
-		ibig=0;
-		del=0.0;
-		for (i = 1; i <= n; i++)
+		JFloat fp = fret;
+		JIndex ibig=0;
+		JFloat del=0.0;
+		JFloat fptt;
+		for (JIndex i = 1; i <= n; i++)
 		{
 			xit = xi->GetColVector(i);
 			fptt = fret;
@@ -716,7 +713,7 @@ PlotFitBase::MinimizeN
 		fptt = ChiSqrSqrt(ptt);
 		if (fptt < fp)
 		{
-			t = 2.0*(fp - 2.0*fret+fptt) * (fp-fret-del)*(fp-fret-del) -del*(fp-fptt)*(fp-fptt);
+			const JFloat t = 2.0*(fp - 2.0*fret+fptt) * (fp-fret-del)*(fp-fret-del) -del*(fp-fptt)*(fp-fptt);
 			if (t < 0.0)
 			{
 				fret = LinearMinimization(p, &xit);

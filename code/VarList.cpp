@@ -50,7 +50,7 @@ VarList::VarList
 	const JSize ncount	= list.itsNames->GetElementCount();
 	for (JIndex i = 1; i <= ncount; i++)
 	{
-		JString* str	= jnew JString(*(list.itsNames->GetElement(i)));
+		JString* str = jnew JString(*(list.itsNames->GetElement(i)));
 		assert(str != nullptr);
 		itsNames->Append(str);
 	}
@@ -58,10 +58,10 @@ VarList::VarList
 	const JSize acount	= list.itsArrays->GetElementCount();
 	for (JIndex i = 1; i <= acount; i++)
 	{
-		JArray<JFloat>* array	= list.itsArrays->GetElement(i);
+		JArray<JFloat>* array = list.itsArrays->GetElement(i);
 		if (array != nullptr)
 		{
-			array	= jnew JArray<JFloat>(*(array));
+			array	= jnew JArray<JFloat>(*array);
 			assert(array != nullptr);
 		}
 		itsArrays->Append(array);

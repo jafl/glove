@@ -40,7 +40,7 @@ CreatePlotDialog::CreatePlotDialog
 	CreatePlotDialogBase(),
 	itsTableDir(supervisor)
 {
-	BuildWindow(data, startX, startXErr, startY, startYErr);
+	BuildWindow(data, startX, startY, startXErr, startYErr);
 }
 
 /******************************************************************************
