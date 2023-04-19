@@ -20,7 +20,7 @@ class JFunction;
 class JXExprEditor;
 class JXInputField;
 class JXTextButton;
-class JXTimerTask;
+class JXFunctionTask;
 class JXVertPartition;
 
 class NonLinearFitDialog : public JXModalDialogDirector
@@ -46,7 +46,7 @@ private:
 	JXExprEditor*	itsDerivativeEditor;
 	VarList*		itsVarList;
 	VarTable*		itsVarTable;
-	JXTimerTask*	itsDelButtonTask;
+	JXFunctionTask*	itsDelButtonTask;
 
 // begin JXLayout
 

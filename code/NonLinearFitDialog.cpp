@@ -21,7 +21,7 @@
 #include <jx-af/jx/JXScrollbarSet.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXTextButton.h>
-#include <jx-af/jx/JXTimerTask.h>
+#include <jx-af/jx/JXFunctionTask.h>
 #include <jx-af/jx/JXVertPartition.h>
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXDeleteObjectTask.h>
@@ -30,7 +30,7 @@
 #include <jx-af/jexpr/JFunction.h>
 #include <jx-af/jcore/jAssert.h>
 
-const JCoordinate kDeleteButtonUpdateDelay	= 1000;
+const JCoordinate kDeleteButtonUpdateDelay = 1000;
 
 /******************************************************************************
  Constructor
@@ -48,10 +48,19 @@ NonLinearFitDialog::NonLinearFitDialog()
 
 	BuildWindow();
 
-	itsDelButtonTask	= jnew JXTimerTask(kDeleteButtonUpdateDelay);
+	itsDelButtonTask = jnew JXFunctionTask(kDeleteButtonUpdateDelay, [this]()
+	{
+		if (OKToDeleteParm())
+		{
+			itsDeleteButton->Activate();
+		}
+		else
+		{
+			itsDeleteButton->Deactivate();
+		}
+	});
 	assert(itsDelButtonTask != nullptr);
 	itsDelButtonTask->Start();
-	ListenTo(itsDelButtonTask);
 }
 
 /******************************************************************************
@@ -62,6 +71,7 @@ NonLinearFitDialog::NonLinearFitDialog()
 NonLinearFitDialog::~NonLinearFitDialog()
 {
 	JXDeleteObjectTask<VarList>::Delete(itsVarList);
+	jdelete itsDelButtonTask;
 }
 
 /******************************************************************************
@@ -301,17 +311,6 @@ NonLinearFitDialog::Receive
 		else
 		{
 			itsVarTable->RemoveSelectedConstant();
-		}
-	}
-	else if (sender == itsDelButtonTask && message.Is(JXTimerTask::kTimerWentOff))
-	{
-		if (OKToDeleteParm())
-		{
-			itsDeleteButton->Activate();
-		}
-		else
-		{
-			itsDeleteButton->Deactivate();
 		}
 	}
 	else
