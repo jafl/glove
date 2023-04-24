@@ -56,7 +56,7 @@ private:
 	void	AdjustFont();
 	void	AdjustTabWidth();
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareFontNames(JString * const &, JString * const &);
 
 public:

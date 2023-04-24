@@ -176,7 +176,7 @@ FitDescription::WriteSetup
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 FitDescription::CompareFits
 	(
 	FitDescription* const & f1,
@@ -189,33 +189,26 @@ FitDescription::CompareFits
 	}
 	else if (f1->GetType() >= kBLinear)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::less;
 	}
 	else if (f1->GetType() == kModule)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::greater;
+	}
+	else if (f1->GetType() == kPolynomial && f2->GetType() >= kBLinear)
+	{
+		return std::weak_ordering::greater;
 	}
 	else if (f1->GetType() == kPolynomial)
 	{
-		if (f2->GetType() >= kBLinear)
-		{
-			return JListT::kFirstGreaterSecond;
-		}
-		else
-		{
-			return JListT::kFirstLessSecond;
-		}
+		return std::weak_ordering::less;
+	}
+	else if (f2->GetType() == kModule)
+	{
+		return std::weak_ordering::less;
 	}
 	else
 	{
-		if (f2->GetType() == kModule)
-		{
-			return JListT::kFirstLessSecond;
-		}
-		else
-		{
-			return JListT::kFirstGreaterSecond;
-		}
+		return std::weak_ordering::greater;
 	}
-
 }

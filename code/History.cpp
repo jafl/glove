@@ -237,7 +237,7 @@ History::AdjustTabWidth()
 
  ******************************************************************************/
 
-JListT::CompareResult
+std::weak_ordering
 History::CompareFontNames
 	(
 	JString* const & s1,
@@ -247,35 +247,22 @@ History::CompareFontNames
 	const int c1 = s1->GetRawBytes()[0] - '0';
 	const int c2 = s2->GetRawBytes()[0] - '0';
 
-	if (c1 > c2)
+	if (c1 < c2)
 	{
-		return JListT::kFirstGreaterSecond;
+		return std::weak_ordering::less;
 	}
-	else if (c1 < c2)
+	else if (c1 > c2)
 	{
-		return JListT::kFirstLessSecond;
+		return std::weak_ordering::greater;
 	}
-	else
-	{
-		JUInt x1, x2;
-		const bool ok1 = JString::ConvertToUInt(s1->GetBytes() + 2, &x1);
-		assert( ok1 );
-		const bool ok2 = JString::ConvertToUInt(s2->GetBytes() + 2, &x2);
-		assert( ok2 );
 
-		if (x1 > x2)
-		{
-			return JListT::kFirstGreaterSecond;
-		}
-		else if (x1 < x2)
-		{
-			return JListT::kFirstLessSecond;
-		}
-		else
-		{
-			return JListT::kFirstEqualSecond;
-		}
-	}
+	JUInt x1, x2;
+	const bool ok1 = JString::ConvertToUInt(s1->GetBytes() + 2, &x1);
+	assert( ok1 );
+	const bool ok2 = JString::ConvertToUInt(s2->GetBytes() + 2, &x2);
+	assert( ok2 );
+
+	return JIntToWeakOrdering(x1 - x2);
 }
 
 /******************************************************************************

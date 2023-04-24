@@ -57,7 +57,7 @@ public:
 
 	virtual void	WriteSetup(std::ostream& os); // must call base class first!
 
-	static JListT::CompareResult
+	static std::weak_ordering
 		CompareFits(FitDescription * const &, FitDescription * const &);
 
 protected:
