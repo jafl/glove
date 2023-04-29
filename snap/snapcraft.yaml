@@ -32,6 +32,9 @@ parts:
   glove:
     plugin: autotools
     source: .
+    override-pull: |
+      snapcraftctl pull
+      sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 10
     build-environment:
       - JX_ROOT: /snap/jx-application-framework/current
       - PATH: $PATH:$JX_ROOT/bin
@@ -41,7 +44,7 @@ parts:
     stage:
       - bin/glove
     build-packages:
-      - g++
+      - g++-10
       - make
       - pkg-config
       - libx11-dev
