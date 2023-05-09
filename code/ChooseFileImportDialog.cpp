@@ -126,42 +126,12 @@ ChooseFileImportDialog::BuildWindow
 
 	itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFilterMenu);
-	ListenTo(itsReloadButton);
-
-	std::ifstream is(filename.GetBytes());
-	JString text;
-	text.Read(is, kFileByteCount);
-
-	itsFileText =
-		jnew JXStaticText(text, false, false, false,
-			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
-	assert(itsFileText != nullptr);
-	itsFileText->FitToEnclosure();
-}
-
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-ChooseFileImportDialog::Receive
-	(
-	JBroadcaster* sender,
-	const Message& message
-	)
-{
-	if (sender == itsFilterMenu && message.Is(JXMenu::kItemSelected))
+	ListenTo(itsFilterMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsFilterIndex = selection->GetIndex();
-	}
+		itsFilterIndex = msg.GetIndex();
+	}));
 
-	else if (sender == itsReloadButton && message.Is(JXButton::kPushed))
+	ListenTo(itsReloadButton, std::function([this](const JXButton::Pushed&)
 	{
 		GetApplication()->ReloadImportModules();
 		itsFilterMenu->RemoveAllItems();
@@ -180,12 +150,18 @@ ChooseFileImportDialog::Receive
 		}
 		itsFilterIndex = 1;
 		itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
-	}
+	}));
 
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+	std::ifstream is(filename.GetBytes());
+	JString text;
+	text.Read(is, kFileByteCount);
+
+	itsFileText =
+		jnew JXStaticText(text, false, false, false,
+			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(),
+			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
+	assert(itsFileText != nullptr);
+	itsFileText->FitToEnclosure();
 }
 
 /******************************************************************************

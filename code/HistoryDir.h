@@ -33,7 +33,6 @@ public:
 
 protected:
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 	bool	OKToClose() override;
 	bool	OKToRevert() override;
 	bool	CanRevert() override;

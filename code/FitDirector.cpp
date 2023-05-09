@@ -203,7 +203,9 @@ FitDirector::BuildWindow()
 	itsFitMenu = menuBar->AppendTextMenu(JGetString("FitMenuTitle::FitDirector"));
 	itsFitMenu->SetMenuItems(kFitMenuStr);
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
-	ListenTo(itsFitMenu);
+	itsFitMenu->AttachHandlers(this,
+		&FitDirector::UpdateFitMenu,
+		&FitDirector::HandleFitMenu);
 
 	JArray<JCoordinate> widths(2);
 	widths.AppendElement(155);
@@ -433,12 +435,12 @@ FitDirector::BuildWindow()
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
 	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPrefsMenu);
+	itsPrefsMenu->AttachHandler(this, &FitDirector::HandlePrefsMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
+	itsHelpMenu->AttachHandler(this, &FitDirector::HandleHelpMenu);
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -472,32 +474,7 @@ FitDirector::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsFitMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFitMenu(selection->GetIndex());
-	}
-	else if (sender == itsFitMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFitMenu();
-	}
-	else if (sender == itsPrefsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePrefsMenu(selection->GetIndex());
-	}
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHelpMenu(selection->GetIndex());
-	}
-	else if (sender == itsCurveList && message.Is(CurveNameList::kCurveSelected))
+	if (sender == itsCurveList && message.Is(CurveNameList::kCurveSelected))
 	{
 		const CurveNameList::CurveSelected* info =
 			dynamic_cast<const CurveNameList::CurveSelected*>(&message);

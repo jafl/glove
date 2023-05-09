@@ -94,36 +94,17 @@ FitModuleDialog::BuildWindow()
 
 	itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);
 	itsFilterMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFilterMenu);
+	ListenTo(itsFilterMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsFilterIndex = msg.GetIndex();
+	}));
+
 	if (names->IsEmpty())
 	{
 		itsFilterMenu->Deactivate();
 		itsOKButton->Deactivate();
 	}
-	ListenTo(itsReloadButton);
-}
-
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-FitModuleDialog::Receive
-	(
-	JBroadcaster* sender,
-	const Message& message
-	)
-{
-	if (sender == itsFilterMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsFilterIndex = selection->GetIndex();
-	}
-
-	else if (sender == itsReloadButton && message.Is(JXButton::kPushed))
+	ListenTo(itsReloadButton, std::function([this](const JXButton::Pushed&)
 	{
 		GetApplication()->ReloadFitModules();
 		itsFilterMenu->RemoveAllItems();
@@ -144,21 +125,5 @@ FitModuleDialog::Receive
 			itsFilterMenu->Activate();
 			itsOKButton->Activate();
 		}
-	}
-
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
-}
-
-/******************************************************************************
- GetFilterIndex
-
- ******************************************************************************/
-
-JIndex
-FitModuleDialog::GetFilterIndex()
-{
-	return itsFilterIndex;
+	}));
 }

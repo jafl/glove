@@ -216,7 +216,9 @@ DataDocument::BuildWindow()
 
 	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
-	ListenTo(itsFileMenu);
+	itsFileMenu->AttachHandlers(this,
+		&DataDocument::UpdateFileMenu,
+		&DataDocument::HandleFileMenu);
 
 	itsFileMenu->SetItemImage(kNewCmd,   jx_file_new);
 	itsFileMenu->SetItemImage(kOpenCmd,  jx_file_open);
@@ -281,12 +283,12 @@ DataDocument::BuildWindow()
 	assert( itsExportMenu != nullptr );
 	itsExportMenu->SetMenuItems(kExportMenuStr);
 	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsExportMenu);
+	itsExportMenu->AttachHandler(this, &DataDocument::HandleExportMenu);
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
+	itsHelpMenu->AttachHandler(this, &DataDocument::HandleHelpMenu);
 
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
@@ -319,35 +321,7 @@ DataDocument::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsExportMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleExportMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHelpMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsData && itsListenToData)
+	if (sender == itsData && itsListenToData)
 	{
 		DataModified();
 	}

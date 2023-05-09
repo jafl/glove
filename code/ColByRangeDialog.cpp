@@ -119,7 +119,10 @@ ColByRangeDialog::BuildWindow()
 	itsDestMenu->SetToPopupChoice(true, itsDestCol);
 //	itsDestMenu->SetPopupChoice(itsDestCol);
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsDestMenu);
+	ListenTo(itsDestMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsDestCol = msg.GetIndex();
+	}));
 
 	itsBeginning->SetIsRequired(true);
 	itsEnd->SetIsRequired(true);
@@ -140,32 +143,6 @@ ColByRangeDialog::GetDestination
 	)
 {
 	*dest = itsDestCol;
-}
-
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-ColByRangeDialog::Receive
-	(
-	JBroadcaster* sender,
-	const Message& message
-	)
-{
-	if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsDestCol = selection->GetIndex();
-	}
-
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
 }
 
 /******************************************************************************

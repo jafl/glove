@@ -101,45 +101,17 @@ HistoryDir::BuildWindow()
 					 JXWidget::kHElastic, JXWidget::kVElastic, 0, 0, 10, 10);
 	assert( itsHistory != nullptr );
 	itsHistory->FitToEnclosure(true, true);
-	ListenTo(itsHistory);
+	ListenTo(itsHistory, std::function([this](const JStyledText::TextChanged&)
+	{
+		Broadcast(SessionChanged());
+	}));
 
 	itsFileMenu = itsMenuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFileMenu);
-}
-
-/******************************************************************************
- Receive (virtual protected)
-
- ******************************************************************************/
-
-void
-HistoryDir::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsFileMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFileMenu(selection->GetIndex());
-	}
-	else if (sender == itsFileMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateFileMenu();
-	}
-	else if (sender == itsHistory && message.Is(JStyledText::kTextChanged))
-	{
-		Broadcast(SessionChanged());
-	}
-	else
-	{
-		JXWindowDirector::Receive(sender,message);
-	}
+	itsFileMenu->AttachHandlers(this,
+		&HistoryDir::UpdateFileMenu,
+		&HistoryDir::HandleFileMenu);
 }
 
 /******************************************************************************

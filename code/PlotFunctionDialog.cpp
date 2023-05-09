@@ -111,24 +111,12 @@ PlotFunctionDialog::BuildWindow()
 
 	itsVarMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-	ListenTo(itsClearButton);
-	ListenTo(itsEditButton);
-	ListenTo(itsVarMenu);
-}
+	ListenTo(itsClearButton, std::function([this](const JXButton::Pushed&)
+	{
+		itsFunctionString->GetText()->SetText(JString::empty);
+	}));
 
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-PlotFunctionDialog::Receive
-	(
-	JBroadcaster* sender,
-	const Message& message
-	)
-{
-	if (sender == itsEditButton && message.Is(JXButton::kPushed))
+	ListenTo(itsEditButton, std::function([this](const JXButton::Pushed&)
 	{
 		auto* dlog = jnew EditExprDialog(itsList, itsFunctionString->GetText()->GetText());
 		assert(dlog != nullptr);
@@ -136,24 +124,12 @@ PlotFunctionDialog::Receive
 		{
 			itsFunctionString->GetText()->SetText(dlog->GetString());
 		}
-	}
-	else if (sender == itsClearButton && message.Is(JXButton::kPushed))
+	}));
+
+	ListenTo(itsVarMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
-		itsFunctionString->GetText()->SetText(JString::empty);
-	}
-	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		JIndex index = selection->GetIndex();
-		JString str = itsVarMenu->GetItemText(index);
-		itsFunctionString->Paste(str);
-	}
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+		itsFunctionString->Paste(itsVarMenu->GetItemText(msg.GetIndex()));
+	}));
 }
 
 /******************************************************************************

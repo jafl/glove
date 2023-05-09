@@ -218,23 +218,32 @@ PlotDir::BuildWindow()
 	itsPlotMenu = menuBar->PrependTextMenu(JGetString("PlotMenuTitle::PlotDir"));
 	itsPlotMenu->SetMenuItems(kPlotMenuStr);
 	itsPlotMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsPlotMenu);
+	itsPlotMenu->AttachHandler(this, &PlotDir::HandlePlotMenu);
 
 	itsAnalysisMenu = menuBar->AppendTextMenu(JGetString("AnalysisMenuTitle::PlotDir"));
 	itsAnalysisMenu->SetMenuItems(kAnalysisMenuStr);
 	itsAnalysisMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsAnalysisMenu);
+	itsAnalysisMenu->AttachHandler(this, &PlotDir::HandleAnalysisMenu);
 
 	itsFitParmsMenu = jnew JXTextMenu(itsAnalysisMenu, kFitParmsCmd, menuBar);
 	assert( itsFitParmsMenu != nullptr );
 	itsFitParmsMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFitParmsMenu);
+	ListenTo(itsFitParmsMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsFitParmsDir->Activate();
+		itsFitParmsDir->ShowFit(msg.GetIndex());
+	}));
+
 	itsAnalysisMenu->DisableItem(kFitParmsCmd);
 
 	itsDiffMenu = jnew JXTextMenu(itsAnalysisMenu, kDiffPlotCmd, menuBar);
 	assert( itsDiffMenu != nullptr );
 	itsDiffMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsDiffMenu);
+	ListenTo(itsDiffMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsDiffDirs->GetElement(msg.GetIndex())->Activate();
+	}));
+
 	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
 
 	JXDocumentMenu* windowListMenu =
@@ -246,7 +255,7 @@ PlotDir::BuildWindow()
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsHelpMenu);
+	itsHelpMenu->AttachHandler(this, &PlotDir::HandleHelpMenu);
 }
 
 /******************************************************************************
@@ -300,28 +309,6 @@ PlotDir::Receive
 		HandleCurveRemoved(info->GetIndex());
 	}
 
-	else if (sender == itsPlotMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandlePlotMenu(selection->GetIndex());
-	}
-	else if (sender == itsAnalysisMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleAnalysisMenu(selection->GetIndex());
-	}
-	else if (sender == itsHelpMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleHelpMenu(selection->GetIndex());
-	}
-
 	else if (sender == itsFits &&
 		(	message.Is(JListT::kElementsInserted) ||
 			message.Is(JListT::kElementsRemoved)))
@@ -334,26 +321,6 @@ PlotDir::Receive
 			message.Is(JListT::kElementsRemoved)))
 	{
 		UpdateDiffMenu();
-	}
-
-
-	else if (sender == itsFitParmsMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsFitParmsDir->Activate();
-		itsFitParmsDir->ShowFit(selection->GetIndex());
-	}
-
-	else if (sender == itsDiffMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		PlotDir* dir = itsDiffDirs->GetElement(selection->GetIndex());
-		dir->Activate();
-//		(itsDiffDirs->GetElement(selection->GetIndex()))->Activate();
 	}
 
 	else

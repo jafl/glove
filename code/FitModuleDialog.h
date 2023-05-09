@@ -25,10 +25,6 @@ public:
 
 	JIndex GetFilterIndex();
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	JIndex itsFilterIndex;
@@ -45,5 +41,17 @@ private:
 
 	void	BuildWindow();
 };
+
+
+/******************************************************************************
+ GetFilterIndex
+
+ ******************************************************************************/
+
+inline JIndex
+FitModuleDialog::GetFilterIndex()
+{
+	return itsFilterIndex;
+}
 
 #endif

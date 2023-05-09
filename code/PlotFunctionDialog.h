@@ -29,7 +29,6 @@ public:
 
 protected:
 
-	void	Receive(JBroadcaster* sender, const Message& message) override;
 	bool	OKToDeactivate() override;
 
 private:

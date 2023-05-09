@@ -32,8 +32,6 @@ enum
 	kReloadCursorModuleCmd = 1
 };
 
-const int kASCIIZero = 48;
-
 /******************************************************************************
  Constructor
 
@@ -63,7 +61,7 @@ Plotter::Plotter
 	assert( itsModuleMenu != nullptr );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsModuleMenu);
+	itsModuleMenu->AttachHandler(this, &Plotter::HandleModuleMenu);
 
 	itsIsProcessingCursor = false;
 	ListenTo(this);
@@ -97,15 +95,7 @@ Plotter::Receive
 	const JBroadcaster::Message& message
 	)
 {
-	if (sender == itsModuleMenu && message.Is(JXMenu::kItemSelected))
-	{
-		 const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleModuleMenu(selection->GetIndex());
-	}
-
-	else if (message.Is(JProcess::kFinished))
+	if (message.Is(JProcess::kFinished))
 	{
 		jdelete itsCursorProcess;
 		delete itsLink;
@@ -126,7 +116,7 @@ Plotter::Receive
 					if (itsCursorFirstPass)
 					{
 						JUtf8Byte c = str.GetRawBytes()[0];
-						int val = c - kASCIIZero;
+						int val = c - '0';
 						if (val == kGloveFail)
 						{
 							JStringIterator iter(&str);
@@ -163,17 +153,15 @@ void
 Plotter::UpdateModuleMenu()
 {
 	const JSize mCount = itsModuleMenu->GetItemCount();
-	JSize i;
-	for (i = 2; i <= mCount; i++)
+	for (JIndex i = 2; i <= mCount; i++)
 	{
 		itsModuleMenu->RemoveItem(2);
 	}
 
 	GetApplication()->ReloadCursorModules();
-	JPtrArray<JString>* names = GetApplication()->GetCursorModules();
-	for (i = 1; i <= names->GetElementCount(); i++)
+	for (auto* name : *GetApplication()->GetCursorModules())
 	{
-		itsModuleMenu->AppendItem(*(names->GetElement(i)));
+		itsModuleMenu->AppendItem(*name);
 	}
 }
 

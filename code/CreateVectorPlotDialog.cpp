@@ -160,10 +160,25 @@ CreateVectorPlotDialog::BuildWindow
 	itsY1Menu->SetUpdateAction(JXMenu::kDisableNone);
 	itsY2Menu->SetUpdateAction(JXMenu::kDisableNone);
 
-	ListenTo(itsX1Menu);
-	ListenTo(itsX2Menu);
-	ListenTo(itsY1Menu);
-	ListenTo(itsY2Menu);
+	ListenTo(itsX1Menu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartX1 = msg.GetIndex();
+	}));
+
+	ListenTo(itsX2Menu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartX2 = msg.GetIndex();
+	}));
+
+	ListenTo(itsY1Menu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartY1 = msg.GetIndex();
+	}));
+
+	ListenTo(itsY2Menu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartY2 = msg.GetIndex();
+	}));
 
 	SetObjects(itsTableDir, labelInput, plotMenu);
 }
@@ -186,50 +201,4 @@ CreateVectorPlotDialog::GetColumns
 	*Y1 = itsStartY1;
 	*X2 = itsStartX2;
 	*Y2 = itsStartY2;
-}
-
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-CreateVectorPlotDialog::Receive
-	(
-	JBroadcaster* sender,
-	const Message& message
-	)
-{
-	if (sender == itsX1Menu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartX1 = selection->GetIndex();
-	}
-
-	else if (sender == itsX2Menu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartX2 = selection->GetIndex();
-	}
-
-	else if (sender == itsY1Menu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartY1 = selection->GetIndex();
-	}
-
-	else if (sender == itsY2Menu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartY2 = selection->GetIndex();
-	}
-
-	else
-	{
-		CreatePlotDialogBase::Receive(sender, message);
-	}
 }

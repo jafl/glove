@@ -122,27 +122,26 @@ TransformFunctionDialog::BuildWindow()
 
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsDestMenu->SetPopupArrowPosition(JXMenu::kArrowAtLeft);
+	ListenTo(itsDestMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsDestCol = msg.GetIndex();
+		JString num((JUInt64) itsDestCol);
+		JString str = "col[" + num + "] = ";
+		itsColNumber->GetText()->SetText(str);
+	}));
+
 	itsVarMenu->SetUpdateAction(JXMenu::kDisableNone);
+	ListenTo(itsVarMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsFunctionString->Paste(itsVarMenu->GetItemText(msg.GetIndex()));
+	}));
 
-	ListenTo(itsClearButton);
-	ListenTo(itsEditButton);
-	ListenTo(itsDestMenu);
-	ListenTo(itsVarMenu);
-}
+	ListenTo(itsClearButton, std::function([this](const JXButton::Pushed&)
+	{
+		itsFunctionString->GetText()->SetText(JString::empty);
+	}));
 
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-TransformFunctionDialog::Receive
-	(
-	JBroadcaster* sender,
-	const Message& message
-	)
-{
-	if (sender == itsEditButton && message.Is(JXButton::kPushed))
+	ListenTo(itsEditButton, std::function([this](const JXButton::Pushed&)
 	{
 		auto* dlog = jnew EditExprDialog(itsList, itsFunctionString->GetText()->GetText());
 		assert(dlog != nullptr);
@@ -150,34 +149,7 @@ TransformFunctionDialog::Receive
 		{
 			itsFunctionString->GetText()->SetText(dlog->GetString());
 		}
-	}
-	else if (sender == itsClearButton && message.Is(JXButton::kPushed))
-	{
-		itsFunctionString->GetText()->SetText(JString::empty);
-	}
-	else if (sender == itsDestMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsDestCol = selection->GetIndex();
-		JString num((JUInt64) itsDestCol);
-		JString str = "col[" + num + "] = ";
-		itsColNumber->GetText()->SetText(str);
-	}
-	else if (sender == itsVarMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const JXMenu::ItemSelected* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		JIndex index = selection->GetIndex();
-		JString str = itsVarMenu->GetItemText(index);
-		itsFunctionString->Paste(str);
-	}
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+	}));
 }
 
 /******************************************************************************

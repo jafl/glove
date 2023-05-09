@@ -75,32 +75,10 @@ CreatePlotDialogBase::SetObjects
 
 	itsPlotMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPlotMenu->SetToPopupChoice(true, itsPlotIndex);
-	ListenTo(itsPlotMenu);
-}
-
-/******************************************************************************
- Receive
-
- ******************************************************************************/
-
-void
-CreatePlotDialogBase::Receive
-	(
-	JBroadcaster*	sender,
-	const Message&	message
-	)
-{
-	if (sender == itsPlotMenu && message.Is(JXMenu::kItemSelected))
+	ListenTo(itsPlotMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsPlotIndex = selection->GetIndex();
-	}
-
-	else
-	{
-		JXModalDialogDirector::Receive(sender, message);
-	}
+		itsPlotIndex = msg.GetIndex();
+	}));
 }
 
 /******************************************************************************

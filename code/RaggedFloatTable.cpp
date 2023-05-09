@@ -178,7 +178,10 @@ RaggedFloatTable::RaggedFloatTable
 	itsTableDir = dir;
 	assert( data != nullptr );
 
-	ListenTo(itsOKButton);
+	ListenTo(itsOKButton, std::function([this](const JXButton::Pushed&)
+	{
+		EndEditing();
+	}));
 	itsOKButton->Deactivate();
 
 	itsFloatData = data;
@@ -188,7 +191,9 @@ RaggedFloatTable::RaggedFloatTable
 	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
 	itsEditMenu->SetMenuItems(kEditMenuStr);
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsEditMenu);
+	itsEditMenu->AttachHandlers(this,
+		&RaggedFloatTable::UpdateEditMenu,
+		&RaggedFloatTable::HandleEditMenu);
 
 	itsEditMenu->SetItemImage(kUndoCmd,   jx_edit_undo);
 	itsEditMenu->SetItemImage(kRedoCmd,   jx_edit_redo);
@@ -200,7 +205,9 @@ RaggedFloatTable::RaggedFloatTable
 	itsDataMenu = menuBar->AppendTextMenu(JGetString("DataMenuTitle::RaggedFloatTable"));
 	itsDataMenu->SetMenuItems(kDataMenuStr);
 	itsDataMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsDataMenu);
+	itsDataMenu->AttachHandlers(this,
+		&RaggedFloatTable::UpdateDataMenu,
+		&RaggedFloatTable::HandleDataMenu);
 
 	itsDataMenu->SetItemImage(kPlotCmd, plotdata);
 	itsDataMenu->SetItemImage(kPlotVectorCmd, plotvectordata);
@@ -210,7 +217,7 @@ RaggedFloatTable::RaggedFloatTable
 	assert( itsModuleMenu != nullptr );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsModuleMenu);
+	itsModuleMenu->AttachHandler(this, &RaggedFloatTable::HandleModuleMenu);
 
 	itsFirstRedoIndex	= 1;
 	itsUndoState		= kIdle;
@@ -880,46 +887,7 @@ RaggedFloatTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsEditMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleEditMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsEditMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateEditMenu();
-	}
-
-	else if (sender == itsDataMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleDataMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsDataMenu && message.Is(JXMenu::kNeedsUpdate))
-	{
-		UpdateDataMenu();
-	}
-
-	else if (sender == itsModuleMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleModuleMenu(selection->GetIndex());
-	}
-
-	else if (sender == itsOKButton && message.Is(JXButton::kPushed))
-	{
-		EndEditing();
-	}
-
-	else if (sender == itsFloatData && message.Is(RaggedFloatTableData::kElementRemoved))
+	if (sender == itsFloatData && message.Is(RaggedFloatTableData::kElementRemoved))
 	{
 		const auto* info =
 			dynamic_cast<const RaggedFloatTableData::ElementRemoved*>(&message);

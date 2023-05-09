@@ -147,10 +147,25 @@ CreatePlotDialog::BuildWindow
 	itsYMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsYErrMenu->SetUpdateAction(JXMenu::kDisableNone);
 
-	ListenTo(itsXMenu);
-	ListenTo(itsXErrMenu);
-	ListenTo(itsYMenu);
-	ListenTo(itsYErrMenu);
+	ListenTo(itsXMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartX = msg.GetIndex();
+	}));
+
+	ListenTo(itsXErrMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartXErr = msg.GetIndex();
+	}));
+
+	ListenTo(itsYMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartY = msg.GetIndex();
+	}));
+
+	ListenTo(itsYErrMenu, std::function([this](const JXMenu::ItemSelected& msg)
+	{
+		itsStartYErr = msg.GetIndex();
+	}));
 
 	SetObjects(itsTableDir, labelInput, plotMenu);
 }
@@ -173,50 +188,4 @@ CreatePlotDialog::GetColumns
 	*startY = itsStartY;
 	*startXErr = itsStartXErr - 1;
 	*startYErr = itsStartYErr - 1;
-}
-
-/******************************************************************************
- GetColumns
-
- ******************************************************************************/
-
-void
-CreatePlotDialog::Receive
-	(
-	JBroadcaster* sender,
-	const Message& message
-	)
-{
-	if (sender == itsXMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartX = selection->GetIndex();
-	}
-
-	else if (sender == itsXErrMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartXErr = selection->GetIndex();
-	}
-
-	else if (sender == itsYMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartY = selection->GetIndex();
-	}
-
-	else if (sender == itsYErrMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection = dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		itsStartYErr = selection->GetIndex();
-	}
-
-	else
-	{
-		CreatePlotDialogBase::Receive(sender, message);
-	}
 }

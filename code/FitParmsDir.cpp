@@ -98,11 +98,18 @@ FitParmsDir::BuildWindow()
 	itsTable->FitToEnclosure();
 
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableNone);
-	ListenTo(itsFitMenu);
+	itsFitMenu->AttachHandler(this, &FitParmsDir::HandleFitMenu);
 	UpdateFitMenu();
 
-	ListenTo(itsSessionButton);
-	ListenTo(itsCloseButton);
+	ListenTo(itsSessionButton, std::function([this](const JXButton::Pushed&)
+	{
+		SendToSession(itsCurrentIndex);
+	}));
+
+	ListenTo(itsCloseButton, std::function([this](const JXButton::Pushed&)
+	{
+		Deactivate();
+	}));
 }
 
 /******************************************************************************
@@ -132,28 +139,10 @@ FitParmsDir::Receive
 	)
 {
 	if (sender == itsFits &&
-		(	message.Is(JListT::kElementsInserted) ||
-			message.Is(JListT::kElementsRemoved)))
+		(message.Is(JListT::kElementsInserted) ||
+		 message.Is(JListT::kElementsRemoved)))
 	{
 		UpdateFitMenu();
-	}
-
-	else if (sender == itsCloseButton && message.Is(JXButton::kPushed))
-	{
-		Deactivate();
-	}
-
-	else if (sender == itsSessionButton && message.Is(JXButton::kPushed))
-	{
-		SendToSession(itsCurrentIndex);
-	}
-
-	else if (sender == itsFitMenu && message.Is(JXMenu::kItemSelected))
-	{
-		const auto* selection =
-			dynamic_cast<const JXMenu::ItemSelected*>(&message);
-		assert( selection != nullptr );
-		HandleFitMenu(selection->GetIndex());
 	}
 
 	else

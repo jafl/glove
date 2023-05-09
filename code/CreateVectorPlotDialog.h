@@ -27,10 +27,6 @@ public:
 	void GetColumns(JIndex* X1, JIndex* X2,
 					JIndex* Y1, JIndex* Y2) override;
 
-protected:
-
-	void	Receive(JBroadcaster* sender, const Message& message) override;
-
 private:
 
 	DataDocument* itsTableDir;
