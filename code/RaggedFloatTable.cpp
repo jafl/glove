@@ -2265,10 +2265,11 @@ RaggedFloatTable::ReadData
 
  ******************************************************************************/
 
-void
+bool
 jCollectColumnIndexes
 	(
 	const JFunction*	root,
+	const JSize			colCount,
 	JArray<JIndex>*		inds
 	)
 {
@@ -2282,13 +2283,18 @@ jCollectColumnIndexes
 			const bool ok = ai->Evaluate(&x);
 			assert( ok );
 			const JIndex i = JRound(x);
+			if (i > colCount)
+			{
+				return false;
+			}
+
 			JIndex tmp;
 			if (!inds->SearchSorted(i, JListT::kAnyMatch, &tmp))
 			{
 				inds->InsertSorted(i, false);
 			}
 		}
-		return;
+		return true;
 	}
 
 	const auto* fwa = dynamic_cast<const JFunctionWithArgs*>(root);
@@ -2297,9 +2303,14 @@ jCollectColumnIndexes
 		const JSize argCount = fwa->GetArgCount();
 		for (JIndex i=1; i<=argCount; i++)
 		{
-			jCollectColumnIndexes(fwa->GetArg(i), inds);
+			if (!jCollectColumnIndexes(fwa->GetArg(i), colCount, inds))
+			{
+				return false;
+			}
 		}
 	}
+
+	return true;
 }
 
 void
@@ -2342,12 +2353,18 @@ RaggedFloatTable::ChooseNewTransformFunction()
 		JFunction* f;
 		if (!p.Parse(fnStr, &f))
 		{
+			JGetUserNotification()->ReportError(JGetString("ParseFailed::RaggedFloatTable"));
 			return;
 		}
 
 		JArray<JIndex> inds;
 		inds.SetCompareFunction(JCompareIndices);
-		jCollectColumnIndexes(f, &inds);
+		if (!jCollectColumnIndexes(f, itsFloatData->GetDataColCount(), &inds))
+		{
+			JGetUserNotification()->ReportError(JGetString("InvalidColumnIndex::RaggedFloatTable"));
+			jdelete f;
+			return;
+		}
 
 		const JSize indCount = inds.GetElementCount();
 		if (indCount == 0)
@@ -2369,11 +2386,11 @@ RaggedFloatTable::ChooseNewTransformFunction()
 
 		for (JSize r = 1; r <= minRowCount; r++)
 		{
-			for (JIndex i = 1; i <= indCount; i++)
+			for (const JIndex c : inds)
 			{
 				JFloat value;
-				itsFloatData->GetElement(r, inds.GetElement(i), &value);
-				xformVarList.SetNumericValue(1, inds.GetElement(i), value);
+				itsFloatData->GetElement(r, c, &value);
+				xformVarList.SetNumericValue(1, c, value);
 			}
 			JFloat value;
 			f->Evaluate(&value);
