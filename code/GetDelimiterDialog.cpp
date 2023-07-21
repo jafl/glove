@@ -59,6 +59,7 @@ GetDelimiterDialog::GetDelimiterDialog
 		iter.ReplaceLastMatch("\xE2\x86\x92");
 	}
 
+	iter.Invalidate();
 	itsFileText->GetText()->SetText(s);
 
 	JPrefObject::ReadPrefs();
