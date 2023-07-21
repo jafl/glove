@@ -38,6 +38,7 @@
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/JXSaveFileDialog.h>
+#include <jx-af/jx/JXCloseDirectorTask.h>
 #include <jx-af/jx/jXActionDefs.h>
 
 #include <jx-af/jcore/JLatentPG.h>
@@ -139,7 +140,7 @@ DataDocument::DataDocument
 	(
 	JXDirector*		supervisor,
 	const JString&	fileName,
-	const bool	onDisk
+	const bool		onDisk
 	)
 	:
 	JXFileDocument(supervisor, fileName, onDisk, false, ".glv")
@@ -501,6 +502,7 @@ DataDocument::ChooseFileFilter()
 	assert (dlog != nullptr);
 	if (!dlog->DoDialog())
 	{
+		JXCloseDirectorTask::Close(this);
 		return;
 	}
 
