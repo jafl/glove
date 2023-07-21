@@ -21,6 +21,7 @@
 #include <jx-af/jx/JXColorManager.h>
 
 #include <jx-af/jcore/JPtrArray-JString.h>
+#include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
@@ -39,7 +40,7 @@ ChooseFileImportDialog::ChooseFileImportDialog
 	const JString& filename
 	)
 	:
-	JXModalDialogDirector(),
+	JXModalDialogDirector(true),
 	JPrefObject(GetPrefsMgr(), kFileModulePrefsID),
 	itsDir(supervisor)
 {
@@ -68,7 +69,6 @@ ChooseFileImportDialog::BuildWindow
 	const JString& filename
 	)
 {
-
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 330,230, JString::empty);
@@ -76,12 +76,12 @@ ChooseFileImportDialog::BuildWindow
 
 	auto* errorMessage =
 		jnew JXStaticText(JGetString("errorMessage::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 250,40);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 310,40);
 	assert( errorMessage != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 210,200, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,200, 70,20);
 	assert( okButton != nullptr );
 	okButton->SetShortcuts(JGetString("okButton::ChooseFileImportDialog::shortcuts::JXLayout"));
 
@@ -93,12 +93,12 @@ ChooseFileImportDialog::BuildWindow
 
 	itsReloadButton =
 		jnew JXTextButton(JGetString("itsReloadButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 130,200, 70,20);
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,200, 70,20);
 	assert( itsReloadButton != nullptr );
 
 	itsFilterMenu =
 		jnew JXTextMenu(JGetString("itsFilterMenu::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,160, 70,30);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,160, 70,30);
 	assert( itsFilterMenu != nullptr );
 
 	auto* textScrollbarSet =
@@ -109,6 +109,7 @@ ChooseFileImportDialog::BuildWindow
 // end JXLayout
 
 	window->SetTitle(JGetString("WindowTitle::ChooseFileImportDialog"));
+	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
 
 	const JSize dirModCount = itsDir->GetInternalModuleCount();
@@ -157,11 +158,13 @@ ChooseFileImportDialog::BuildWindow
 	text.Read(is, kFileByteCount);
 
 	itsFileText =
-		jnew JXStaticText(text, false, false, false,
+		jnew JXStaticText(text, false, true, false,
 			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(),
 			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
 	assert(itsFileText != nullptr);
 	itsFileText->FitToEnclosure();
+	itsFileText->SetFont(JFontManager::GetDefaultMonospaceFont());
+	itsFileText->SetCaretLocation(1);
 }
 
 /******************************************************************************
