@@ -219,7 +219,7 @@ argument:
 --------------------
 class: FL_TEXT
 type: FL_NORMAL_TEXT
-box: 10 10 250 40
+box: 10 10 310 40
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_LEFT|FL_ALIGN_INSIDE
@@ -229,7 +229,7 @@ lcol: FL_BLACK
 label: This is not a Glove data file.  Please select the appropriate filter.
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_NorthWest FL_NoGravity
+gravity: FL_North FL_NoGravity
 name: (errorMessage)
 callback: 
 argument: 
@@ -247,7 +247,7 @@ lcol: FL_BLACK
 label: OK
 shortcut: ^M
 resize: FL_RESIZE_ALL
-gravity: FL_SouthWest FL_NoGravity
+gravity: FL_SouthEast FL_NoGravity
 name: (okButton)
 callback: 
 argument: 
@@ -283,7 +283,7 @@ lcol: FL_BLACK
 label: Reload
 shortcut: 
 resize: FL_RESIZE_ALL
-gravity: FL_SouthWest FL_NoGravity
+gravity: FL_SouthEast FL_NoGravity
 name: itsReloadButton
 callback: 
 argument: 
@@ -291,7 +291,7 @@ argument:
 --------------------
 class: FL_MENU
 type: FL_PULLDOWN_MENU
-box: 50 160 70 30
+box: 10 160 70 30
 boxtype: FL_FLAT_BOX
 colors: FL_COL1 FL_MCOL
 alignment: FL_ALIGN_CENTER

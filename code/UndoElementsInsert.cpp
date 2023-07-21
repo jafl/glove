@@ -62,8 +62,8 @@ UndoElementsInsert::Undo()
 	assert(undo != nullptr);
 
 	RaggedFloatTableData* data		= GetData();
-	JPoint start						= GetStartCell();
-	JPoint end							= GetEndCell();
+	JPoint start					= GetStartCell();
+	JPoint end						= GetEndCell();
 	UndoElementsBase::UndoType type	= GetType();
 
 	if (type == UndoElementsBase::kRows)

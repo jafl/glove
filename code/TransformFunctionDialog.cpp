@@ -197,5 +197,7 @@ TransformFunctionDialog::OKToDeactivate()
 		jdelete f;
 		return true;
 	}
+
+	JGetUserNotification()->ReportError(JGetString("ParseFailed::RaggedFloatTable"));
 	return false;
 }

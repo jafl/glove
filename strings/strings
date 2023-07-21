@@ -108,6 +108,8 @@ ReplaceColWarning::RaggedFloatTable			"Replace destination column?"
 NoDataToTransform::RaggedFloatTable			"You have no data to transform."
 GenerateIfNoTransform::RaggedFloatTable		"Use \"Generate column\" if you aren't transforming column values."
 MustSelectColumns::RaggedFloatTable			"This module requires $i column(s) to be selected."
+InvalidColumnIndex::RaggedFloatTable		"One or more of the columns in the transform function does not yet exist."
+ParseFailed::RaggedFloatTable				"Failed to parse the transform function."
 
 # DataDocument
 
