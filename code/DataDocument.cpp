@@ -63,15 +63,15 @@ static const JFileVersion kCurrentGloveVersion = 3;
 // File menu information
 
 static const JUtf8Byte* kFileMenuStr =
-	"    New %k Meta-N %i New::DataDocument"
-	"  | Open... %k Meta-O %i Open::DataDocument"
-	"  | Save %k Meta-S %i Save::DataDocument"
+	"    New           %k Meta-N %i New::DataDocument"
+	"  | Open...       %k Meta-O %i Open::DataDocument"
+	"  | Save          %k Meta-S %i Save::DataDocument"
 	"  | Save as..."
 	"%l| Export module"
-	"%l| Page setup... "
-	"  | Print... %k Meta-P %i " kJXPrintAction
-	"%l| Close %k Meta-W %i " kJXCloseWindowAction
-	"  | Quit %k Meta-Q %i " kJXQuitAction;
+	"%l| Page setup..."
+	"  | Print...      %k Meta-P %i " kJXPrintAction
+	"%l| Close         %k Meta-W %i " kJXCloseWindowAction
+	"  | Quit          %k Meta-Q %i " kJXQuitAction;
 
 enum
 {
@@ -96,11 +96,20 @@ enum
 	kReloadModuleCmd = 1
 };
 
+static const JUtf8Byte* kPrefsMenuStr =
+	"Edit tool bar... %i EditToolBar::DataDocument";
+
+enum
+{
+	kEditToolBarCmd = 1
+};
+
 static const JUtf8Byte* kHelpMenuStr =
 	"About "
 	"%l| Table of Contents %i TOC::DataDocument"
-	"  | This window %i ThisWindow::DataDocument"
-	"%l|Changes|Credits";
+	"  | This window       %i ThisWindow::DataDocument"
+	"%l| Changes"
+	"  | Credits";
 
 enum
 {
@@ -206,10 +215,10 @@ DataDocument::BuildWindow()
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 480,30);
 	assert( menuBar != nullptr );
 
-	auto* toolBar =
+	itsToolBar =
 		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 480,340);
-	assert( toolBar != nullptr );
+	assert( itsToolBar != nullptr );
 
 // end JXLayout
 
@@ -227,7 +236,7 @@ DataDocument::BuildWindow()
 	itsFileMenu->SetItemImage(kPrintCmd, jx_file_print);
 
 	itsScrollbarSet =
-		jnew JXScrollbarSet(toolBar->GetWidgetEnclosure(),
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
 	assert( itsScrollbarSet != nullptr );
 	itsScrollbarSet->FitToEnclosure();
@@ -286,6 +295,11 @@ DataDocument::BuildWindow()
 	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsExportMenu->AttachHandler(this, &DataDocument::HandleExportMenu);
 
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
+	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsPrefsMenu->AttachHandler(this, &DataDocument::HandlePrefsMenu);
+
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);
 	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -294,19 +308,19 @@ DataDocument::BuildWindow()
 	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
 	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
 
-	toolBar->LoadPrefs();
-	if (toolBar->IsEmpty())
+	itsToolBar->LoadPrefs();
+	if (itsToolBar->IsEmpty())
 	{
-		toolBar->AppendButton(itsFileMenu, kNewCmd);
-		toolBar->AppendButton(itsFileMenu, kOpenCmd);
-		toolBar->AppendButton(itsFileMenu, kSaveCmd);
-		toolBar->NewGroup();
-		toolBar->AppendButton(itsFileMenu, kPrintCmd);
+		itsToolBar->AppendButton(itsFileMenu, kNewCmd);
+		itsToolBar->AppendButton(itsFileMenu, kOpenCmd);
+		itsToolBar->AppendButton(itsFileMenu, kSaveCmd);
+		itsToolBar->NewGroup();
+		itsToolBar->AppendButton(itsFileMenu, kPrintCmd);
 
-		itsTable->LoadDefaultToolButtons(toolBar);
+		itsTable->LoadDefaultToolButtons(itsToolBar);
 
-		toolBar->NewGroup();
-		toolBar->AppendButton(itsHelpMenu, kTOCCmd);
+		itsToolBar->NewGroup();
+		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
 	}
 }
 
@@ -918,18 +932,32 @@ DataDocument::HandleExportMenu
 void
 DataDocument::UpdateExportMenu()
 {
-	const JSize mCount = itsExportMenu->GetItemCount();
-	JSize i;
-	for (i = 2; i <= mCount; i++)
+	while (itsExportMenu->GetItemCount() > 1)
 	{
 		itsExportMenu->RemoveItem(2);
 	}
 
 	GetApplication()->ReloadExportModules();
-	JPtrArray<JString>* names = GetApplication()->GetExportModules();
-	for (i = 1; i <= names->GetElementCount(); i++)
+	for (const auto* name : *GetApplication()->GetExportModules())
 	{
-		itsExportMenu->AppendItem(*(names->GetElement(i)));
+		itsExportMenu->AppendItem(*name);
+	}
+}
+
+/******************************************************************************
+ HandlePrefsMenu
+
+ ******************************************************************************/
+
+void
+DataDocument::HandlePrefsMenu
+	(
+	const JIndex index
+	)
+{
+	if (index == kEditToolBarCmd)
+	{
+		itsToolBar->Edit();
 	}
 }
 

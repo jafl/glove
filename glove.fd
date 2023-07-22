@@ -2726,7 +2726,7 @@ label: JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar,
 shortcut: 
 resize: FL_RESIZE_ALL
 gravity: FL_NoGravity FL_NoGravity
-name: (toolBar)
+name: itsToolBar
 callback: 
 argument: 
 

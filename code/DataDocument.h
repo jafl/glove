@@ -11,15 +11,15 @@
 #define _H_DataDocument
 
 #include <jx-af/jx/JXFileDocument.h>
-#include <jx-af/jcore/JString.h>
-#include <jx-af/jcore/JPtrArray.h>
+#include <jx-af/jcore/JPtrArray-JString.h>
 
+class PlotDir;
 class RaggedFloatTableData;
 class RaggedFloatTable;
 class JXTextMenu;
+class JXToolBar;
 class JXPSPrinter;
 class JXModalDialogDirector;
-class PlotDir;
 class JXScrollbarSet;
 
 class DataDocument : public JXFileDocument
@@ -60,6 +60,7 @@ private:
 	RaggedFloatTable*		itsTable;			// owned by its enclosure
 	JXTextMenu*				itsFileMenu;		// owned by the menu bar
 	JXTextMenu*				itsExportMenu;
+	JXTextMenu*				itsPrefsMenu;
 	JXTextMenu*				itsHelpMenu;
 
 	JString					itsCurrentFileName;
@@ -72,6 +73,7 @@ private:
 
 // begin JXLayout
 
+	JXToolBar* itsToolBar;
 
 // end JXLayout
 
@@ -85,6 +87,8 @@ private:
 
 	void	UpdateExportMenu();
 	void	HandleExportMenu(const JIndex item);
+
+	void HandlePrefsMenu(const JIndex index);
 
 	void	HandleHelpMenu(const JIndex item);
 
