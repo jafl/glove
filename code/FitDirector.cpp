@@ -73,17 +73,17 @@
 const JCoordinate kCurrentPrefsVersion	= 1;
 
 static const JUtf8Byte* kFitMenuStr =
-	"   New non-linear fit   %k Meta-N %i NewNonLinear::FitDirector"
-	"  |New polynomial fit   %k Meta-Shift-N %i NewPoly::FitDirector"
-	"  |Remove fit   %k Backspace. %i RemoveFit::FitDirector"
-	"%l|Fit      %k Meta-F %i Fit::FitDirector"
-	"  |Re-fit   %k Meta-R %i ReFit::FitDirector"
-	"%l|Show start values %b %k Meta-Shift-S %i ShowStartValues::FitDirector"
-	"  |Test start values %k Meta-T %i TestFit::FitDirector"
-	"%l|Plot     %k Meta-Shift-P %i Plot::FitDirector"
-	"  |Show fit history %i ShowHistory::FitDirector"
-	"  |Print    %k Meta-P %i Print::FitDirector"
-	"%l|Close    %k Meta-W %i Close::FitDirector";
+	"   New non-linear fit    %k Meta-N       %i NewNonLinear::FitDirector"
+	"  |New polynomial fit    %k Meta-Shift-N %i NewPoly::FitDirector"
+	"  |Remove fit            %k Backspace.   %i RemoveFit::FitDirector"
+	"%l|Fit                   %k Meta-F       %i Fit::FitDirector"
+	"  |Re-fit                %k Meta-R       %i ReFit::FitDirector"
+	"%l|Show start values  %b %k Meta-Shift-S %i ShowStartValues::FitDirector"
+	"  |Test start values     %k Meta-T       %i TestFit::FitDirector"
+	"%l|Plot                  %k Meta-Shift-P %i Plot::FitDirector"
+	"  |Show fit history                      %i ShowHistory::FitDirector"
+	"  |Print                 %k Meta-P       %i Print::FitDirector"
+	"%l|Close                 %k Meta-W       %i Close::FitDirector";
 
 enum
 {
@@ -101,12 +101,12 @@ enum
 };
 
 static const JUtf8Byte* kPrefsMenuStr =
-	"   Edit tool bar... %i EditToolBar::FitDirector"
-	"%l|Save window size %i SaveWindowSize::FitDirector";
+	"   Edit tool bar...            %i EditToolBar::FitDirector"
+	"%l|Save window size as default %i SaveWindowSize::FitDirector";
 
 enum
 {
-	kEditToolBarCmd,
+	kEditToolBarCmd = 1,
 	kSaveWindowSizeCmd
 };
 
@@ -451,8 +451,8 @@ FitDirector::BuildWindow()
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFitMenu, kFitCmd);
-		itsToolBar->AppendButton(itsFitMenu, kTestFitCmd);
 		itsToolBar->AppendButton(itsFitMenu, kRefitCmd);
+		itsToolBar->AppendButton(itsFitMenu, kTestFitCmd);
 		itsToolBar->AppendButton(itsFitMenu, kPlotCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsFitMenu, kCloseCmd);

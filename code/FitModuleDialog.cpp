@@ -104,6 +104,7 @@ FitModuleDialog::BuildWindow()
 		itsFilterMenu->Deactivate();
 		itsOKButton->Deactivate();
 	}
+
 	ListenTo(itsReloadButton, std::function([this](const JXButton::Pushed&)
 	{
 		GetApplication()->ReloadFitModules();
