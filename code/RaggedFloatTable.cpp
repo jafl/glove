@@ -1843,7 +1843,7 @@ RaggedFloatTable::GetSelectionArea
 
 	JPoint cell2;
 
-	iter.MoveTo(kJIteratorStartAtEnd,0,0);
+	iter.MoveTo(JTableSelectionIterator::kStartAtEnd,0,0);
 	iter.Prev(&cell2);
 
 	*rows = cell2.y - cell.y + 1;

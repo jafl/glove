@@ -767,7 +767,7 @@ DataDocument::GetPlotNames
 		name = jnew JString(plot->GetTitle());
 		if (name->GetCharacterCount() > kMaxPlotTitleSize)
 		{
-			JStringIterator iter(name, kJIteratorStartAfter, kMaxPlotTitleSize);
+			JStringIterator iter(name, JStringIterator::kStartAfterChar, kMaxPlotTitleSize);
 			iter.RemoveAllNext();
 			name->Append(JGetString("Ellipsis::DataDocument"));
 		}
