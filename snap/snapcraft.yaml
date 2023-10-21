@@ -1,7 +1,7 @@
 name: glove
 title: Glove
 base: core20
-version: "2.1.1"
+version: "2.2.0"
 license: GPL-3.0-or-later
 source-code: https://github.com/jafl/glove
 issues: https://github.com/jafl/glove/issues
