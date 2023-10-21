@@ -78,5 +78,5 @@ ChiSqLabel::Draw
 	)
 {
 	JXDrawUpFrame(p, GetBounds(), GetBorderWidth());
-	p.JPainter::String(0, 0, JGetString("Label::ChiSqLabel"), GetBoundsWidth(), JPainter::HAlign::kCenter, GetBoundsHeight(), JPainter::VAlign::kCenter);
+	p.String(0, 0, JGetString("Label::ChiSqLabel"), GetBoundsWidth(), JPainter::HAlign::kCenter, GetBoundsHeight(), JPainter::VAlign::kCenter);
 }

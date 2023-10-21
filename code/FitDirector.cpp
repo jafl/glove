@@ -1209,14 +1209,14 @@ FitDirector::Print()
 			bool ok	= itsCurveList->GetCurrentCurveIndex(&index);
 			assert(ok);
 			str	+= itsPlot->GetCurveName(index);
-			itsPrinter->JPainter::String(kLeftMargin, 0, str);
+			itsPrinter->String(kLeftMargin, 0, str);
 
 			str	= JGetString("FitTitle::FitDirector");
 			ok	= itsFitList->GetCurrentFitIndex(&index);
 			assert(ok);
 			const FitDescription& fd = GetFitManager()->GetFitDescription(index);
 			str += fd.GetFnName();
-			itsPrinter->JPainter::String(kLeftMargin, kPlotSep, str);
+			itsPrinter->String(kLeftMargin, kPlotSep, str);
 
 			str = JString((JUInt64) fd.GetParameterCount());
 			const JUtf8Byte* map[] =
@@ -1225,7 +1225,7 @@ FitDirector::Print()
 			};
 			str  = JGetString("ChiSqTitle::FitDirector", map, sizeof(map));
 			str += itsChiSq->GetText()->GetText();
-			itsPrinter->JPainter::String(kLeftMargin, kPlotSep*2, str);
+			itsPrinter->String(kLeftMargin, kPlotSep*2, str);
 
 			// draw expression widget
 			JRect eRect	= itsExprWidget->GetPrintBounds();
