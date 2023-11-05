@@ -52,7 +52,6 @@ PolyFitDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 380,220, JString::empty);
-	assert( window != nullptr );
 
 	itsCB[0] =
 		jnew JXTextCheckbox(JGetString("itsCB[0]::PolyFitDialog::JXLayout"), window,

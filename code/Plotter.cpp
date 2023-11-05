@@ -194,7 +194,6 @@ Plotter::HandleModuleMenu
 							kJIgnoreConnection, nullptr);
 		assert(err.OK());
 		auto* op = jnew JOutPipeStream(outFD, true);
-		assert( op != nullptr );
 		assert( op->good() );
 
 		itsLink = new ProcessLink(inFD);

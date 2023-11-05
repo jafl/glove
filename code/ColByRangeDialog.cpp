@@ -57,7 +57,6 @@ ColByRangeDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 210,190, JString::empty);
-	assert( window != nullptr );
 
 	itsBeginning =
 		jnew JXFloatInput(window,

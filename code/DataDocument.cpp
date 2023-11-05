@@ -155,7 +155,6 @@ DataDocument::DataDocument
 	JXFileDocument(supervisor, fileName, onDisk, false, ".glv")
 {
 	itsData = jnew RaggedFloatTableData(0.0);
-	assert( itsData != nullptr );
 
 	itsPlotWindows = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
 	assert( itsPlotWindows != nullptr );
@@ -208,7 +207,6 @@ DataDocument::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 480,370, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -290,7 +288,6 @@ DataDocument::BuildWindow()
 	menuBar->AppendMenu(windowListMenu);
 
 	itsExportMenu = jnew JXTextMenu(itsFileMenu, kExportCmd, menuBar);
-	assert( itsExportMenu != nullptr );
 	itsExportMenu->SetMenuItems(kExportMenuStr);
 	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsExportMenu->AttachHandler(this, &DataDocument::HandleExportMenu);
@@ -513,7 +510,6 @@ void
 DataDocument::ChooseFileFilter()
 {
 	auto* dlog = jnew ChooseFileImportDialog(this, itsCurrentFileName);
-	assert (dlog != nullptr);
 	if (!dlog->DoDialog())
 	{
 		JXCloseDirectorTask::Close(this);
@@ -1045,7 +1041,6 @@ DataDocument::LoadDelimitedFile
 	)
 {
 	auto* dlog = jnew GetDelimiterDialog(fileText);
-	assert(dlog != nullptr);
 	if (!dlog->DoDialog())
 	{
 		return;

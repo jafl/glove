@@ -107,11 +107,9 @@ DLFitModule::DLFitModule
 	for (JIndex i = 1; i <= count; i++)
 	{
 		JString* str	= jnew JString(parms[i - 1]);
-		assert(str != nullptr);
 		itsParmNames->Append(str);
 	}
 	itsParameters	= jnew JVector(count);
-	assert(itsParameters != nullptr);
 }
 
 

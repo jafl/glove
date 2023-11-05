@@ -213,15 +213,12 @@ FitManager::InitializeList()
 {
 	BuiltinFitDescription* bd =
 		jnew BuiltinFitDescription(FitDescription::kBLinear);
-	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
 	bd = jnew BuiltinFitDescription(FitDescription::kBExp);
-	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
 	bd = jnew BuiltinFitDescription(FitDescription::kBPower);
-	assert(bd != nullptr);
 	itsFitDescriptions->InsertSorted(bd);
 
 	for (const auto* path : GetApplication()->GetModulePath())
@@ -237,7 +234,6 @@ FitManager::InitializeList()
 				if (!entry->IsDirectory() && DLFitModule::Create(entry->GetFullName(), &fit))
 				{
 					ModuleFitDescription* md = jnew ModuleFitDescription(fit);
-					assert(md != nullptr);
 					itsFitDescriptions->InsertSorted(md);
 				}
 			}

@@ -61,7 +61,6 @@ FitParmsDir::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 260,240, JString::empty);
-	assert( window != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,

@@ -1216,11 +1216,9 @@ PlotQuadFit::LinearMinimization
 
 	assert (itsP == nullptr);
 	itsP = jnew JVector(p);
-	assert(itsP != nullptr);
 
 	assert (itsXi == nullptr);
 	itsXi = jnew JVector(xi);
-	assert(itsXi != nullptr);
 
 	itsCurrentType = type;
 

@@ -131,7 +131,6 @@ PlotDir::PlotDir
 	ListenTo(itsSessionDir);
 
 	itsVarList = jnew VarList();
-	assert( itsVarList != nullptr );
 	itsVarList->AddVariable(JGetString("DefaultVarName::global"), 0);
 
 	itsXVarIndex = 1;
@@ -141,7 +140,6 @@ PlotDir::PlotDir
 	ListenTo(itsFits);
 
 	itsFitParmsDir = jnew FitParmsDir(this, itsFits);
-	assert( itsFitParmsDir != nullptr );
 
 	itsCurveStats = jnew JArray<GloveCurveStats>;
 	assert( itsCurveStats != nullptr );
@@ -193,7 +191,6 @@ PlotDir::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 480,370, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -226,7 +223,6 @@ PlotDir::BuildWindow()
 	itsAnalysisMenu->AttachHandler(this, &PlotDir::HandleAnalysisMenu);
 
 	itsFitParmsMenu = jnew JXTextMenu(itsAnalysisMenu, kFitParmsCmd, menuBar);
-	assert( itsFitParmsMenu != nullptr );
 	itsFitParmsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsFitParmsMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
@@ -237,7 +233,6 @@ PlotDir::BuildWindow()
 	itsAnalysisMenu->DisableItem(kFitParmsCmd);
 
 	itsDiffMenu = jnew JXTextMenu(itsAnalysisMenu, kDiffPlotCmd, menuBar);
-	assert( itsDiffMenu != nullptr );
 	itsDiffMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDiffMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
@@ -696,7 +691,6 @@ PlotDir::ReadCurves
 			{
 				J2DPlotDataBase* pdata = itsPlot->GetCurve(provider);
 				PlotModuleFit* mf = jnew PlotModuleFit(itsPlot, pdata, is);
-				assert(mf != nullptr);
 				if (!AddFitModule(mf, pdata))
 				{
 					jdelete mf;
@@ -706,7 +700,6 @@ PlotDir::ReadCurves
 			{
 				J2DPlotDataBase* pdata = itsPlot->GetCurve(provider);
 				PlotFitProxy* pf = jnew PlotFitProxy(itsPlot, pdata, is);
-				assert(pf != nullptr);
 
 				itsFits->Append(pf);
 				AddFit(pf, provider, kGProxyFit);
@@ -855,7 +848,6 @@ PlotDir::HandleAnalysisMenu
 	else if (index == kFitWindowCmd)
 	{
 		FitDirector* dir = jnew FitDirector(this, itsPlot, itsFileName);
-		assert(dir != nullptr);
 		dir->Activate();
 	}
 }
@@ -869,7 +861,6 @@ void
 PlotDir::CreateFunction()
 {
 	auto* dlog = jnew PlotFunctionDialog(itsVarList);
-	assert( dlog != nullptr);
 
 	if (dlog->DoDialog())
 	{
@@ -947,7 +938,6 @@ void
 PlotDir::SelectFitModule()
 {
 	auto* dlog = jnew FitModuleDialog();
-	assert( dlog != nullptr);
 
 	if (dlog->DoDialog())
 	{
@@ -1213,7 +1203,6 @@ PlotDir::AddFit
 	itsAnalysisMenu->EnableItem(kDiffPlotCmd);
 
 	PlotDir* dir = jnew PlotDir(this, itsSupervisor, itsFileName, true);
-	assert( dir != nullptr );
 	JXGetDocumentManager()->DocumentMustStayOpen(dir, true);
 	J2DPlotDataBase* ddata = fit->GetDiffData();
 	dir->AddDiffCurve(ddata);

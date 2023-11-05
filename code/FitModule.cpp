@@ -55,7 +55,6 @@ FitModule::Create
 	if (err.OK())
 	{
 		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
-		assert( op != nullptr );
 		assert( op->good() );
 		*module = jnew FitModule(dir, fitData, process, inFD, op);
 		return true;

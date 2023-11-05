@@ -140,10 +140,8 @@ PlotFitModule::SetFitModule
 	itsModule	= fit;
 	const JSize count	= itsModule->GetParameterCount();
 	itsParameters		= jnew JVector(count);
-	assert(itsParameters != nullptr);
 	SetParameterCount(count);
 	itsErrors	= jnew JVector(count);
-	assert(itsErrors != nullptr);
 	SetFunctionString(itsModule->GetFunctionalForm());
 }
 

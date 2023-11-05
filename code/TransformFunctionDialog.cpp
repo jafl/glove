@@ -71,7 +71,6 @@ TransformFunctionDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 580,90, JString::empty);
-	assert( window != nullptr );
 
 	itsTransformButton =
 		jnew JXTextButton(JGetString("itsTransformButton::TransformFunctionDialog::JXLayout"), window,

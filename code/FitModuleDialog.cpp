@@ -50,7 +50,6 @@ FitModuleDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 270,100, JString::empty);
-	assert( window != nullptr );
 
 	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::FitModuleDialog::JXLayout"), window,

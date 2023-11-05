@@ -42,7 +42,6 @@ NonLinearFitDialog::NonLinearFitDialog()
 	JXModalDialogDirector(true)
 {
 	itsVarList	= jnew VarList();
-	assert(itsVarList != nullptr);
 
 	itsVarList->AddVariable(JGetString("DefaultVarName::global"), 0);
 
@@ -102,7 +101,6 @@ NonLinearFitDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 400,430, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,

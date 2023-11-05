@@ -49,7 +49,6 @@ VarTable::VarTable
 	itsTextInput = nullptr;
 
 	itsOrigText = jnew JString;
-	assert( itsOrigText != nullptr );
 
 	AppendCols(1);
 
@@ -189,7 +188,6 @@ VarTable::CreateXInputField
 	assert( itsTextInput == nullptr );
 
 	itsTextInput = jnew JXExprInput(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsTextInput != nullptr );
 
 	const JIndex varIndex = cell.y + kUserParmsOffset;
 	itsTextInput->SetVarName(itsVarList->GetVariableName(varIndex));

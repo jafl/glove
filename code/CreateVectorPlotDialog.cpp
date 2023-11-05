@@ -69,7 +69,6 @@ CreateVectorPlotDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,160, JString::empty);
-	assert( window != nullptr );
 
 	itsX1Menu =
 		jnew JXTextMenu(JGetString("itsX1Menu::CreateVectorPlotDialog::JXLayout"), window,

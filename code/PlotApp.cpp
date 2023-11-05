@@ -63,7 +63,6 @@ PlotApp::PlotApp
 
 	JString dmhome = homeDir + ".glove";
 	auto* str = jnew JString(dmhome);
-	assert(str != nullptr);
 	itsModulePath->Append(str);
 	str = jnew JString("/usr/local/lib/glove");
 	itsModulePath->Append(str);
@@ -309,7 +308,6 @@ PlotApp::NewFile()
 	JString str = "Untitled " + JString((JUInt64) itsDirNumber);
 	itsDirNumber++;
 	auto* tableDir = jnew DataDocument(this, str, false);
-	assert( tableDir != nullptr);
 	tableDir->Activate();
 }
 
@@ -347,7 +345,6 @@ PlotApp::OpenFile
 	else
 	{
 		auto* tableDir = jnew DataDocument(this, fileName, true);
-		assert( tableDir != nullptr);
 		tableDir->Activate();
 		return true;
 	}
@@ -632,7 +629,6 @@ PlotApp::DisplayAbout
 		if (!showLicense || JGetUserNotification()->AcceptLicense())
 		{
 			auto* dlog = jnew AboutDialog(prevVersStr);
-			assert( dlog != nullptr );
 			dlog->DoDialog();
 
 			JCheckForNewerVersion(GetPrefsMgr(), kVersionCheckID);

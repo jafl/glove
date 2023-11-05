@@ -259,7 +259,6 @@ FitParameterTable::CreateXInputField
 {
 	assert(itsInput == nullptr);
 	itsInput = jnew JXFloatInput(this, kFixedLeft, kFixedTop, x, y, w, h);
-	assert(itsInput != nullptr);
 
 	itsInput->SetValue(itsStartValues->GetElement(cell.y));
 	itsInput->SetIsRequired();

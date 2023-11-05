@@ -223,7 +223,6 @@ FitDescriptionList::CreateXInputField
 
 	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
-	assert(itsInput != nullptr);
 
 	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
 	itsInput->SetIsRequired();

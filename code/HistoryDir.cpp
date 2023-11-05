@@ -78,7 +78,6 @@ HistoryDir::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 480,320, JString::empty);
-	assert( window != nullptr );
 
 	itsMenuBar =
 		jnew JXMenuBar(window,

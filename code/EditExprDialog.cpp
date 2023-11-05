@@ -58,7 +58,6 @@ EditExprDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 300,240, JString::empty);
-	assert( window != nullptr );
 
 	auto* set =
 		jnew JXExprEditorSet(list, &itsEditor, window,

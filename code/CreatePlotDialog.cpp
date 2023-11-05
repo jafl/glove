@@ -71,7 +71,6 @@ CreatePlotDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 370,160, JString::empty);
-	assert( window != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::CreatePlotDialog::JXLayout"), window,

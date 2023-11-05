@@ -179,7 +179,6 @@ VarList::AddVariable
 	if (NameValid(name) && !ParseVariableName(name, &index))
 	{
 		JString* varName = jnew JString(name);
-		assert( varName != nullptr );
 		itsNames->Append(varName);
 		itsValues->AppendElement(value);
 		itsArrays->AppendElement(static_cast<GNArray*>(nullptr));
@@ -225,11 +224,9 @@ VarList::AddArray
 	if (NameValid(name))
 	{
 		JString* varName = jnew JString(name);
-		assert( varName != nullptr );
 		itsNames->Append(varName);
 		itsValues->AppendElement(0.0);
 		GNArray* newArray = jnew GNArray(values);
-		assert( newArray != nullptr );
 		itsArrays->AppendElement(newArray);
 		return true;
 	}

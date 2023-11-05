@@ -102,9 +102,7 @@ PlotFitLinearEq::InitializePolynomial
 	SetFunctionString(name);
 
 	itsParameters	= jnew JVector(count);
-	assert(itsParameters != nullptr);
 	itsErrors		= jnew JVector(count);
-	assert(itsErrors != nullptr);
 }
 
 

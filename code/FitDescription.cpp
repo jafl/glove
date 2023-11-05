@@ -37,7 +37,6 @@ FitDescription::FitDescription
 	itsCanUseStartValues(true)
 {
 	itsVarList	= jnew VarList();
-	assert(itsVarList != nullptr);
 
 	itsVarList->AddVariable(JGetString("DefaultVarName::global"), 0);
 }
@@ -68,7 +67,6 @@ FitDescription::Create
 	for (JIndex i = 1; i <= count; i++)
 	{
 		JString* var = jnew JString();
-		assert(var != nullptr);
 		is >> *var;
 		vars.Append(var);
 	}
@@ -76,13 +74,11 @@ FitDescription::Create
 	if (type == kPolynomial)
 	{
 		PolyFitDescription* pfd	= jnew PolyFitDescription(is);
-		assert(pfd != nullptr);
 		*fd	= pfd;
 	}
 	else if (type == kNonLinear)
 	{
 		NonLinearFitDescription* nfd	= jnew NonLinearFitDescription(is);
-		assert(nfd != nullptr);
 		*fd	= nfd;
 		for (JIndex i = 1; i <= count; i++)
 		{

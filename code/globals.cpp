@@ -39,20 +39,16 @@ InitGlobals
 
 	bool isNew;
 	itsPrefsMgr = jnew PrefsMgr(&isNew);
-	assert(itsPrefsMgr != nullptr);
 
 	JXInitHelp();
 
 	itsPrinter = jnew JXPTPrinter();
-	assert(itsPrinter != nullptr);
 
 	itsPrefsMgr->ReadPrinterSetup(itsPrinter);
 
 	itsFitManager = jnew FitManager();
-	assert(itsFitManager != nullptr);
 
 	itsMDIServer = jnew MDIServer(app);
-	assert(itsMDIServer != nullptr);
 
 	return isNew;
 }

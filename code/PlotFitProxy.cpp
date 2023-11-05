@@ -39,7 +39,6 @@ PlotFitProxy::PlotFitProxy
 		fit->GetGoodnessOfFit(&itsGOF);
 	}
 	itsParms = jnew VarList();
-	assert(itsParms != nullptr);
 	itsParms->AddVariable(JGetString("DefaultVarName::global"), 0);
 	const JSize count	= fit->GetParameterCount();
 	SetParameterCount(count);
@@ -116,7 +115,6 @@ PlotFitProxy::PlotFitProxy
 	}
 
 	itsParms = jnew VarList();
-	assert(itsParms != nullptr);
 	itsParms->AddVariable(JGetString("DefaultVarName::global"), 0);
 
 	JSize count;

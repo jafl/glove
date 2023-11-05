@@ -214,7 +214,6 @@ RaggedFloatTable::RaggedFloatTable
 	itsDataMenu->SetItemImage(kTransCmd, glv_transform);
 
 	itsModuleMenu = jnew JXTextMenu(itsDataMenu, kDataModuleCmd, menuBar);
-	assert( itsModuleMenu != nullptr );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsModuleMenu->AttachHandler(this, &RaggedFloatTable::HandleModuleMenu);
@@ -559,7 +558,6 @@ RaggedFloatTable::CreateXInputField
 
 	itsFloatInputField =
 		jnew JXFloatInput(this, kFixedLeft, kFixedTop, x,y, w,h);
-	assert( itsFloatInputField != nullptr );
 
 	JFloat value;
 	if (itsFloatData->GetElement(cell, &value))
@@ -605,14 +603,12 @@ RaggedFloatTable::ExtractInputData
 		{
 			auto* undo =
 				jnew UndoElementChange(this, cell, oldvalue);
-			assert(undo != nullptr);
 			NewUndo(undo);
 		}
 		else
 		{
 			auto* undo =
 				jnew UndoElementAppend(this, cell);
-			assert(undo != nullptr);
 			NewUndo(undo);
 		}
 
@@ -1225,7 +1221,6 @@ RaggedFloatTable::HandlePasteCmd()
 						{
 							auto* undo =
 								jnew UndoElementChange(this, cell, oldvalue);
-							assert(undo != nullptr);
 							itsFloatData->SetElement(cell, value);
 							NewUndo(undo);
 						}
@@ -1233,7 +1228,6 @@ RaggedFloatTable::HandlePasteCmd()
 						{
 							auto* undo =
 								jnew UndoElementAppend(this, cell);
-							assert(undo != nullptr);
 							itsFloatData->InsertElement(cell, value);
 							NewUndo(undo);
 						}
@@ -1512,7 +1506,6 @@ RaggedFloatTable::HandleInsertion
 			JPoint cell(startCol, startRow);
 			auto* undo1 =
 				jnew UndoElementAppend(this, cell);
-			assert(undo1 != nullptr);
 			NewUndo(undo1);
 		}
 		else if (undo)
@@ -1671,7 +1664,6 @@ RaggedFloatTable::HandleDeletion()
 			{
 				auto* undo =
 					jnew UndoElementCut(this, cell, value);
-				assert(undo != nullptr);
 				NewUndo(undo);
 			}
 		}
@@ -2020,7 +2012,6 @@ RaggedFloatTable::ChoosePlotColumns
 	if (type == kPlotCmd)
 	{
 		auto* dlog = jnew CreatePlotDialog(itsTableDir, itsFloatData, xCol,yCol, x2Col,y2Col);
-		assert (dlog != nullptr);
 		if (dlog->DoDialog())
 		{
 			PlotData(kDataPlot, dlog);
@@ -2029,7 +2020,6 @@ RaggedFloatTable::ChoosePlotColumns
 	else if (type == kPlotVectorCmd)
 	{
 		auto* dlog = jnew CreateVectorPlotDialog(itsTableDir, itsFloatData, xCol,yCol, x2Col,y2Col);
-		assert (dlog != nullptr);
 		if (dlog->DoDialog())
 		{
 			PlotData(kVectorPlot, dlog);
@@ -2332,7 +2322,6 @@ RaggedFloatTable::ChooseNewTransformFunction()
 	xformVarList.AddArray(JString("col", JString::kNoCopy), *ar);
 
 	auto* dlog = jnew TransformFunctionDialog(&xformVarList, count);
-	assert (dlog != nullptr);
 
 	if (dlog->DoDialog())
 	{

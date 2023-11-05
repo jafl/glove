@@ -157,7 +157,6 @@ PlotFitNonLinear::SetVarList
 	const JSize count	= list->GetVariableCount() - 1;
 	SetParameterCount(count);
 	itsErrors	= jnew JVector(count);
-	assert(itsErrors != nullptr);
 }
 
 /******************************************************************************

@@ -63,7 +63,6 @@ PlotFunctionDialog::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 500,80, JString::empty);
-	assert( window != nullptr );
 
 	itsFunctionString =
 		jnew JXInputField(window,

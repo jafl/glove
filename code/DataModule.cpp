@@ -54,7 +54,6 @@ DataModule::Create
 	if (err.OK())
 	{
 		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
-		assert( op != nullptr );
 		assert( op->good() );
 		*module = jnew DataModule(table, data, process, inFD, op);
 		return true;

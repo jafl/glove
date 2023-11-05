@@ -148,7 +148,6 @@ FitDirector::FitDirector
 	BuildWindow();
 
 	itsHistory	= jnew HistoryDir(this);
-	assert(itsHistory != nullptr);
 
 	JString name;
 	JString path;
@@ -183,7 +182,6 @@ FitDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 600,500, JString::empty);
-	assert( window != nullptr );
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -245,7 +243,6 @@ FitDirector::BuildWindow()
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, 100,300);
-	assert( itsListPartition != nullptr );
 	itsListPartition->FitToEnclosure();
 
 	// This will be the curve list
@@ -256,7 +253,6 @@ FitDirector::BuildWindow()
 		jnew JXScrollbarSet(container,
 							JXWidget::kHElastic,JXWidget::kVElastic,
 							0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 	scrollbarSet->Move(0, kColHeaderHeight);
 	scrollbarSet->AdjustSize(0, -kColHeaderHeight);
@@ -274,7 +270,6 @@ FitDirector::BuildWindow()
 		jnew JXColHeaderWidget(itsCurveList, scrollbarSet, container,
 								JXWidget::kHElastic, JXWidget::kFixedTop,
 								0,0, 100,kColHeaderHeight);
-	assert(header != nullptr);
 	header->FitToEnclosure(true, false);
 	header->SetColTitle(1, JGetString("CurvesColTitle::FitDirector"));
 
@@ -286,7 +281,6 @@ FitDirector::BuildWindow()
 		jnew JXScrollbarSet(container,
 							JXWidget::kHElastic,JXWidget::kVElastic,
 							0,0, 100,100);
-	assert( scrollbarSet != nullptr );
 	scrollbarSet->FitToEnclosure();
 	scrollbarSet->Move(0, kColHeaderHeight);
 	scrollbarSet->AdjustSize(0, -kColHeaderHeight);
@@ -303,7 +297,6 @@ FitDirector::BuildWindow()
 		jnew JXColHeaderWidget(itsFitList, scrollbarSet, container,
 								JXWidget::kHElastic, JXWidget::kFixedTop,
 								0,0, 100,kColHeaderHeight);
-	assert(header != nullptr);
 	header->FitToEnclosure(true, false);
 	header->SetColTitle(1, JGetString("FitsColTitle::FitDirector"));
 
@@ -319,7 +312,6 @@ FitDirector::BuildWindow()
 	assert( scrollbarSet != nullptr );
 
 	itsExprVarList	= jnew VarList();
-	assert(itsExprVarList != nullptr);
 
 	itsExprWidget	=
 		jnew JXExprEditor(itsExprVarList, menuBar, scrollbarSet,
@@ -349,7 +341,6 @@ FitDirector::BuildWindow()
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
 							 JXWidget::kHElastic, JXWidget::kVElastic,
 							 0,0, 100,400);
-	assert( itsPlotPartition != nullptr );
 	itsPlotPartition->FitToEnclosure();
 
 	container = itsPlotPartition->GetCompartment(1);
@@ -399,7 +390,6 @@ FitDirector::BuildWindow()
 		jnew JXStaticText(JString::empty, downRect,
 						  JXWidget::kHElastic, JXWidget::kVElastic,
 						  0,0, 100,100);
-	assert(itsChiSq != nullptr);
 	itsChiSq->FitToEnclosure();
 	itsChiSq->SetBackColor(JColorManager::GetWhiteColor());
 
@@ -411,7 +401,6 @@ FitDirector::BuildWindow()
 		jnew JX2DPlotWidget(menuBar, container,
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 100,100);
-	assert(itsFitPlot != nullptr);
 	itsFitPlot->FitToEnclosure();
 	itsFitPlot->SetTitle(JGetString("FitPlotTitle::FitDirector"));
 	itsFitPlot->SetXLabel(itsPlot->GetXLabel());
@@ -423,7 +412,6 @@ FitDirector::BuildWindow()
 		jnew JX2DPlotWidget(itsFitPlot, container,
 							JXWidget::kHElastic, JXWidget::kVElastic,
 							0,0, 100,100);
-	assert(itsDiffPlot != nullptr);
 	itsDiffPlot->FitToEnclosure();
 	itsDiffPlot->SetTitle(JGetString("DiffPlotTitle::FitDirector"));
 	itsDiffPlot->SetXLabel(itsPlot->GetXLabel());
@@ -558,7 +546,6 @@ FitDirector::HandleFitMenu
 	if (index == kNonLinearCmd)
 	{
 		auto* dlog = jnew NonLinearFitDialog();
-		assert(dlog != nullptr);
 		if (dlog->DoDialog())
 		{
 			NonLinearFitDescription* fit =
@@ -573,7 +560,6 @@ FitDirector::HandleFitMenu
 	else if (index == kPolyCmd)
 	{
 		auto* dlog = jnew PolyFitDialog();
-		assert(dlog != nullptr);
 		if (dlog->DoDialog())
 		{
 			JArray<JIndex> powers;
@@ -628,7 +614,6 @@ FitDirector::HandleFitMenu
 		J2DPlotDataBase* data = itsPlot->GetCurve(index1);
 		assert(itsCurrentFit != nullptr);
 		PlotFitProxy* proxy	= jnew PlotFitProxy(itsCurrentFit, itsPlot, data);
-		assert(proxy != nullptr);
 		JIndex findex;
 		ok = itsFitList->GetCurrentFitIndex(&findex);
 		assert(ok);
@@ -831,13 +816,11 @@ FitDirector::Fit()
 		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew PlotFitLinearEq(itsFitPlot, data, xmin, xmax, ymin, ymax);
-			assert(fit != nullptr);
 		}
 		else
 		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew PlotFitLinearEq(itsFitPlot, data, xmin, xmax);
-			assert(fit != nullptr);
 		}
 		fit->InitializePolynomial(powers);
 		if (itsParameterTable->IsShowingStartCol())
@@ -868,13 +851,11 @@ FitDirector::Fit()
 		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew PlotFitNonLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
-			assert(fit != nullptr);
 		}
 		else
 		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew PlotFitNonLinear(itsFitPlot, data, xmin, xmax);
-			assert(fit != nullptr);
 		}
 		fit->SetVarList(nd.GetVarList());
 		fit->SetFunction(nd.GetFunctionString());
@@ -901,13 +882,11 @@ FitDirector::Fit()
 		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew PlotFitLinear(itsFitPlot, data, xmin, xmax, ymin, ymax);
-			assert(fit != nullptr);
 		}
 		else
 		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew PlotFitLinear(itsFitPlot, data, xmin, xmax);
-			assert(fit != nullptr);
 		}
 		if (itsParameterTable->IsShowingStartCol())
 		{
@@ -934,13 +913,11 @@ FitDirector::Fit()
 		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew PlotFitExp(itsFitPlot, data, xmin, xmax, ymin, ymax);
-			assert(fit != nullptr);
 		}
 		else
 		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew PlotFitExp(itsFitPlot, data, xmin, xmax);
-			assert(fit != nullptr);
 		}
 		if (itsParameterTable->IsShowingStartCol())
 		{
@@ -967,13 +944,11 @@ FitDirector::Fit()
 		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew PlotFitPowerLaw(itsFitPlot, data, xmin, xmax, ymin, ymax);
-			assert(fit != nullptr);
 		}
 		else
 		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew PlotFitPowerLaw(itsFitPlot, data, xmin, xmax);
-			assert(fit != nullptr);
 		}
 		if (itsParameterTable->IsShowingStartCol())
 		{
@@ -1002,13 +977,11 @@ FitDirector::Fit()
 		{
 			itsFitPlot->GetRange(&xmin, &xmax, &ymin, &ymax);
 			fit = jnew PlotFitModule(itsFitPlot, data, xmin, xmax, ymin, ymax);
-			assert(fit != nullptr);
 		}
 		else
 		{
 			data->GetXRange(&xmin, &xmax);
 			fit = jnew PlotFitModule(itsFitPlot, data, xmin, xmax);
-			assert(fit != nullptr);
 		}
 		fit->SetFitModule(md.GetFitModule());
 		JVector p(md.GetParameterCount());

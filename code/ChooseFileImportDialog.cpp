@@ -72,7 +72,6 @@ ChooseFileImportDialog::BuildWindow
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 330,230, JString::empty);
-	assert( window != nullptr );
 
 	auto* errorMessage =
 		jnew JXStaticText(JGetString("errorMessage::ChooseFileImportDialog::JXLayout"), window,
