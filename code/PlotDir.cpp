@@ -236,7 +236,7 @@ PlotDir::BuildWindow()
 	itsDiffMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDiffMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
-		itsDiffDirs->GetElement(msg.GetIndex())->Activate();
+		itsDiffDirs->GetItem(msg.GetIndex())->Activate();
 	}));
 
 	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
@@ -305,15 +305,15 @@ PlotDir::Receive
 	}
 
 	else if (sender == itsFits &&
-		(	message.Is(JListT::kElementsInserted) ||
-			message.Is(JListT::kElementsRemoved)))
+		(	message.Is(JListT::kItemsInserted) ||
+			message.Is(JListT::kItemsRemoved)))
 	{
 		UpdateFitParmsMenu();
 	}
 
 	else if (sender == itsDiffDirs &&
-		(	message.Is(JListT::kElementsInserted) ||
-			message.Is(JListT::kElementsRemoved)))
+		(	message.Is(JListT::kItemsInserted) ||
+			message.Is(JListT::kItemsRemoved)))
 	{
 		UpdateDiffMenu();
 	}
@@ -398,7 +398,7 @@ PlotDir::WriteData
 	itsPlot->PWWriteCurveSetup(os);
 	os << ' ';
 
-	os << itsDiffDirs->GetElementCount() << ' ';
+	os << itsDiffDirs->GetItemCount() << ' ';
 
 	for (auto* dir : *itsDiffDirs)
 	{
@@ -426,7 +426,7 @@ PlotDir::WriteCurves
 	for (i = 1; i <= tempCount; i++)
 	{
 		J2DPlotDataBase* jpdb = itsPlot->GetCurve(i);
-		GloveCurveStats stat = itsCurveStats->GetElement(i);
+		GloveCurveStats stat = itsCurveStats->GetItem(i);
 		if (stat.type == kGDataCurve && jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 		{
 			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(jpdb);
@@ -456,7 +456,7 @@ PlotDir::WriteCurves
 	for (i = 1; i <= tempCount; i++)
 	{
 		J2DPlotDataBase* jpdb = itsPlot->GetCurve(i);
-		GloveCurveStats stat = itsCurveStats->GetElement(i);
+		GloveCurveStats stat = itsCurveStats->GetItem(i);
 		if (stat.type == kGDataCurve)
 		{
 			if (jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
@@ -599,11 +599,11 @@ PlotDir::ReadData
 
 		JSize diffCount;
 		is >> diffCount;
-		assert(diffCount == itsDiffDirs->GetElementCount());
+		assert(diffCount == itsDiffDirs->GetItemCount());
 		for (JIndex i = 1; i <= diffCount; i++)
 		{
-			(itsDiffDirs->GetElement(i))->ReadSetup(is, gloveVersion);
-			(itsDiffDirs->GetElement(i))->ReadData(is, data, gloveVersion);
+			(itsDiffDirs->GetItem(i))->ReadSetup(is, gloveVersion);
+			(itsDiffDirs->GetItem(i))->ReadData(is, data, gloveVersion);
 		}
 
 		itsSessionDir->ReadData(is);
@@ -902,7 +902,7 @@ void
 PlotDir::UpdateFitParmsMenu()
 {
 	itsFitParmsMenu->RemoveAllItems();
-	BuildColumnMenus("FitMenuItem::global", itsFits->GetElementCount(),
+	BuildColumnMenus("FitMenuItem::global", itsFits->GetItemCount(),
 					   itsFitParmsMenu, nullptr);
 
 	if (itsFits->IsEmpty())
@@ -920,7 +920,7 @@ void
 PlotDir::UpdateDiffMenu()
 {
 	itsDiffMenu->RemoveAllItems();
-	BuildColumnMenus("DiffMenuItem::PlotDir", itsDiffDirs->GetElementCount(),
+	BuildColumnMenus("DiffMenuItem::PlotDir", itsDiffDirs->GetItemCount(),
 					   itsDiffMenu, nullptr);
 
 	if (itsDiffDirs->IsEmpty())
@@ -966,7 +966,7 @@ PlotDir::HandleCurveAdded()
 	stats.type = itsCurrentCurveType;
 	stats.provider = 0;
 	stats.fitNumber = 0;
-	itsCurveStats->AppendElement(stats);
+	itsCurveStats->AppendItem(stats);
 }
 
 /******************************************************************************
@@ -980,13 +980,13 @@ PlotDir::HandleCurveRemoved
 	const JIndex index
 	)
 {
-	GloveCurveStats stats = itsCurveStats->GetElement(index);
+	GloveCurveStats stats = itsCurveStats->GetItem(index);
 	if (stats.type == kGFitCurve)
 	{
 		RemoveFit(index);
 	}
-	itsCurveStats->RemoveElement(index);
-	const JSize ccount = itsCurveStats->GetElementCount();
+	itsCurveStats->RemoveItem(index);
+	const JSize ccount = itsCurveStats->GetItemCount();
 	JSize count = ccount;
 	JSize i;
 	if (stats.type == kGDataCurve)
@@ -994,7 +994,7 @@ PlotDir::HandleCurveRemoved
 		i = index;
 		while (i <= count)
 		{
-			GloveCurveStats statsi = itsCurveStats->GetElement(i);
+			GloveCurveStats statsi = itsCurveStats->GetItem(i);
 			if (statsi.type == kGFitCurve)
 			{
 				if (statsi.provider == index)
@@ -1005,7 +1005,7 @@ PlotDir::HandleCurveRemoved
 				else
 				{
 					statsi.provider--;
-					itsCurveStats->SetElement(i, statsi);
+					itsCurveStats->SetItem(i, statsi);
 					i++;
 				}
 			}
@@ -1019,11 +1019,11 @@ PlotDir::HandleCurveRemoved
 	{
 		for (i = index + 1; i <= count; i++)
 		{
-			GloveCurveStats statsi = itsCurveStats->GetElement(i);
+			GloveCurveStats statsi = itsCurveStats->GetItem(i);
 			if (statsi.type == kGFitCurve)
 			{
 				statsi.provider--;
-				itsCurveStats->SetElement(i, statsi);
+				itsCurveStats->SetItem(i, statsi);
 			}
 		}
 	}
@@ -1040,20 +1040,20 @@ PlotDir::RemoveFit
 	const JIndex index
 	)
 {
-	GloveCurveStats stats = itsCurveStats->GetElement(index);
-	itsFits->RemoveElement(stats.fitNumber);
-	PlotDir* dir = itsDiffDirs->GetElement(stats.fitNumber);
+	GloveCurveStats stats = itsCurveStats->GetItem(index);
+	itsFits->RemoveItem(stats.fitNumber);
+	PlotDir* dir = itsDiffDirs->GetItem(stats.fitNumber);
 	dir->Close();
-	itsDiffDirs->RemoveElement(stats.fitNumber);
-	const JSize count = itsCurveStats->GetElementCount();
+	itsDiffDirs->RemoveItem(stats.fitNumber);
+	const JSize count = itsCurveStats->GetItemCount();
 	for (JIndex i = index + 1; i <= count; i++)
 	{
-		stats = itsCurveStats->GetElement(i);
+		stats = itsCurveStats->GetItem(i);
 		if (stats.type == kGFitCurve)
 		{
 			stats.provider--;
 			stats.fitNumber--;
-			itsCurveStats->SetElement(i, stats);
+			itsCurveStats->SetItem(i, stats);
 		}
 	}
 }
@@ -1193,12 +1193,12 @@ PlotDir::AddFit
 	itsCurrentCurveType = kGFitCurve;
 	JIndex i = itsPlot->AddCurve(fit, true, fit->GetFunctionString(), true, false);
 	itsCurrentCurveType = kGDataCurve;
-	GloveCurveStats stats = itsCurveStats->GetElement(i);
+	GloveCurveStats stats = itsCurveStats->GetItem(i);
 	stats.type		= kGFitCurve;
 	stats.provider	= plotindex;
-	stats.fitNumber = itsFits->GetElementCount();
+	stats.fitNumber = itsFits->GetItemCount();
 	stats.fitType	= type;
-	itsCurveStats->SetElement(i, stats);
+	itsCurveStats->SetItem(i, stats);
 	itsAnalysisMenu->EnableItem(kFitParmsCmd);
 	itsAnalysisMenu->EnableItem(kDiffPlotCmd);
 
@@ -1207,7 +1207,7 @@ PlotDir::AddFit
 	J2DPlotDataBase* ddata = fit->GetDiffData();
 	dir->AddDiffCurve(ddata);
 	J2DPlotWidget* plot = dir->GetPlot();
-	JString numS((JUInt64)itsFits->GetElementCount());
+	JString numS((JUInt64)itsFits->GetItemCount());
 
 	const JUtf8Byte* map[] =
 	{
@@ -1253,7 +1253,7 @@ PlotDir::CurveIsFit
 	const
 {
 	assert(itsCurveStats->IndexValid(index));
-	GloveCurveStats stat = itsCurveStats->GetElement(index);
+	GloveCurveStats stat = itsCurveStats->GetItem(index);
 	if (stat.type == kGFitCurve)
 	{
 		return true;

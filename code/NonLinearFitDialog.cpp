@@ -87,16 +87,16 @@ NonLinearFitDialog::BuildWindow()
 	const JCoordinate kVarTableHeight	= 100;
 
 	JArray<JCoordinate> heights(3);
-	heights.AppendElement(kExprEditorHeight + kNameInputHeight);
-	heights.AppendElement(kDerTableHeight);
-	heights.AppendElement(kVarTableHeight);
+	heights.AppendItem(kExprEditorHeight + kNameInputHeight);
+	heights.AppendItem(kDerTableHeight);
+	heights.AppendItem(kVarTableHeight);
 
 	const JIndex elasticIndex = 3;
 
 	JArray<JCoordinate> minHeights(3);
-	minHeights.AppendElement(80);
-	minHeights.AppendElement(80);
-	minHeights.AppendElement(80);
+	minHeights.AppendItem(80);
+	minHeights.AppendItem(80);
+	minHeights.AppendItem(80);
 
 // begin JXLayout
 

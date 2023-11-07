@@ -40,7 +40,7 @@ TransformFunctionDialog::TransformFunctionDialog
 
 	BuildColumnMenus("Column::global", colCount, itsDestMenu, nullptr);
 
-	for (JSize i = 1; i <= list->GetElementCount(); i++)
+	for (JSize i = 1; i <= list->GetItemCount(); i++)
 	{
 		itsVarMenu->AppendItem(list->GetVariableName(i));
 	}

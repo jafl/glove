@@ -32,14 +32,14 @@ main
 	while (iss)
 	{
 		value << iss;
-		values.AppendElement(value);
+		values.AppendItem(value);
 		colCount ++;
 	}
 
 	std::cout << colCount << std::endl;
-	for (JSize i = 1; i <= values.GetElementCount(); i++)
+	for (JSize i = 1; i <= values.GetItemCount(); i++)
 	{
-		std::cout << values.GetElement(i);
+		std::cout << values.GetItem(i);
 	}
 
 	while (is)

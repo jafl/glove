@@ -120,12 +120,12 @@ PlotLinearFit::~PlotLinearFit()
 }
 
 /*********************************************************************************
- GetElement
+ GetItem
 
  ********************************************************************************/
 /*
 void
-PlotLinearFit::GetElement
+PlotLinearFit::GetItem
 	(
 	const JIndex index,
 	J2DDataPoint* data
@@ -229,7 +229,7 @@ PlotLinearFit::UpdateFunction
 	itsCurrentXMin = xmin;
 	itsCurrentXMax = xmax;
 	itsCurrentStepCount = steps;
-	SetElementCount(steps+1);
+	SetItemCount(steps+1);
 }*/
 
 /*********************************************************************************
@@ -409,7 +409,7 @@ PlotLinearFit::LinearLSQ1()
 {
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
-	const JSize count = data->GetElementCount();
+	const JSize count = data->GetItemCount();
 	JArray<JFloat> weight;
 	JArray<JFloat> sigma;
 	JSize i;
@@ -446,9 +446,9 @@ PlotLinearFit::LinearLSQ1()
 			{
 				// do for power law;
 			}
-			sigma.AppendElement(s);
+			sigma.AppendItem(s);
 			JFloat w = 1/(s*s);
-			weight.AppendElement(w);
+			weight.AppendItem(w);
 			num += w;
 			avgx += w * point.x;
 			itsRealCount++;
@@ -465,10 +465,10 @@ PlotLinearFit::LinearLSQ1()
 	{
 		if (GetDataElement(i, &point))
 		{
-			JFloat tTemp = (point.x - avgx)/(sigma.GetElement(counter));
-			t.AppendElement(tTemp);
+			JFloat tTemp = (point.x - avgx)/(sigma.GetItem(counter));
+			t.AppendItem(tTemp);
 			stt +=	tTemp * tTemp;
-			b += tTemp * point.y / sigma.GetElement(counter);
+			b += tTemp * point.y / sigma.GetItem(counter);
 			counter++;
 		}
 	}
@@ -481,7 +481,7 @@ PlotLinearFit::LinearLSQ1()
 	{
 		if (GetDataElement(i, &point))
 		{
-			JFloat w = weight.GetElement(counter);
+			JFloat w = weight.GetItem(counter);
 			a += w * (point.y - b * point.x);
 			aerr += w * w * point.x * point.x;
 			counter++;
@@ -502,9 +502,9 @@ PlotLinearFit::LinearLSQ1()
 	{
 		if (GetDataElement(i, &point))
 		{
-			JFloat temp = (point.y - a - b * point.x)/(sigma.GetElement(counter));
+			JFloat temp = (point.y - a - b * point.x)/(sigma.GetItem(counter));
 			c += temp * temp;
-			if (sigma.GetElement(counter) != 1)
+			if (sigma.GetItem(counter) != 1)
 			{
 				sytest = false;
 			}
@@ -541,7 +541,7 @@ PlotLinearFit::Variance
 	JSize j;
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
-	const JSize count = data->GetElementCount();
+	const JSize count = data->GetItemCount();
 	JFloat sy, sx;
 	JFloat epy = 0, epx = 0;
 	JFloat avey = 0, avex = 0;
@@ -584,7 +584,7 @@ PlotLinearFit::LinearLSQ2()
 {
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
-	const JSize count = data->GetElementCount();
+	const JSize count = data->GetItemCount();
 
 	JFloat factor=0.01;
 	JFloat small=TOLL;
@@ -672,7 +672,7 @@ PlotLinearFit::ChiSqr
 {
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
-	const JSize count = data->GetElementCount();
+	const JSize count = data->GetItemCount();
 	JArray<JFloat> err;
 	JArray<JFloat> W;
 	JFloat temp1;
@@ -691,9 +691,9 @@ PlotLinearFit::ChiSqr
 				sy = 1;
 			}
 			JFloat e = point.xerr * point.xerr * Bt * Bt + sy * sy;
-			err.AppendElement(e);
+			err.AppendItem(e);
 			JFloat w = 1/e;
-			W.AppendElement(w);
+			W.AppendItem(w);
 			temp1 += w * (point.y - Bt*point.x);
 			temp2 += w;
 		}
@@ -708,7 +708,7 @@ PlotLinearFit::ChiSqr
 		if (GetDataElement(i, &point))
 		{
 			JFloat val = point.y - itsAParameterT - Bt*point.x;
-			c += (val*val)/(err.GetElement(counter));
+			c += (val*val)/(err.GetItem(counter));
 			counter++;
 		}
 	}
@@ -1070,7 +1070,7 @@ PlotLinearFit::DataElementValid
 {
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
-	data->GetElement(index, &point);
+	data->GetItem(index, &point);
 
 	if (itsYIsLog && point.y <= 0)
 	{
@@ -1115,7 +1115,7 @@ PlotLinearFit::GetDataElement
 		return false;
 	}
 	const J2DPlotDataBase* data = GetDataToFit();
-	data->GetElement(index, point);
+	data->GetItem(index, point);
 	if (itsYIsLog)
 	{
 		JFloat y = point->y;
@@ -1142,11 +1142,11 @@ PlotLinearFit::AdjustDiffData()
 	J2DPlotDataBase* pwd = GetDiffData();
 	J2DDataPoint dataD;
 	J2DDataPoint data;
-	const JSize count = pwd->GetElementCount();
+	const JSize count = pwd->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		pwd->GetElement(i, &dataD);
-		GetData()->GetElement(i, &data);
+		pwd->GetItem(i, &dataD);
+		GetData()->GetItem(i, &data);
 		JFloat yerr;
 		if (GetData()->HasYErrors() || GetData()->HasXErrors())
 		{

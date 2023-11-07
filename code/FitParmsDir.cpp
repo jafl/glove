@@ -138,8 +138,8 @@ FitParmsDir::Receive
 	)
 {
 	if (sender == itsFits &&
-		(message.Is(JListT::kElementsInserted) ||
-		 message.Is(JListT::kElementsRemoved)))
+		(message.Is(JListT::kItemsInserted) ||
+		 message.Is(JListT::kItemsRemoved)))
 	{
 		UpdateFitMenu();
 	}
@@ -160,7 +160,7 @@ FitParmsDir::UpdateFitMenu()
 {
 	itsFitMenu->RemoveAllItems();
 
-	const JSize count = itsFits->GetElementCount();
+	const JSize count = itsFits->GetItemCount();
 	if (count == 0)
 	{
 		itsFitMenu->Deactivate();
@@ -184,10 +184,10 @@ FitParmsDir::HandleFitMenu
 	const JIndex index
 	)
 {
-	assert ( index <= itsFits->GetElementCount());
+	assert ( index <= itsFits->GetItemCount());
 	itsCurrentIndex = index;
 	itsTable->Clear();
-	FitBase* fit = itsFits->GetElement(index);
+	FitBase* fit = itsFits->GetItem(index);
 	const JSize count = fit->GetParameterCount();
 	itsTable->Append(JGetString("FunctionLabel::FitParmsDir"), fit->GetFitFunctionString());
 
@@ -247,7 +247,7 @@ FitParmsDir::HandleFitMenu
 void
 FitParmsDir::SendAllToSession()
 {
-	JSize count = itsFits->GetElementCount();
+	JSize count = itsFits->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
 		SendToSession(i);
@@ -265,9 +265,9 @@ FitParmsDir::SendToSession
 	const JIndex index
 	)
 {
-	assert ( index <= itsFits->GetElementCount());
+	assert ( index <= itsFits->GetItemCount());
 	HistoryDir* dir = itsPlotDir->GetSessionDir();
-	FitBase* fit = itsFits->GetElement(index);
+	FitBase* fit = itsFits->GetItem(index);
 	const JSize count = fit->GetParameterCount();
 
 	JString str((JUInt64) index);

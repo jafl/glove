@@ -50,10 +50,10 @@ UndoElementChange::Undo()
 {
 	// get current value
 	JFloat value = 0;
-	GetData()->GetElement(GetCell(), &value);
+	GetData()->GetItem(GetCell(), &value);
 
 	// change value to old value
-	GetData()->SetElement(GetCell(), itsValue);
+	GetData()->SetItem(GetCell(), itsValue);
 
 	// create undo object to change it back
 	UndoElementChange* undo =

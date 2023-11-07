@@ -73,9 +73,9 @@ UndoElementsCut::UndoElementsCut
 		for (JSize j = rowstart; j <= rowend; j++)
 		{
 			JFloat value;
-			if (data->GetElement(j, i, &value))
+			if (data->GetItem(j, i, &value))
 			{
-				col->AppendElement(value);
+				col->AppendItem(value);
 			}
 		}
 	}
@@ -114,23 +114,23 @@ UndoElementsCut::Undo()
 
 	if (type == UndoElementsBase::kCols)
 	{
-		JSize cols = itsValues->GetElementCount();
+		JSize cols = itsValues->GetItemCount();
 		for (JSize i = 1; i <= cols; i++)
 		{
-			JArray<JFloat>* col = itsValues->GetElement(i);
+			JArray<JFloat>* col = itsValues->GetItem(i);
 			data->InsertCol(i + start.x - 1, col);
 		}
 	}
 	else
 	{
-		JSize cols = itsValues->GetElementCount();
+		JSize cols = itsValues->GetItemCount();
 		for (JSize i = 1; i <= cols; i++)
 		{
-			JArray<JFloat>* col = itsValues->GetElement(i);
-			JSize rows = col->GetElementCount();
+			JArray<JFloat>* col = itsValues->GetItem(i);
+			JSize rows = col->GetItemCount();
 			for (JSize j = 1; j <= rows; j++)
 			{
-				JFloat value = col->GetElement(j);
+				JFloat value = col->GetItem(j);
 				data->InsertElement(j + start.y - 1 , i + start.x - 1, value);
 			}
 		}

@@ -22,10 +22,10 @@ public:
 
 	~RaggedFloatTableData() override;
 
-	bool	GetElement(const JIndex row, const JIndex col, JFloat* value) const;
-	bool	GetElement(const JPoint& cell, JFloat* value) const;
-	void	SetElement(const JIndex row, const JIndex col, const JFloat data);
-	void	SetElement(const JPoint& cell, const JFloat data);
+	bool	GetItem(const JIndex row, const JIndex col, JFloat* value) const;
+	bool	GetItem(const JPoint& cell, JFloat* value) const;
+	void	SetItem(const JIndex row, const JIndex col, const JFloat data);
+	void	SetItem(const JPoint& cell, const JFloat data);
 
 	void	GetRow(const JIndex index, JArray<JFloat>* rowData) const;
 	void	SetRow(const JIndex index, const JArray<JFloat>& rowData);
@@ -54,12 +54,12 @@ public:
 
 	void	InsertElement(const JIndex row, const JIndex col, const JFloat value);
 	void	InsertElement(const JPoint& cell, const JFloat value);
-	void	PrependElement(const JIndex col, const JFloat value);
-	void	AppendElement(const JIndex col, const JFloat value);
+	void	PrependItem(const JIndex col, const JFloat value);
+	void	AppendItem(const JIndex col, const JFloat value);
 	void	DuplicateElement(const JIndex row, const JIndex col);
 	void	DuplicateElement(const JPoint& cell);
-	void	RemoveElement(const JIndex row, const JIndex col);
-	void	RemoveElement(const JPoint& cell);
+	void	RemoveItem(const JIndex row, const JIndex col);
+	void	RemoveItem(const JPoint& cell);
 	void	RemoveAllElements(const JIndex col);
 	void	MoveElement(const JIndex origRow, const JIndex origCol,
 						const JIndex newRow, const JIndex newCol);
@@ -92,17 +92,17 @@ private:
 
 public:
 
-	static const JUtf8Byte* kElementInserted;
-	static const JUtf8Byte* kElementRemoved;
+	static const JUtf8Byte* kItemInserted;
+	static const JUtf8Byte* kItemRemoved;
 	static const JUtf8Byte* kDataChanged;
 
-	class ElementInserted : public JBroadcaster::Message
+	class ItemInserted : public JBroadcaster::Message
 		{
 		public:
 
-			ElementInserted(const JIndex row, const JIndex col)
+			ItemInserted(const JIndex row, const JIndex col)
 				:
-				JBroadcaster::Message(kElementInserted),
+				JBroadcaster::Message(kItemInserted),
 				itsRow(row),
 				itsCol(col)
 				{ };
@@ -125,13 +125,13 @@ public:
 			JIndex itsCol;
 		};
 
-	class ElementRemoved : public JBroadcaster::Message
+	class ItemRemoved : public JBroadcaster::Message
 		{
 		public:
 
-			ElementRemoved(const JIndex row, const JIndex col)
+			ItemRemoved(const JIndex row, const JIndex col)
 				:
-				JBroadcaster::Message(kElementRemoved),
+				JBroadcaster::Message(kItemRemoved),
 				itsRow(row),
 				itsCol(col)
 				{ };
@@ -197,7 +197,7 @@ RaggedFloatTableData::AppendCol
 	const JList<JFloat>* initData
 	)
 {
-	InsertCol(itsCols->GetElementCount()+1, initData);
+	InsertCol(itsCols->GetItemCount()+1, initData);
 }
 
 /******************************************************************************
@@ -212,16 +212,16 @@ RaggedFloatTableData::GetColPointer
 	)
 	const
 {
-	return *(itsCols->GetElement(index));
+	return *(itsCols->GetItem(index));
 }
 
 /******************************************************************************
- PrependElement
+ PrependItem
 
  ******************************************************************************/
 
 inline void
-RaggedFloatTableData::PrependElement
+RaggedFloatTableData::PrependItem
 	(
 	const JIndex col,
 	const JFloat value
@@ -231,19 +231,19 @@ RaggedFloatTableData::PrependElement
 }
 
 /******************************************************************************
- AppendElement
+ AppendItem
 
  ******************************************************************************/
 
 inline void
-RaggedFloatTableData::AppendElement
+RaggedFloatTableData::AppendItem
 	(
 	const JIndex col,
 	const JFloat value
 	)
 {
-	JArray<JFloat>* dataCol = itsCols->GetElement(col);
-	InsertElement(dataCol->GetElementCount()+1, col, value);
+	JArray<JFloat>* dataCol = itsCols->GetItem(col);
+	InsertElement(dataCol->GetItemCount()+1, col, value);
 }
 
 /******************************************************************************
@@ -262,17 +262,17 @@ RaggedFloatTableData::InsertElement
 }
 
 /******************************************************************************
- RemoveElement
+ RemoveItem
 
  ******************************************************************************/
 
 inline void
-RaggedFloatTableData::RemoveElement
+RaggedFloatTableData::RemoveItem
 	(
 	const JPoint& cell
 	)
 {
-	RemoveElement(cell.y, cell.x);
+	RemoveItem(cell.y, cell.x);
 }
 
 /******************************************************************************
@@ -305,34 +305,34 @@ RaggedFloatTableData::DuplicateElement
 }
 
 /******************************************************************************
- GetElement
+ GetItem
 
  ******************************************************************************/
 
 inline bool
-RaggedFloatTableData::GetElement
+RaggedFloatTableData::GetItem
 	(
 	const JPoint&	cell,
 	JFloat*			value
 	)
 	const
 {
-	return GetElement(cell.y, cell.x, value);
+	return GetItem(cell.y, cell.x, value);
 }
 
 /******************************************************************************
- SetElement
+ SetItem
 
  ******************************************************************************/
 
 inline void
-RaggedFloatTableData::SetElement
+RaggedFloatTableData::SetItem
 	(
 	const JPoint&	cell,
 	const JFloat	data
 	)
 {
-	SetElement(cell.y, cell.x, data);
+	SetItem(cell.y, cell.x, data);
 }
 
 /******************************************************************************
@@ -363,7 +363,7 @@ inline JSize
 RaggedFloatTableData::GetDataColCount()
 	const
 {
-	return itsCols->GetElementCount();
+	return itsCols->GetItemCount();
 }
 
 /******************************************************************************
@@ -393,8 +393,8 @@ RaggedFloatTableData::GetDataRowCount
 	)
 	const
 {
-	const JArray<JFloat>* dataCol = itsCols->GetElement(index);
-	return dataCol->GetElementCount();
+	const JArray<JFloat>* dataCol = itsCols->GetItem(index);
+	return dataCol->GetItemCount();
 }
 
 /******************************************************************************
@@ -411,7 +411,7 @@ RaggedFloatTableData::CellValid
 	const
 {
 	return itsCols->IndexValid(colIndex) &&
-				(itsCols->GetElement(colIndex))->IndexValid(rowIndex);
+				(itsCols->GetItem(colIndex))->IndexValid(rowIndex);
 }
 
 inline bool

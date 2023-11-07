@@ -72,9 +72,9 @@ UndoElementsChange::UndoElementsChange
 		for (JSize j = rowstart; j <= rowend; j++)
 		{
 			JFloat value;
-			if (data->GetElement(j, i, &value))
+			if (data->GetItem(j, i, &value))
 			{
-				col->AppendElement(value);
+				col->AppendItem(value);
 			}
 		}
 	}
@@ -117,15 +117,15 @@ UndoElementsChange::Undo()
 	}
 	else if (type == UndoElementsBase::kCols)
 	{
-		JSize cols = itsValues->GetElementCount();
+		JSize cols = itsValues->GetItemCount();
 		for (JSize i = 1; i <= cols; i++)
 		{
-			JArray<JFloat>* col = itsValues->GetElement(i);
-			JSize rows = col->GetElementCount();
+			JArray<JFloat>* col = itsValues->GetItem(i);
+			JSize rows = col->GetItemCount();
 			for (JSize j = 1; j <= rows; j++)
 			{
-				JFloat value = col->GetElement(j);
-				data->SetElement(j, i + start.x - 1, value);
+				JFloat value = col->GetItem(j);
+				data->SetItem(j, i + start.x - 1, value);
 			}
 		}
 	}
@@ -133,12 +133,12 @@ UndoElementsChange::Undo()
 	{
 		for (JSize i = start.x; i <= (JSize)end.x; i++)
 		{
-			JArray<JFloat>* col = itsValues->GetElement(i - start.x + 1);
-			JSize rows = col->GetElementCount();
+			JArray<JFloat>* col = itsValues->GetItem(i - start.x + 1);
+			JSize rows = col->GetItemCount();
 			for (JSize j = start.y; j <= start.y + rows -1; j++)
 			{
-				JFloat value = col->GetElement(j - start.y + 1);
-				data->SetElement(j, i, value);
+				JFloat value = col->GetItem(j - start.y + 1);
+				data->SetItem(j, i, value);
 			}
 		}
 	}

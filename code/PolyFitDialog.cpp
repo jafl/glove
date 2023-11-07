@@ -161,7 +161,7 @@ PolyFitDialog::GetPowers
 	{
 		if (cb->IsChecked())
 		{
-			powers->AppendElement(i);
+			powers->AppendItem(i);
 		}
 		i++;
 	}

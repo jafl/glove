@@ -57,9 +57,9 @@ void
 PlotFitQuad::JPlotFitQuadX()
 {
 	JArray<JIndex> powers;
-	powers.AppendElement(0);
-	powers.AppendElement(1);
-	powers.AppendElement(2);
+	powers.AppendItem(0);
+	powers.AppendItem(1);
+	powers.AppendItem(2);
 	InitializePolynomial(powers);
 }
 

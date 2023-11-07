@@ -63,7 +63,7 @@ PlotFitProxy::PlotFitProxy
 			JFloat value;
 			bool ok	= fit->GetParameterError(i, &value);
 			assert(ok);
-			itsErrors->AppendElement(value);
+			itsErrors->AppendItem(value);
 		}
 	}
 
@@ -142,7 +142,7 @@ PlotFitProxy::PlotFitProxy
 		{
 			JFloat value;
 			is >> value;
-			itsErrors->AppendElement(value);
+			itsErrors->AppendItem(value);
 		}
 	}
 
@@ -214,7 +214,7 @@ PlotFitProxy::WriteData
 	{
 		for (JIndex i = 1; i < count; i++)
 		{
-			os << itsErrors->GetElement(i) << ' ';
+			os << itsErrors->GetItem(i) << ' ';
 		}
 	}
 
@@ -285,12 +285,12 @@ PlotFitProxy::GetParameterError
 	}
 
 	assert(itsErrors != nullptr);
-	if (index > itsErrors->GetElementCount())
+	if (index > itsErrors->GetItemCount())
 	{
 		return false;
 	}
 
-	*value	= itsErrors->GetElement(index);
+	*value	= itsErrors->GetItem(index);
 	return true;
 }
 

@@ -134,7 +134,7 @@ FitParameterTable::HandleMouseDown
 bool
 FitParameterTable::BeginEditingStartValues()
 {
-	if (itsHasStartValues && itsStartValues->GetElement(1) == 0)
+	if (itsHasStartValues && itsStartValues->GetItem(1) == 0)
 	{
 		JPoint cell((JCoordinate)kStartColIndex, 1);
 		BeginEditing(cell);
@@ -172,19 +172,19 @@ FitParameterTable::TableDrawCell
 	JString str;
 	if (realIndex == kNameColIndex)
 	{
-		str	= *(itsNameList->GetElement(cell.y));
+		str	= *(itsNameList->GetItem(cell.y));
 	}
 	else if (realIndex == kStartColIndex)
 	{
-		str = JString(itsStartValues->GetElement(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
+		str = JString(itsStartValues->GetItem(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
 	}
 	else if (realIndex == kFitColIndex)
 	{
-		str = JString(itsFitValues->GetElement(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
+		str = JString(itsFitValues->GetItem(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
 	}
 	else if (realIndex == kErrorColIndex)
 	{
-		str = JString(itsErrorValues->GetElement(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
+		str = JString(itsErrorValues->GetItem(cell.y), JString::kPrecisionAsNeeded, JString::kStandardExponent, 0, 5);
 	}
 
 	JRect r = rect;
@@ -260,7 +260,7 @@ FitParameterTable::CreateXInputField
 	assert(itsInput == nullptr);
 	itsInput = jnew JXFloatInput(this, kFixedLeft, kFixedTop, x, y, w, h);
 
-	itsInput->SetValue(itsStartValues->GetElement(cell.y));
+	itsInput->SetValue(itsStartValues->GetItem(cell.y));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -294,7 +294,7 @@ FitParameterTable::ExtractInputData
 	JFloat value;
 	bool ok	= itsInput->GetValue(&value);
 	assert(ok);
-	itsStartValues->SetElement(cell.y, value);
+	itsStartValues->SetItem(cell.y, value);
 	Broadcast(ValueChanged(cell.y, value));
 	return true;
 }
@@ -401,9 +401,9 @@ FitParameterTable::SetFitDescription
 		JString* str = jnew JString;
 		fit.GetParameterName(i, str);
 		itsNameList->Append(str);
-		itsStartValues->AppendElement(0);
-		itsFitValues->AppendElement(0);
-		itsErrorValues->AppendElement(0);
+		itsStartValues->AppendItem(0);
+		itsFitValues->AppendItem(0);
+		itsErrorValues->AppendItem(0);
 	}
 }
 
@@ -451,8 +451,8 @@ FitParameterTable::SetValue
 	)
 {
 	assert(itsFitValues->IndexValid(index));
-	itsFitValues->SetElement(index, value);
-	itsErrorValues->SetElement(index, error);
+	itsFitValues->SetItem(index, value);
+	itsErrorValues->SetItem(index, error);
 	TableRefresh();
 }
 
@@ -464,20 +464,20 @@ FitParameterTable::SetValue
 void
 FitParameterTable::ClearValues()
 {
-	JSize count	= itsFitValues->GetElementCount();
+	JSize count	= itsFitValues->GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		itsFitValues->SetElement(i, 0);
+		itsFitValues->SetItem(i, 0);
 	}
-	count	= itsStartValues->GetElementCount();
+	count	= itsStartValues->GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		itsStartValues->SetElement(i, 0);
+		itsStartValues->SetItem(i, 0);
 	}
-	count	= itsErrorValues->GetElementCount();
+	count	= itsErrorValues->GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		itsErrorValues->SetElement(i, 0);
+		itsErrorValues->SetItem(i, 0);
 	}
 }
 
@@ -501,10 +501,10 @@ FitParameterTable::GetStartValues()
 void
 FitParameterTable::CopyParmValuesToStart()
 {
-	const JSize count	= itsFitValues->GetElementCount();
+	const JSize count	= itsFitValues->GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		itsStartValues->SetElement(i, itsFitValues->GetElement(i));
+		itsStartValues->SetItem(i, itsFitValues->GetItem(i));
 	}
 	ShowStartCol(true);
 }
@@ -520,13 +520,13 @@ FitParameterTable::GetValueString
 	JString* text
 	)
 {
-	const JSize count	= itsNameList->GetElementCount();
+	const JSize count	= itsNameList->GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JString* str	= itsNameList->GetElement(i);
-		JFloat start	= itsStartValues->GetElement(i);
-		JFloat fit		= itsFitValues->GetElement(i);
-		JFloat error	= itsErrorValues->GetElement(i);
+		JString* str	= itsNameList->GetItem(i);
+		JFloat start	= itsStartValues->GetItem(i);
+		JFloat fit		= itsFitValues->GetItem(i);
+		JFloat error	= itsErrorValues->GetItem(i);
 		*text += *str + "\n\t";
 		if (itsHasStartValues)
 		{

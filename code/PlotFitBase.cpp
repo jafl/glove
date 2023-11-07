@@ -109,13 +109,13 @@ PlotFitBase::JPlotFitBaseX
 
 	itsRealData = jnew JArray<J2DDataPoint>;
 	assert(itsRealData != nullptr);
-	const JSize count = fitData->GetElementCount();
+	const JSize count = fitData->GetItemCount();
 	for (JSize i=1; i<= count; i++)
 	{
 		J2DDataPoint point;
 		if (GetDataElement(i, &point))
 		{
-			itsRealData->AppendElement(point);
+			itsRealData->AppendItem(point);
 		}
 	}
 //	GenerateDiffData();
@@ -171,7 +171,7 @@ PlotFitBase::GetGoodnessOfFit
 	const J2DPlotDataBase* data = GetData();
 	if (data->HasXErrors() || data->HasYErrors())
 	{
-		*value = itsChi2/(itsRealData->GetElementCount() - GetParameterCount());
+		*value = itsChi2/(itsRealData->GetItemCount() - GetParameterCount());
 	}
 	else
 	{
@@ -206,7 +206,7 @@ PlotFitBase::GenerateFit
 		iter = 0;
 		for (JIndex j = 1; j <= n; j++)
 		{
-			xi.SetElement(j,j,1.0);
+			xi.SetItem(j,j,1.0);
 		}
 		MinimizeN(&p, &xi, &iter);
 	}
@@ -217,7 +217,7 @@ PlotFitBase::GenerateFit
 
 	for (JIndex i = 1; i <= n; i++)
 	{
-		err.SetElement(i, CalcError(p, i));
+		err.SetItem(i, CalcError(p, i));
 	}
 
 	SetCurrentParameters(p);
@@ -238,7 +238,7 @@ PlotFitBase::CalcError
 	)
 {
 	itsCurrentConstantParmIndex	= constIndex;
-	itsCurrentConstantParm		= parameters.GetElement(constIndex);
+	itsCurrentConstantParm		= parameters.GetItem(constIndex);
 	JFloat currentParm			= itsCurrentConstantParm;
 
 	const JSize n = parameters.GetDimensionCount() - 1;
@@ -246,15 +246,15 @@ PlotFitBase::CalcError
 	JMatrix xi(n,n);
 	for (JIndex i = 1; i <= n; i++)
 	{
-		xi.SetElement(i,i,1.0);
+		xi.SetItem(i,i,1.0);
 	}
 	for (JIndex i = 1; i <= itsCurrentConstantParmIndex - 1; i++)
 	{
-		p.SetElement(i, parameters.GetElement(i));
+		p.SetItem(i, parameters.GetItem(i));
 	}
 	for (JIndex i = itsCurrentConstantParmIndex + 1; i <= parameters.GetDimensionCount(); i++)
 	{
-		p.SetElement(i - 1, parameters.GetElement(i));
+		p.SetItem(i - 1, parameters.GetItem(i));
 	}
 	JVector pSav(p);
 	JMatrix xiSav(xi);
@@ -268,7 +268,7 @@ PlotFitBase::CalcError
 	JMatrix xiS(nS, nS);
 	for (JIndex i = 1; i <= nS; i++)
 	{
-		xiS.SetElement(i,i,1.0);
+		xiS.SetItem(i,i,1.0);
 	}
 	JFloat a, b, c, f1, f2, f3;
 	a	= currentParm;
@@ -443,12 +443,12 @@ PlotFitBase::ChiSqr
 		JVector pAlt(p.GetDimensionCount() + 1);
 		for (JIndex i = 1; i <= itsCurrentConstantParmIndex - 1; i++)
 		{
-			pAlt.SetElement(i, p.GetElement(i));
+			pAlt.SetItem(i, p.GetItem(i));
 		}
-		pAlt.SetElement(itsCurrentConstantParmIndex, itsCurrentConstantParm);
+		pAlt.SetItem(itsCurrentConstantParmIndex, itsCurrentConstantParm);
 		for (JIndex i = itsCurrentConstantParmIndex + 1; i <= pAlt.GetDimensionCount(); i++)
 		{
-			pAlt.SetElement(i, p.GetElement(i - 1));
+			pAlt.SetItem(i, p.GetItem(i - 1));
 		}
 		SetCurrentParameters(pAlt);
 	}
@@ -458,12 +458,12 @@ PlotFitBase::ChiSqr
 	}
 
 	J2DDataPoint point;
-	JSize rcount = itsRealData->GetElementCount();
+	JSize rcount = itsRealData->GetItemCount();
 	JFloat c = 0;
 
 	for (JSize i = 1; i <= rcount; i++)
 	{
-		point = itsRealData->GetElement(i);
+		point = itsRealData->GetItem(i);
 		JFloat sy = point.yerr;
 		JFloat sx = point.xerr;
 		if (sy == 0 && sx == 0)
@@ -877,7 +877,7 @@ PlotFitBase::DataElementValid
 {
 	const J2DPlotDataBase* data = GetData();
 	J2DDataPoint point;
-	data->GetElement(index, &point);
+	data->GetItem(index, &point);
 
 	if (itsUsingRange)
 	{
@@ -914,7 +914,7 @@ PlotFitBase::GetDataElement
 		return false;
 	}
 	const J2DPlotDataBase* data = GetData();
-	data->GetElement(index, point);
+	data->GetItem(index, point);
 	return true;
 }
 
@@ -939,7 +939,7 @@ PlotFitBase::GetRealElement
 	const JIndex index
 	)
 {
-	return itsRealData->GetElement(index);
+	return itsRealData->GetItem(index);
 }
 
 /******************************************************************************
@@ -950,7 +950,7 @@ PlotFitBase::GetRealElement
 JSize
 PlotFitBase::GetRealElementCount()
 {
-	return itsRealData->GetElementCount();
+	return itsRealData->GetItemCount();
 }
 
 /******************************************************************************
@@ -970,27 +970,27 @@ PlotFitBase::FunctionNPrimed
 	JFloat xmin, xmax;
 	GetXRange(&xmin, &xmax);
 	JFloat delta = (xmax - xmin)/100;
-	a.SetElement(1, 1, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
+	a.SetItem(1, 1, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
 	JFloat err	= BIG;
 	for (JIndex i = 2; i <= matrixSize; i++)
 	{
 		delta /= CON;
-		a.SetElement(1, i, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
+		a.SetItem(1, i, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
 		JFloat fac	= CON * CON;
 		for (JIndex j = 2; j <= i; j++)
 		{
-			a.SetElement(j, i, (a.GetElement(j - 1, i) * fac - a.GetElement(j - 1, i - 1))/(fac - 1.0));
+			a.SetItem(j, i, (a.GetItem(j - 1, i) * fac - a.GetItem(j - 1, i - 1))/(fac - 1.0));
 			fac	= CON * CON * fac;
 			JFloat errt	=
-				JMax(fabs(a.GetElement(j, i) - a.GetElement(j - 1, i)),
-					 fabs(a.GetElement(j, i) - a.GetElement(j - 1, i - 1)));
+				JMax(fabs(a.GetItem(j, i) - a.GetItem(j - 1, i)),
+					 fabs(a.GetItem(j, i) - a.GetItem(j - 1, i - 1)));
 			if (errt <= err)
 			{
 				err	= errt;
-				y	= a.GetElement(j, i);
+				y	= a.GetItem(j, i);
 			}
 		}
-		if (fabs(a.GetElement(i, i) - a.GetElement(i - 1, i - 1)) >= SAFE * err)
+		if (fabs(a.GetItem(i, i) - a.GetItem(i - 1, i - 1)) >= SAFE * err)
 		{
 			return y;
 		}
@@ -1052,7 +1052,7 @@ PlotFitBase::GenerateDiffData()
 	{
 		CalculateStdDev();
 	}
-	const JSize count = GetData()->GetElementCount();
+	const JSize count = GetData()->GetItemCount();
 	J2DDataPoint data;
 	for (JSize i = 1; i <= count; i++)
 	{
@@ -1060,24 +1060,24 @@ PlotFitBase::GenerateDiffData()
 		{
 			JFloat fitY;
 			GetYValue(data.x, &fitY);
-			xdata.AppendElement(data.x);
-			ydata.AppendElement(data.y - fitY);
+			xdata.AppendItem(data.x);
+			ydata.AppendItem(data.y - fitY);
 			if (GetData()->HasYErrors())
 			{
 				if (GetData()->HasXErrors())
 				{
 					JFloat b	= FunctionNPrimed(data.x);
 					JFloat err	= sqrt(data.yerr * data.yerr + b * b * data.xerr * data.xerr);
-					yerrdata.AppendElement(err);
+					yerrdata.AppendItem(err);
 				}
 				else
 				{
-					yerrdata.AppendElement(data.yerr);
+					yerrdata.AppendItem(data.yerr);
 				}
 			}
 			else
 			{
-				yerrdata.AppendElement(GetStdDev());
+				yerrdata.AppendItem(GetStdDev());
 			}
 		}
 	}

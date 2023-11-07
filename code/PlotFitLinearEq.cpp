@@ -76,7 +76,7 @@ PlotFitLinearEq::InitializePolynomial
 {
 	itsPowers			= jnew JArray<JIndex>(powers);
 	assert(itsPowers != nullptr);
-	const JSize count	= itsPowers->GetElementCount();
+	const JSize count	= itsPowers->GetItemCount();
 	SetParameterCount(count);
 	SetHasGoodnessOfFit(true);
 	JString name;
@@ -84,7 +84,7 @@ PlotFitLinearEq::InitializePolynomial
 	{
 		JString parm	= "a" + JString((JUInt64) i - 1);
 		JString xTerm;
-		JIndex power	= itsPowers->GetElement(i);
+		JIndex power	= itsPowers->GetItem(i);
 		if (power > 0)
 		{
 			xTerm = " * x";
@@ -143,12 +143,12 @@ PlotFitLinearEq::GetYValue
 	)
 	const
 {
-	const JSize count = itsPowers->GetElementCount();
+	const JSize count = itsPowers->GetItemCount();
 	*y	= 0;
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JIndex power = itsPowers->GetElement(i);
-		JFloat term  = itsParameters->GetElement(i);
+		JIndex power = itsPowers->GetItem(i);
+		JFloat term  = itsParameters->GetItem(i);
 		if (power > kPowOptimizationIndex)
 		{
 			term  *= pow(x, (JFloat)power);
@@ -180,7 +180,7 @@ PlotFitLinearEq::GetParameterName
 	)
 	const
 {
-	if (index > itsPowers->GetElementCount())
+	if (index > itsPowers->GetItemCount())
 	{
 		return false;
 	}
@@ -201,11 +201,11 @@ PlotFitLinearEq::GetParameter
 	)
 	const
 {
-	if (index > itsPowers->GetElementCount())
+	if (index > itsPowers->GetItemCount())
 	{
 		return false;
 	}
-	*value	= itsParameters->GetElement(index);
+	*value	= itsParameters->GetItem(index);
 	return true;
 }
 
@@ -227,11 +227,11 @@ PlotFitLinearEq::GetParameterError
 	{
 		return false;
 	}
-	if (index > itsPowers->GetElementCount())
+	if (index > itsPowers->GetItemCount())
 	{
 		return false;
 	}
-	*value	= itsErrors->GetElement(index);
+	*value	= itsErrors->GetItem(index);
 	return true;
 }
 
@@ -245,7 +245,7 @@ PlotFitLinearEq::CalculateFirstPass()
 {
 	J2DDataPoint point;
 	const JSize rcount	= GetRealElementCount();
-	const JSize pcount	= itsPowers->GetElementCount();
+	const JSize pcount	= itsPowers->GetItemCount();
 	JMatrix odata(rcount, pcount, 1.0);
 	JVector yData(rcount);
 	for (JIndex i = 1; i <= rcount; i++)
@@ -258,7 +258,7 @@ PlotFitLinearEq::CalculateFirstPass()
 		}
 		for (JIndex j = 1; j <= pcount; j++)
 		{
-			JIndex power = itsPowers->GetElement(j);
+			JIndex power = itsPowers->GetItem(j);
 			JFloat term	= 1;
 			if (power > kPowOptimizationIndex)
 			{
@@ -271,9 +271,9 @@ PlotFitLinearEq::CalculateFirstPass()
 					term *= point.x;
 				}
 			}
-			odata.SetElement(i, j, term/(yerr*yerr));
+			odata.SetItem(i, j, term/(yerr*yerr));
 		}
-		yData.SetElement(i, point.y/(yerr*yerr));
+		yData.SetItem(i, point.y/(yerr*yerr));
 	}
 	JMatrix tData = odata.Transpose();
 	JMatrix lData = tData * odata;
@@ -300,7 +300,7 @@ PlotFitLinearEq::CalculateFirstPass()
 				}
 				for (JIndex k = 1; k <= pcount; k++)
 				{
-					JIndex power	= itsPowers->GetElement(k);
+					JIndex power	= itsPowers->GetItem(k);
 					JFloat term	= 1;
 					if (power > kPowOptimizationIndex)
 					{
@@ -313,9 +313,9 @@ PlotFitLinearEq::CalculateFirstPass()
 							term *= point.x;
 						}
 					}
-					odata2.SetElement(j, k, term/errTerm);
+					odata2.SetItem(j, k, term/errTerm);
 				}
-				yData2.SetElement(j, point.y/errTerm);
+				yData2.SetItem(j, point.y/errTerm);
 			}
 
 			JMatrix tData2 = odata2.Transpose();
@@ -369,16 +369,16 @@ PlotFitLinearEq::FunctionNPrimed
 	const JFloat x
 	)
 {
-	const JSize count	= itsPowers->GetElementCount();
+	const JSize count	= itsPowers->GetItemCount();
 	JFloat y	= 0;
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JIndex power = itsPowers->GetElement(i);
+		JIndex power = itsPowers->GetItem(i);
 		if (power == 0)
 		{
 			continue;
 		}
-		JFloat term  = itsParameters->GetElement(i);
+		JFloat term  = itsParameters->GetItem(i);
 		if (power - 1 > kPowOptimizationIndex)
 		{
 			term *= pow(x, (JFloat)(power - 1));

@@ -57,7 +57,7 @@ MDIServer::HandleMDIRequest
 	const JPtrArray<JString>& argList
 	)
 {
-	const JSize argCount = argList.GetElementCount();
+	const JSize argCount = argList.GetItemCount();
 	if (argCount == 1)
 	{
 		itsApp->NewFile();
@@ -87,7 +87,7 @@ MDIServer::HandleMDIRequest
 
 	for (JIndex i=2; i<=argCount; i++)
 	{
-		const JString& fileName = *(argList.GetElement(i));
+		const JString& fileName = *(argList.GetItem(i));
 		if (fileName.IsEmpty())
 		{
 			continue;

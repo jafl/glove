@@ -55,7 +55,7 @@ PolyFitDescription::PolyFitDescription
 	{
 		JIndex power;
 		is >> power;
-		itsPowers->AppendElement(power);
+		itsPowers->AppendItem(power);
 	}
 
 	PolyFitDescriptionX();
@@ -64,7 +64,7 @@ PolyFitDescription::PolyFitDescription
 void
 PolyFitDescription::PolyFitDescriptionX()
 {
-	const JSize count	= itsPowers->GetElementCount();
+	const JSize count	= itsPowers->GetItemCount();
 	SetParameterCount(count);
 
 	JString form;
@@ -73,7 +73,7 @@ PolyFitDescription::PolyFitDescriptionX()
 		JString parm = "a" + JString((JUInt64) i - 1);
 		GetVarList()->AddVariable(parm, 0);
 		JString xTerm;
-		JUInt64 power = itsPowers->GetElement(i);
+		JUInt64 power = itsPowers->GetItem(i);
 		if (power > 0)
 		{
 			xTerm = " * x";
@@ -131,10 +131,10 @@ PolyFitDescription::WriteSetup
 
 	os << ' ' << kCurrentSetupVersion << ' ' ;
 
-	const JSize count	= itsPowers->GetElementCount();
+	const JSize count	= itsPowers->GetItemCount();
 	os << ' ' << count << ' ';
 	for (JIndex i = 1; i <= count; i++)
 	{
-		os << ' ' << itsPowers->GetElement(i) << ' ';
+		os << ' ' << itsPowers->GetItem(i) << ' ';
 	}
 }

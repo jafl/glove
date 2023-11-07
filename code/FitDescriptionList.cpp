@@ -146,7 +146,7 @@ FitDescriptionList::TableDrawCell
 {
 	HilightIfSelected(p, cell, rect);
 
-	const JString* curveName = itsNameList->GetElement(cell.y);
+	const JString* curveName = itsNameList->GetItem(cell.y);
 
 	const FitDescription& fd	= GetFitManager()->GetFitDescription(cell.y);
 
@@ -224,7 +224,7 @@ FitDescriptionList::CreateXInputField
 	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 
-	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
+	itsInput->GetText()->SetText(*(itsNameList->GetItem(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -254,7 +254,7 @@ FitDescriptionList::ExtractInputData
 	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
 	{
-		*(itsNameList->GetElement(cell.y)) = name;
+		*(itsNameList->GetItem(cell.y)) = name;
 		return true;
 	}
 	else

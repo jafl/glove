@@ -151,12 +151,12 @@ DataModule::Receive
 		JIndex lIndex	= info->GetLastIndex();
 		for (JIndex index = fIndex; index <= lIndex; index++)
 		{
-			for (JIndex i = 1; i <= itsCols->GetElementCount(); i++)
+			for (JIndex i = 1; i <= itsCols->GetItemCount(); i++)
 			{
-				JIndex cindex = itsCols->GetElement(i);
+				JIndex cindex = itsCols->GetItem(i);
 				if (index < cindex)
 				{
-					itsCols->SetElement(i, cindex-1);
+					itsCols->SetItem(i, cindex-1);
 				}
 				else if (index == cindex)
 				{
@@ -177,12 +177,12 @@ DataModule::Receive
 		JIndex lIndex	= info->GetLastIndex();
 		for (JIndex index = fIndex; index <= lIndex; index++)
 		{
-			for (JIndex i = 1; i <= itsCols->GetElementCount(); i++)
+			for (JIndex i = 1; i <= itsCols->GetItemCount(); i++)
 			{
-				JIndex cindex = itsCols->GetElement(i);
+				JIndex cindex = itsCols->GetItem(i);
 				if (index <= cindex)
 				{
-					itsCols->SetElement(i, cindex+1);
+					itsCols->SetItem(i, cindex+1);
 				}
 			}
 		}
@@ -262,7 +262,7 @@ DataModule::HandlePrepareCols
 	for (JSize i = 1; i <= cols; i++)
 	{
 		itsData->AppendCol();
-		itsCols->AppendElement(itsColStart - 1 + i);
+		itsCols->AppendItem(itsColStart - 1 + i);
 	}
 	UndoElementsInsert* undo =
 		jnew UndoElementsInsert(itsTable, JPoint(itsColStart, 1),
@@ -315,9 +315,9 @@ DataModule::HandleDataRead
 			if (iss.good())
 			{
 				iss >> value;
-				const JIndex cindex = itsCols->GetElement(i+1);
+				const JIndex cindex = itsCols->GetItem(i+1);
 				assert(itsData->ColIndexValid(cindex));
-				itsData->AppendElement(cindex, value);
+				itsData->AppendItem(cindex, value);
 			}
 			else
 			{
@@ -336,9 +336,9 @@ DataModule::HandleDataRead
 			iss >> row >> col >> value;
 			if (col <= itsColNum)
 			{
-				JIndex cindex = itsCols->GetElement(col);
+				JIndex cindex = itsCols->GetItem(col);
 				assert(itsData->CellValid(row,cindex));
-				itsData->SetElement(row, cindex, value);
+				itsData->SetItem(row, cindex, value);
 				success = true;
 			}
 		}

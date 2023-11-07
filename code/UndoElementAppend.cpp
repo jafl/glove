@@ -49,10 +49,10 @@ UndoElementAppend::Undo()
 {
 	// get current value
 	JFloat value = 0;
-	GetData()->GetElement(GetCell(), &value);
+	GetData()->GetItem(GetCell(), &value);
 
 	// change value to old value
-	GetData()->RemoveElement(GetCell());
+	GetData()->RemoveItem(GetCell());
 
 	// create undo object to change it back
 	UndoElementCut* undo =

@@ -41,7 +41,7 @@ public:
 	PlotModuleFit(J2DPlotWidget* plot, J2DPlotDataBase* fitData, std::istream& is);
 	~PlotModuleFit() override;
 
-	void GetElement(const JIndex index, J2DDataPoint* data) const override;
+	void GetItem(const JIndex index, J2DDataPoint* data) const override;
 
 	virtual	void UpdateFunction(const JFloat xmin, const JFloat xmax,
 								const JSize steps);

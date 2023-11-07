@@ -147,7 +147,7 @@ CurveNameList::TableDrawCell
 {
 	HilightIfSelected(p, cell, rect);
 
-	const JString* curveName = itsNameList->GetElement(cell.y);
+	const JString* curveName = itsNameList->GetItem(cell.y);
 
 	JRect r = rect;
 	r.left += kHMarginWidth;
@@ -210,7 +210,7 @@ CurveNameList::CreateXInputField
 	assert(itsInput == nullptr);
 	itsInput = jnew JXInputField(this, kFixedLeft, kFixedTop, x, y, w, h);
 
-	itsInput->GetText()->SetText(*(itsNameList->GetElement(cell.y)));
+	itsInput->GetText()->SetText(*(itsNameList->GetItem(cell.y)));
 	itsInput->SetIsRequired();
 	return itsInput;
 }
@@ -240,7 +240,7 @@ CurveNameList::ExtractInputData
 	const JString& name = itsInput->GetText()->GetText();
 	if (!name.IsEmpty())
 	{
-		*(itsNameList->GetElement(cell.y)) = name;
+		*(itsNameList->GetItem(cell.y)) = name;
 		return true;
 	}
 	else
@@ -327,7 +327,7 @@ CurveNameList::Receive
 			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert(info != nullptr);
 		RemoveRow(info->GetIndex());
-		itsNameList->DeleteElement(info->GetIndex());
+		itsNameList->DeleteItem(info->GetIndex());
 		TableRefresh();
 	}
 }

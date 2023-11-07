@@ -68,7 +68,7 @@ JSize
 FitManager::GetFitCount()
 	const
 {
-	return itsFitDescriptions->GetElementCount();
+	return itsFitDescriptions->GetItemCount();
 }
 
 /******************************************************************************
@@ -84,7 +84,7 @@ FitManager::GetFitDescription
 	const
 {
 	assert(itsFitDescriptions->IndexValid(index));
-	return *(itsFitDescriptions->GetElement(index));
+	return *(itsFitDescriptions->GetItem(index));
 }
 
 FitDescription&
@@ -94,7 +94,7 @@ FitManager::GetFitDescription
 	)
 {
 	assert(itsFitDescriptions->IndexValid(index));
-	return *(itsFitDescriptions->GetElement(index));
+	return *(itsFitDescriptions->GetItem(index));
 }
 
 /******************************************************************************
@@ -126,7 +126,7 @@ FitManager::RemoveFitDescription
 	assert(itsFitDescriptions->IndexValid(index));
 	if (FitIsRemovable(index))
 	{
-		itsFitDescriptions->DeleteElement(index);
+		itsFitDescriptions->DeleteItem(index);
 		Broadcast(FitsChanged());
 	}
 }
@@ -180,11 +180,11 @@ FitManager::WritePrefs
 	const
 {
 	output << ' ' << kCurrentPrefsVersion << ' ';
-	const JSize count	= itsFitDescriptions->GetElementCount();
+	const JSize count	= itsFitDescriptions->GetItemCount();
 	JSize rCount		= 0;
 	for (JIndex i = 1; i <= count; i++)
 	{
-		FitDescription* fd	= itsFitDescriptions->GetElement(i);
+		FitDescription* fd	= itsFitDescriptions->GetItem(i);
 		if (fd->GetType() == FitDescription::kPolynomial ||
 			fd->GetType() == FitDescription::kNonLinear)
 		{
@@ -194,7 +194,7 @@ FitManager::WritePrefs
 	output << ' ' << rCount << ' ';
 	for (JIndex i = 1; i <= count; i++)
 	{
-		FitDescription* fd	= itsFitDescriptions->GetElement(i);
+		FitDescription* fd	= itsFitDescriptions->GetItem(i);
 		if (fd->GetType() == FitDescription::kPolynomial ||
 			fd->GetType() == FitDescription::kNonLinear)
 		{
@@ -254,7 +254,7 @@ FitManager::FitIsRemovable
 	)
 {
 	assert(itsFitDescriptions->IndexValid(index));
-	FitDescription* fd	= itsFitDescriptions->GetElement(index);
+	FitDescription* fd	= itsFitDescriptions->GetItem(index);
 	if (fd->GetType() == FitDescription::kPolynomial ||
 		fd->GetType() == FitDescription::kNonLinear)
 	{

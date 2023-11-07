@@ -35,14 +35,14 @@ public:
 	bool	SetValue(const JIndex index, const JFloat value);
 	JSize	GetVariableCount() const;
 	bool	SetElementValue(const JIndex variableIndex,
-							const JIndex elementIndex,
+							const JIndex itemIndex,
 							const JFloat value);
 
 	void	SetNumericValue(const JIndex variableIndex,
-							const JIndex elementIndex,
+							const JIndex itemIndex,
 							const JFloat value) override;
 	void	SetNumericValue(const JIndex variableIndex,
-							const JIndex elementIndex,
+							const JIndex itemIndex,
 							const JComplex& value) override;
 
 // implementation of JVariableList
@@ -56,12 +56,12 @@ public:
 
 	bool	IsArray(const JIndex index) const override;
 	bool	ArrayIndexValid(const JIndex variableIndex,
-							const JIndex elementIndex) const override;
+							const JIndex itemIndex) const override;
 
 	bool	GetNumericValue(const JIndex variableIndex,
-							const JIndex elementIndex, JFloat* value) const override;
+							const JIndex itemIndex, JFloat* value) const override;
 	bool	GetNumericValue(const JIndex variableIndex,
-							const JIndex elementIndex, JComplex* value) const override;
+							const JIndex itemIndex, JComplex* value) const override;
 
 private:
 

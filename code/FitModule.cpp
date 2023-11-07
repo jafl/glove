@@ -127,7 +127,7 @@ FitModule::FitModule
 	JFloat xmax, xmin, ymax, ymin;
 	JSize validcount = 0;
 	JArray<bool> valid;
-	JSize count = itsData->GetElementCount();
+	JSize count = itsData->GetItemCount();
 	JSize i;
 	if (usingRange)
 	{
@@ -135,18 +135,18 @@ FitModule::FitModule
 		for (i = 1; i <= count; i++)
 		{
 			J2DDataPoint point;
-			itsData->GetElement(i, &point);
+			itsData->GetItem(i, &point);
 			if ((point.x >= xmin) &&
 				(point.x <= xmax) &&
 				(point.y >= ymin) &&
 				(point.y <= ymax))
 			{
-				valid.AppendElement(true);
+				valid.AppendItem(true);
 				validcount++;
 			}
 			else
 			{
-				valid.AppendElement(false);
+				valid.AppendItem(false);
 			}
 		}
 	}
@@ -158,9 +158,9 @@ FitModule::FitModule
 	for (i = 1; i <= count; i++)
 	{
 		J2DDataPoint point;
-		itsData->GetElement(i, &point);
+		itsData->GetItem(i, &point);
 		bool pointOk = true;
-		if (usingRange && !valid.GetElement(i))
+		if (usingRange && !valid.GetItem(i))
 		{
 			pointOk = false;
 		}
@@ -312,7 +312,7 @@ FitModule::HandleDataRead
 	iss >> *instr;
 	JFloat value;
 	iss >> value;
-	itsValues->AppendElement(value);
+	itsValues->AppendItem(value);
 	itsNames->Append(instr);
 
 	if (!itsPG->IncrementProgress())
@@ -338,7 +338,7 @@ FitModule::HandleFit()
 	{
 		count = count + 1;
 	}
-	JSize realcount = itsNames->GetElementCount();
+	JSize realcount = itsNames->GetItemCount();
 	if (realcount != count)
 	{
 		JGetUserNotification()->ReportError(JGetString("UnknownError::FitModule"));
@@ -356,8 +356,8 @@ FitModule::HandleFit()
 			{
 				index = i * 2 - 1;
 			}
-			JString parm(*(itsNames->GetElement(index)));
-			JFloat value = itsValues->GetElement(index);
+			JString parm(*(itsNames->GetItem(index)));
+			JFloat value = itsValues->GetItem(index);
 			list->AddVariable(parm, value);
 		}
 

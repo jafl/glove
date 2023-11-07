@@ -69,7 +69,7 @@ PlotFitFunction::GenerateDiffData()
 	{
 		CalculateStdDev();
 	}
-	const JSize count = itsData->GetElementCount();
+	const JSize count = itsData->GetItemCount();
 	J2DDataPoint data;
 	for (JSize i = 1; i <= count; i++)
 	{
@@ -77,8 +77,8 @@ PlotFitFunction::GenerateDiffData()
 		{
 			JFloat fitY;
 			GetYValue(data.x, &fitY);
-			xdata.AppendElement(data.x);
-			ydata.AppendElement(data.y - fitY);
+			xdata.AppendItem(data.x);
+			ydata.AppendItem(data.y - fitY);
 			if (itsHasYErrors)
 			{
 				// Save the following for when it gets merged into PlotFitBase
@@ -86,20 +86,20 @@ PlotFitFunction::GenerateDiffData()
 //					{
 //					JFloat b	= FunctionNPrimed(data.x);
 //					JFloat err	= sqrt(data.yerr * data.yerr + b * b * data.xerr * data.xerr);
-//					yerrdata->AppendElement(err);
+//					yerrdata->AppendItem(err);
 //					}
 //				else
 //					{
-					yerrdata.AppendElement(data.yerr);
+					yerrdata.AppendItem(data.yerr);
 //					}
 			}
 			else
 			{
-				yerrdata.AppendElement(itsStdDev);
+				yerrdata.AppendItem(itsStdDev);
 			}
 			if (itsHasXErrors)
 			{
-				xerrdata.AppendElement(data.xerr);
+				xerrdata.AppendItem(data.xerr);
 			}
 		}
 	}
@@ -151,12 +151,12 @@ PlotFitFunction::SetDiffData
 void
 PlotFitFunction::CalculateStdDev()
 {
-	JSize count = itsData->GetElementCount();
+	JSize count = itsData->GetItemCount();
 	J2DDataPoint data;
 	JFloat current = 0;
 	for (JSize i = 1; i <= count; i++)
 	{
-		itsData->GetElement(i, &data);
+		itsData->GetItem(i, &data);
 		JFloat fitY;
 		GetYValue(data.x, &fitY);
 		current += (fitY - data.y)*(fitY - data.y);
@@ -210,6 +210,6 @@ PlotFitFunction::GetDataElement
 		return false;
 	}
 	const J2DPlotDataBase* data = GetData();
-	data->GetElement(index, point);
+	data->GetItem(index, point);
 	return true;
 }

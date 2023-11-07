@@ -37,7 +37,7 @@ PlotFunctionDialog::PlotFunctionDialog
 {
 	BuildWindow();
 
-	for (JIndex i = 1; i <= list->GetElementCount(); i++)
+	for (JIndex i = 1; i <= list->GetItemCount(); i++)
 	{
 		itsVarMenu->AppendItem(list->GetVariableName(i));
 	}

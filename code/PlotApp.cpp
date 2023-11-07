@@ -171,10 +171,10 @@ PlotApp::ReloadImportModules()
 	itsImportPathIndex->RemoveAll();
 	JDirInfo* info;
 
-	const JSize count = itsModulePath->GetElementCount();
+	const JSize count = itsModulePath->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		JString path = *(itsModulePath->GetElement(i)) + kImportSubPath;
+		JString path = *(itsModulePath->GetItem(i)) + kImportSubPath;
 		if (JDirInfo::Create(path, &info))
 		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -184,7 +184,7 @@ PlotApp::ReloadImportModules()
 				{
 					auto* str = jnew JString(entry.GetName());
 					itsImportModules->Append(str);
-					itsImportPathIndex->AppendElement(i);
+					itsImportPathIndex->AppendItem(i);
 				}
 			}
 			jdelete info;
@@ -206,9 +206,9 @@ PlotApp::GetImportModulePath
 {
 	assert (itsImportModules->IndexValid(index));
 
-	JIndex mIndex = itsImportPathIndex->GetElement(index);
-	*path = *(itsModulePath->GetElement(mIndex)) + kImportSubPath +
-				*(itsImportModules->GetElement(index));
+	JIndex mIndex = itsImportPathIndex->GetItem(index);
+	*path = *(itsModulePath->GetItem(mIndex)) + kImportSubPath +
+				*(itsImportModules->GetItem(index));
 	return true;
 /*
 	if (foundFileImpDir)
@@ -217,7 +217,7 @@ PlotApp::GetImportModulePath
 
 		JString str = itsFileImpDir->GetCWD();
 		JAppendDirSeparator(&str);
-		str += *(itsFileImpProgs->GetElement(index));
+		str += *(itsFileImpProgs->GetItem(index));
 		*path = str;
 		return true;
 	}
@@ -362,10 +362,10 @@ PlotApp::ReloadDataModules()
 	itsDataPathIndex->RemoveAll();
 	JDirInfo* info;
 
-	const JSize count = itsModulePath->GetElementCount();
+	const JSize count = itsModulePath->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		JString path = *(itsModulePath->GetElement(i)) + kDataSubPath;
+		JString path = *(itsModulePath->GetItem(i)) + kDataSubPath;
 		if (JDirInfo::Create(path, &info))
 		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -375,7 +375,7 @@ PlotApp::ReloadDataModules()
 				{
 					auto* str = jnew JString(entry.GetName());
 					itsDataModules->Append(str);
-					itsDataPathIndex->AppendElement(i);
+					itsDataPathIndex->AppendItem(i);
 				}
 			}
 			jdelete info;
@@ -397,9 +397,9 @@ PlotApp::GetDataModulePath
 {
 	assert (itsDataModules->IndexValid(index));
 
-	JIndex mIndex = itsDataPathIndex->GetElement(index);
-	*path = *(itsModulePath->GetElement(mIndex)) + kDataSubPath +
-				*(itsDataModules->GetElement(index));
+	JIndex mIndex = itsDataPathIndex->GetItem(index);
+	*path = *(itsModulePath->GetItem(mIndex)) + kDataSubPath +
+				*(itsDataModules->GetItem(index));
 	return true;
 
 }
@@ -427,10 +427,10 @@ PlotApp::ReloadCursorModules()
 	itsCursorPathIndex->RemoveAll();
 	JDirInfo* info;
 
-	const JSize count = itsModulePath->GetElementCount();
+	const JSize count = itsModulePath->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		JString path = *(itsModulePath->GetElement(i)) + kCursorSubPath;
+		JString path = *(itsModulePath->GetItem(i)) + kCursorSubPath;
 		if (JDirInfo::Create(path, &info))
 		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -440,7 +440,7 @@ PlotApp::ReloadCursorModules()
 				{
 					auto* str = jnew JString(entry.GetName());
 					itsCursorModules->Append(str);
-					itsCursorPathIndex->AppendElement(i);
+					itsCursorPathIndex->AppendItem(i);
 				}
 			}
 			jdelete info;
@@ -462,9 +462,9 @@ PlotApp::GetCursorModulePath
 {
 	assert (itsCursorModules->IndexValid(index));
 
-	JIndex mIndex = itsCursorPathIndex->GetElement(index);
-	*path = *(itsModulePath->GetElement(mIndex)) + kCursorSubPath +
-				*(itsCursorModules->GetElement(index));
+	JIndex mIndex = itsCursorPathIndex->GetItem(index);
+	*path = *(itsModulePath->GetItem(mIndex)) + kCursorSubPath +
+				*(itsCursorModules->GetItem(index));
 	return true;
 
 }
@@ -492,10 +492,10 @@ PlotApp::ReloadExportModules()
 	itsExportPathIndex->RemoveAll();
 	JDirInfo* info;
 
-	const JSize count = itsModulePath->GetElementCount();
+	const JSize count = itsModulePath->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		JString path = *(itsModulePath->GetElement(i)) + kExportSubPath;
+		JString path = *(itsModulePath->GetItem(i)) + kExportSubPath;
 		if (JDirInfo::Create(path, &info))
 		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -505,7 +505,7 @@ PlotApp::ReloadExportModules()
 				{
 					auto* str = jnew JString(entry.GetName());
 					itsExportModules->Append(str);
-					itsExportPathIndex->AppendElement(i);
+					itsExportPathIndex->AppendItem(i);
 				}
 			}
 			jdelete info;
@@ -527,9 +527,9 @@ PlotApp::GetExportModulePath
 {
 	assert (itsExportModules->IndexValid(index));
 
-	JIndex mIndex = itsExportPathIndex->GetElement(index);
-	*path = *(itsModulePath->GetElement(mIndex)) + kExportSubPath +
-				*(itsExportModules->GetElement(index));
+	JIndex mIndex = itsExportPathIndex->GetItem(index);
+	*path = *(itsModulePath->GetItem(mIndex)) + kExportSubPath +
+				*(itsExportModules->GetItem(index));
 	return true;
 
 }
@@ -557,10 +557,10 @@ PlotApp::ReloadFitModules()
 	itsFitPathIndex->RemoveAll();
 	JDirInfo* info;
 
-	const JSize count = itsModulePath->GetElementCount();
+	const JSize count = itsModulePath->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		JString path = *(itsModulePath->GetElement(i)) + kFitSubPath;
+		JString path = *(itsModulePath->GetItem(i)) + kFitSubPath;
 		if (JDirInfo::Create(path, &info))
 		{
 			for (JSize j = 1; j <= info->GetEntryCount(); j++)
@@ -570,7 +570,7 @@ PlotApp::ReloadFitModules()
 				{
 					auto* str = jnew JString(entry.GetName());
 					itsFitModules->Append(str);
-					itsFitPathIndex->AppendElement(i);
+					itsFitPathIndex->AppendItem(i);
 				}
 			}
 			jdelete info;
@@ -592,9 +592,9 @@ PlotApp::GetFitModulePath
 {
 	assert (itsFitModules->IndexValid(index));
 
-	JIndex mIndex = itsFitPathIndex->GetElement(index);
-	*path = *(itsModulePath->GetElement(mIndex)) + kFitSubPath +
-				*(itsFitModules->GetElement(index));
+	JIndex mIndex = itsFitPathIndex->GetItem(index);
+	*path = *(itsModulePath->GetItem(mIndex)) + kFitSubPath +
+				*(itsFitModules->GetItem(index));
 	return true;
 
 }

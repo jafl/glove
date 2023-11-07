@@ -47,18 +47,18 @@ VarList::VarList
 
 	*itsValues	= *(list.itsValues);
 
-	const JSize ncount	= list.itsNames->GetElementCount();
+	const JSize ncount	= list.itsNames->GetItemCount();
 	for (JIndex i = 1; i <= ncount; i++)
 	{
-		JString* str = jnew JString(*(list.itsNames->GetElement(i)));
+		JString* str = jnew JString(*(list.itsNames->GetItem(i)));
 		assert(str != nullptr);
 		itsNames->Append(str);
 	}
 
-	const JSize acount	= list.itsArrays->GetElementCount();
+	const JSize acount	= list.itsArrays->GetItemCount();
 	for (JIndex i = 1; i <= acount; i++)
 	{
-		JArray<JFloat>* array = list.itsArrays->GetElement(i);
+		JArray<JFloat>* array = list.itsArrays->GetItem(i);
 		if (array != nullptr)
 		{
 			array	= jnew JArray<JFloat>(*array);
@@ -113,7 +113,7 @@ VarList::VarList
 				{
 					JFloat value;
 					input >> value;
-					values.AppendElement(value);
+					values.AppendItem(value);
 				}
 				AddArray(name, values);
 			}
@@ -180,8 +180,8 @@ VarList::AddVariable
 	{
 		JString* varName = jnew JString(name);
 		itsNames->Append(varName);
-		itsValues->AppendElement(value);
-		itsArrays->AppendElement(static_cast<GNArray*>(nullptr));
+		itsValues->AppendItem(value);
+		itsArrays->AppendItem(static_cast<GNArray*>(nullptr));
 		return true;
 	}
 	else
@@ -202,10 +202,10 @@ VarList::RemoveVariable
 	const JIndex index
 	)
 {
-	assert(index <= itsNames->GetElementCount());
-	itsNames->DeleteElement(index);
-	itsValues->RemoveElement(index);
-	itsArrays->RemoveElement(index);
+	assert(index <= itsNames->GetItemCount());
+	itsNames->DeleteItem(index);
+	itsValues->RemoveItem(index);
+	itsArrays->RemoveItem(index);
 }
 
 
@@ -225,9 +225,9 @@ VarList::AddArray
 	{
 		JString* varName = jnew JString(name);
 		itsNames->Append(varName);
-		itsValues->AppendElement(0.0);
+		itsValues->AppendItem(0.0);
 		GNArray* newArray = jnew GNArray(values);
-		itsArrays->AppendElement(newArray);
+		itsArrays->AppendItem(newArray);
 		return true;
 	}
 	else
@@ -250,10 +250,10 @@ VarList::SetValue
 {
 	if (IsVariable(index))
 	{
-		const JFloat oldValue = itsValues->GetElement(index);
+		const JFloat oldValue = itsValues->GetItem(index);
 		if (value != oldValue)
 		{
-			itsValues->SetElement(index, value);
+			itsValues->SetItem(index, value);
 			Broadcast(JVariableList::VarValueChanged(index,1));
 		}
 		return true;
@@ -273,18 +273,18 @@ void
 VarList::SetNumericValue
 	(
 	const JIndex	variableIndex,
-	const JIndex	elementIndex,
+	const JIndex	itemIndex,
 	const JFloat	value
 	)
 {
 	if (IsArray(variableIndex))
 	{
-		GNArray* values = itsArrays->GetElement(variableIndex);
-		const JFloat oldValue = values->GetElement(elementIndex);
+		GNArray* values = itsArrays->GetItem(variableIndex);
+		const JFloat oldValue = values->GetItem(itemIndex);
 		if (value != oldValue)
 		{
-			values->SetElement(elementIndex, value);
-			Broadcast(JVariableList::VarValueChanged(variableIndex,elementIndex));
+			values->SetItem(itemIndex, value);
+			Broadcast(JVariableList::VarValueChanged(variableIndex,itemIndex));
 		}
 	}
 	else
@@ -297,7 +297,7 @@ void
 VarList::SetNumericValue
 	(
 	const JIndex	variableIndex,
-	const JIndex	elementIndex,
+	const JIndex	itemIndex,
 	const JComplex& value
 	)
 {
@@ -322,7 +322,7 @@ VarList::GetVariableName
 	)
 	const
 {
-	return *(itsNames->GetElement(index));
+	return *(itsNames->GetItem(index));
 }
 
 void
@@ -335,15 +335,15 @@ VarList::GetVariableName
 	const
 {
 	JPtrArray<JString> s(JPtrArrayT::kDeleteAll);
-	itsNames->GetElement(index)->Split("_", &s, 2);
-	if (s.GetElementCount() == 2)
+	itsNames->GetItem(index)->Split("_", &s, 2);
+	if (s.GetItemCount() == 2)
 	{
-		*name = *s.GetElement(1);
-		*subscript = *s.GetElement(2);
+		*name = *s.GetItem(1);
+		*subscript = *s.GetItem(2);
 	}
 	else
 	{
-		*name = *s.GetElement(1);
+		*name = *s.GetItem(1);
 		subscript->Clear();
 	}
 }
@@ -372,7 +372,7 @@ VarList::SetVariableName
 	}
 	else
 	{
-		JString* varName = itsNames->GetElement(varIndex);
+		JString* varName = itsNames->GetItem(varIndex);
 		*varName = str;
 		Broadcast(VarNameChanged(varIndex));
 		return true;
@@ -391,7 +391,7 @@ VarList::IsArray
 	)
 	const
 {
-	return itsArrays->GetElement(index) != nullptr;
+	return itsArrays->GetItem(index) != nullptr;
 }
 
 /******************************************************************************
@@ -403,13 +403,13 @@ bool
 VarList::ArrayIndexValid
 	(
 	const JIndex variableIndex,
-	const JIndex elementIndex
+	const JIndex itemIndex
 	)
 	const
 {
-	return elementIndex == 1 ||
+	return itemIndex == 1 ||
 			(IsArray(variableIndex) &&
-			 (itsArrays->GetElement(variableIndex))->IndexValid(elementIndex));
+			 (itsArrays->GetItem(variableIndex))->IndexValid(itemIndex));
 }
 
 /******************************************************************************
@@ -421,20 +421,20 @@ bool
 VarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
-	const JIndex	elementIndex,
+	const JIndex	itemIndex,
 	JFloat*			value
 	)
 	const
 {
-	GNArray* values = itsArrays->GetElement(variableIndex);
-	if (values == nullptr && elementIndex == 1)
+	GNArray* values = itsArrays->GetItem(variableIndex);
+	if (values == nullptr && itemIndex == 1)
 	{
-		*value = itsValues->GetElement(variableIndex);
+		*value = itsValues->GetItem(variableIndex);
 		return true;
 	}
-	else if (values != nullptr && values->IndexValid(elementIndex))
+	else if (values != nullptr && values->IndexValid(itemIndex))
 	{
-		*value = values->GetElement(elementIndex);
+		*value = values->GetItem(itemIndex);
 		return true;
 	}
 	else
@@ -447,13 +447,13 @@ bool
 VarList::GetNumericValue
 	(
 	const JIndex	variableIndex,
-	const JIndex	elementIndex,
+	const JIndex	itemIndex,
 	JComplex*		value
 	)
 	const
 {
 	JFloat x;
-	if (GetNumericValue(variableIndex, elementIndex, &x))
+	if (GetNumericValue(variableIndex, itemIndex, &x))
 	{
 		*value = x;
 		return true;
@@ -473,5 +473,5 @@ JSize
 VarList::GetVariableCount()
 	const
 {
-	return itsValues->GetElementCount();
+	return itsValues->GetItemCount();
 }

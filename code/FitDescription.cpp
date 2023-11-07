@@ -82,7 +82,7 @@ FitDescription::Create
 		*fd	= nfd;
 		for (JIndex i = 1; i <= count; i++)
 		{
-			(*fd)->itsVarList->AddVariable(*(vars.GetElement(i)), 0);
+			(*fd)->itsVarList->AddVariable(*(vars.GetItem(i)), 0);
 		}
 		(*fd)->SetParameterCount(count);
 	}

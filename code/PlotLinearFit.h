@@ -28,7 +28,7 @@ public:
 					const bool xlog = false, const bool ylog = false);
 	~PlotLinearFit() override;
 
-//	virtual void	 GetElement(const JIndex index, J2DDataPoint* data) const;
+//	virtual void	 GetItem(const JIndex index, J2DDataPoint* data) const;
 	bool	GetYRange(const JFloat xMin, const JFloat xMax,
 					  const bool xLinear,
 					  JFloat* yMin, JFloat* yMax) const override;

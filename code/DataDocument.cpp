@@ -590,7 +590,7 @@ DataDocument::ChooseFileFilter()
 						keepGoing = false;
 						break;
 					}
-					itsData->AppendElement(i, value);
+					itsData->AppendItem(i, value);
 					keepGoing = pg.IncrementProgress();
 				}
 			}
@@ -617,7 +617,7 @@ DataDocument::ChooseFileFilter()
 						keepGoing = false;
 						break;
 					}
-					itsData->AppendElement(colIndex, value);
+					itsData->AppendItem(colIndex, value);
 
 					keepGoing = pg.IncrementProgress();
 				}
@@ -667,7 +667,7 @@ DataDocument::CreateNewPlot
 	assert( plot != nullptr );
 	ListenTo(plot);
 
-	AddToPlot(itsPlotWindows->GetElementCount(), type, xCol, x2Col, yCol, y2Col, linked, label);
+	AddToPlot(itsPlotWindows->GetItemCount(), type, xCol, x2Col, yCol, y2Col, linked, label);
 
 	plot->SetTitle(str);
 }
@@ -693,7 +693,7 @@ DataDocument::AddToPlot
 {
 	assert( itsPlotWindows->IndexValid(plotIndex) );
 
-	PlotDir* plotDir = itsPlotWindows->GetElement(plotIndex);
+	PlotDir* plotDir = itsPlotWindows->GetItem(plotIndex);
 	assert (plotDir != nullptr);
 
 	JX2DPlotWidget* plot = plotDir->GetPlot();
@@ -751,11 +751,11 @@ DataDocument::GetPlotNames
 {
 	JString* name;
 
-	const JIndex index = itsPlotWindows->GetElementCount();
+	const JIndex index = itsPlotWindows->GetItemCount();
 
 	for (JIndex i = 1; i <= index; i++)
 	{
-		PlotDir* plotDir = itsPlotWindows->GetElement(i);
+		PlotDir* plotDir = itsPlotWindows->GetItem(i);
 		assert (plotDir != nullptr);
 
 		JX2DPlotWidget* plot = plotDir->GetPlot();
@@ -808,12 +808,12 @@ DataDocument::WriteTextFile
 	output << kCurrentGloveVersion << std::endl;
 	itsTable->WriteData(output);
 
-	JSize plotCount = itsPlotWindows->GetElementCount();
+	JSize plotCount = itsPlotWindows->GetItemCount();
 	output << plotCount << " ";
 
 	for (JSize i = 1; i <= plotCount; i++)
 	{
-		PlotDir* plotDir = itsPlotWindows->GetElement(i);
+		PlotDir* plotDir = itsPlotWindows->GetItem(i);
 		assert (plotDir != nullptr);
 		plotDir->WriteSetup(output);
 		plotDir->WriteData(output, itsData);
@@ -1112,7 +1112,7 @@ DataDocument::LoadDelimitedFile
 					break;
 				}
 
-				itsData->SetElement(row, col, value);
+				itsData->SetItem(row, col, value);
 				col++;
 			}
 		}
@@ -1125,7 +1125,7 @@ DataDocument::LoadDelimitedFile
 				JFloat value;
 				if (strVal.ConvertToFloat(&value))
 				{
-					itsData->SetElement(row, col, value);
+					itsData->SetItem(row, col, value);
 				}
 				col++;
 			}

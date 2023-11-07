@@ -143,10 +143,10 @@ ChooseFileImportDialog::BuildWindow
 		}
 
 		JPtrArray<JString>* names = GetApplication()->GetImportModules();
-		const JSize strCount = names->GetElementCount();
+		const JSize strCount = names->GetItemCount();
 		for (JSize i = 1; i <= strCount; i++)
 		{
-			itsFilterMenu->AppendItem(*(names->GetElement(i)));
+			itsFilterMenu->AppendItem(*(names->GetItem(i)));
 		}
 		itsFilterIndex = 1;
 		itsFilterMenu->SetToPopupChoice(true, itsFilterIndex);

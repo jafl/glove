@@ -32,9 +32,9 @@ NonLinearFitDescription::NonLinearFitDescription
 {
 	DoesRequireStartValues(true);
 
-	JSize count		= vars.GetElementCount();
+	JSize count		= vars.GetItemCount();
 	JIndex offset	= 0;
-	if (count > 1 && *(vars.GetElement(1)) == JGetString("DefaultVarName::global"))
+	if (count > 1 && *(vars.GetItem(1)) == JGetString("DefaultVarName::global"))
 	{
 		offset = 1;
 		count--;
@@ -42,7 +42,7 @@ NonLinearFitDescription::NonLinearFitDescription
 	SetParameterCount(count);
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JString var	= *(vars.GetElement(i + offset));
+		JString var	= *(vars.GetItem(i + offset));
 		GetVarList()->AddVariable(var, 0);
 	}
 }

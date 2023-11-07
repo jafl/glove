@@ -305,14 +305,14 @@ RaggedFloatTable::TableDrawCell
 		p.SetFont(JFontManager::GetDefaultFont());
 
 /* Original code that used the string buffer */
-//		if (itsFloatBufferData->GetElement(cell, &str))
+//		if (itsFloatBufferData->GetItem(cell, &str))
 //			{
 //			JRect r = rect;
 //			r.left += kHMarginWidth;
 //			p.String(r, str, JPainter::HAlign::kRight, JPainter::VAlign::kCenter);
 //			}
 		JFloat value;
-		if (itsFloatData->GetElement(cell, &value))
+		if (itsFloatData->GetItem(cell, &value))
 		{
 			JRect r = rect;
 			r.left += kHMarginWidth;
@@ -560,7 +560,7 @@ RaggedFloatTable::CreateXInputField
 		jnew JXFloatInput(this, kFixedLeft, kFixedTop, x,y, w,h);
 
 	JFloat value;
-	if (itsFloatData->GetElement(cell, &value))
+	if (itsFloatData->GetItem(cell, &value))
 	{
 		itsFloatInputField->SetValue(value);
 	}
@@ -593,10 +593,10 @@ RaggedFloatTable::ExtractInputData
 
 		// save old value for undo
 		JFloat oldvalue;
-		bool exists = itsFloatData->GetElement(cell, &oldvalue);
+		bool exists = itsFloatData->GetItem(cell, &oldvalue);
 
 		// set to new value
-		itsFloatData->SetElement(cell, value);
+		itsFloatData->SetItem(cell, value);
 
 		// create and install undo object with old value
 		if (exists)
@@ -883,17 +883,17 @@ RaggedFloatTable::Receive
 	const Message&	message
 	)
 {
-	if (sender == itsFloatData && message.Is(RaggedFloatTableData::kElementRemoved))
+	if (sender == itsFloatData && message.Is(RaggedFloatTableData::kItemRemoved))
 	{
 		const auto* info =
-			dynamic_cast<const RaggedFloatTableData::ElementRemoved*>(&message);
+			dynamic_cast<const RaggedFloatTableData::ItemRemoved*>(&message);
 		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
 	}
-	else if (sender == itsFloatData && message.Is(RaggedFloatTableData::kElementInserted))
+	else if (sender == itsFloatData && message.Is(RaggedFloatTableData::kItemInserted))
 	{
 		const auto* info =
-			dynamic_cast<const RaggedFloatTableData::ElementRemoved*>(&message);
+			dynamic_cast<const RaggedFloatTableData::ItemRemoved*>(&message);
 		assert( info != nullptr );
 		TableRefreshCol(info->GetCol());
 	}
@@ -1017,10 +1017,10 @@ RaggedFloatTable::UpdateEditMenu()
 	JArray<Atom> typeList;
 	if (selManager->GetAvailableTypes(kJXClipboardName, window, &typeList))
 	{
-		const JSize typeCount = typeList.GetElementCount();
+		const JSize typeCount = typeList.GetItemCount();
 		for (JIndex i=1; i<=typeCount; i++)
 		{
-			Atom type = typeList.GetElement(i);
+			Atom type = typeList.GetItem(i);
 			if (type == itsGloveTextXAtom)
 			{
 				hasGloveData = true;
@@ -1090,7 +1090,7 @@ RaggedFloatTable::HandleCopyCmd()
 		for (JIndex col = startCol; col < startCol + cols; col++)
 		{
 			JFloat value;
-			if (itsFloatData->GetElement(row, col, &value))
+			if (itsFloatData->GetItem(row, col, &value))
 			{
 				os << value;
 			}
@@ -1122,7 +1122,7 @@ RaggedFloatTable::HandleCopyCmd()
 		for (JIndex row = startRow; row < startRow + rows; row++)
 		{
 			JFloat value;
-			if (itsFloatData->GetElement(row, i, &value))
+			if (itsFloatData->GetItem(row, i, &value))
 			{
 				os2 << value << " ";
 			}
@@ -1153,10 +1153,10 @@ RaggedFloatTable::HandlePasteCmd()
 					CurrentTime, &typeList))
 	{
 
-		const JSize typeCount = typeList.GetElementCount();
+		const JSize typeCount = typeList.GetItemCount();
 		for (JIndex i=1; i<=typeCount; i++)
 		{
-			Atom type = typeList.GetElement(i);
+			Atom type = typeList.GetItem(i);
 			if (type == itsGloveTextXAtom)
 			{
 				hasGloveData = true;
@@ -1198,7 +1198,7 @@ RaggedFloatTable::HandlePasteCmd()
 
 			JSize realrowcount;
 			bool ok = false;
-			if ((type1 == kElementsSelected) &&
+			if ((type1 == kItemsSelected) &&
 				(cols1 == 1) &&
 				((rows1 == 1) || (rows == rows1) ))
 			{
@@ -1217,11 +1217,11 @@ RaggedFloatTable::HandlePasteCmd()
 						is >> value;
 						JPoint cell(startCol, startRow);
 						JFloat oldvalue;
-						if (itsFloatData->GetElement(cell, &oldvalue))
+						if (itsFloatData->GetItem(cell, &oldvalue))
 						{
 							auto* undo =
 								jnew UndoElementChange(this, cell, oldvalue);
-							itsFloatData->SetElement(cell, value);
+							itsFloatData->SetItem(cell, value);
 							NewUndo(undo);
 						}
 						else
@@ -1261,7 +1261,7 @@ RaggedFloatTable::HandlePasteCmd()
 						for (JIndex row = startRow; row <= startRow + rows1 - 1; row++)
 						{
 							is >> value;
-							itsFloatData->SetElement(row,col, value);
+							itsFloatData->SetItem(row,col, value);
 						}
 					}
 				}
@@ -1269,7 +1269,7 @@ RaggedFloatTable::HandlePasteCmd()
 
 			else if (type1 == kNoneSelected ||
 				type1 == kRowsSelected ||
-				type1 == kElementsSelected)
+				type1 == kItemsSelected)
 			{
 				const JSize count = itsFloatData->GetDataColCount() + 1;
 				auto* undo =
@@ -1284,7 +1284,7 @@ RaggedFloatTable::HandlePasteCmd()
 					for (JSize j = 1; j <= rows; j++)
 					{
 						is >> value;
-						itsFloatData->SetElement(j, i+count-1, value);
+						itsFloatData->SetItem(j, i+count-1, value);
 					}
 				}
 			}
@@ -1305,7 +1305,7 @@ RaggedFloatTable::HandlePasteCmd()
 						is >> value;
 						if (is.good())
 						{
-							itsFloatData->SetElement(j, i+startCol-1, value);
+							itsFloatData->SetItem(j, i+startCol-1, value);
 						}
 					}
 				}
@@ -1334,10 +1334,10 @@ RaggedFloatTable::HandleSpecialPasteCmd()
 					CurrentTime, &typeList))
 	{
 
-		const JSize typeCount = typeList.GetElementCount();
+		const JSize typeCount = typeList.GetItemCount();
 		for (JIndex i=1; i<=typeCount; i++)
 		{
-			Atom type = typeList.GetElement(i);
+			Atom type = typeList.GetItem(i);
 			if (type == itsGloveTextXAtom)
 			{
 				hasGloveData = true;
@@ -1400,7 +1400,7 @@ RaggedFloatTable::HandleSpecialPasteCmd()
 				}
 			}
 
-			else if (type1 == kElementsSelected)
+			else if (type1 == kItemsSelected)
 			{
 				if (cols == cols1)
 				{
@@ -1432,7 +1432,7 @@ RaggedFloatTable::HandleSpecialPasteCmd()
 						is >> value;
 						if (is.good())
 						{
-							itsFloatData->SetElement(j, i+startCol-1, value);
+							itsFloatData->SetItem(j, i+startCol-1, value);
 						}
 					}
 				}
@@ -1499,7 +1499,7 @@ RaggedFloatTable::HandleInsertion
 		itsFloatData->InsertCols(startCol, cols);
 	}
 
-	else if (type == kElementsSelected)
+	else if (type == kItemsSelected)
 	{
 		if (cols == 1 && rows == 1 && undo)
 		{
@@ -1553,7 +1553,7 @@ RaggedFloatTable::HandleDuplication()
 	GetSelectionArea(&rows, &cols, &startRow, &startCol);
 	HandleInsertion();
 
-	if ( (type == kRowsSelected) || (type == kElementsSelected) )
+	if ( (type == kRowsSelected) || (type == kItemsSelected) )
 	{
 //		if ((cols == 1) && (rows == 1))
 //			{
@@ -1568,9 +1568,9 @@ RaggedFloatTable::HandleDuplication()
 			for (JIndex row = startRow; row < startRow + rows; row++)
 			{
 				JFloat value;
-				if (itsFloatData->GetElement(row+rows, col, &value))
+				if (itsFloatData->GetItem(row+rows, col, &value))
 				{
-					itsFloatData->SetElement(row,col, value);
+					itsFloatData->SetItem(row,col, value);
 				}
 			}
 		}
@@ -1583,9 +1583,9 @@ RaggedFloatTable::HandleDuplication()
 			for (JIndex row = startRow; row < startRow + rows; row++)
 			{
 				JFloat value;
-				if (itsFloatData->GetElement(row, col+cols, &value))
+				if (itsFloatData->GetItem(row, col+cols, &value))
 				{
-					itsFloatData->SetElement(row,col, value);
+					itsFloatData->SetItem(row,col, value);
 				}
 			}
 		}
@@ -1653,14 +1653,14 @@ RaggedFloatTable::HandleDeletion()
 		}
 	}
 
-	else if (type == kElementsSelected)
+	else if (type == kItemsSelected)
 	{
 		// special case if just one cell - use special undo
 		if ((cols == 1) && (rows == 1))
 		{
 			JPoint cell(startCol, startRow);
 			JFloat value;
-			if (itsFloatData->GetElement(cell, &value))
+			if (itsFloatData->GetItem(cell, &value))
 			{
 				auto* undo =
 					jnew UndoElementCut(this, cell, value);
@@ -1682,7 +1682,7 @@ RaggedFloatTable::HandleDeletion()
 			{
 				if (itsFloatData->CellValid(startRow,col))
 				{
-					itsFloatData->RemoveElement(startRow,col);
+					itsFloatData->RemoveItem(startRow,col);
 				}
 			}
 		}
@@ -1740,7 +1740,7 @@ RaggedFloatTable::GetSelectionType()
 
 			if (cell.x != 1)
 			{
-				return kElementsSelected;
+				return kitemsselected;
 			}
 
 			const JSize colCount = GetColCount();
@@ -1762,7 +1762,7 @@ RaggedFloatTable::GetSelectionType()
 
 			else
 			{
-				return kElementsSelected;
+				return kitemsselected;
 			}
 		}
 
@@ -1787,14 +1787,14 @@ RaggedFloatTable::GetSelectionType()
 
 			else
 			{
-				return kElementsSelected;
+				return kitemsselected;
 			}
 
 		}
 
 		else
 		{
-			return kElementsSelected;
+			return kitemsselected;
 		}
 	}
 
@@ -1950,9 +1950,9 @@ RaggedFloatTable::UpdateModuleMenu()
 
 	GetApplication()->ReloadDataModules();
 	JPtrArray<JString>* names = GetApplication()->GetDataModules();
-	for (i = 1; i <= names->GetElementCount(); i++)
+	for (i = 1; i <= names->GetItemCount(); i++)
 	{
-		itsModuleMenu->AppendItem(*(names->GetElement(i)));
+		itsModuleMenu->AppendItem(*(names->GetItem(i)));
 	}
 }
 
@@ -2122,7 +2122,7 @@ RaggedFloatTable::GetNewColByRange()
 
 		for (JInteger i = 1; i <= count; i++)
 		{
-			itsFloatData->SetElement(i, dest, beg + inc*(i-1));
+			itsFloatData->SetItem(i, dest, beg + inc*(i-1));
 		}
 	}
 }
@@ -2176,7 +2176,7 @@ RaggedFloatTable::GetNewColByInc()
 
 		for (JInteger i = 1; i <= count; i++)
 		{
-			itsFloatData->SetElement(i, dest, beg + inc*(i-1));
+			itsFloatData->SetItem(i, dest, beg + inc*(i-1));
 		}
 	}
 }
@@ -2204,7 +2204,7 @@ RaggedFloatTable::WriteData
 		for (JSize j = 1; j <= rowCount; j++)
 		{
 			JFloat value;
-			itsFloatData->GetElement(j, i, &value);
+			itsFloatData->GetItem(j, i, &value);
 			os << value << ' ';
 		}
 	}
@@ -2243,7 +2243,7 @@ RaggedFloatTable::ReadData
 		{
 			JFloat value;
 			is >> value;
-			itsFloatData->SetElement(j, i, value);
+			itsFloatData->SetItem(j, i, value);
 		}
 	}
 
@@ -2317,7 +2317,7 @@ RaggedFloatTable::ChooseNewTransformFunction()
 	JArray<JFloat>* ar = jnew JArray<JFloat>;
 	for (JSize i = 1; i < count; i++)
 	{
-		ar->AppendElement(0);
+		ar->AppendItem(0);
 	}
 	xformVarList.AddArray(JString("col", JString::kNoCopy), *ar);
 
@@ -2355,7 +2355,7 @@ RaggedFloatTable::ChooseNewTransformFunction()
 			return;
 		}
 
-		const JSize indCount = inds.GetElementCount();
+		const JSize indCount = inds.GetItemCount();
 		if (indCount == 0)
 		{
 			JGetUserNotification()->ReportError(JGetString("GenerateIfNoTransform::RaggedFloatTable"));
@@ -2363,10 +2363,10 @@ RaggedFloatTable::ChooseNewTransformFunction()
 			return;
 		}
 
-		JSize minRowCount = itsFloatData->GetDataRowCount(inds.GetElement(1));
+		JSize minRowCount = itsFloatData->GetDataRowCount(inds.GetItem(1));
 		for (JIndex i = 2; i <= indCount; i++)
 		{
-			const JSize rowCount = itsFloatData->GetDataRowCount(inds.GetElement(i));
+			const JSize rowCount = itsFloatData->GetDataRowCount(inds.GetItem(i));
 			if (rowCount < minRowCount)
 			{
 				minRowCount = rowCount;
@@ -2378,12 +2378,12 @@ RaggedFloatTable::ChooseNewTransformFunction()
 			for (const JIndex c : inds)
 			{
 				JFloat value;
-				itsFloatData->GetElement(r, c, &value);
+				itsFloatData->GetItem(r, c, &value);
 				xformVarList.SetNumericValue(1, c, value);
 			}
 			JFloat value;
 			f->Evaluate(&value);
-			newArray.AppendElement(value);
+			newArray.AppendItem(value);
 		}
 
 		if (replace)
@@ -2470,7 +2470,7 @@ RaggedFloatTable::WriteDataCols
 		for (JIndex col = startCol; col < startCol + ncols; col++)
 		{
 			JFloat value;
-			if (itsFloatData->GetElement(row, col, &value))
+			if (itsFloatData->GetItem(row, col, &value))
 			{
 				os << value;
 			}
@@ -2504,7 +2504,7 @@ RaggedFloatTable::ExportDataMatrix
 		for (JSize j = 1; j <= colCount; j++)
 		{
 			JFloat value;
-			if (itsFloatData->GetElement(i, j, &value))
+			if (itsFloatData->GetItem(i, j, &value))
 			{
 				os << value << " ";
 			}
@@ -2536,7 +2536,7 @@ RaggedFloatTable::ExportData
 		for (JSize j = 1; j <= rowCount; j++)
 		{
 			JFloat value;
-			if (itsFloatData->GetElement(j, i, &value))
+			if (itsFloatData->GetItem(j, i, &value))
 			{
 				os << value << " ";
 			}
@@ -2668,7 +2668,7 @@ RaggedFloatTable::GetCurrentUndo
 {
 	if (HasUndo())
 	{
-		*undo = itsUndoList->GetElement(itsFirstRedoIndex - 1);
+		*undo = itsUndoList->GetItem(itsFirstRedoIndex - 1);
 		return true;
 	}
 	else
@@ -2691,7 +2691,7 @@ RaggedFloatTable::GetCurrentRedo
 {
 	if (HasRedo())
 	{
-		*redo = itsUndoList->GetElement(itsFirstRedoIndex);
+		*redo = itsUndoList->GetItem(itsFirstRedoIndex);
 		return true;
 	}
 	else
@@ -2721,7 +2721,7 @@ bool
 RaggedFloatTable::HasRedo()
 	const
 {
-	return itsFirstRedoIndex <= itsUndoList->GetElementCount();
+	return itsFirstRedoIndex <= itsUndoList->GetItemCount();
 }
 
 /******************************************************************************
@@ -2739,10 +2739,10 @@ RaggedFloatTable::NewUndo
 	{
 		// clear redo objects
 
-		const JSize undoCount = itsUndoList->GetElementCount();
+		const JSize undoCount = itsUndoList->GetItemCount();
 		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
 		{
-			itsUndoList->DeleteElement(i);
+			itsUndoList->DeleteItem(i);
 		}
 
 		// save the new object
@@ -2758,9 +2758,9 @@ RaggedFloatTable::NewUndo
 		assert( itsFirstRedoIndex > 1 );
 
 		itsFirstRedoIndex--;
-//		JUndo* oldUndo = itsUndoList->GetElement(itsFirstRedoIndex);
+//		JUndo* oldUndo = itsUndoList->GetItem(itsFirstRedoIndex);
 //		jdelete oldUndo;
-		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
+		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 
 		undo->SetRedo(true);
 		undo->Deactivate();
@@ -2768,11 +2768,11 @@ RaggedFloatTable::NewUndo
 
 	else if (itsUndoList != nullptr && itsUndoState == kRedo)
 	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetElementCount() );
+		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() );
 
-//		JUndo* oldRedo = itsUndoList->GetElement(itsFirstRedoIndex);
+//		JUndo* oldRedo = itsUndoList->GetItem(itsFirstRedoIndex);
 //		jdelete oldRedo;
-		itsUndoList->SetElement(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
+		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
 		itsFirstRedoIndex++;
 
 		undo->SetRedo(false);

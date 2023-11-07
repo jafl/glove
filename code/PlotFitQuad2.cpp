@@ -61,9 +61,9 @@ PlotFitQuad2::JPlotFitQuad2X()
 	itsFunctionName = "y = a + bx + cx^2";
 	CalculateFirstPass();
 	JVector p(3);
-	p.SetElement(1, itsAParameter);
-	p.SetElement(2, itsBParameter);
-	p.SetElement(3, itsCParameter);
+	p.SetItem(1, itsAParameter);
+	p.SetItem(2, itsBParameter);
+	p.SetItem(3, itsCParameter);
 	GenerateFit(p, itsChi2Start);
 }
 
@@ -237,7 +237,7 @@ PlotFitQuad2::CalculateFirstPass()
 		{
 			newVal = point.yerr;
 		}
-		yAdjError.AppendElement(newVal);
+		yAdjError.AppendItem(newVal);
 	}
 
 	JMatrix odata(rcount, 3, 1.0);
@@ -245,11 +245,11 @@ PlotFitQuad2::CalculateFirstPass()
 	for (JIndex i=1; i<= rcount; i++)
 	{
 		point = GetRealElement(i);
-		JFloat yerr = yAdjError.GetElement(i);
-		odata.SetElement(i, 1, 1/(yerr*yerr));
-		odata.SetElement(i, 2, point.x/(yerr*yerr));
-		odata.SetElement(i, 3, point.x*point.x/(yerr*yerr));
-		yData.SetElement(i, point.y/(yerr*yerr));
+		JFloat yerr = yAdjError.GetItem(i);
+		odata.SetItem(i, 1, 1/(yerr*yerr));
+		odata.SetItem(i, 2, point.x/(yerr*yerr));
+		odata.SetItem(i, 3, point.x*point.x/(yerr*yerr));
+		yData.SetItem(i, point.y/(yerr*yerr));
 	}
 	JMatrix tData = odata.Transpose();
 	JMatrix lData = tData * odata;
@@ -265,7 +265,7 @@ PlotFitQuad2::CalculateFirstPass()
 		for (JIndex i=1; i<= rcount; i++)
 		{
 			point = GetRealElement(i);
-			JFloat yerr = yAdjError.GetElement(i);
+			JFloat yerr = yAdjError.GetItem(i);
 			Y += point.y/(yerr*yerr);
 			X += point.x/(yerr*yerr);
 			X2 += point.x*point.x/(yerr*yerr);
@@ -279,13 +279,13 @@ PlotFitQuad2::CalculateFirstPass()
 		for (JIndex i=1; i<= rcount; i++)
 		{
 			point = GetRealElement(i);
-			JFloat syi = yAdjError.GetElement(i);
+			JFloat syi = yAdjError.GetItem(i);
 			JFloat yi = point.y;
 			JFloat xi = point.x;
 			for (JIndex j = 1; j <= rcount; j++)
 			{
 				point = GetRealElement(j);
-				JFloat syj = yAdjError.GetElement(j);
+				JFloat syj = yAdjError.GetItem(j);
 				JFloat yj = point.y;
 				JFloat xj = point.x;
 				cv1 += xi*xj*xj*(xi*yj-yi*xj)/(syi*syi*syj*syj);
@@ -307,21 +307,21 @@ PlotFitQuad2::CalculateFirstPass()
 			{
 				newVal = 1;
 			}
-			yAdjError.SetElement(i, newVal);
+			yAdjError.SetItem(i, newVal);
 		}
 	}
 //	itsAParameter	= tempa;
 //	itsBParameter	= tempb;
 //	itsCParameter	= tempc;
-	itsAParameter	= parms.GetElement(1, 1);
-	itsBParameter	= parms.GetElement(2, 1);
-	itsCParameter	= parms.GetElement(3, 1);
+	itsAParameter	= parms.GetItem(1, 1);
+	itsBParameter	= parms.GetItem(2, 1);
+	itsCParameter	= parms.GetItem(3, 1);
 
 	itsChi2Start = 0;
 	for (JIndex i=1; i<= rcount; i++)
 	{
 		point = GetRealElement(i);
-		JFloat yerr = yAdjError.GetElement(i);
+		JFloat yerr = yAdjError.GetItem(i);
 		itsChi2Start += pow(point.y - tempa - tempb*point.x - tempc*point.x*point.x,2)/(yerr*yerr);
 	}
 
@@ -369,9 +369,9 @@ PlotFitQuad2::SetCurrentParameters
 	const JVector& p
 	)
 {
-	itsAParameter	= p.GetElement(1);
-	itsBParameter	= p.GetElement(2);
-	itsCParameter	= p.GetElement(3);
+	itsAParameter	= p.GetItem(1);
+	itsBParameter	= p.GetItem(2);
+	itsCParameter	= p.GetItem(3);
 }
 
 /******************************************************************************
@@ -385,7 +385,7 @@ PlotFitQuad2::SetErrors
 	const JVector& p
 	)
 {
-	itsAErrParameter	= p.GetElement(1);
-	itsBErrParameter	= p.GetElement(2);
-	itsCErrParameter	= p.GetElement(3);
+	itsAErrParameter	= p.GetItem(1);
+	itsBErrParameter	= p.GetItem(2);
+	itsCErrParameter	= p.GetItem(3);
 }

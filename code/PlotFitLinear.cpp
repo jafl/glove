@@ -57,8 +57,8 @@ void
 PlotFitLinear::JPlotFitLinearX()
 {
 	JArray<JIndex> powers;
-	powers.AppendElement(0);
-	powers.AppendElement(1);
+	powers.AppendItem(0);
+	powers.AppendItem(1);
 	InitializePolynomial(powers);
 }
 

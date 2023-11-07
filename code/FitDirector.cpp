@@ -206,14 +206,14 @@ FitDirector::BuildWindow()
 		&FitDirector::HandleFitMenu);
 
 	JArray<JCoordinate> widths(2);
-	widths.AppendElement(155);
-	widths.AppendElement(300);
+	widths.AppendItem(155);
+	widths.AppendItem(300);
 
 	const JIndex elasticIndex = 2;
 
 	JArray<JCoordinate> minWidths(2);
-	minWidths.AppendElement(100);
-	minWidths.AppendElement(300);
+	minWidths.AppendItem(100);
+	minWidths.AppendItem(300);
 
 	itsMainPartition =
 		jnew JXHorizPartition(widths, elasticIndex, minWidths,
@@ -230,14 +230,14 @@ FitDirector::BuildWindow()
 	JXContainer* container = itsMainPartition->GetCompartment(1);
 
 	JArray<JCoordinate> heights(3);
-	heights.AppendElement(100);
-	heights.AppendElement(100);
-	heights.AppendElement(50);
+	heights.AppendItem(100);
+	heights.AppendItem(100);
+	heights.AppendItem(50);
 
 	JArray<JCoordinate> minHeights(3);
-	minHeights.AppendElement(50);
-	minHeights.AppendElement(100);
-	minHeights.AppendElement(40);
+	minHeights.AppendItem(50);
+	minHeights.AppendItem(100);
+	minHeights.AppendItem(40);
 
 	itsListPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
@@ -328,14 +328,14 @@ FitDirector::BuildWindow()
 	container = itsMainPartition->GetCompartment(2);
 
 	heights.RemoveAll();
-	heights.AppendElement(80);
-	heights.AppendElement(150);
-	heights.AppendElement(150);
+	heights.AppendItem(80);
+	heights.AppendItem(150);
+	heights.AppendItem(150);
 
 	minHeights.RemoveAll();
-	minHeights.AppendElement(70);
-	minHeights.AppendElement(100);
-	minHeights.AppendElement(100);
+	minHeights.AppendItem(70);
+	minHeights.AppendItem(100);
+	minHeights.AppendItem(100);
 
 	itsPlotPartition =
 		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
@@ -519,10 +519,10 @@ FitDirector::Receive
 		assert(ok);
 		FitDescription& fd	= GetFitManager()->GetFitDescription(index);
 		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
-		const JSize count	= parms.GetElementCount();
+		const JSize count	= parms.GetItemCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
-			fd.GetVarList()->SetValue(i + 1, parms.GetElement(i));
+			fd.GetVarList()->SetValue(i + 1, parms.GetItem(i));
 		}
 		GetWindow()->Refresh();
 	}
@@ -830,7 +830,7 @@ FitDirector::Fit()
 			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetElement(i, parms.GetElement(i));
+				p.SetItem(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -869,7 +869,7 @@ FitDirector::Fit()
 		const JSize count = p.GetDimensionCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
-			p.SetElement(i, parms.GetElement(i));
+			p.SetItem(i, parms.GetItem(i));
 		}
 		fit->SetInitialParameters(p);
 		itsCurrentFit = fit;
@@ -895,7 +895,7 @@ FitDirector::Fit()
 			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetElement(i, parms.GetElement(i));
+				p.SetItem(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -926,7 +926,7 @@ FitDirector::Fit()
 			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetElement(i, parms.GetElement(i));
+				p.SetItem(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -957,7 +957,7 @@ FitDirector::Fit()
 			const JSize count	= p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetElement(i, parms.GetElement(i));
+				p.SetItem(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -989,7 +989,7 @@ FitDirector::Fit()
 		const JSize count	= p.GetDimensionCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
-			p.SetElement(i, parms.GetElement(i));
+			p.SetItem(i, parms.GetItem(i));
 		}
 		fit->SetInitialParameters(p);
 		itsCurrentFit = fit;
@@ -1103,10 +1103,10 @@ FitDirector::TestFit()
 	assert(ok);
 	FitDescription& fd	= GetFitManager()->GetFitDescription(index);
 	const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
-	const JSize count = parms.GetElementCount();
+	const JSize count = parms.GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		fd.GetVarList()->SetValue(i + 1, parms.GetElement(i));
+		fd.GetVarList()->SetValue(i + 1, parms.GetItem(i));
 	}
 	JFloat xmin, xmax;
 	data->GetXRange(&xmin, &xmax);

@@ -88,7 +88,7 @@ UndoElementsInsert::Undo()
 			{
 				if (data->CellValid(start.y, i))
 				{
-					data->RemoveElement(start.y, i);
+					data->RemoveItem(start.y, i);
 				}
 			}
 		}

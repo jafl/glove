@@ -141,21 +141,21 @@ PlotExpFit::AdjustData()
 		itsXErrData->RemoveAll();
 	}
 	J2DDataPoint point;
-	const JSize count = data->GetElementCount();
+	const JSize count = data->GetItemCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		data->GetElement(i, &point);
+		data->GetItem(i, &point);
 		if (point.y > 0)
 		{
-			itsXData->AppendElement(point.x);
-			itsYData->AppendElement(log(point.y));
+			itsXData->AppendItem(point.x);
+			itsYData->AppendItem(log(point.y));
 			if (itsHasYErrors)
 			{
-				itsYErrData->AppendElement(log((point.y - point.yerr)/point.y));
+				itsYErrData->AppendItem(log((point.y - point.yerr)/point.y));
 			}
 			if (itsHasXErrors)
 			{
-				itsXErrData->AppendElement(point.xerr);
+				itsXErrData->AppendItem(point.xerr);
 			}
 		}
 	}
@@ -247,11 +247,11 @@ PlotExpFit::AdjustDiffData()
 	J2DPlotDataBase* pwd = GetDiffData();
 	J2DDataPoint dataD;
 	J2DDataPoint data;
-	const JSize count = pwd->GetElementCount();
+	const JSize count = pwd->GetItemCount();
 	for (JSize i = 1; i <= count; i++)
 	{
-		pwd->GetElement(i, &dataD);
-		GetData()->GetElement(i, &data);
+		pwd->GetItem(i, &dataD);
+		GetData()->GetItem(i, &data);
 		JFloat yerr;
 		if (GetData()->HasYErrors() || itsHasXErrors)
 		{

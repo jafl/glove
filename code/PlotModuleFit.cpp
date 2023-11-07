@@ -106,7 +106,7 @@ PlotModuleFit::PlotModuleFit
 		is >> *name;
 		names->Append(name);
 		is >> value;
-		values->AppendElement(value);
+		values->AppendItem(value);
 	}
 	int parmscount;
 	is >> parmscount;
@@ -125,8 +125,8 @@ PlotModuleFit::PlotModuleFit
 		{
 			index = i * 2 - 1;
 		}
-		JString parm(*(names->GetElement(index)));
-		JFloat value = values->GetElement(index);
+		JString parm(*(names->GetItem(index)));
+		JFloat value = values->GetItem(index);
 		list->AddVariable(parm, value);
 	}
 
@@ -178,12 +178,12 @@ PlotModuleFit::~PlotModuleFit()
 }
 
 /*********************************************************************************
- GetElement
+ GetItem
 
  ********************************************************************************/
 
 void
-PlotModuleFit::GetElement
+PlotModuleFit::GetItem
 	(
 	const JIndex index,
 	J2DDataPoint* data
@@ -233,7 +233,7 @@ PlotModuleFit::UpdateFunction
 	itsCurrentXMin = xmin;
 	itsCurrentXMax = xmax;
 	itsCurrentStepCount = steps;
-	SetElementCount(steps+1);
+	SetItemCount(steps+1);
 }
 
 /*********************************************************************************
@@ -301,7 +301,7 @@ PlotModuleFit::GetParameterError
 		return false;
 	}
 	JIndex arrayIndex = index * 2;
-	*value = itsValues->GetElement(arrayIndex);
+	*value = itsValues->GetItem(arrayIndex);
 	return true;
 }
 
@@ -321,8 +321,8 @@ PlotModuleFit::GetGoodnessOfFitName
 	{
 		return false;
 	}
-	JIndex arrayIndex = itsNames->GetElementCount();
-	*name = *(itsNames->GetElement(arrayIndex));
+	JIndex arrayIndex = itsNames->GetItemCount();
+	*name = *(itsNames->GetItem(arrayIndex));
 	return true;
 }
 
@@ -342,8 +342,8 @@ PlotModuleFit::GetGoodnessOfFit
 	{
 		return false;
 	}
-	JIndex arrayIndex = itsValues->GetElementCount();
-	*value = itsValues->GetElement(arrayIndex);
+	JIndex arrayIndex = itsValues->GetItemCount();
+	*value = itsValues->GetItem(arrayIndex);
 
 	return true;
 }
@@ -385,7 +385,7 @@ PlotModuleFit::DataElementValid
 {
 	const J2DPlotDataBase* data = GetDataToFit();
 	J2DDataPoint point;
-	data->GetElement(index, &point);
+	data->GetItem(index, &point);
 
 	if (itsUsingRange)
 	{
@@ -422,7 +422,7 @@ PlotModuleFit::GetDataElement
 		return false;
 	}
 	const J2DPlotDataBase* data = GetDataToFit();
-	data->GetElement(index, point);
+	data->GetItem(index, point);
 	return true;
 }
 
@@ -437,12 +437,12 @@ PlotModuleFit::WriteData
 	std::ostream& os
 	)
 {
-	JSize count = itsNames->GetElementCount();
+	JSize count = itsNames->GetItemCount();
 	os << count << " ";
 	for (JSize i = 1; i <= count; i++)
 	{
-		os << *(itsNames->GetElement(i)) << " ";
-		os << itsValues->GetElement(i) << " ";
+		os << *(itsNames->GetItem(i)) << " ";
+		os << itsValues->GetItem(i) << " ";
 	}
 	os << GetParameterCount() << " ";
 	os << JBoolToString(HasParameterErrors())

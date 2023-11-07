@@ -165,7 +165,7 @@ DLFitModule::GetStartValues
 
 
 
-//	itsGetStartValFn(x->GetElementCount(),
+//	itsGetStartValFn(x->GetItemCount(),
 
 	return true;
 }
@@ -251,7 +251,7 @@ DLFitModule::GetParameterName
 	)
 	const
 {
-	return *(itsParmNames->GetElement(index));
+	return *(itsParmNames->GetItem(index));
 }
 
 /******************************************************************************
