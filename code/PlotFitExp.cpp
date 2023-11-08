@@ -86,8 +86,8 @@ PlotFitExp::GenerateFit()
 {
 	CalculateFirstPass();
 	JVector parms(2);
-	parms.SetItem(1, itsAParm);
-	parms.SetItem(2, itsBParm);
+	parms.SetElement(1, itsAParm);
+	parms.SetElement(2, itsBParm);
 	PlotFitBase::GenerateFit(parms, itsChi2Start);
 }
 
@@ -208,8 +208,8 @@ PlotFitExp::SetCurrentParameters
 	const JVector& p
 	)
 {
-	itsAParm	= p.GetItem(1);
-	itsBParm	= p.GetItem(2);
+	itsAParm	= p.GetElement(1);
+	itsBParm	= p.GetElement(2);
 }
 
 /******************************************************************************
@@ -223,8 +223,8 @@ PlotFitExp::SetErrors
 	const JVector& p
 	)
 {
-	itsAErr	= p.GetItem(1);
-	itsBErr	= p.GetItem(2);
+	itsAErr	= p.GetElement(1);
+	itsBErr	= p.GetElement(2);
 }
 
 /*********************************************************************************
@@ -293,9 +293,9 @@ PlotFitExp::CalculateFirstPass()
 			{
 				yerr	= log((point.y - point.yerr)/point.y);
 			}
-			odata.SetItem(rcount, 1, 1/(yerr*yerr));
-			odata.SetItem(rcount, 2, log(point.x)/(yerr*yerr));
-			yData.SetItem(rcount, log(point.x)/(yerr*yerr));
+			odata.SetElement(rcount, 1, 1/(yerr*yerr));
+			odata.SetElement(rcount, 2, log(point.x)/(yerr*yerr));
+			yData.SetElement(rcount, log(point.x)/(yerr*yerr));
 		}
 	}
 
@@ -305,8 +305,8 @@ PlotFitExp::CalculateFirstPass()
 	JMatrix parms(2,1);
 	JGaussianElimination(lData, rData, &parms);
 	JVector eparms(2);
-	eparms.SetItem(1, exp(parms.GetItem(1,1)));
-	eparms.SetItem(2, parms.GetItem(2,1));
+	eparms.SetElement(1, exp(parms.GetElement(1,1)));
+	eparms.SetElement(2, parms.GetElement(2,1));
 	SetCurrentParameters(eparms);
 
 	itsChi2Start = 0;

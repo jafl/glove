@@ -82,7 +82,7 @@ PlotFitNonLinear::SetCurrentParameters
 	const JSize count	= p.GetDimensionCount();
 	for (JIndex i = 1; i <= count; i++)
 	{
-		itsVarList->SetValue(i + 1, p.GetItem(i));
+		itsVarList->SetValue(i + 1, p.GetElement(i));
 	}
 }
 
@@ -287,6 +287,6 @@ PlotFitNonLinear::GetParameterError
 	{
 		return false;
 	}
-	*value	= itsErrors->GetItem(index);
+	*value	= itsErrors->GetElement(index);
 	return true;
 }

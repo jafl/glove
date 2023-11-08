@@ -414,10 +414,10 @@ PlotQuadFit::QuadFirstPass()
 	for (JIndex i=1; i<= rcount; i++)
 	{
 		point = itsRealData->GetItem(i);
-		odata.SetItem(i, 1, 1);
-		odata.SetItem(i, 2, point.x);
-		odata.SetItem(i, 3, point.x*point.x);
-		yData.SetItem(i, point.y);
+		odata.SetElement(i, 1, 1);
+		odata.SetElement(i, 2, point.x);
+		odata.SetElement(i, 3, point.x*point.x);
+		yData.SetElement(i, point.y);
 	}
 	JMatrix tData = odata.Transpose();
 	JMatrix lData = tData * odata;
@@ -487,11 +487,11 @@ PlotQuadFit::QuadFirstPass()
 	itsAParameter = tempa;
 	itsBParameter = tempb;
 	itsCParameter = tempc;
-//std::cout <<itsAParameter << " " << parms.GetItem(1,1) << std::endl;
-//std::cout <<itsBParameter << " " << parms.GetItem(2,1) << std::endl;
-//std::cout <<itsCParameter << " " << parms.GetItem(3,1) << std::endl;
-//	itsBParameter = parms.GetItem(2,1);
-//	itsCParameter = parms.GetItem(3,1);
+//std::cout <<itsAParameter << " " << parms.GetElement(1,1) << std::endl;
+//std::cout <<itsBParameter << " " << parms.GetElement(2,1) << std::endl;
+//std::cout <<itsCParameter << " " << parms.GetElement(3,1) << std::endl;
+//	itsBParameter = parms.GetElement(2,1);
+//	itsCParameter = parms.GetElement(3,1);
 	itsChi2 = 0;
 	for (JIndex i=1; i<= rcount; i++)
 	{
@@ -519,12 +519,12 @@ PlotQuadFit::QuadMinFit()
 
 	JVector p(3);
 	JMatrix xi(3,3);
-	p.SetItem(1, itsAParameterT);
-	p.SetItem(2, itsBParameterT);
-	p.SetItem(3, itsCParameterT);
-	xi.SetItem(1,1,1.0);
-	xi.SetItem(2,2,1.0);
-	xi.SetItem(3,3,1.0);
+	p.SetElement(1, itsAParameterT);
+	p.SetElement(2, itsBParameterT);
+	p.SetElement(3, itsCParameterT);
+	xi.SetElement(1,1,1.0);
+	xi.SetElement(2,2,1.0);
+	xi.SetElement(3,3,1.0);
 
 	JSize iter;
 
@@ -534,9 +534,9 @@ PlotQuadFit::QuadMinFit()
 
 	itsChi2 = ChiSqr(0, kDefaultType);
 
-	itsCParameter = p.GetItem(3);
-	itsAParameter = p.GetItem(1);
-	itsBParameter = p.GetItem(2);
+	itsCParameter = p.GetElement(3);
+	itsAParameter = p.GetElement(1);
+	itsBParameter = p.GetElement(2);
 //	itsCParameter = itsCParameterT;
 //	itsAParameter = itsAParameterT;
 //	itsBParameter = itsBParameterT;
@@ -620,24 +620,24 @@ PlotQuadFit::CalcError
 	JIndex fitType = 0;
 	JVector p(2);
 	JMatrix xi(2,2);
-	xi.SetItem(1,1,1.0);
-	xi.SetItem(2,2,1.0);
+	xi.SetElement(1,1,1.0);
+	xi.SetElement(2,2,1.0);
 
 	if (type == kAError)
 	{
 		sigParameter = &itsAParameterT;
 		parameter = itsAParameter;
 		fitType = kAFixed;
-		p.SetItem(2, itsBParameter);
-		p.SetItem(1, itsCParameter);
+		p.SetElement(2, itsBParameter);
+		p.SetElement(1, itsCParameter);
 	}
 	else if (type == kBError)
 	{
 		sigParameter = &itsBParameterT;
 		parameter = itsBParameter;
 		fitType = kBFixed;
-		p.SetItem(1, itsAParameter);
-		p.SetItem(2, itsCParameter);
+		p.SetElement(1, itsAParameter);
+		p.SetElement(2, itsCParameter);
 	}
 	else
 	{
@@ -646,8 +646,8 @@ PlotQuadFit::CalcError
 		sigParameter = &itsCParameterT;
 		parameter = itsCParameter;
 		fitType = kCFixed;
-		p.SetItem(1, itsAParameter);
-		p.SetItem(2, itsBParameter);
+		p.SetElement(1, itsAParameter);
+		p.SetElement(2, itsBParameter);
 	}
 	JFloat sig = *sigParameter*0.000000001;
 
@@ -711,32 +711,32 @@ PlotQuadFit::CalcError
 	sig *= 10;
 	if (type == kAError)
 	{
-		p.SetItem(2, itsBParameter);
-		p.SetItem(1, itsCParameter);
+		p.SetElement(2, itsBParameter);
+		p.SetElement(1, itsCParameter);
 	}
 	else if (type == kBError)
 	{
-		p.SetItem(1, itsAParameter);
-		p.SetItem(2, itsCParameter);
+		p.SetElement(1, itsAParameter);
+		p.SetElement(2, itsCParameter);
 	}
 	else if (type == kCError)
 	{
-		p.SetItem(1, itsAParameter);
-		p.SetItem(2, itsBParameter);
+		p.SetElement(1, itsAParameter);
+		p.SetElement(2, itsBParameter);
 	}
-	xi.SetItem(1,1,1.0);
-	xi.SetItem(2,2,1.0);
-	xi.SetItem(1,2,0.0);
-	xi.SetItem(2,1,0.0);
+	xi.SetElement(1,1,1.0);
+	xi.SetElement(2,2,1.0);
+	xi.SetElement(1,2,0.0);
+	xi.SetElement(2,1,0.0);
 
 //std::cout << "Starting sig: " << sig << std::endl;
 	*sigParameter = parameter + sig;
 
 	chitemp = MinimizeN(p, xi, &iter, fitType);
 //std::cout << "Iter: " << iter << std::endl;
-//std::cout << "1a " << sig << " " << p.GetItem(1) <<" " << p.GetItem(2) << " " << chitemp << std::endl;
+//std::cout << "1a " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 //	chitemp = MinimizeN(p, xi, &iter, fitType);
-//std::cout << "1b " << sig << " " << p.GetItem(1) <<" " << p.GetItem(2) << " " << chitemp << std::endl;
+//std::cout << "1b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 
 	i = 0;
 	do
@@ -751,9 +751,9 @@ PlotQuadFit::CalcError
 		sig *= 10;
 		chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
 //		std::cout << "Iter: " << iter << std::endl;
-//		std::cout << "2a " << sig << " " << sig << " " << p.GetItem(1) <<" " << p.GetItem(2) << " " << chitemp << std::endl;
+//		std::cout << "2a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 //		chitemp = MinimizeN(p, xi, &iter, fitType);
-//		std::cout << "2b " << sig << " " << p.GetItem(1) <<" " << p.GetItem(2) << " " << chitemp << std::endl;
+//		std::cout << "2b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 		i++;
 	}
 	while (i < 20);
@@ -768,9 +768,9 @@ PlotQuadFit::CalcError
 		*sigParameter = parameter + sig* i;
 		chitemp = MinimizeN(p, xi, &iter, fitType);//MinimizeChiSqr(chitemp, fitType);
 	//std::cout << "Iter: " << iter << std::endl;
-	//std::cout << "3a " << sig << " " << sig << " " << p.GetItem(1) <<" " << p.GetItem(2) << " " << chitemp << std::endl;
+	//std::cout << "3a " << sig << " " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 //		chitemp = MinimizeN(p, xi, &iter, fitType);
-//	std::cout << "3b " << sig << " " << p.GetItem(1) <<" " << p.GetItem(2) << " " << chitemp << std::endl;
+//	std::cout << "3b " << sig << " " << p.GetElement(1) <<" " << p.GetElement(2) << " " << chitemp << std::endl;
 		chi3 = chitemp;
 		if (chitemp > chiplus)
 		{
@@ -898,26 +898,26 @@ PlotQuadFit::FunctionN
 	if (type == kAFixed)
 	{
 		A = itsAParameterT;
-		B = parameters.GetItem(2);
-		C = parameters.GetItem(1);
+		B = parameters.GetElement(2);
+		C = parameters.GetElement(1);
 	}
 	else if (type == kBFixed)
 	{
 		B = itsBParameterT;
-		A = parameters.GetItem(1);
-		C = parameters.GetItem(2);
+		A = parameters.GetElement(1);
+		C = parameters.GetElement(2);
 	}
 	else if (type == kCFixed)
 	{
 		C = itsCParameterT;
-		A = parameters.GetItem(1);
-		B = parameters.GetItem(2);
+		A = parameters.GetElement(1);
+		B = parameters.GetElement(2);
 	}
 	else
 	{
-		A = parameters.GetItem(1);
-		B = parameters.GetItem(2);
-		C = parameters.GetItem(3);
+		A = parameters.GetElement(1);
+		B = parameters.GetElement(2);
+		C = parameters.GetElement(3);
 	}
 
 	for (JSize i = 1; i <= rcount; i++)

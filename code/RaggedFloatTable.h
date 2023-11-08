@@ -41,7 +41,7 @@ public:
 	{
 		kRowsSelected = 1,
 		kColsSelected,
-		kItemsSelected,
+		kElementsSelected,
 		kNoneSelected
 	};
 

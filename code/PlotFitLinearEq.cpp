@@ -148,7 +148,7 @@ PlotFitLinearEq::GetYValue
 	for (JIndex i = 1; i <= count; i++)
 	{
 		JIndex power = itsPowers->GetItem(i);
-		JFloat term  = itsParameters->GetItem(i);
+		JFloat term  = itsParameters->GetElement(i);
 		if (power > kPowOptimizationIndex)
 		{
 			term  *= pow(x, (JFloat)power);
@@ -205,7 +205,7 @@ PlotFitLinearEq::GetParameter
 	{
 		return false;
 	}
-	*value	= itsParameters->GetItem(index);
+	*value	= itsParameters->GetElement(index);
 	return true;
 }
 
@@ -231,7 +231,7 @@ PlotFitLinearEq::GetParameterError
 	{
 		return false;
 	}
-	*value	= itsErrors->GetItem(index);
+	*value	= itsErrors->GetElement(index);
 	return true;
 }
 
@@ -271,9 +271,9 @@ PlotFitLinearEq::CalculateFirstPass()
 					term *= point.x;
 				}
 			}
-			odata.SetItem(i, j, term/(yerr*yerr));
+			odata.SetElement(i, j, term/(yerr*yerr));
 		}
-		yData.SetItem(i, point.y/(yerr*yerr));
+		yData.SetElement(i, point.y/(yerr*yerr));
 	}
 	JMatrix tData = odata.Transpose();
 	JMatrix lData = tData * odata;
@@ -313,9 +313,9 @@ PlotFitLinearEq::CalculateFirstPass()
 							term *= point.x;
 						}
 					}
-					odata2.SetItem(j, k, term/errTerm);
+					odata2.SetElement(j, k, term/errTerm);
 				}
-				yData2.SetItem(j, point.y/errTerm);
+				yData2.SetElement(j, point.y/errTerm);
 			}
 
 			JMatrix tData2 = odata2.Transpose();
@@ -378,7 +378,7 @@ PlotFitLinearEq::FunctionNPrimed
 		{
 			continue;
 		}
-		JFloat term  = itsParameters->GetItem(i);
+		JFloat term  = itsParameters->GetElement(i);
 		if (power - 1 > kPowOptimizationIndex)
 		{
 			term *= pow(x, (JFloat)(power - 1));

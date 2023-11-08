@@ -85,8 +85,8 @@ PlotFitPowerLaw::GenerateFit()
 {
 	CalculateFirstPass();
 	JVector parms(2);
-	parms.SetItem(1, itsAParm);
-	parms.SetItem(2, itsBParm);
+	parms.SetElement(1, itsAParm);
+	parms.SetElement(2, itsBParm);
 	PlotFitBase::GenerateFit(parms, itsChi2Start);
 }
 
@@ -207,8 +207,8 @@ PlotFitPowerLaw::SetCurrentParameters
 	const JVector& p
 	)
 {
-	itsAParm	= p.GetItem(1);
-	itsBParm	= p.GetItem(2);
+	itsAParm	= p.GetElement(1);
+	itsBParm	= p.GetElement(2);
 }
 
 /******************************************************************************
@@ -222,8 +222,8 @@ PlotFitPowerLaw::SetErrors
 	const JVector& p
 	)
 {
-	itsAErr	= p.GetItem(1);
-	itsBErr	= p.GetItem(2);
+	itsAErr	= p.GetElement(1);
+	itsBErr	= p.GetElement(2);
 }
 
 /*********************************************************************************
@@ -292,9 +292,9 @@ PlotFitPowerLaw::CalculateFirstPass()
 			{
 				yerr	= log((point.y - point.yerr)/point.y);
 			}
-			odata.SetItem(rcount, 1, 1/(yerr*yerr));
-			odata.SetItem(rcount, 2, log(point.x)/(yerr*yerr));
-			yData.SetItem(rcount, log(point.x)/(yerr*yerr));
+			odata.SetElement(rcount, 1, 1/(yerr*yerr));
+			odata.SetElement(rcount, 2, log(point.x)/(yerr*yerr));
+			yData.SetElement(rcount, log(point.x)/(yerr*yerr));
 		}
 	}
 /*
@@ -315,9 +315,9 @@ PlotFitPowerLaw::CalculateFirstPass()
 		{
 			yerr	= log((point.y - point.yerr)/point.y);
 		}
-		odata.SetItem(i, 1, 1/(yerr*yerr));
-		odata.SetItem(i, 2, log(point.x)/(yerr*yerr));
-		yData.SetItem(i, log(point.x)/(yerr*yerr));
+		odata.SetElement(i, 1, 1/(yerr*yerr));
+		odata.SetElement(i, 2, log(point.x)/(yerr*yerr));
+		yData.SetElement(i, log(point.x)/(yerr*yerr));
 	}
 */
 	JMatrix tData = odata.Transpose();
@@ -326,8 +326,8 @@ PlotFitPowerLaw::CalculateFirstPass()
 	JMatrix parms(2,1);
 	JGaussianElimination(lData, rData, &parms);
 	JVector eparms(2);
-	eparms.SetItem(1, exp(parms.GetItem(1,1)));
-	eparms.SetItem(2, exp(parms.GetItem(2,1)));
+	eparms.SetElement(1, exp(parms.GetElement(1,1)));
+	eparms.SetElement(2, exp(parms.GetElement(2,1)));
 	SetCurrentParameters(eparms);
 
 	itsChi2Start = 0;

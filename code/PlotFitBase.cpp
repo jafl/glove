@@ -206,7 +206,7 @@ PlotFitBase::GenerateFit
 		iter = 0;
 		for (JIndex j = 1; j <= n; j++)
 		{
-			xi.SetItem(j,j,1.0);
+			xi.SetElement(j,j,1.0);
 		}
 		MinimizeN(&p, &xi, &iter);
 	}
@@ -217,7 +217,7 @@ PlotFitBase::GenerateFit
 
 	for (JIndex i = 1; i <= n; i++)
 	{
-		err.SetItem(i, CalcError(p, i));
+		err.SetElement(i, CalcError(p, i));
 	}
 
 	SetCurrentParameters(p);
@@ -238,7 +238,7 @@ PlotFitBase::CalcError
 	)
 {
 	itsCurrentConstantParmIndex	= constIndex;
-	itsCurrentConstantParm		= parameters.GetItem(constIndex);
+	itsCurrentConstantParm		= parameters.GetElement(constIndex);
 	JFloat currentParm			= itsCurrentConstantParm;
 
 	const JSize n = parameters.GetDimensionCount() - 1;
@@ -246,15 +246,15 @@ PlotFitBase::CalcError
 	JMatrix xi(n,n);
 	for (JIndex i = 1; i <= n; i++)
 	{
-		xi.SetItem(i,i,1.0);
+		xi.SetElement(i,i,1.0);
 	}
 	for (JIndex i = 1; i <= itsCurrentConstantParmIndex - 1; i++)
 	{
-		p.SetItem(i, parameters.GetItem(i));
+		p.SetElement(i, parameters.GetElement(i));
 	}
 	for (JIndex i = itsCurrentConstantParmIndex + 1; i <= parameters.GetDimensionCount(); i++)
 	{
-		p.SetItem(i - 1, parameters.GetItem(i));
+		p.SetElement(i - 1, parameters.GetElement(i));
 	}
 	JVector pSav(p);
 	JMatrix xiSav(xi);
@@ -268,7 +268,7 @@ PlotFitBase::CalcError
 	JMatrix xiS(nS, nS);
 	for (JIndex i = 1; i <= nS; i++)
 	{
-		xiS.SetItem(i,i,1.0);
+		xiS.SetElement(i,i,1.0);
 	}
 	JFloat a, b, c, f1, f2, f3;
 	a	= currentParm;
@@ -443,12 +443,12 @@ PlotFitBase::ChiSqr
 		JVector pAlt(p.GetDimensionCount() + 1);
 		for (JIndex i = 1; i <= itsCurrentConstantParmIndex - 1; i++)
 		{
-			pAlt.SetItem(i, p.GetItem(i));
+			pAlt.SetElement(i, p.GetElement(i));
 		}
-		pAlt.SetItem(itsCurrentConstantParmIndex, itsCurrentConstantParm);
+		pAlt.SetElement(itsCurrentConstantParmIndex, itsCurrentConstantParm);
 		for (JIndex i = itsCurrentConstantParmIndex + 1; i <= pAlt.GetDimensionCount(); i++)
 		{
-			pAlt.SetItem(i, p.GetItem(i - 1));
+			pAlt.SetElement(i, p.GetElement(i - 1));
 		}
 		SetCurrentParameters(pAlt);
 	}
@@ -970,27 +970,27 @@ PlotFitBase::FunctionNPrimed
 	JFloat xmin, xmax;
 	GetXRange(&xmin, &xmax);
 	JFloat delta = (xmax - xmin)/100;
-	a.SetItem(1, 1, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
+	a.SetElement(1, 1, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
 	JFloat err	= BIG;
 	for (JIndex i = 2; i <= matrixSize; i++)
 	{
 		delta /= CON;
-		a.SetItem(1, i, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
+		a.SetElement(1, i, (FunctionN(x + delta) - FunctionN(x - delta))/(2.0 * delta));
 		JFloat fac	= CON * CON;
 		for (JIndex j = 2; j <= i; j++)
 		{
-			a.SetItem(j, i, (a.GetItem(j - 1, i) * fac - a.GetItem(j - 1, i - 1))/(fac - 1.0));
+			a.SetElement(j, i, (a.GetElement(j - 1, i) * fac - a.GetElement(j - 1, i - 1))/(fac - 1.0));
 			fac	= CON * CON * fac;
 			JFloat errt	=
-				JMax(fabs(a.GetItem(j, i) - a.GetItem(j - 1, i)),
-					 fabs(a.GetItem(j, i) - a.GetItem(j - 1, i - 1)));
+				JMax(fabs(a.GetElement(j, i) - a.GetElement(j - 1, i)),
+					 fabs(a.GetElement(j, i) - a.GetElement(j - 1, i - 1)));
 			if (errt <= err)
 			{
 				err	= errt;
-				y	= a.GetItem(j, i);
+				y	= a.GetElement(j, i);
 			}
 		}
-		if (fabs(a.GetItem(i, i) - a.GetItem(i - 1, i - 1)) >= SAFE * err)
+		if (fabs(a.GetElement(i, i) - a.GetElement(i - 1, i - 1)) >= SAFE * err)
 		{
 			return y;
 		}

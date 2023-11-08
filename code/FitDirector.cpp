@@ -830,7 +830,7 @@ FitDirector::Fit()
 			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetItem(i, parms.GetItem(i));
+				p.SetElement(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -869,7 +869,7 @@ FitDirector::Fit()
 		const JSize count = p.GetDimensionCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
-			p.SetItem(i, parms.GetItem(i));
+			p.SetElement(i, parms.GetItem(i));
 		}
 		fit->SetInitialParameters(p);
 		itsCurrentFit = fit;
@@ -895,7 +895,7 @@ FitDirector::Fit()
 			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetItem(i, parms.GetItem(i));
+				p.SetElement(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -926,7 +926,7 @@ FitDirector::Fit()
 			const JSize count = p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetItem(i, parms.GetItem(i));
+				p.SetElement(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -957,7 +957,7 @@ FitDirector::Fit()
 			const JSize count	= p.GetDimensionCount();
 			for (JIndex i = 1; i <= count; i++)
 			{
-				p.SetItem(i, parms.GetItem(i));
+				p.SetElement(i, parms.GetItem(i));
 			}
 			fit->PlotFitBase::GenerateFit(p, 0);
 		}
@@ -989,7 +989,7 @@ FitDirector::Fit()
 		const JSize count	= p.GetDimensionCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
-			p.SetItem(i, parms.GetItem(i));
+			p.SetElement(i, parms.GetItem(i));
 		}
 		fit->SetInitialParameters(p);
 		itsCurrentFit = fit;

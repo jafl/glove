@@ -217,7 +217,7 @@ PlotFitModule::GetParameter
 	{
 		return false;
 	}
-	*value	= itsParameters->GetItem(index);
+	*value	= itsParameters->GetElement(index);
 	return true;
 }
 
@@ -243,6 +243,6 @@ PlotFitModule::GetParameterError
 	{
 		return false;
 	}
-	*value	= itsErrors->GetItem(index);
+	*value	= itsErrors->GetElement(index);
 	return true;
 }

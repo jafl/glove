@@ -1198,7 +1198,7 @@ RaggedFloatTable::HandlePasteCmd()
 
 			JSize realrowcount;
 			bool ok = false;
-			if ((type1 == kItemsSelected) &&
+			if ((type1 == kElementsSelected) &&
 				(cols1 == 1) &&
 				((rows1 == 1) || (rows == rows1) ))
 			{
@@ -1269,7 +1269,7 @@ RaggedFloatTable::HandlePasteCmd()
 
 			else if (type1 == kNoneSelected ||
 				type1 == kRowsSelected ||
-				type1 == kItemsSelected)
+				type1 == kElementsSelected)
 			{
 				const JSize count = itsFloatData->GetDataColCount() + 1;
 				auto* undo =
@@ -1400,7 +1400,7 @@ RaggedFloatTable::HandleSpecialPasteCmd()
 				}
 			}
 
-			else if (type1 == kItemsSelected)
+			else if (type1 == kElementsSelected)
 			{
 				if (cols == cols1)
 				{
@@ -1499,7 +1499,7 @@ RaggedFloatTable::HandleInsertion
 		itsFloatData->InsertCols(startCol, cols);
 	}
 
-	else if (type == kItemsSelected)
+	else if (type == kElementsSelected)
 	{
 		if (cols == 1 && rows == 1 && undo)
 		{
@@ -1553,7 +1553,7 @@ RaggedFloatTable::HandleDuplication()
 	GetSelectionArea(&rows, &cols, &startRow, &startCol);
 	HandleInsertion();
 
-	if ( (type == kRowsSelected) || (type == kItemsSelected) )
+	if ( (type == kRowsSelected) || (type == kElementsSelected) )
 	{
 //		if ((cols == 1) && (rows == 1))
 //			{
@@ -1653,7 +1653,7 @@ RaggedFloatTable::HandleDeletion()
 		}
 	}
 
-	else if (type == kItemsSelected)
+	else if (type == kElementsSelected)
 	{
 		// special case if just one cell - use special undo
 		if ((cols == 1) && (rows == 1))
@@ -1726,7 +1726,7 @@ RaggedFloatTable::GetSelectionType()
 			JIndex row = 2;
 			while (row <= rowCount && colSelected)
 			{
-				if (!((GetTableSelection()).IsSelected(row,cell.x)))
+				if (!GetTableSelection().IsSelected(row,cell.x))
 				{
 					colSelected = false;
 				}
@@ -1740,7 +1740,7 @@ RaggedFloatTable::GetSelectionType()
 
 			if (cell.x != 1)
 			{
-				return kitemsselected;
+				return kElementsSelected;
 			}
 
 			const JSize colCount = GetColCount();
@@ -1748,7 +1748,7 @@ RaggedFloatTable::GetSelectionType()
 			JIndex col = 2;
 			while (col <= colCount && rowSelected)
 			{
-				if (!((GetTableSelection()).IsSelected(cell.y,col)))
+				if (!GetTableSelection().IsSelected(cell.y,col))
 				{
 					rowSelected = false;
 				}
@@ -1762,7 +1762,7 @@ RaggedFloatTable::GetSelectionType()
 
 			else
 			{
-				return kitemsselected;
+				return kElementsSelected;
 			}
 		}
 
@@ -1773,7 +1773,7 @@ RaggedFloatTable::GetSelectionType()
 			JIndex col = 2;
 			while (col <= colCount && rowSelected)
 			{
-				if (!((GetTableSelection()).IsSelected(cell.y,col)))
+				if (!GetTableSelection().IsSelected(cell.y,col))
 				{
 					rowSelected = false;
 				}
@@ -1787,14 +1787,14 @@ RaggedFloatTable::GetSelectionType()
 
 			else
 			{
-				return kitemsselected;
+				return kElementsSelected;
 			}
 
 		}
 
 		else
 		{
-			return kitemsselected;
+			return kElementsSelected;
 		}
 	}
 
