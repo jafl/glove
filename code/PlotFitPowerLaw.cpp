@@ -15,9 +15,7 @@
 #include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/JMatrix.h>
 #include <jx-af/jcore/JVector.h>
-
 #include <jx-af/jcore/jMath.h>
-#include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 
 /*********************************************************************************

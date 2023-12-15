@@ -290,7 +290,7 @@ RaggedFloatTable::TableDrawCell
 	const JRect&	rect
 	)
 {
-	if ((GetTableSelection()).IsSelected(cell))
+	if (GetTableSelection().IsSelected(cell))
 	{
 		p.SetFilling(true);
 		p.SetPenColor(JColorManager::GetDefaultSelectionColor());
@@ -429,7 +429,7 @@ RaggedFloatTable::HandleKeyPress
 {
 	if (c == kJEscapeKey)
 	{
-		(GetTableSelection()).ClearSelection();
+		GetTableSelection().ClearSelection();
 		TableRefresh();
 	}
 	JPoint cell;
@@ -681,12 +681,12 @@ RaggedFloatTable::ExtendSelection
 		sRow = cell.y;
 	}
 
-	(GetTableSelection()).ClearSelection();
+	GetTableSelection().ClearSelection();
 	for (JIndex i = sCol; i <= eCol; i++)
 	{
 		for (JIndex j = sRow; j <= eRow; j++)
 		{
-			(GetTableSelection()).SelectCell(j,i);
+			GetTableSelection().SelectCell(j,i);
 		}
 	}
 
@@ -705,8 +705,8 @@ RaggedFloatTable::SelectCell
 	const JPoint cell
 	)
 {
-	(GetTableSelection()).ClearSelection();
-	(GetTableSelection()).SelectCell(cell);
+	GetTableSelection().ClearSelection();
+	GetTableSelection().SelectCell(cell);
 	TableRefresh();
 }
 
@@ -722,11 +722,11 @@ RaggedFloatTable::SelectRow
 	)
 {
 	const JSize colCount = GetColCount();
-	(GetTableSelection()).ClearSelection();
+	GetTableSelection().ClearSelection();
 
 	for (JSize i = 1; i <= colCount; i++)
 	{
-		(GetTableSelection()).SelectCell(row, i);
+		GetTableSelection().SelectCell(row, i);
 	}
 	TableRefresh();
 }
@@ -777,12 +777,12 @@ RaggedFloatTable::ExtendSelectionToRow
 	}
 
 	const JSize colCount = GetColCount();
-	(GetTableSelection()).ClearSelection();
+	GetTableSelection().ClearSelection();
 	for (JSize rowI = sRow; rowI <= eRow; rowI ++)
 	{
 		for (JSize col = 1; col <= colCount; col++)
 		{
-			(GetTableSelection()).SelectCell(rowI, col);
+			GetTableSelection().SelectCell(rowI, col);
 		}
 	}
 
@@ -807,7 +807,7 @@ RaggedFloatTable::SelectCol
 
 //	for (JSize row = 1; row <= rowCount; row++)
 //		{
-//		(GetTableSelection()).SelectCell(row, col);
+//		GetTableSelection().SelectCell(row, col);
 //		}
 	TableRefresh();
 }
@@ -864,7 +864,7 @@ RaggedFloatTable::ExtendSelectionToCol
 		selection.SelectCol(colI);
 //		for (JSize row = 1; row <= rowCount; row++)
 //			{
-//			(GetTableSelection()).SelectCell(row, colI);
+//			GetTableSelection().SelectCell(row, colI);
 //			}
 	}
 
@@ -1688,7 +1688,7 @@ RaggedFloatTable::HandleDeletion()
 		}
 	}
 
-	(GetTableSelection()).ClearSelection();
+	GetTableSelection().ClearSelection();
 	TableRefresh();
 }
 

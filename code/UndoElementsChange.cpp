@@ -24,7 +24,7 @@
 
 UndoElementsChange::UndoElementsChange
 	(
-	RaggedFloatTable*				table,
+	RaggedFloatTable*					table,
 	const JPoint&						start,
 	const JPoint&						end,
 	const UndoElementsBase::UndoType	type
@@ -66,7 +66,7 @@ UndoElementsChange::UndoElementsChange
 		else
 		{
 			rowstart	= start.y;
-			rowend		= JMin((JSize)end.y, data->GetDataRowCount(i));
+			rowend		= JMin((JIndex) end.y, data->GetDataRowCount(i));
 		}
 
 		for (JSize j = rowstart; j <= rowend; j++)

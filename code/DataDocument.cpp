@@ -253,7 +253,6 @@ DataDocument::BuildWindow()
 		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), encl,
 						JXWidget::kFixedLeft, JXWidget::kFixedTop,
 						0, 0, kRowHeaderWidth-2, kColHeaderHeight-2);
-	assert(okButton != nullptr);
 
 	itsTable =
 		jnew RaggedFloatTable(this, okButton, itsData, 6,
@@ -262,7 +261,6 @@ DataDocument::BuildWindow()
 							kRowHeaderWidth,kColHeaderHeight,
 							enclApG.width()  - kRowHeaderWidth,
 							enclApG.height() - kColHeaderHeight);
-	assert( itsTable != nullptr );
 
 	enclApG = encl->GetApertureGlobal();	// JXScrollableWidget forces a change in this
 
@@ -271,7 +269,6 @@ DataDocument::BuildWindow()
 							  JXWidget::kFixedLeft, JXWidget::kVElastic,
 							  0,kColHeaderHeight, kRowHeaderWidth,
 							  enclApG.height() - kColHeaderHeight);
-	assert( rowHeader != nullptr );
 
 	auto* colHeader =
 		jnew ColHeaderWidget(itsTable, itsScrollbarSet, encl,
@@ -279,13 +276,15 @@ DataDocument::BuildWindow()
 							  kRowHeaderWidth,0, enclApG.width() - kRowHeaderWidth,
 							  kColHeaderHeight);
 	colHeader->TurnOnColResizing(20);
-	assert( colHeader != nullptr );
 
 	auto* windowListMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowListMenu != nullptr );
 	menuBar->AppendMenu(windowListMenu);
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
+	{
+		windowListMenu->SetShortcuts(JGetString("WindowsMenuShortcut::JXGlobal"));
+	}
 
 	itsExportMenu = jnew JXTextMenu(itsFileMenu, kExportCmd, menuBar);
 	itsExportMenu->SetMenuItems(kExportMenuStr);

@@ -71,7 +71,7 @@ History::History
 {
 	WantInput(true, false);
 
-	(scrollbarSet->GetVScrollbar())->SetScrollDelay(0);
+	scrollbarSet->GetVScrollbar()->SetScrollDelay(0);
 
 	itsTabCharCount = kDefTabCharCount;
 
@@ -99,7 +99,6 @@ History::History
 
 		itsSizeMenu = jnew JXFontSizeMenu(JFontManager::GetDefaultMonospaceFontName(), JGetString("SizeMenuTitle::JXGlobal"), menuBar,
 										 kFixedLeft, kFixedTop, 0,0, 10,10);
-		assert( itsSizeMenu != nullptr );
 		menuBar->AppendMenu(itsSizeMenu);
 		itsSizeMenu->SetFontSize(JFontManager::GetDefaultFontSize());
 		ListenTo(itsSizeMenu);

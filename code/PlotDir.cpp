@@ -244,8 +244,11 @@ PlotDir::BuildWindow()
 	JXDocumentMenu* windowListMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
-	assert( windowListMenu != nullptr );
 	menuBar->AppendMenu(windowListMenu);
+	if (JXMenu::GetDisplayStyle() == JXMenu::kWindowsStyle)
+	{
+		windowListMenu->SetShortcuts(JGetString("WindowsMenuShortcut::JXGlobal"));
+	}
 
 	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
 	itsHelpMenu->SetMenuItems(kHelpMenuStr);

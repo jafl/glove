@@ -131,9 +131,9 @@ CreatePlotDialog::BuildWindow
 	BuildColumnMenus("Column::global", data->GetDataColCount(),
 					 itsXMenu, itsXErrMenu, itsYMenu, itsYErrMenu, nullptr);
 
-	itsStartX = JMax(startX, 1UL);
+	itsStartX = JMax(startX, (JIndex) 1);
 	itsStartXErr = startXErr + 1;
-	itsStartY = JMax(startY, 1UL);
+	itsStartY = JMax(startY, (JIndex) 1);
 	itsStartYErr = startYErr + 1;
 
 	itsXMenu->SetToPopupChoice(true, itsStartX);

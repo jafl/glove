@@ -13,9 +13,6 @@
 #include <UndoElementsCut.h>
 #include <RaggedFloatTable.h>
 #include <RaggedFloatTableData.h>
-
-#include <jx-af/jcore/JMinMax.h>
-
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
