@@ -12,6 +12,10 @@
 
 #include <jx-af/jx/JXApplication.h>
 
+class JXMenuBar;
+class JXTextMenu;
+class JXToolBar;
+
 class PlotApp : public JXApplication
 {
 public:
@@ -47,6 +51,9 @@ public:
 	void DisplayAbout(const bool showLicense = false,
 					  const JString& prevVersStr = JString::empty);
 
+	JXTextMenu*	CreateHelpMenu(JXMenuBar* menuBar, const JUtf8Byte* sectionName);
+	void		AppendHelpMenuToToolBar(JXToolBar* toolBar, JXTextMenu* menu);
+
 	static const JUtf8Byte*	GetAppSignature();
 	static void				InitStrings();
 
@@ -72,6 +79,9 @@ private:
 	JArray<JIndex>*		itsImportPathIndex;
 	JArray<JIndex>*		itsFitPathIndex;
 
+private:
+
+	void	HandleHelpMenu(const JUtf8Byte* windowSectionName, const JIndex index);
 };
 
 #endif

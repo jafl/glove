@@ -51,14 +51,12 @@ public:
 	void	WriteFitDirectorSetup(FitDirector* dir);
 	void	ReadFitDirectorSetup(FitDirector* dir);
 
+	void	GetWindowSize(const JPrefID id, JXWindow* window) const;
+	void	SaveWindowSize(const JPrefID id, JXWindow* window);
+
 protected:
 
 	void	UpgradeData(const bool isNew, const JFileVersion currentVersion) override;
-
-private:
-
-	void	GetWindowSize(const JPrefID id, JXWindow* window) const;
-	void	SaveWindowSize(const JPrefID id, JXWindow* window);
 };
 
 #endif

@@ -1,5 +1,5 @@
 /******************************************************************************
- PlotDir.cpp
+ PlotDirector.cpp
 
 	BASE CLASS = JXWindowDirector
 
@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include "PlotDir.h"
+#include "PlotDirector.h"
 #include "VarList.h"
 #include "PlotFunctionDialog.h"
 #include "PlotLinearFit.h"
@@ -22,9 +22,10 @@
 #include "PlotApp.h"
 #include "PlotModuleFit.h"
 #include "Plotter.h"
-#include "globals.h"
 #include "FitDirector.h"
 #include "PlotFitProxy.h"
+#include "PrefsMgr.h"
+#include "globals.h"
 
 #include <jx-af/j2dplot/J2DPlotDataBase.h>
 #include <jx-af/j2dplot/J2DPlotData.h>
@@ -42,6 +43,7 @@
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jx/JXCloseDirectorTask.h>
 #include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
 
 #include <jx-af/jexpr/JExprParser.h>
 #include <jx-af/jexpr/JFunction.h>
@@ -54,68 +56,17 @@
 
 const JFileVersion kCurrentSetupVersion = 2;
 
-// Plot menu
-
-static const JUtf8Byte* kPlotMenuStr =
-	"    Page setup..."
-	"  | Print...         %k Meta-P"
-	"  | Print session..."
-	"%l| Print plot as EPS..."
-	"  | Print marks as EPS..."
-	"%l| Close            %k Meta-W";
-
-enum
-{
-	kPageSetupCmd = 1,
-	kPrintCmd,
-	kPrintSessionCmd,
-	kPrintPlotEPSCmd,
-	kPrintMarksEPSCmd,
-	kCloseCmd
-};
-
-// Analysis menu
-
-static const JUtf8Byte* kAnalysisMenuStr =
-	"    Plot function..."
-	"%l| Open fit window %k Meta-F"
-	"%l| Fit parameters"
-	"  | Residual plots";
-
-enum
-{
-	kPlotFunctionCmd = 1,
-	kFitWindowCmd,
-	kFitParmsCmd,
-	kDiffPlotCmd
-};
-
-// Help menu
-
-static const JUtf8Byte* kHelpMenuStr =
-	"About %l| Table of Contents | This window "
-	"%l|Changes|Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
-};
-
 /******************************************************************************
  Constructor
 
  ******************************************************************************/
 
-PlotDir::PlotDir
+PlotDirector::PlotDirector
 	(
-	JXDirector*       supervisor,
-	JXFileDocument*   notifySupervisor,
-	const JString&    filename,
-	const bool    hideOnClose
+	JXDirector*		supervisor,
+	JXFileDocument*	notifySupervisor,
+	const JString&	filename,
+	const bool		hideOnClose
 	)
 	:
 	JXDocument(supervisor),
@@ -146,7 +97,7 @@ PlotDir::PlotDir
 
 	itsCurrentCurveType = kGDataCurve;
 
-	itsDiffDirs = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
+	itsDiffDirs = jnew JPtrArray<PlotDirector>(JPtrArrayT::kForgetAll);
 	assert( itsDiffDirs != nullptr );
 	ListenTo(itsDiffDirs);
 
@@ -166,7 +117,7 @@ PlotDir::PlotDir
 
  ******************************************************************************/
 
-PlotDir::~PlotDir()
+PlotDirector::~PlotDirector()
 {
 	jdelete itsFits;
 	jdelete itsCurveStats;
@@ -185,8 +136,12 @@ PlotDir::~PlotDir()
 
  ******************************************************************************/
 
+#include "PlotDirector-Plot.h"
+#include "PlotDirector-Analysis.h"
+#include "Generic-Preferences.h"
+
 void
-PlotDir::BuildWindow()
+PlotDirector::BuildWindow()
 {
 // begin JXLayout
 
@@ -212,15 +167,17 @@ PlotDir::BuildWindow()
 
 	ListenTo(itsPlot);
 
-	itsPlotMenu = menuBar->PrependTextMenu(JGetString("PlotMenuTitle::PlotDir"));
+	itsPlotMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::PlotDirector_Plot"));
 	itsPlotMenu->SetMenuItems(kPlotMenuStr);
 	itsPlotMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsPlotMenu->AttachHandler(this, &PlotDir::HandlePlotMenu);
+	itsPlotMenu->AttachHandler(this, &PlotDirector::HandlePlotMenu);
+	ConfigurePlotMenu(itsPlotMenu);
 
-	itsAnalysisMenu = menuBar->AppendTextMenu(JGetString("AnalysisMenuTitle::PlotDir"));
+	itsAnalysisMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::PlotDirector_Analysis"));
 	itsAnalysisMenu->SetMenuItems(kAnalysisMenuStr);
 	itsAnalysisMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsAnalysisMenu->AttachHandler(this, &PlotDir::HandleAnalysisMenu);
+	itsAnalysisMenu->AttachHandler(this, &PlotDirector::HandleAnalysisMenu);
+	ConfigureAnalysisMenu(itsAnalysisMenu);
 
 	itsFitParmsMenu = jnew JXTextMenu(itsAnalysisMenu, kFitParmsCmd, menuBar);
 	itsFitParmsMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -250,10 +207,15 @@ PlotDir::BuildWindow()
 		windowListMenu->SetShortcuts(JGetString("WindowsMenuShortcut::JXGlobal"));
 	}
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr);
-	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandler(this, &PlotDir::HandleHelpMenu);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::Generic_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
+	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsPrefsMenu->AttachHandler(this, &PlotDirector::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
+
+	GetApplication()->CreateHelpMenu(menuBar, "PlotHelp");
+
+	GetPrefsMgr()->GetWindowSize(kPlotWindowSizePrefsID, GetWindow());
 }
 
 /******************************************************************************
@@ -262,7 +224,7 @@ PlotDir::BuildWindow()
  ******************************************************************************/
 
 void
-PlotDir::Receive
+PlotDirector::Receive
 	(
 	JBroadcaster* sender,
 	const JBroadcaster::Message& message
@@ -272,7 +234,7 @@ PlotDir::Receive
 	{
 		JString title = itsFileName + ":  " + itsPlot->GetTitle();
 		GetWindow()->SetTitle(title);
-		JString sessiontitle = JGetString("SessionWindowPrefix::PlotDir") + title;
+		JString sessiontitle = JGetString("SessionWindowPrefix::PlotDirector") + title;
 		itsSessionDir->GetWindow()->SetTitle(sessiontitle);
 	}
 
@@ -333,7 +295,7 @@ PlotDir::Receive
  ******************************************************************************/
 
 void
-PlotDir::NewFileName
+PlotDirector::NewFileName
 	(
 	const JString& filename
 	)
@@ -341,7 +303,7 @@ PlotDir::NewFileName
 	itsFileName = filename;
 	JString title = itsFileName + ":  " + itsPlot->GetTitle();
 	GetWindow()->SetTitle(title);
-	JString sessiontitle = JGetString("SessionWindowPrefix::PlotDir") + title;
+	JString sessiontitle = JGetString("SessionWindowPrefix::PlotDirector") + title;
 	(itsSessionDir->GetWindow())->SetTitle(sessiontitle);
 }
 
@@ -351,7 +313,7 @@ PlotDir::NewFileName
  ******************************************************************************/
 
 void
-PlotDir::WriteSetup
+PlotDirector::WriteSetup
 	(
 	std::ostream& os
 	)
@@ -367,7 +329,7 @@ PlotDir::WriteSetup
  ******************************************************************************/
 
 void
-PlotDir::ReadSetup
+PlotDirector::ReadSetup
 	(
 	std::istream&		is,
 	const JFloat	gloveVersion
@@ -387,7 +349,7 @@ PlotDir::ReadSetup
  ******************************************************************************/
 
 void
-PlotDir::WriteData
+PlotDirector::WriteData
 	(
 	std::ostream& os,
 	RaggedFloatTableData* data
@@ -417,7 +379,7 @@ PlotDir::WriteData
  ******************************************************************************/
 
 void
-PlotDir::WriteCurves
+PlotDirector::WriteCurves
 	(
 	std::ostream& os,
 	RaggedFloatTableData* data
@@ -570,7 +532,7 @@ PlotDir::WriteCurves
  ******************************************************************************/
 
 void
-PlotDir::ReadData
+PlotDirector::ReadData
 	(
 	std::istream& is,
 	RaggedFloatTableData* data,
@@ -619,7 +581,7 @@ PlotDir::ReadData
  ******************************************************************************/
 
 void
-PlotDir::ReadCurves
+PlotDirector::ReadCurves
 	(
 	std::istream& is,
 	RaggedFloatTableData* data
@@ -735,7 +697,7 @@ PlotDir::ReadCurves
  ******************************************************************************/
 
 bool
-PlotDir::OKToClose()
+PlotDirector::OKToClose()
 {
 	return true;
 }
@@ -746,7 +708,7 @@ PlotDir::OKToClose()
  ******************************************************************************/
 
 bool
-PlotDir::OKToRevert()
+PlotDirector::OKToRevert()
 {
 	return true;
 }
@@ -757,7 +719,7 @@ PlotDir::OKToRevert()
  ******************************************************************************/
 
 bool
-PlotDir::CanRevert()
+PlotDirector::CanRevert()
 {
 	return true;
 }
@@ -768,7 +730,7 @@ PlotDir::CanRevert()
  ******************************************************************************/
 
 bool
-PlotDir::NeedsSave()
+PlotDirector::NeedsSave()
 	const
 {
 	return false;
@@ -780,7 +742,7 @@ PlotDir::NeedsSave()
  ******************************************************************************/
 
 void
-PlotDir::HandlePlotMenu
+PlotDirector::HandlePlotMenu
 	(
 	const JIndex index
 	)
@@ -839,7 +801,7 @@ PlotDir::HandlePlotMenu
  ******************************************************************************/
 
 void
-PlotDir::HandleAnalysisMenu
+PlotDirector::HandleAnalysisMenu
 	(
 	const JIndex index
 	)
@@ -861,7 +823,7 @@ PlotDir::HandleAnalysisMenu
  ******************************************************************************/
 
 void
-PlotDir::CreateFunction()
+PlotDirector::CreateFunction()
 {
 	auto* dlog = jnew PlotFunctionDialog(itsVarList);
 
@@ -883,7 +845,7 @@ PlotDir::CreateFunction()
  ******************************************************************************/
 
 void
-PlotDir::PlotFunction
+PlotDirector::PlotFunction
 	(
 	JFunction* f
 	)
@@ -902,7 +864,7 @@ PlotDir::PlotFunction
  ******************************************************************************/
 
 void
-PlotDir::UpdateFitParmsMenu()
+PlotDirector::UpdateFitParmsMenu()
 {
 	itsFitParmsMenu->RemoveAllItems();
 	BuildColumnMenus("FitMenuItem::global", itsFits->GetItemCount(),
@@ -920,10 +882,10 @@ PlotDir::UpdateFitParmsMenu()
  ******************************************************************************/
 
 void
-PlotDir::UpdateDiffMenu()
+PlotDirector::UpdateDiffMenu()
 {
 	itsDiffMenu->RemoveAllItems();
-	BuildColumnMenus("DiffMenuItem::PlotDir", itsDiffDirs->GetItemCount(),
+	BuildColumnMenus("DiffMenuItem::PlotDirector", itsDiffDirs->GetItemCount(),
 					   itsDiffMenu, nullptr);
 
 	if (itsDiffDirs->IsEmpty())
@@ -938,7 +900,7 @@ PlotDir::UpdateDiffMenu()
  ******************************************************************************/
 
 void
-PlotDir::SelectFitModule()
+PlotDirector::SelectFitModule()
 {
 	auto* dlog = jnew FitModuleDialog();
 
@@ -963,7 +925,7 @@ PlotDir::SelectFitModule()
  ******************************************************************************/
 
 void
-PlotDir::HandleCurveAdded()
+PlotDirector::HandleCurveAdded()
 {
 	GloveCurveStats stats;
 	stats.type = itsCurrentCurveType;
@@ -978,7 +940,7 @@ PlotDir::HandleCurveAdded()
  ******************************************************************************/
 
 void
-PlotDir::HandleCurveRemoved
+PlotDirector::HandleCurveRemoved
 	(
 	const JIndex index
 	)
@@ -1038,14 +1000,14 @@ PlotDir::HandleCurveRemoved
  ******************************************************************************/
 
 void
-PlotDir::RemoveFit
+PlotDirector::RemoveFit
 	(
 	const JIndex index
 	)
 {
 	GloveCurveStats stats = itsCurveStats->GetItem(index);
 	itsFits->RemoveItem(stats.fitNumber);
-	PlotDir* dir = itsDiffDirs->GetItem(stats.fitNumber);
+	PlotDirector* dir = itsDiffDirs->GetItem(stats.fitNumber);
 	dir->Close();
 	itsDiffDirs->RemoveItem(stats.fitNumber);
 	const JSize count = itsCurveStats->GetItemCount();
@@ -1067,7 +1029,7 @@ PlotDir::RemoveFit
  ******************************************************************************/
 
 void
-PlotDir::NewFit
+PlotDirector::NewFit
 	(
 	const JIndex plotindex,
 	const GCurveFitType type
@@ -1147,13 +1109,13 @@ PlotDir::NewFit
  ******************************************************************************/
 
 void
-PlotDir::AddDiffCurve
+PlotDirector::AddDiffCurve
 	(
 	J2DPlotDataBase* ddata
 	)
 {
 	itsCurrentCurveType = kGDiffCurve;
-	itsPlot->AddCurve(ddata, false, JGetString("DiffCurveName::PlotDir"), false, true);
+	itsPlot->AddCurve(ddata, false, JGetString("DiffCurveName::PlotDirector"), false, true);
 	itsCurrentCurveType = kGDataCurve;
 }
 
@@ -1163,7 +1125,7 @@ PlotDir::AddDiffCurve
  ******************************************************************************/
 
 bool
-PlotDir::AddFitModule
+PlotDirector::AddFitModule
 	(
 	PlotModuleFit* fit,
 	J2DPlotDataBase* fitData
@@ -1186,7 +1148,7 @@ PlotDir::AddFitModule
  ******************************************************************************/
 
 void
-PlotDir::AddFit
+PlotDirector::AddFit
 	(
 	PlotFitFunction* fit,
 	const JIndex plotindex,
@@ -1205,7 +1167,7 @@ PlotDir::AddFit
 	itsAnalysisMenu->EnableItem(kFitParmsCmd);
 	itsAnalysisMenu->EnableItem(kDiffPlotCmd);
 
-	PlotDir* dir = jnew PlotDir(this, itsSupervisor, itsFileName, true);
+	PlotDirector* dir = jnew PlotDirector(this, itsSupervisor, itsFileName, true);
 	JXGetDocumentManager()->DocumentMustStayOpen(dir, true);
 	J2DPlotDataBase* ddata = fit->GetDiffData();
 	dir->AddDiffCurve(ddata);
@@ -1216,7 +1178,7 @@ PlotDir::AddFit
 	{
 		"n", numS.GetBytes()
 	};
-	const JString str = JGetString("DiffMenuItem::PlotDir", map, sizeof(map));
+	const JString str = JGetString("DiffMenuItem::PlotDirector", map, sizeof(map));
 	plot->SetTitle(str);
 	plot->SetXLabel(itsPlot->GetXLabel());
 	plot->SetYLabel(itsPlot->GetYLabel());
@@ -1231,7 +1193,7 @@ PlotDir::AddFit
  ******************************************************************************/
 
 void
-PlotDir::AddFitProxy
+PlotDirector::AddFitProxy
 	(
 	PlotFitProxy*		fit,
 	const JIndex		index,
@@ -1249,7 +1211,7 @@ PlotDir::AddFitProxy
  ******************************************************************************/
 
 bool
-PlotDir::CurveIsFit
+PlotDirector::CurveIsFit
 	(
 	const JIndex index
 	)
@@ -1264,37 +1226,29 @@ PlotDir::CurveIsFit
 	return false;
 }
 
-
 /******************************************************************************
- HandleHelpMenu
+ HandlePrefsMenu
 
  ******************************************************************************/
 
 void
-PlotDir::HandleHelpMenu
+PlotDirector::HandlePrefsMenu
 	(
 	const JIndex index
 	)
 {
-	if (index == kAboutCmd)
+	if (index == kEditToolBarCmd)
 	{
-		GetApplication()->DisplayAbout();
+//		itsToolBar->Edit();
 	}
-	else if (index == kTOCCmd)
+	else if (index == kEditMacWinPrefsCmd)
 	{
-		JXGetHelpManager()->ShowTOC();
+		JXMacWinPrefsDialog::EditPrefs();
 	}
-	else if (index == kThisWindowCmd)
+
+	else if (index == kSaveWindowSizeCmd)
 	{
-		JXGetHelpManager()->ShowSection("PlotHelp");
-	}
-	else if (index == kChangesCmd)
-	{
-		JXGetHelpManager()->ShowChangeLog();
-	}
-	else if (index == kCreditsCmd)
-	{
-		JXGetHelpManager()->ShowCredits();
+		GetPrefsMgr()->SaveWindowSize(kPlotWindowSizePrefsID, GetWindow());
 	}
 }
 
@@ -1304,7 +1258,7 @@ PlotDir::HandleHelpMenu
  ******************************************************************************/
 
 void
-PlotDir::SafetySave
+PlotDirector::SafetySave
 	(
 	const JXDocumentManager::SafetySaveReason reason
 	)
@@ -1317,7 +1271,7 @@ PlotDir::SafetySave
  ******************************************************************************/
 
 void
-PlotDir::DiscardChanges()
+PlotDirector::DiscardChanges()
 {
 }
 
@@ -1327,7 +1281,7 @@ PlotDir::DiscardChanges()
  ******************************************************************************/
 
 bool
-PlotDir::Close()
+PlotDirector::Close()
 {
 	itsPlotIsClosing = true;
 	return JXDocument::Close();

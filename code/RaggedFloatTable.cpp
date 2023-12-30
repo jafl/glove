@@ -29,16 +29,6 @@
 #include "UndoElementsCut.h"
 #include "globals.h"
 
-#include <jx-af/image/jx/jx_edit_undo.xpm>
-#include <jx-af/image/jx/jx_edit_redo.xpm>
-#include <jx-af/image/jx/jx_edit_cut.xpm>
-#include <jx-af/image/jx/jx_edit_copy.xpm>
-#include <jx-af/image/jx/jx_edit_paste.xpm>
-#include <jx-af/image/jx/jx_edit_clear.xpm>
-#include "plotdata.xpm"
-#include "plotvectordata.xpm"
-#include "transform.xpm"
-
 #include <jx-af/jx/JXApplication.h>
 #include <jx-af/jx/JXDisplay.h>
 #include <jx-af/jx/JXWindowDirector.h>
@@ -61,14 +51,17 @@
 #include <jx-af/jcore/JPSPrinter.h>
 #include <jx-af/jcore/JListUtil.h>
 
-#include <jx-af/jx/jXActionDefs.h>
-
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jASCIIConstants.h>
 #include <sstream>
 
 #include <jx-af/jcore/jMath.h>
 #include <jx-af/jcore/jAssert.h>
+
+#include "RaggedFloatTable-Edit.h"
+#include "RaggedFloatTable-Data.h"
+#include "RaggedFloatTable-Module.h"
 
 // Setup information
 
@@ -77,53 +70,6 @@ const JFileVersion	kCurrentTableVersion = 0;
 const JCoordinate kDefColWidth  = 100;
 const JCoordinate kDefRowWidth	= 20;
 const JCoordinate kHMarginWidth = 2;
-
-// Edit menu information
-
-static const JUtf8Byte* kEditMenuStr =
-	"    Undo               %k Meta-Z %i " kJXUndoAction
-	"  | Redo               %k Meta-Shift-Z %i " kJXRedoAction
-	"%l| Cut                %k Meta-X %i " kJXCutAction
-	"  | Copy               %k Meta-C %i " kJXCopyAction
-	"  | Paste              %k Meta-V %i " kJXPasteAction
-	"  | Paste at Selection"
-	"%l| Insert             %k Meta-I"
-	"  | Duplicate          %k Meta-D"
-	"  | Delete             %k Meta-K";
-
-enum
-{
-	kUndoCmd = 1,
-	kRedoCmd,
-	kCutCmd,
-	kCopyCmd,
-	kPasteCmd,
-	kSpecialPasteCmd,
-	kInsertCmd,
-	kDuplicateCmd,
-	kDeleteCmd
-};
-
-// Data menu information
-
-
-static const JUtf8Byte* kDataMenuStr =
-	"    Plot data... %i Plot::RaggedFloatTable"
-	"  | Plot vector field...  %i PlotVector::RaggedFloatTable"
-	"%l| Transform... %i Transform::RaggedFloatTable"
-	"  | Generate column by range..."
-	"  | Generate column by increment..."
-	"%l| Data module";
-
-enum
-{
-	kPlotCmd = 1,
-	kPlotVectorCmd,
-	kTransCmd,
-	kGenerateRangeColCmd,
-	kGenerateIncrementColCmd,
-	kDataModuleCmd
-};
 
 enum
 {
@@ -135,14 +81,6 @@ enum
 {
 	kNewColByRangeCmd = 1,
 	kNewColByIncCmd
-};
-
-static const JUtf8Byte* kModuleMenuStr =
-	"Reload %l";
-
-enum
-{
-	kReloadModuleCmd = 1
 };
 
 // Selection Targets for Cut/Copy/Paste
@@ -173,7 +111,8 @@ RaggedFloatTable::RaggedFloatTable
 	:
 	JXEditTable(kDefRowWidth,kDefColWidth, scrollbarSet, enclosure,
 				hSizing,vSizing, x,y, w,h),
-	itsOKButton(okButton)
+	itsOKButton(okButton),
+	itsUndoChain(jnew JUndoRedoChain(true))
 {
 	itsTableDir = dir;
 	assert( data != nullptr );
@@ -188,41 +127,27 @@ RaggedFloatTable::RaggedFloatTable
 
 	itsFloatInputField = nullptr;
 
-	itsEditMenu = menuBar->AppendTextMenu(JGetString("EditMenuTitle::JXGlobal"));
+	itsEditMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::RaggedFloatTable_Edit"));
 	itsEditMenu->SetMenuItems(kEditMenuStr);
 	itsEditMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsEditMenu->AttachHandlers(this,
 		&RaggedFloatTable::UpdateEditMenu,
 		&RaggedFloatTable::HandleEditMenu);
+	ConfigureEditMenu(itsEditMenu);
 
-	itsEditMenu->SetItemImage(kUndoCmd,   jx_edit_undo);
-	itsEditMenu->SetItemImage(kRedoCmd,   jx_edit_redo);
-	itsEditMenu->SetItemImage(kCutCmd,    jx_edit_cut);
-	itsEditMenu->SetItemImage(kCopyCmd,   jx_edit_copy);
-	itsEditMenu->SetItemImage(kPasteCmd,  jx_edit_paste);
-	itsEditMenu->SetItemImage(kDeleteCmd, jx_edit_clear);
-
-	itsDataMenu = menuBar->AppendTextMenu(JGetString("DataMenuTitle::RaggedFloatTable"));
+	itsDataMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::RaggedFloatTable_Data"));
 	itsDataMenu->SetMenuItems(kDataMenuStr);
 	itsDataMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsDataMenu->AttachHandlers(this,
 		&RaggedFloatTable::UpdateDataMenu,
 		&RaggedFloatTable::HandleDataMenu);
-
-	itsDataMenu->SetItemImage(kPlotCmd, plotdata);
-	itsDataMenu->SetItemImage(kPlotVectorCmd, plotvectordata);
-	itsDataMenu->SetItemImage(kTransCmd, glv_transform);
+	ConfigureDataMenu(itsDataMenu);
 
 	itsModuleMenu = jnew JXTextMenu(itsDataMenu, kDataModuleCmd, menuBar);
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsModuleMenu->AttachHandler(this, &RaggedFloatTable::HandleModuleMenu);
-
-	itsFirstRedoIndex	= 1;
-	itsUndoState		= kIdle;
-
-	itsUndoList = jnew JPtrArray<JUndo>(JPtrArrayT::kDeleteAll);
-	assert(itsUndoList != nullptr);
+	ConfigureModuleMenu(itsModuleMenu);
 
 	SetTableData(itsFloatData);
 
@@ -248,11 +173,7 @@ RaggedFloatTable::RaggedFloatTable
 
 RaggedFloatTable::~RaggedFloatTable()
 {
-	jdelete itsEditMenu;
-	jdelete itsDataMenu;
-
-	itsUndoList->DeleteAll();
-	jdelete itsUndoList;
+	jdelete itsUndoChain;
 }
 
 /******************************************************************************
@@ -601,15 +522,13 @@ RaggedFloatTable::ExtractInputData
 		// create and install undo object with old value
 		if (exists)
 		{
-			auto* undo =
-				jnew UndoElementChange(this, cell, oldvalue);
-			NewUndo(undo);
+			auto* undo = jnew UndoElementChange(this, cell, oldvalue);
+			itsUndoChain->NewUndo(undo);
 		}
 		else
 		{
-			auto* undo =
-				jnew UndoElementAppend(this, cell);
-			NewUndo(undo);
+			auto* undo = jnew UndoElementAppend(this, cell);
+			itsUndoChain->NewUndo(undo);
 		}
 
 		return true;
@@ -922,11 +841,11 @@ RaggedFloatTable::HandleEditMenu
 {
 	if (index == kUndoCmd)
 	{
-		Undo();
+		itsUndoChain->Undo();
 	}
 	else if (index == kRedoCmd)
 	{
-		Redo();
+		itsUndoChain->Redo();
 	}
 	else if (index == kCutCmd)
 	{
@@ -972,22 +891,10 @@ RaggedFloatTable::HandleEditMenu
 void
 RaggedFloatTable::UpdateEditMenu()
 {
-	if (HasUndo())
-	{
-		itsEditMenu->EnableItem(kUndoCmd);
-	}
-	else
-	{
-		itsEditMenu->DisableItem(kUndoCmd);
-	}
-	if (HasRedo())
-	{
-		itsEditMenu->EnableItem(kRedoCmd);
-	}
-	else
-	{
-		itsEditMenu->DisableItem(kRedoCmd);
-	}
+	bool canUndo, canRedo;
+	itsUndoChain->HasMultipleUndo(&canUndo, &canRedo);
+	itsEditMenu->SetItemEnabled(kUndoCmd, canUndo);
+	itsEditMenu->SetItemEnabled(kRedoCmd, canRedo);
 
 	SelectionType type = GetSelectionType();
 
@@ -999,7 +906,6 @@ RaggedFloatTable::UpdateEditMenu()
 		itsEditMenu->DisableItem(kDuplicateCmd);
 		itsEditMenu->DisableItem(kDeleteCmd);
 	}
-
 	else
 	{
 		itsEditMenu->EnableItem(kCutCmd);
@@ -1219,17 +1125,15 @@ RaggedFloatTable::HandlePasteCmd()
 						JFloat oldvalue;
 						if (itsFloatData->GetItem(cell, &oldvalue))
 						{
-							auto* undo =
-								jnew UndoElementChange(this, cell, oldvalue);
+							auto* undo = jnew UndoElementChange(this, cell, oldvalue);
 							itsFloatData->SetItem(cell, value);
-							NewUndo(undo);
+							itsUndoChain->NewUndo(undo);
 						}
 						else
 						{
-							auto* undo =
-								jnew UndoElementAppend(this, cell);
+							auto* undo = jnew UndoElementAppend(this, cell);
 							itsFloatData->InsertElement(cell, value);
-							NewUndo(undo);
+							itsUndoChain->NewUndo(undo);
 						}
 					}
 					else
@@ -1238,8 +1142,7 @@ RaggedFloatTable::HandlePasteCmd()
 							jnew UndoElementsInsert(this, JPoint(startCol, startRow),
 													 JPoint(startCol, startRow + rows - 1),
 													 UndoElementsBase::kElements);
-						assert(undo != nullptr);
-						NewUndo(undo);
+						itsUndoChain->NewUndo(undo);
 						for (JIndex row = startRow; row <= startRow + rows - 1; row++)
 						{
 							is >> value;
@@ -1254,8 +1157,7 @@ RaggedFloatTable::HandlePasteCmd()
 						jnew UndoElementsChange(this, JPoint(startCol, startRow),
 												 JPoint(startCol + cols1 - 1, startRow + rows1 - 1),
 												 UndoElementsBase::kElements);
-					assert(undo != nullptr);
-					NewUndo(undo);
+					itsUndoChain->NewUndo(undo);
 					for (JIndex col = startCol; col < startCol + cols1; col++)
 					{
 						for (JIndex row = startRow; row <= startRow + rows1 - 1; row++)
@@ -1276,8 +1178,7 @@ RaggedFloatTable::HandlePasteCmd()
 					jnew UndoElementsInsert(this, JPoint(count, 1),
 											 JPoint(count + cols - 1, 1),
 											 UndoElementsBase::kCols);
-				assert(undo != nullptr);
-				NewUndo(undo);
+				itsUndoChain->NewUndo(undo);
 				itsFloatData->InsertCols(count, cols);
 				for (JSize i = 1; i <= cols; i++)
 				{
@@ -1295,8 +1196,7 @@ RaggedFloatTable::HandlePasteCmd()
 					jnew UndoElementsInsert(this, JPoint(startCol, 1),
 											 JPoint(startCol + cols - 1, 1),
 											 UndoElementsBase::kCols);
-				assert(undo != nullptr);
-				NewUndo(undo);
+				itsUndoChain->NewUndo(undo);
 				itsFloatData->InsertCols(startCol, cols);
 				for (JSize i = 1; i <= cols; i++)
 				{
@@ -1479,8 +1379,7 @@ RaggedFloatTable::HandleInsertion
 				jnew UndoElementsInsert(this, JPoint(1, startRow),
 										 JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 										 UndoElementsBase::kRows);
-			assert(undo1 != nullptr);
-			NewUndo(undo1);
+			itsUndoChain->NewUndo(undo1);
 		}
 		itsFloatData->InsertRows(startRow, rows);
 	}
@@ -1493,8 +1392,7 @@ RaggedFloatTable::HandleInsertion
 				jnew UndoElementsInsert(this, JPoint(startCol, 1),
 										 JPoint(startCol + cols - 1, GetRowCount()),
 										 UndoElementsBase::kCols);
-			assert(undo1 != nullptr);
-			NewUndo(undo1);
+			itsUndoChain->NewUndo(undo1);
 		}
 		itsFloatData->InsertCols(startCol, cols);
 	}
@@ -1504,9 +1402,8 @@ RaggedFloatTable::HandleInsertion
 		if (cols == 1 && rows == 1 && undo)
 		{
 			JPoint cell(startCol, startRow);
-			auto* undo1 =
-				jnew UndoElementAppend(this, cell);
-			NewUndo(undo1);
+			auto* undo1 = jnew UndoElementAppend(this, cell);
+			itsUndoChain->NewUndo(undo1);
 		}
 		else if (undo)
 		{
@@ -1514,8 +1411,7 @@ RaggedFloatTable::HandleInsertion
 				jnew UndoElementsInsert(this, JPoint(startCol, startRow),
 										 JPoint(startCol + cols - 1, startRow + rows - 1),
 										 UndoElementsBase::kElements);
-			assert(undo1 != nullptr);
-			NewUndo(undo1);
+			itsUndoChain->NewUndo(undo1);
 		}
 
 		for (JIndex col = startCol; col < startCol + cols; col++)
@@ -1553,15 +1449,13 @@ RaggedFloatTable::HandleDuplication()
 	GetSelectionArea(&rows, &cols, &startRow, &startCol);
 	HandleInsertion();
 
-	if ( (type == kRowsSelected) || (type == kElementsSelected) )
+	if (type == kRowsSelected || type == kElementsSelected)
 	{
-//		if ((cols == 1) && (rows == 1))
+//		if (cols == 1 && rows == 1)
 //			{
 //			JPoint cell(startCol, startRow + 1);
-//			UndoElementAppend* undo =
-//				jnew UndoElementAppend(this, cell);
-//			assert(undo != nullptr);
-//			NewUndo(undo);
+//			UndoElementAppend* undo = jnew UndoElementAppend(this, cell);
+//			itsUndoChain->NewUndo(undo);
 //			}
 		for (JIndex col = startCol; col < startCol + cols; col++)
 		{
@@ -1631,8 +1525,7 @@ RaggedFloatTable::HandleDeletion()
 			jnew UndoElementsCut(this, JPoint(1, startRow),
 								  JPoint(itsFloatData->GetDataColCount(), startRow + rows - 1),
 								  UndoElementsBase::kRows);
-		assert(undo != nullptr);
-		NewUndo(undo);
+		itsUndoChain->NewUndo(undo);
 		for (JIndex i = startRow; i < startRow + rows; i++)
 		{
 			itsFloatData->RemoveRow(startRow);
@@ -1645,8 +1538,7 @@ RaggedFloatTable::HandleDeletion()
 			jnew UndoElementsCut(this, JPoint(startCol, 1),
 								  JPoint(startCol + cols - 1, GetRowCount()),
 								  UndoElementsBase::kCols);
-		assert(undo != nullptr);
-		NewUndo(undo);
+		itsUndoChain->NewUndo(undo);
 		for (JIndex i = startCol; i < startCol + cols; i++)
 		{
 			itsFloatData->RemoveCol(startCol);
@@ -1656,15 +1548,14 @@ RaggedFloatTable::HandleDeletion()
 	else if (type == kElementsSelected)
 	{
 		// special case if just one cell - use special undo
-		if ((cols == 1) && (rows == 1))
+		if (cols == 1 && rows == 1)
 		{
 			JPoint cell(startCol, startRow);
 			JFloat value;
 			if (itsFloatData->GetItem(cell, &value))
 			{
-				auto* undo =
-					jnew UndoElementCut(this, cell, value);
-				NewUndo(undo);
+				auto* undo = jnew UndoElementCut(this, cell, value);
+				itsUndoChain->NewUndo(undo);
 			}
 		}
 		else
@@ -1673,8 +1564,7 @@ RaggedFloatTable::HandleDeletion()
 				jnew UndoElementsCut(this, JPoint(startCol, startRow),
 									  JPoint(startCol + cols - 1, startRow + rows - 1),
 									  UndoElementsBase::kElements);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			itsUndoChain->NewUndo(undo);
 		}
 		for (JIndex col = startCol; col < startCol + cols; col++)
 		{
@@ -2102,8 +1992,7 @@ RaggedFloatTable::GetNewColByRange()
 				jnew UndoElementsInsert(this, JPoint(dest, 1),
 										 JPoint(dest, 1),
 										 UndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			itsUndoChain->NewUndo(undo);
 			itsFloatData->InsertCols(dest, 1);
 		}
 		else if (dest <= colCount)
@@ -2112,8 +2001,7 @@ RaggedFloatTable::GetNewColByRange()
 				jnew UndoElementsChange(this, JPoint(dest, 1),
 										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 										 UndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			itsUndoChain->NewUndo(undo);
 			itsFloatData->RemoveAllElements(dest);
 		}
 
@@ -2159,8 +2047,7 @@ RaggedFloatTable::GetNewColByInc()
 				jnew UndoElementsInsert(this, JPoint(dest, 1),
 										 JPoint(dest, 1),
 										 UndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			itsUndoChain->NewUndo(undo);
 			itsFloatData->InsertCols(dest, 1);
 		}
 		else if (dest <= colCount)
@@ -2169,8 +2056,7 @@ RaggedFloatTable::GetNewColByInc()
 				jnew UndoElementsChange(this, JPoint(dest, 1),
 										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 										 UndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			itsUndoChain->NewUndo(undo);
 			itsFloatData->RemoveAllElements(dest);
 		}
 
@@ -2319,7 +2205,7 @@ RaggedFloatTable::ChooseNewTransformFunction()
 	{
 		ar->AppendItem(0);
 	}
-	xformVarList.AddArray(JString("col", JString::kNoCopy), *ar);
+	xformVarList.AddArray("col", *ar);
 
 	auto* dlog = jnew TransformFunctionDialog(&xformVarList, count);
 
@@ -2392,8 +2278,7 @@ RaggedFloatTable::ChooseNewTransformFunction()
 				jnew UndoElementsChange(this, JPoint(dest, 1),
 										 JPoint(dest, itsFloatData->GetDataRowCount(dest)),
 										 UndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			itsUndoChain->NewUndo(undo);
 			itsFloatData->RemoveAllElements(dest);
 			itsFloatData->SetCol(dest, newArray);
 		}
@@ -2403,8 +2288,7 @@ RaggedFloatTable::ChooseNewTransformFunction()
 				jnew UndoElementsInsert(this, JPoint(dest, 1),
 										 JPoint(dest, 1),
 										 UndoElementsBase::kCols);
-			assert(undo != nullptr);
-			NewUndo(undo);
+			itsUndoChain->NewUndo(undo);
 			itsFloatData->InsertCols(dest, 1);
 			itsFloatData->SetCol(dest, newArray);
 		}
@@ -2598,185 +2482,4 @@ RaggedFloatTable::PrintRealTable
 	}
 	SetRowBorderInfo(1, gray50Color);	// calls TableSetScrollSteps()
 	SetColBorderInfo(1, gray50Color);
-}
-
-/******************************************************************************
- Undo (public)
-
-	This is the function that is called when the user asks to undo.
-
- ******************************************************************************/
-
-void
-RaggedFloatTable::Undo()
-{
-	// This can't be called while Undo/Redo is being called.
-	assert( itsUndoState == kIdle );
-
-	// See if we have an undo object available.
-	JUndo* undo;
-	const bool hasUndo = GetCurrentUndo(&undo);
-
-	// Perform the undo.
-	if (hasUndo)
-	{
-		itsUndoState = kUndo;
-		undo->Deactivate();
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
-}
-
-/******************************************************************************
- Redo (public)
-
-	This is the function that is called when the user asks to redo.
-
- ******************************************************************************/
-
-void
-RaggedFloatTable::Redo()
-{
-	// This can't be called while Undo/Redo is being called.
-	assert( itsUndoState == kIdle );
-
-	// See if we have an redo object available.
-	JUndo* undo;
-	const bool hasUndo = GetCurrentRedo(&undo);
-
-	// Perform the redo.
-	if (hasUndo)
-	{
-		itsUndoState = kRedo;
-		undo->Deactivate();
-		undo->Undo();
-		itsUndoState = kIdle;
-	}
-}
-
-/******************************************************************************
- GetCurrentUndo (private)
-
- ******************************************************************************/
-
-bool
-RaggedFloatTable::GetCurrentUndo
-	(
-	JUndo** undo
-	)
-	const
-{
-	if (HasUndo())
-	{
-		*undo = itsUndoList->GetItem(itsFirstRedoIndex - 1);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-/******************************************************************************
- GetCurrentRedo (private)
-
- ******************************************************************************/
-
-bool
-RaggedFloatTable::GetCurrentRedo
-	(
-	JUndo** redo
-	)
-	const
-{
-	if (HasRedo())
-	{
-		*redo = itsUndoList->GetItem(itsFirstRedoIndex);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}
-
-/******************************************************************************
- HasUndo (public)
-
- ******************************************************************************/
-
-bool
-RaggedFloatTable::HasUndo()
-	const
-{
-	return itsFirstRedoIndex > 1;
-}
-
-/******************************************************************************
- HasRedo (public)
-
- ******************************************************************************/
-
-bool
-RaggedFloatTable::HasRedo()
-	const
-{
-	return itsFirstRedoIndex <= itsUndoList->GetItemCount();
-}
-
-/******************************************************************************
- NewUndo (private)
-
- ******************************************************************************/
-
-void
-RaggedFloatTable::NewUndo
-	(
-	JUndo* undo
-	)
-{
-	if (itsUndoList != nullptr && itsUndoState == kIdle)
-	{
-		// clear redo objects
-
-		const JSize undoCount = itsUndoList->GetItemCount();
-		for (JIndex i=undoCount; i>=itsFirstRedoIndex; i--)
-		{
-			itsUndoList->DeleteItem(i);
-		}
-
-		// save the new object
-
-		itsUndoList->Append(undo);
-		itsFirstRedoIndex++;
-
-		assert( !itsUndoList->IsEmpty() );
-	}
-
-	else if (itsUndoList != nullptr && itsUndoState == kUndo)
-	{
-		assert( itsFirstRedoIndex > 1 );
-
-		itsFirstRedoIndex--;
-//		JUndo* oldUndo = itsUndoList->GetItem(itsFirstRedoIndex);
-//		jdelete oldUndo;
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-
-		undo->SetRedo(true);
-		undo->Deactivate();
-	}
-
-	else if (itsUndoList != nullptr && itsUndoState == kRedo)
-	{
-		assert( itsFirstRedoIndex <= itsUndoList->GetItemCount() );
-
-//		JUndo* oldRedo = itsUndoList->GetItem(itsFirstRedoIndex);
-//		jdelete oldRedo;
-		itsUndoList->SetItem(itsFirstRedoIndex, undo, JPtrArrayT::kDelete);
-		itsFirstRedoIndex++;
-
-		undo->SetRedo(false);
-		undo->Deactivate();
-	}
-
 }

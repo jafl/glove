@@ -24,7 +24,7 @@
 .cpp ./code/GetDelimiterDialog
 .cpp ./code/PlotFunctionDialog
 .cpp ./code/TransformFunctionDialog
-.cpp ./code/PlotDir
+.cpp ./code/PlotDirector
 .cpp ./code/FitParmsTable
 .cpp ./code/History
 .cpp ./code/Plotter

@@ -15,6 +15,10 @@
 #include "stringData.h"
 
 #include <jx-af/jx/JXDocumentManager.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXToolBar.h>
+#include <jx-af/jx/JXHelpManager.h>
 
 #include <jx-af/jcore/JDirInfo.h>
 #include <jx-af/jcore/JPtrArray.h>
@@ -26,11 +30,11 @@
 
 static const JUtf8Byte* kAppSignature = "glove";
 
-static const JString kCursorSubPath("/cursormodule/", JString::kNoCopy);
-static const JString kDataSubPath("/datamodule/", JString::kNoCopy);
-static const JString kImportSubPath("/importmodule/", JString::kNoCopy);
-static const JString kExportSubPath("/exportmodule/", JString::kNoCopy);
-static const JString kFitSubPath("/fitmodule/", JString::kNoCopy);
+static const JString kCursorSubPath("/cursormodule/");
+static const JString kDataSubPath("/datamodule/");
+static const JString kImportSubPath("/importmodule/");
+static const JString kExportSubPath("/exportmodule/");
+static const JString kFitSubPath("/fitmodule/");
 
 /******************************************************************************
  Constructor
@@ -639,6 +643,86 @@ PlotApp::DisplayAbout
 			JXGetApplication()->Quit();
 		}
 	});
+}
+
+/******************************************************************************
+ CreateHelpMenu
+
+ ******************************************************************************/
+
+#include "PlotApp-Help.h"
+
+JXTextMenu*
+PlotApp::CreateHelpMenu
+	(
+	JXMenuBar*			menuBar,
+	const JUtf8Byte*	sectionName
+	)
+{
+	JXTextMenu* menu = menuBar->AppendTextMenu(JGetString("MenuTitle::PlotApp_Help"));
+	menu->SetMenuItems(kHelpMenuStr);
+	menu->SetUpdateAction(JXMenu::kDisableNone);
+	ConfigureHelpMenu(menu);
+
+	ListenTo(menu, std::function([this, sectionName](const JXMenu::ItemSelected& msg)
+	{
+		HandleHelpMenu(sectionName, msg.GetIndex());
+	}));
+
+	return menu;
+}
+
+/******************************************************************************
+ AppendHelpMenuToToolBar
+
+ ******************************************************************************/
+
+void
+PlotApp::AppendHelpMenuToToolBar
+	(
+	JXToolBar*	toolBar,
+	JXTextMenu* menu
+	)
+{
+	toolBar->NewGroup();
+	toolBar->AppendButton(menu, kHelpTOCCmd);
+	toolBar->AppendButton(menu, kHelpWindowCmd);
+}
+
+/******************************************************************************
+ HandleHelpMenu (private)
+
+ ******************************************************************************/
+
+void
+PlotApp::HandleHelpMenu
+	(
+	const JUtf8Byte*	windowSectionName,
+	const JIndex		index
+	)
+{
+	if (index == kHelpAboutCmd)
+	{
+		DisplayAbout();
+	}
+
+	else if (index == kHelpTOCCmd)
+	{
+		JXGetHelpManager()->ShowTOC();
+	}
+	else if (index == kHelpWindowCmd)
+	{
+		JXGetHelpManager()->ShowSection(windowSectionName);
+	}
+
+	else if (index == kHelpChangeLogCmd)
+	{
+		JXGetHelpManager()->ShowChangeLog();
+	}
+	else if (index == kHelpCreditsCmd)
+	{
+		JXGetHelpManager()->ShowCredits();
+	}
 }
 
 /******************************************************************************

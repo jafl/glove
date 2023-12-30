@@ -191,7 +191,7 @@ GetDelimiterDialog::BuildWindow()
 	ListenTo(itsSkipCB);
 	ListenTo(itsCommentCB);
 
-	itsCommentInput->GetText()->SetText(JString("#", JString::kNoCopy));
+	itsCommentInput->GetText()->SetText("#");
 }
 
 /******************************************************************************

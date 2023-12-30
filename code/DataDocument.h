@@ -13,7 +13,7 @@
 #include <jx-af/jx/JXFileDocument.h>
 #include <jx-af/jcore/JPtrArray-JString.h>
 
-class PlotDir;
+class PlotDirector;
 class RaggedFloatTableData;
 class RaggedFloatTable;
 class JXTextMenu;
@@ -61,15 +61,14 @@ private:
 	JXTextMenu*				itsFileMenu;		// owned by the menu bar
 	JXTextMenu*				itsExportMenu;
 	JXTextMenu*				itsPrefsMenu;
-	JXTextMenu*				itsHelpMenu;
 
 	JString					itsCurrentFileName;
 
-	JPtrArray<PlotDir>* itsPlotWindows;
-	JSize				itsPlotNumber;
-	bool				itsListenToData;
+	JPtrArray<PlotDirector>*itsPlotWindows;
+	JSize					itsPlotNumber;
+	bool					itsListenToData;
 
-	JXScrollbarSet*		itsScrollbarSet;
+	JXScrollbarSet*			itsScrollbarSet;
 
 // begin JXLayout
 
@@ -88,9 +87,7 @@ private:
 	void	UpdateExportMenu();
 	void	HandleExportMenu(const JIndex item);
 
-	void HandlePrefsMenu(const JIndex index);
-
-	void	HandleHelpMenu(const JIndex item);
+	void	HandlePrefsMenu(const JIndex index);
 
 	bool	LoadNativeFile(std::istream& is);
 	void	LoadDelimitedFile(const JString& fileText);

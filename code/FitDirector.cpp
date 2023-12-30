@@ -27,7 +27,7 @@
 #include "PolyFitDialog.h"
 #include "VarList.h"
 #include "HistoryDir.h"
-#include "PlotDir.h"
+#include "PlotDirector.h"
 
 #include "PlotFitLinear.h"
 #include "PlotFitNonLinear.h"
@@ -63,68 +63,16 @@
 #include <jx-af/jx/JXUpRect.h>
 #include <jx-af/jx/JXVertPartition.h>
 #include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
 
 #include <jx-af/jexpr/JXExprEditor.h>
 #include <jx-af/jexpr/JExprParser.h>
 #include <jx-af/jcore/JVector.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jDirUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
 const JCoordinate kCurrentPrefsVersion	= 1;
-
-static const JUtf8Byte* kFitMenuStr =
-	"   New non-linear fit    %k Meta-N       %i NewNonLinear::FitDirector"
-	"  |New polynomial fit    %k Meta-Shift-N %i NewPoly::FitDirector"
-	"  |Remove fit            %k Backspace.   %i RemoveFit::FitDirector"
-	"%l|Fit                   %k Meta-F       %i Fit::FitDirector"
-	"  |Re-fit                %k Meta-R       %i ReFit::FitDirector"
-	"%l|Show start values  %b %k Meta-Shift-S %i ShowStartValues::FitDirector"
-	"  |Test start values     %k Meta-T       %i TestFit::FitDirector"
-	"%l|Plot                  %k Meta-Shift-P %i Plot::FitDirector"
-	"  |Show fit history                      %i ShowHistory::FitDirector"
-	"  |Print                 %k Meta-P       %i Print::FitDirector"
-	"%l|Close                 %k Meta-W       %i Close::FitDirector";
-
-enum
-{
-	kNonLinearCmd = 1,
-	kPolyCmd,
-	kRemoveFitCmd,
-	kFitCmd,
-	kRefitCmd,
-	kShowStartCmd,
-	kTestFitCmd,
-	kPlotCmd,
-	kShowHistoryCmd,
-	kPrintCmd,
-	kCloseCmd
-};
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"   Edit tool bar...            %i EditToolBar::FitDirector"
-	"%l|Save window size as default %i SaveWindowSize::FitDirector";
-
-enum
-{
-	kEditToolBarCmd = 1,
-	kSaveWindowSizeCmd
-};
-
-static const JUtf8Byte* kHelpMenuStr =
-	"   About"
-	"%l|Table of Contents %i TOCHelp::FitDirector"
-	"  |This window       %i ThisWindowHelp::FitDirector"
-	"%l|Changes"
-	"  |Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
-};
 
 /******************************************************************************
  Constructor
@@ -133,7 +81,7 @@ enum
 
 FitDirector::FitDirector
 	(
-	PlotDir*		supervisor,
+	PlotDirector*	supervisor,
 	J2DPlotWidget*	plot,
 	const JString&	file
 	)
@@ -176,6 +124,9 @@ FitDirector::~FitDirector()
 
  ******************************************************************************/
 
+#include "FitDirector-Fit.h"
+#include "Generic-Preferences.h"
+
 void
 FitDirector::BuildWindow()
 {
@@ -198,12 +149,13 @@ FitDirector::BuildWindow()
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
 
-	itsFitMenu = menuBar->AppendTextMenu(JGetString("FitMenuTitle::FitDirector"));
+	itsFitMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::FitDirector_Fit"));
 	itsFitMenu->SetMenuItems(kFitMenuStr);
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
 	itsFitMenu->AttachHandlers(this,
 		&FitDirector::UpdateFitMenu,
 		&FitDirector::HandleFitMenu);
+	ConfigureFitMenu(itsFitMenu);
 
 	JArray<JCoordinate> widths(2);
 	widths.AppendItem(155);
@@ -420,22 +372,17 @@ FitDirector::BuildWindow()
 
 	// menus & toolbar
 
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::Generic_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &FitDirector::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr);
-	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandler(this, &FitDirector::HandleHelpMenu);
-
-	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
+	auto* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "FitHelp");
 
 	itsCurveList->SetCurrentCurveIndex(1);
 
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(nullptr);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFitMenu, kFitCmd);
@@ -444,9 +391,8 @@ FitDirector::BuildWindow()
 		itsToolBar->AppendButton(itsFitMenu, kPlotCmd);
 		itsToolBar->NewGroup();
 		itsToolBar->AppendButton(itsFitMenu, kCloseCmd);
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
-		itsToolBar->AppendButton(itsHelpMenu, kThisWindowCmd);
+
+		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
 }
 
@@ -705,42 +651,14 @@ FitDirector::HandlePrefsMenu
 	{
 		itsToolBar->Edit();
 	}
+	else if (index == kEditMacWinPrefsCmd)
+	{
+		JXMacWinPrefsDialog::EditPrefs();
+	}
+
 	else if (index == kSaveWindowSizeCmd)
 	{
 		GetPrefsMgr()->WriteFitDirectorSetup(this);
-	}
-}
-
-/******************************************************************************
- HandleHelpMenu
-
- ******************************************************************************/
-
-void
-FitDirector::HandleHelpMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kAboutCmd)
-	{
-		GetApplication()->DisplayAbout();
-	}
-	else if (index == kTOCCmd)
-	{
-		JXGetHelpManager()->ShowTOC();
-	}
-	else if (index == kThisWindowCmd)
-	{
-		JXGetHelpManager()->ShowSection("FitHelp");
-	}
-	else if (index == kChangesCmd)
-	{
-		JXGetHelpManager()->ShowChangeLog();
-	}
-	else if (index == kCreditsCmd)
-	{
-		JXGetHelpManager()->ShowCredits();
 	}
 }
 
@@ -1155,7 +1073,7 @@ FitDirector::AddHistoryText
 	itsHistory->AppendText(str, false);
 	str = "Reduced Chi^2: " + itsChiSq->GetText()->GetText() + "\n";
 	itsHistory->AppendText(str, false);
-	itsHistory->AppendText(JString("\n\n", JString::kNoCopy), false);
+	itsHistory->AppendText("\n\n", false);
 }
 
 /******************************************************************************

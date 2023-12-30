@@ -227,7 +227,7 @@ FitManager::InitializeList()
 		JDirInfo* dir;
 		if (JDirInfo::Create(fitPath, &dir))
 		{
-			dir->SetWildcardFilter(JString("*.so", JString::kNoCopy));
+			dir->SetWildcardFilter("*.so");
 			for (const auto* entry : *dir)
 			{
 				DLFitModule* fit;

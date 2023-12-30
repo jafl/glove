@@ -12,13 +12,13 @@
 #include <jx-af/j2dplot/J2DPlotWidget.h>
 
 class JXInputField;
-class PlotDir;
+class PlotDirector;
 
 class CurveNameList : public JXEditTable
 {
 public:
 
-	CurveNameList(PlotDir* dir, J2DPlotWidget* plot,
+	CurveNameList(PlotDirector* dir, J2DPlotWidget* plot,
 					JXScrollbarSet* scrollbarSet, JXContainer* enclosure,
 					const HSizingOption hSizing, const VSizingOption vSizing,
 					const JCoordinate x, const JCoordinate y,
@@ -55,7 +55,7 @@ private:
 	JCoordinate			itsMinColWidth;
 	JXInputField*		itsInput;
 	J2DPlotWidget*		itsPlot;
-	PlotDir*			itsDir;
+	PlotDirector*		itsDir;
 
 private:
 

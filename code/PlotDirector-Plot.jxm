@@ -1,0 +1,76 @@
+jx_menu_editor 0
+759 270
+"PlotDirector"
+"Plot"
+'p
+40
+40
+153
+100
+40
+139
+145
+75
+
+0
+1
+0
+0 ""
+"Page setup..."
+""
+'s
+"__PageSetup"
+"kPageSetupCmd"
+0
+
+1
+0
+1 "jx_file_print.xpm"
+"Print..."
+"Ctrl-P"
+'p
+"__Print"
+"kPrintCmd"
+0
+
+1
+0
+0 ""
+"Print session..."
+""
+'i
+"__PrintSession"
+"kPrintSessionCmd"
+1
+
+1
+0
+0 ""
+"Print plot as EPS..."
+""
+'e
+"__PrintPlotAsEPS"
+"kPrintPlotEPSCmd"
+0
+
+1
+0
+0 ""
+"Print marks as EPS..."
+""
+'m
+"__PrintMarksAsEPS"
+"kPrintMarksEPSCmd"
+1
+
+1
+0
+0 ""
+"Close"
+"Ctrl-W"
+'c
+"__Close"
+"kCloseCmd"
+0
+
+0

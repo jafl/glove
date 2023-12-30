@@ -31,7 +31,7 @@ PlotExpFit::PlotExpFit
 	:
 	PlotLinearFit(plot, fitData, xMin, xMax, false)
 {
-	SetFunctionName(JString("y = a Exp(bx)", JString::kNoCopy));
+	SetFunctionName("y = a Exp(bx)");
 	itsXData = jnew JArray<JFloat>;
 	itsYData = jnew JArray<JFloat>;
 	itsHasXErrors = false;

@@ -12,6 +12,7 @@
 #include <UndoBase.h>
 #include <RaggedFloatTable.h>
 #include <RaggedFloatTableData.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************
@@ -50,5 +51,5 @@ UndoBase::NewUndo
 	JUndo* undo
 	)
 {
-	itsTable->NewUndo(undo);
+	itsTable->GetUndoRedoChain()->NewUndo(undo);
 }

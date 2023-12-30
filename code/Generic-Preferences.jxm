@@ -1,0 +1,46 @@
+jx_menu_editor 0
+843 208
+"Generic"
+"Preferences"
+'p
+40
+40
+200
+100
+40
+155
+167
+75
+
+0
+1
+0
+0 ""
+"Toolbar buttons..."
+""
+'t
+"EditToolBar"
+"kEditToolBarCmd"
+0
+
+1
+0
+0 ""
+"Mac/Win/X emulation..."
+""
+'e
+"MacWinXEmulation"
+"kEditMacWinPrefsCmd"
+1
+
+1
+0
+0 ""
+"Save window size as default"
+""
+'s
+"SaveWindowSize"
+"kSaveWindowSizeCmd"
+0
+
+0

@@ -8,7 +8,7 @@
  *****************************************************************************/
 
 #include <CurveNameList.h>
-#include "PlotDir.h"
+#include "PlotDirector.h"
 #include <jx-af/j2dplot/J2DPlotWidget.h>
 
 #include <jx-af/jx/JXColorManager.h>
@@ -37,7 +37,7 @@ const JUtf8Byte* CurveNameList::kCurveSelected = "kCurveSelected::CurveNameList"
 
 CurveNameList::CurveNameList
 	(
-	PlotDir*			dir,
+	PlotDirector*		dir,
 	J2DPlotWidget*		plot,
 	JXScrollbarSet*		scrollbarSet,
 	JXContainer*		enclosure,

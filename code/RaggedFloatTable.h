@@ -23,6 +23,7 @@ class DataDocument;
 class VarList;
 class JXToolBar;
 class JXTextButton;
+class JUndoRedoChain;
 class JUndo;
 class UndoBase;
 class DataModule;
@@ -77,12 +78,7 @@ public:
 
 	void	PrintRealTable(JPSPrinter& p);
 
-	// needed by undo
-
-	void	Undo();
-	void	Redo();
-	bool	HasUndo() const;
-	bool	HasRedo() const;
+	JUndoRedoChain*	GetUndoRedoChain();
 
 	void	LoadDefaultToolButtons(JXToolBar* toolbar);
 
@@ -113,18 +109,9 @@ private:
 		kSelectRangeDrag
 	};
 
-	// needed by undo
-
-	enum UndoState
-	{
-		kIdle,
-		kUndo,
-		kRedo
-	};
-
 private:
 
-	DataDocument*				itsTableDir;
+	DataDocument*				itsTableDir;			// owns us
 	RaggedFloatTableData*		itsFloatData;			// we don't own this
 
 	JXFloatInput*				itsFloatInputField;		// used during editing
@@ -138,11 +125,7 @@ private:
 	JXTextButton*				itsOKButton;
 	DragType					itsDragType;
 
-	// used for undo
-
-	JPtrArray<JUndo>*			itsUndoList;
-	JIndex						itsFirstRedoIndex;	// range [1:count+1]
-	UndoState					itsUndoState;
+	JUndoRedoChain*				itsUndoChain;
 
 private:
 
@@ -172,14 +155,19 @@ private:
 
 	void HandleModuleMenu(const JIndex index);
 	void UpdateModuleMenu();
-
-	// needed by undo
-
-	bool	GetCurrentRedo(JUndo** undo) const;
-	bool	GetCurrentUndo(JUndo** undo) const;
-	void	NewUndo(JUndo* undo);
 };
 
+
+/******************************************************************************
+ GetUndoRedoChain
+
+ ******************************************************************************/
+
+inline JUndoRedoChain*
+RaggedFloatTable::GetUndoRedoChain()
+{
+	return itsUndoChain;
+}
 
 /******************************************************************************
  GetFloatData (protected)

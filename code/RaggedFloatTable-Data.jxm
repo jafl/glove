@@ -1,0 +1,76 @@
+jx_menu_editor 0
+953 270
+"RaggedFloatTable"
+"Data"
+'d
+40
+40
+222
+100
+40
+215
+200
+75
+
+0
+1
+0
+0 "plotdata.xpm"
+"Plot data..."
+""
+'d
+"Plot"
+"kPlotCmd"
+0
+
+1
+0
+0 "plotvectordata.xpm"
+"Plot vector field..."
+""
+'v
+"PlotVector"
+"kPlotVectorCmd"
+1
+
+1
+0
+0 "transform.xpm"
+"Transform..."
+""
+'t
+"Transform"
+"kTransCmd"
+0
+
+1
+0
+0 ""
+"Generate column by range..."
+""
+'r
+"__GenerateColumnByRange"
+"kGenerateRangeColCmd"
+0
+
+1
+0
+0 ""
+"Generate column by increment..."
+""
+'i
+"__GenerateColumnByIncrement"
+"kGenerateIncrementColCmd"
+1
+
+1
+0
+0 ""
+"Data module"
+""
+'m
+"__DataModule"
+"kDataModuleCmd"
+0
+
+0

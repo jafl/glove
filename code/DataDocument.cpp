@@ -14,7 +14,7 @@
 #include "PlotApp.h"
 #include "ChooseFileImportDialog.h"
 #include "GetDelimiterDialog.h"
-#include "PlotDir.h"
+#include "PlotDirector.h"
 #include "RowHeaderWidget.h"
 #include "ColHeaderWidget.h"
 #include "RaggedFloatTableData.h"
@@ -39,7 +39,7 @@
 #include <jx-af/jx/JXChooseFileDialog.h>
 #include <jx-af/jx/JXSaveFileDialog.h>
 #include <jx-af/jx/JXCloseDirectorTask.h>
-#include <jx-af/jx/jXActionDefs.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
 
 #include <jx-af/jcore/JLatentPG.h>
 #include <jx-af/jcore/JOutPipeStream.h>
@@ -57,68 +57,10 @@ static const JUtf8Byte* kGloveFileSignature = "*** Glove File Format ***";
 static const JFileVersion kCurrentGloveVersion = 3;
 
 // version 2:
-//	Fixed problem with PlotDir::WriteData() (needed a space)
-//	Changed PlotDir to use PWXRead/WriteSetup()
-
-// File menu information
-
-static const JUtf8Byte* kFileMenuStr =
-	"    New           %k Meta-N %i New::DataDocument"
-	"  | Open...       %k Meta-O %i Open::DataDocument"
-	"  | Save          %k Meta-S %i Save::DataDocument"
-	"  | Save as..."
-	"%l| Export module"
-	"%l| Page setup..."
-	"  | Print...      %k Meta-P %i " kJXPrintAction
-	"%l| Close         %k Meta-W %i " kJXCloseWindowAction
-	"  | Quit          %k Meta-Q %i " kJXQuitAction;
-
-enum
-{
-	kNewCmd = 1,
-	kOpenCmd,
-	kSaveCmd,
-	kSaveAsCmd,
-	kExportCmd,
-	kPageSetupCmd,
-	kPrintCmd,
-	kCloseCmd,
-	kQuitCmd
-};
+//	Fixed problem with PlotDirector::WriteData() (needed a space)
+//	Changed PlotDirector to use PWXRead/WriteSetup()
 
 const JSize kMaxPlotTitleSize = 20;
-
-static const JUtf8Byte* kExportMenuStr =
-	"Reload %l";
-
-enum
-{
-	kReloadModuleCmd = 1
-};
-
-static const JUtf8Byte* kPrefsMenuStr =
-	"Edit tool bar... %i EditToolBar::DataDocument";
-
-enum
-{
-	kEditToolBarCmd = 1
-};
-
-static const JUtf8Byte* kHelpMenuStr =
-	"About "
-	"%l| Table of Contents %i TOC::DataDocument"
-	"  | This window       %i ThisWindow::DataDocument"
-	"%l| Changes"
-	"  | Credits";
-
-enum
-{
-	kAboutCmd = 1,
-	kTOCCmd,
-	kThisWindowCmd,
-	kChangesCmd,
-	kCreditsCmd
-};
 
 enum
 {
@@ -156,7 +98,7 @@ DataDocument::DataDocument
 {
 	itsData = jnew RaggedFloatTableData(0.0);
 
-	itsPlotWindows = jnew JPtrArray<PlotDir>(JPtrArrayT::kForgetAll);
+	itsPlotWindows = jnew JPtrArray<PlotDirector>(JPtrArrayT::kForgetAll);
 	assert( itsPlotWindows != nullptr );
 
 	itsPrinter = nullptr;
@@ -194,12 +136,9 @@ DataDocument::~DataDocument()
 
  ******************************************************************************/
 
-#include <jx-af/image/jx/jx_file_new.xpm>
-#include <jx-af/image/jx/jx_file_open.xpm>
-#include <jx-af/image/jx/jx_file_save.xpm>
-#include <jx-af/image/jx/jx_file_print.xpm>
-#include <jx-af/image/jx/jx_help_toc.xpm>
-#include <jx-af/image/jx/jx_help_specific.xpm>
+#include "DataDocument-File.h"
+#include "DataDocument-Export.h"
+#include "Generic-Preferences.h"
 
 void
 DataDocument::BuildWindow()
@@ -222,16 +161,18 @@ DataDocument::BuildWindow()
 
 	window->SetMinSize(150, 150);
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::DataDocument_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
 		&DataDocument::UpdateFileMenu,
 		&DataDocument::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 
-	itsFileMenu->SetItemImage(kNewCmd,   jx_file_new);
-	itsFileMenu->SetItemImage(kOpenCmd,  jx_file_open);
-	itsFileMenu->SetItemImage(kSaveCmd,  jx_file_save);
-	itsFileMenu->SetItemImage(kPrintCmd, jx_file_print);
+	itsExportMenu = jnew JXTextMenu(itsFileMenu, kExportCmd, menuBar);
+	itsExportMenu->SetMenuItems(kExportMenuStr);
+	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
+	itsExportMenu->AttachHandler(this, &DataDocument::HandleExportMenu);
+	ConfigureExportMenu(itsExportMenu);
 
 	itsScrollbarSet =
 		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
@@ -264,11 +205,10 @@ DataDocument::BuildWindow()
 
 	enclApG = encl->GetApertureGlobal();	// JXScrollableWidget forces a change in this
 
-	auto* rowHeader =
-		jnew RowHeaderWidget(itsTable, itsScrollbarSet, encl,
-							  JXWidget::kFixedLeft, JXWidget::kVElastic,
-							  0,kColHeaderHeight, kRowHeaderWidth,
-							  enclApG.height() - kColHeaderHeight);
+	jnew RowHeaderWidget(itsTable, itsScrollbarSet, encl,
+						  JXWidget::kFixedLeft, JXWidget::kVElastic,
+						  0,kColHeaderHeight, kRowHeaderWidth,
+						  enclApG.height() - kColHeaderHeight);
 
 	auto* colHeader =
 		jnew ColHeaderWidget(itsTable, itsScrollbarSet, encl,
@@ -286,25 +226,15 @@ DataDocument::BuildWindow()
 		windowListMenu->SetShortcuts(JGetString("WindowsMenuShortcut::JXGlobal"));
 	}
 
-	itsExportMenu = jnew JXTextMenu(itsFileMenu, kExportCmd, menuBar);
-	itsExportMenu->SetMenuItems(kExportMenuStr);
-	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsExportMenu->AttachHandler(this, &DataDocument::HandleExportMenu);
-
-	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("PrefsMenuTitle::JXGlobal"));
-	itsPrefsMenu->SetMenuItems(kPrefsMenuStr);
+	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::Generic_Preferences"));
+	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);
 	itsPrefsMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsPrefsMenu->AttachHandler(this, &DataDocument::HandlePrefsMenu);
+	ConfigurePreferencesMenu(itsPrefsMenu);
 
-	itsHelpMenu = menuBar->AppendTextMenu(JGetString("HelpMenuTitle::JXGlobal"));
-	itsHelpMenu->SetMenuItems(kHelpMenuStr);
-	itsHelpMenu->SetUpdateAction(JXMenu::kDisableNone);
-	itsHelpMenu->AttachHandler(this, &DataDocument::HandleHelpMenu);
+	auto* helpMenu = GetApplication()->CreateHelpMenu(menuBar, "TableHelp");
 
-	itsHelpMenu->SetItemImage(kTOCCmd,        jx_help_toc);
-	itsHelpMenu->SetItemImage(kThisWindowCmd, jx_help_specific);
-
-	itsToolBar->LoadPrefs();
+	itsToolBar->LoadPrefs(nullptr);
 	if (itsToolBar->IsEmpty())
 	{
 		itsToolBar->AppendButton(itsFileMenu, kNewCmd);
@@ -314,10 +244,10 @@ DataDocument::BuildWindow()
 		itsToolBar->AppendButton(itsFileMenu, kPrintCmd);
 
 		itsTable->LoadDefaultToolButtons(itsToolBar);
-
-		itsToolBar->NewGroup();
-		itsToolBar->AppendButton(itsHelpMenu, kTOCCmd);
+		GetApplication()->AppendHelpMenuToToolBar(itsToolBar, helpMenu);
 	}
+
+	GetPrefsMgr()->GetWindowSize(kTableWindowSizePrefsID, GetWindow());
 }
 
 /******************************************************************************
@@ -444,24 +374,23 @@ DataDocument::LoadFile
 	if (is.bad())
 	{
 		JGetUserNotification()->ReportError(JGetString("OpenFailed::DataDocument"));
+		return;
+	}
+
+	const JString str = JReadLine(is);
+	if (str == kGloveFileSignature)
+	{
+		if (!LoadNativeFile(is))
+		{
+			JGetUserNotification()->ReportError(JGetString("FileTooNew::DataDocument"));
+		}
 	}
 	else
 	{
-		const JString str = JReadLine(is);
-		if (str == kGloveFileSignature)
-		{
-			if (!LoadNativeFile(is))
-			{
-				JGetUserNotification()->ReportError(JGetString("FileTooNew::DataDocument"));
-			}
-		}
-		else
-		{
-			is.close();
-			FileChanged(fileName, false);
-			itsCurrentFileName = fileName;
-			ChooseFileFilter();
-		}
+		is.close();
+		FileChanged(fileName, false);
+		itsCurrentFileName = fileName;
+		ChooseFileFilter();
 	}
 }
 
@@ -658,7 +587,7 @@ DataDocument::CreateNewPlot
 	str = JGetString("PlotTitle::DataDocument", map, sizeof(map));
 	itsPlotNumber++;
 
-	auto* plotDir = jnew PlotDir(this, this, GetFileName());
+	auto* plotDir = jnew PlotDirector(this, this, GetFileName());
 	assert (plotDir != nullptr);
 	itsPlotWindows->Append(plotDir);
 
@@ -670,7 +599,6 @@ DataDocument::CreateNewPlot
 
 	plot->SetTitle(str);
 }
-
 
 /******************************************************************************
  AddToPlot
@@ -686,17 +614,14 @@ DataDocument::AddToPlot
 	const JArray<JFloat>*	x2Col,
 	const JArray<JFloat>&	yCol,
 	const JArray<JFloat>*	y2Col,
-	const bool			linked,
+	const bool				linked,
 	const JString&			label
 	)
 {
 	assert( itsPlotWindows->IndexValid(plotIndex) );
 
-	PlotDir* plotDir = itsPlotWindows->GetItem(plotIndex);
-	assert (plotDir != nullptr);
-
-	JX2DPlotWidget* plot = plotDir->GetPlot();
-	assert( plot != nullptr );
+	auto* plotDir = itsPlotWindows->GetItem(plotIndex);
+	auto* plot    = plotDir->GetPlot();
 	ListenTo(plot);
 
 	if (type == kDataPlot)
@@ -754,11 +679,9 @@ DataDocument::GetPlotNames
 
 	for (JIndex i = 1; i <= index; i++)
 	{
-		PlotDir* plotDir = itsPlotWindows->GetItem(i);
-		assert (plotDir != nullptr);
+		auto* plotDir = itsPlotWindows->GetItem(i);
+		auto* plot    = plotDir->GetPlot();
 
-		JX2DPlotWidget* plot = plotDir->GetPlot();
-		assert( plot != nullptr );
 		name = jnew JString(plot->GetTitle());
 		if (name->GetCharacterCount() > kMaxPlotTitleSize)
 		{
@@ -782,7 +705,7 @@ DataDocument::DirectorClosed
 	)
 {
 	JIndex index;
-	const auto* dir = (const PlotDir*) theDirector;
+	const auto* dir = (const PlotDirector*) theDirector;
 	if (itsPlotWindows->Find(dir, &index))
 	{
 		itsPlotWindows->Remove(dir);
@@ -798,8 +721,8 @@ DataDocument::DirectorClosed
 void
 DataDocument::WriteTextFile
 	(
-	std::ostream& output,
-	const bool safetySave
+	std::ostream&	output,
+	const bool		safetySave
 	)
 	const
 {
@@ -812,15 +735,14 @@ DataDocument::WriteTextFile
 
 	for (JSize i = 1; i <= plotCount; i++)
 	{
-		PlotDir* plotDir = itsPlotWindows->GetItem(i);
-		assert (plotDir != nullptr);
+		auto* plotDir = itsPlotWindows->GetItem(i);
 		plotDir->WriteSetup(output);
 		plotDir->WriteData(output, itsData);
 	}
 	GetWindow()->WriteGeometry(output);
-	JXScrollbar* vscroll = itsScrollbarSet->GetVScrollbar();
+	auto* vscroll = itsScrollbarSet->GetVScrollbar();
 	vscroll->WriteSetup(output);
-	JXScrollbar* hscroll = itsScrollbarSet->GetHScrollbar();
+	auto* hscroll = itsScrollbarSet->GetHScrollbar();
 	hscroll->WriteSetup(output);
 }
 
@@ -832,7 +754,7 @@ DataDocument::WriteTextFile
 void
 DataDocument::ReadPlotData
 	(
-	std::istream&		is,
+	std::istream&	is,
 	const JFloat	gloveVersion
 	)
 {
@@ -840,7 +762,7 @@ DataDocument::ReadPlotData
 	is >> count;
 	for (JSize i = 1; i <= count; i++)
 	{
-		auto* plotDir = jnew PlotDir(this, this, GetFileName());
+		auto* plotDir = jnew PlotDirector(this, this, GetFileName());
 		assert (plotDir != nullptr);
 
 		plotDir->ReadSetup(is, gloveVersion);
@@ -888,7 +810,6 @@ DataDocument::HandleExportMenu
 						  kJCreatePipe, &outFD,
 						  kJCreatePipe, &inFD,
 						  kJIgnoreConnection, nullptr);
-
 	if (!err.OK())
 	{
 		JGetUserNotification()->ReportError(JGetString("ModuleError::DataDocument"));
@@ -954,38 +875,14 @@ DataDocument::HandlePrefsMenu
 	{
 		itsToolBar->Edit();
 	}
-}
+	else if (index == kEditMacWinPrefsCmd)
+	{
+		JXMacWinPrefsDialog::EditPrefs();
+	}
 
-/******************************************************************************
- HandleHelpMenu
-
- ******************************************************************************/
-
-void
-DataDocument::HandleHelpMenu
-	(
-	const JIndex index
-	)
-{
-	if (index == kAboutCmd)
+	else if (index == kSaveWindowSizeCmd)
 	{
-		GetApplication()->DisplayAbout();
-	}
-	else if (index == kTOCCmd)
-	{
-		JXGetHelpManager()->ShowTOC();
-	}
-	else if (index == kThisWindowCmd)
-	{
-		JXGetHelpManager()->ShowSection("TableHelp");
-	}
-	else if (index == kChangesCmd)
-	{
-		JXGetHelpManager()->ShowChangeLog();
-	}
-	else if (index == kCreditsCmd)
-	{
-		JXGetHelpManager()->ShowCredits();
+		GetPrefsMgr()->SaveWindowSize(kTableWindowSizePrefsID, GetWindow());
 	}
 }
 

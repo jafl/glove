@@ -18,13 +18,13 @@ class FitBase;
 class JXTextButton;
 class JXStaticText;
 class FitParmsTable;
-class PlotDir;
+class PlotDirector;
 
 class FitParmsDir : public JXWindowDirector
 {
 public:
 
-	FitParmsDir(PlotDir* supervisor, JPtrArray<FitBase>* fits);
+	FitParmsDir(PlotDirector* supervisor, JPtrArray<FitBase>* fits);
 
 	~FitParmsDir() override;
 
@@ -37,7 +37,7 @@ protected:
 
 private:
 
-	PlotDir*			itsPlotDir;
+	PlotDirector*		itsPlotDir;
 	FitParmsTable*		itsTable;
 	JPtrArray<FitBase>*	itsFits;	// We don't own this!
 	JIndex				itsCurrentIndex;

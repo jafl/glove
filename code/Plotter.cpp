@@ -25,12 +25,7 @@
 #include <jx-af/jcore/jStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>
 
-static const JUtf8Byte* kModuleMenuStr = "Reload modules %l";
-
-enum
-{
-	kReloadCursorModuleCmd = 1
-};
+#include "Plotter-Module.h"
 
 /******************************************************************************
  Constructor
@@ -62,6 +57,7 @@ Plotter::Plotter
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsModuleMenu->AttachHandler(this, &Plotter::HandleModuleMenu);
+	ConfigureModuleMenu(itsModuleMenu);
 
 	itsIsProcessingCursor = false;
 	ListenTo(this);

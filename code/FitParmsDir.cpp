@@ -10,7 +10,7 @@
 #include "FitParmsDir.h"
 #include "FitParmsTable.h"
 #include "FitBase.h"
-#include "PlotDir.h"
+#include "PlotDirector.h"
 #include "HistoryDir.h"
 #include "globals.h"
 #include <jx-af/jx/JXWindow.h>
@@ -28,8 +28,8 @@
 
 FitParmsDir::FitParmsDir
 	(
-	PlotDir* supervisor,
-	JPtrArray<FitBase>* fits
+	PlotDirector*		supervisor,
+	JPtrArray<FitBase>*	fits
 	)
 	:
 	JXWindowDirector(supervisor),

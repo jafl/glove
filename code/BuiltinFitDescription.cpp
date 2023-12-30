@@ -26,26 +26,26 @@ BuiltinFitDescription::BuiltinFitDescription
 	if (type == FitDescription::kBLinear)
 	{
 		SetParameterCount(2);
-		GetVarList()->AddVariable(JString("a0", JString::kNoCopy), 0);
-		GetVarList()->AddVariable(JString("a1", JString::kNoCopy), 0);
+		GetVarList()->AddVariable("a0", 0);
+		GetVarList()->AddVariable("a1", 0);
 		SetFnName(JGetString("LinearName::BuiltinFitDescription"));
-		SetFitFunctionString(JString("a0 + a1 * x", JString::kNoCopy));
+		SetFitFunctionString("a0 + a1 * x");
 	}
 	else if (type == FitDescription::kBExp)
 	{
 		SetParameterCount(2);
-		GetVarList()->AddVariable(JString("a", JString::kNoCopy), 0);
-		GetVarList()->AddVariable(JString("b", JString::kNoCopy), 0);
+		GetVarList()->AddVariable("a", 0);
+		GetVarList()->AddVariable("b", 0);
 		SetFnName(JGetString("ExponentialName::BuiltinFitDescription"));
-		SetFitFunctionString(JString("a*e^(b*x)", JString::kNoCopy));
+		SetFitFunctionString("a*e^(b*x)");
 	}
 	else if (type == FitDescription::kBPower)
 	{
 		SetParameterCount(2);
-		GetVarList()->AddVariable(JString("a", JString::kNoCopy), 0);
-		GetVarList()->AddVariable(JString("b", JString::kNoCopy), 0);
+		GetVarList()->AddVariable("a", 0);
+		GetVarList()->AddVariable("b", 0);
 		SetFnName(JGetString("PowerLawName::BuiltinFitDescription"));
-		SetFitFunctionString(JString("a*x^b", JString::kNoCopy));
+		SetFitFunctionString("a*x^b");
 	}
 
 }

@@ -172,13 +172,11 @@ MissingFunction::NonLinearFitDialog	"You must specify a fit function."
 WindowTitle::PolyFitDialog	"Polynomial Fit"
 MissingPower::PolyFitDialog	"You must add at least one power."
 
-# PlotDir
+# PlotDirector
 
-PlotMenuTitle::PlotDir			"Plot"
-AnalysisMenuTitle::PlotDir		"Analysis"
-DiffCurveName::PlotDir			"Residual data"
-DiffMenuItem::PlotDir			"Residual plot $i"
-SessionWindowPrefix::PlotDir	"Glove session  -  "
+DiffCurveName::PlotDirector			"Residual data"
+DiffMenuItem::PlotDirector			"Residual plot $i"
+SessionWindowPrefix::PlotDirector	"Glove session  -  "
 
 # FitParameterTable
 
@@ -195,7 +193,6 @@ PowerLawName::BuiltinFitDescription		"Power Law"
 
 # FitDirector
 
-FitMenuTitle::FitDirector	"Fit"
 FitPlotTitle::FitDirector	"Fit"
 DiffPlotTitle::FitDirector	"Residuals"
 CurvesColTitle::FitDirector	"Curves"

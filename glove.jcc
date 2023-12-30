@@ -12,6 +12,10 @@ T
 F
 "./code/PlotApp.cpp"
 T
+2 "PlotApp-Help.jxm"
+F
+"./code/PlotApp-Help.jxm"
+T
 2 "globals.cpp"
 F
 "./code/globals.cpp"
@@ -35,6 +39,18 @@ T
 F
 "./code/DataDocument.cpp"
 T
+2 "DataDocument-File.jxm"
+F
+"./code/DataDocument-File.jxm"
+T
+2 "DataDocument-Export.jxm"
+F
+"./code/DataDocument-Export.jxm"
+T
+2 "Generic-Preferences.jxm"
+F
+"./code/Generic-Preferences.jxm"
+T
 2 "EditExprDialog.cpp"
 F
 "./code/EditExprDialog.cpp"
@@ -50,6 +66,10 @@ T
 2 "HistoryDir.cpp"
 F
 "./code/HistoryDir.cpp"
+T
+2 "HistoryDir-File.jxm"
+F
+"./code/HistoryDir-File.jxm"
 T
 2 "ChooseFileImportDialog.cpp"
 F
@@ -87,9 +107,17 @@ T
 F
 "./code/TransformFunctionDialog.cpp"
 T
-2 "PlotDir.cpp"
+2 "PlotDirector.cpp"
 F
-"./code/PlotDir.cpp"
+"./code/PlotDirector.cpp"
+T
+2 "PlotDirector-Plot.jxm"
+F
+"./code/PlotDirector-Plot.jxm"
+T
+2 "PlotDirector-Analysis.jxm"
+F
+"./code/PlotDirector-Analysis.jxm"
 F
 T
 1 "widgets"
@@ -106,6 +134,10 @@ T
 F
 "./code/Plotter.cpp"
 T
+2 "Plotter-Module.jxm"
+F
+"./code/Plotter-Module.jxm"
+T
 2 "ColHeaderWidget.cpp"
 F
 "./code/ColHeaderWidget.cpp"
@@ -113,6 +145,18 @@ T
 2 "RaggedFloatTable.cpp"
 F
 "./code/RaggedFloatTable.cpp"
+T
+2 "RaggedFloatTable-Edit.jxm"
+F
+"./code/RaggedFloatTable-Edit.jxm"
+T
+2 "RaggedFloatTable-Data.jxm"
+F
+"./code/RaggedFloatTable-Data.jxm"
+T
+2 "RaggedFloatTable-Module.jxm"
+F
+"./code/RaggedFloatTable-Module.jxm"
 T
 2 "RowHeaderWidget.cpp"
 F
@@ -214,6 +258,10 @@ T
 2 "FitDirector.cpp"
 F
 "./code/FitDirector.cpp"
+T
+2 "FitDirector-Fit.jxm"
+F
+"./code/FitDirector-Fit.jxm"
 T
 2 "FitManager.cpp"
 F

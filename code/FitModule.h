@@ -16,7 +16,7 @@
 #include <ace/UNIX_Addr.h>
 #include <jx-af/jcore/JMessageProtocol.h>	// template which requires ace includes
 
-class PlotDir;
+class PlotDirector;
 class JProgressDisplay;
 class JProcess;
 class JString;
@@ -28,14 +28,14 @@ class FitModule : virtual public JBroadcaster
 public:
 
 	static bool Create(	FitModule** module,
-						PlotDir* dir,
+						PlotDirector* dir,
 						J2DPlotDataBase* fitData,
 						const JString& sysCmd);
 	~FitModule() override;
 
 protected:
 
-	FitModule(PlotDir* dir, J2DPlotDataBase* fitData, JProcess* process,
+	FitModule(PlotDirector* dir, J2DPlotDataBase* fitData, JProcess* process,
 			  const int fd, JOutPipeStream* output);
 
 	void	Receive(JBroadcaster* sender, const JBroadcaster::Message& message) override;
@@ -46,7 +46,7 @@ private:
 
 private:
 
-	PlotDir*			itsDir;			// We don't own this.
+	PlotDirector*		itsDir;			// We don't own this.
 	J2DPlotDataBase*	itsData;		// We don't own this.
 	bool				itsStatusRead;
 	bool				itsHeaderRead;

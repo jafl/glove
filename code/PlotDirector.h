@@ -1,7 +1,7 @@
 /******************************************************************************
- PlotDir.h
+ PlotDirector.h
 
-	Interface for the PlotDir class
+	Interface for the PlotDirector class
 
 	Copyright (C) 1997 by Glenn Bach.
 
@@ -30,14 +30,14 @@ class PlotFitFunction;
 class PlotFitProxy;
 class JX2DPlotEPSPrinter;
 
-class PlotDir : public JXDocument
+class PlotDirector : public JXDocument
 {
 public:
 
-	PlotDir(JXDirector* supervisor, JXFileDocument* notifySupervisor,
+	PlotDirector(JXDirector* supervisor, JXFileDocument* notifySupervisor,
 			const JString& filename, const bool hideOnClose = false);
 
-	~PlotDir() override;
+	~PlotDirector() override;
 
 	Plotter*	GetPlot();
 	void				NewFileName(const JString& filename);
@@ -73,15 +73,15 @@ private:
 	JXTextMenu*					itsPlotMenu;
 	JXTextMenu*					itsAnalysisMenu;
 	JXTextMenu*					itsFitParmsMenu;
+	JXTextMenu*					itsPrefsMenu;
 	JXTextMenu*					itsDiffMenu;
-	JXTextMenu*					itsHelpMenu;
 	JIndex						itsXVarIndex;
 	JPtrArray<FitBase>*			itsFits;
 	FitParmsDir*				itsFitParmsDir;
 	JArray<GloveCurveStats>*	itsCurveStats;
 	GCurveType					itsCurrentCurveType;
 	JXFileDocument*				itsSupervisor;
-	JPtrArray<PlotDir>*			itsDiffDirs;
+	JPtrArray<PlotDirector>*	itsDiffDirs;
 	bool						itsHideOnClose;
 	bool						itsPlotIsClosing;
 	HistoryDir*					itsSessionDir;
@@ -112,8 +112,6 @@ private:
 
 	void	UpdateDiffMenu();
 
-	void	HandleHelpMenu(const JIndex index);
-
 	void	HandleCurveRemoved(const JIndex index);
 	void	HandleCurveAdded();
 	void	RemoveFit(const JIndex index);
@@ -121,6 +119,8 @@ private:
 	void	AddDiffCurve(J2DPlotDataBase* ddata);
 	void	AddFit(PlotFitFunction* fit, const JIndex plotIndex,
 					const GCurveFitType type);
+
+	void	HandlePrefsMenu(const JIndex index);
 };
 
 /******************************************************************************
@@ -129,7 +129,7 @@ private:
  ******************************************************************************/
 
 inline Plotter*
-PlotDir::GetPlot()
+PlotDirector::GetPlot()
 {
 	return itsPlot;
 }
@@ -140,7 +140,7 @@ PlotDir::GetPlot()
  ******************************************************************************/
 
 inline HistoryDir*
-PlotDir::GetSessionDir()
+PlotDirector::GetSessionDir()
 {
 	return itsSessionDir;
 }

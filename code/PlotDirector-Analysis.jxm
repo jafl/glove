@@ -1,0 +1,56 @@
+jx_menu_editor 0
+720 229
+"PlotDirector"
+"Analysis"
+'a
+40
+40
+133
+100
+40
+133
+132
+75
+
+0
+1
+0
+0 ""
+"Plot function..."
+""
+'p
+"__PlotFunction"
+"kPlotFunctionCmd"
+1
+
+1
+0
+0 ""
+"Open fit window"
+"Ctrl-F"
+'o
+"__OpenFitWindow"
+"kFitWindowCmd"
+1
+
+1
+0
+0 ""
+"Fit parameters"
+""
+'f
+"__FitParameters"
+"kFitParmsCmd"
+0
+
+1
+0
+0 ""
+"Residual plots"
+""
+'r
+"__ResidualPlots"
+"kDiffPlotCmd"
+0
+
+0

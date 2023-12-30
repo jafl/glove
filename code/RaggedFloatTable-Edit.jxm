@@ -1,0 +1,106 @@
+jx_menu_editor 0
+715 330
+"RaggedFloatTable"
+"Edit"
+'e
+40
+40
+129
+100
+40
+134
+136
+75
+
+0
+1
+0
+1 "jx_edit_undo.xpm"
+"Undo"
+"Ctrl-Z"
+'u
+"Undo::JX"
+"kUndoCmd"
+0
+
+1
+0
+1 "jx_edit_redo.xpm"
+"Redo"
+"Ctrl-Shift-Z"
+'r
+"Redo::JX"
+"kRedoCmd"
+1
+
+1
+0
+1 "jx_edit_cut.xpm"
+"Cut"
+"Ctrl-X"
+'t
+"Cut::JX"
+"kCutCmd"
+0
+
+1
+0
+1 "jx_edit_copy.xpm"
+"Copy"
+"Ctrl-C"
+'c
+"Copy::JX"
+"kCopyCmd"
+0
+
+1
+0
+1 "jx_edit_paste.xpm"
+"Paste"
+"Ctrl-V"
+'p
+"Paste::JX"
+"kPasteCmd"
+0
+
+1
+0
+0 ""
+"Paste at Selection"
+""
+'a
+"PasteAtSelection"
+"kSpecialPasteCmd"
+1
+
+1
+0
+0 ""
+"Insert"
+"Ctrl-I"
+'i
+"Insert"
+"kInsertCmd"
+0
+
+1
+0
+0 ""
+"Duplicate"
+"Ctrl-D"
+'d
+"Duplicate"
+"kDuplicateCmd"
+0
+
+1
+0
+1 "jx_edit_clear.xpm"
+"Delete"
+"Ctrl-K"
+'l
+"Delete"
+"kDeleteCmd"
+0
+
+0

@@ -20,24 +20,6 @@
 
 #include <jx-af/jcore/jAssert.h>
 
-static const JUtf8Byte* kFileMenuStr =
-	"    Save session             %k Meta-S"
-	"  | Save session as..."
-	"%l| Save session window size"
-	"%l| Print                    %k Meta-P"
-	"%l| Close                    %k Meta-W"
-	"  | Quit                     %k Meta-Q";
-
-enum
-{
-	kSaveCmd = 1,
-	kSaveAsCmd,
-	kSaveWindowSizeCmd,
-	kPrintCmd,
-	kCloseCmd,
-	kQuitCmd
-};
-
 const JUtf8Byte* HistoryDir::kSessionChanged = "kSessionChanged::HistoryDir";
 
 /******************************************************************************
@@ -72,6 +54,8 @@ HistoryDir::~HistoryDir()
 
  ******************************************************************************/
 
+#include "HistoryDir-File.h"
+
 void
 HistoryDir::BuildWindow()
 {
@@ -105,12 +89,13 @@ HistoryDir::BuildWindow()
 		Broadcast(SessionChanged());
 	}));
 
-	itsFileMenu = itsMenuBar->AppendTextMenu(JGetString("FileMenuTitle::JXGlobal"));
+	itsFileMenu = itsMenuBar->AppendTextMenu(JGetString("MenuTitle::HistoryDir_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFileMenu->AttachHandlers(this,
 		&HistoryDir::UpdateFileMenu,
 		&HistoryDir::HandleFileMenu);
+	ConfigureFileMenu(itsFileMenu);
 }
 
 /******************************************************************************

@@ -23,6 +23,7 @@
 #include <jx-af/jx/JXDeleteObjectTask.h>
 #include <jx-af/jx/jXGlobals.h>
 
+#include <jx-af/jcore/JUndoRedoChain.h>
 #include <jx-af/jcore/jProcessUtil.h>
 #include <jx-af/jcore/jStreamUtil.h>
 #include <sstream>
@@ -268,8 +269,7 @@ DataModule::HandlePrepareCols
 		jnew UndoElementsInsert(itsTable, JPoint(itsColStart, 1),
 								 JPoint(itsColStart + itsColNum - 1, itsTable->GetRowCount()),
 								 UndoElementsBase::kCols);
-	assert(undo != nullptr);
-	itsTable->NewUndo(undo);
+	itsTable->GetUndoRedoChain()->NewUndo(undo);
 }
 
 /*******************************************************************************

@@ -8,7 +8,7 @@
  ******************************************************************************/
 
 #include "FitModule.h"
-#include "PlotDir.h"
+#include "PlotDirector.h"
 #include <jx-af/j2dplot/J2DPlotDataBase.h>
 #include "gloveModule.h"
 #include "PlotModuleFit.h"
@@ -38,10 +38,10 @@ const int kASCIIZero = 48;
 bool
 FitModule::Create
 	(
-	FitModule**	module,
-	PlotDir*		dir,
+	FitModule**			module,
+	PlotDirector*		dir,
 	J2DPlotDataBase*	fitData,
-	const JString&	sysCmd
+	const JString&		sysCmd
 	)
 {
 	int inFD;
@@ -70,11 +70,11 @@ FitModule::Create
 
 FitModule::FitModule
 	(
-	PlotDir*		dir,
+	PlotDirector*		dir,
 	J2DPlotDataBase*	fitData,
-	JProcess*		process,
-	const int		fd,
-	JOutPipeStream* output
+	JProcess*			process,
+	const int			fd,
+	JOutPipeStream* 	output
 	)
 {
 	itsDir = dir;

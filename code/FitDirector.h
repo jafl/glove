@@ -30,7 +30,7 @@ class JX2DPlotWidget;
 class CurveNameList;
 class FitDescriptionList;
 class FitParameterTable;
-class PlotDir;
+class PlotDirector;
 
 class HistoryDir;
 
@@ -42,7 +42,7 @@ public:
 
 public:
 
-	FitDirector(PlotDir* supervisor, J2DPlotWidget* plot, const JString& file);
+	FitDirector(PlotDirector* supervisor, J2DPlotWidget* plot, const JString& file);
 	~FitDirector() override;
 
 	virtual void	ReadPrefs(std::istream& input);
@@ -56,7 +56,6 @@ private:
 
 	JXTextMenu*		itsFitMenu;
 	JXTextMenu*		itsPrefsMenu;
-	JXTextMenu*		itsHelpMenu;
 	J2DPlotWidget*	itsPlot;
 
 	CurveNameList*			itsCurveList;
@@ -78,7 +77,7 @@ private:
 	JXExprEditor*			itsExprWidget;
 	VarList*				itsExprVarList;
 
-	PlotDir*				itsDir;
+	PlotDirector*			itsDir;
 	JXPSPrinter*			itsPrinter;
 
 // begin JXLayout
@@ -110,10 +109,7 @@ private:
 
 	void HandlePrefsMenu(const JIndex index);
 
-	void HandleHelpMenu(const JIndex index);
-
 	void BuildWindow();
 };
-
 
 #endif
