@@ -2233,7 +2233,10 @@ RaggedFloatTable::ChooseNewTransformFunction()
 		}
 
 		JArray<JIndex> inds;
-		inds.SetCompareFunction(JCompareIndices);
+		inds.SetCompareFunction(std::function([](const JIndex& i1, const JIndex& i2)
+		{
+			return i1 <=> i2;
+		}));
 		if (!jCollectColumnIndexes(f, itsFloatData->GetDataColCount(), &inds))
 		{
 			JGetUserNotification()->ReportError(JGetString("InvalidColumnIndex::RaggedFloatTable"));
