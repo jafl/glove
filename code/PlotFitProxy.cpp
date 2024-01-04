@@ -30,7 +30,6 @@ PlotFitProxy::PlotFitProxy
 	PlotFitFunction(plot, fitData, 0, 0),
 	itsErrors(nullptr),
 	itsHasGOF(fit->HasParameterErrors()),
-	itsGOFName(fit->HasGoodnessOfFit()),
 	itsFnString(fit->GetFitFunctionString())
 {
 	if (itsHasGOF)

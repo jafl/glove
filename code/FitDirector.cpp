@@ -37,9 +37,6 @@
 #include "globals.h"
 #include "PlotApp.h"
 
-#include <jx-af/image/jx/jx_help_specific.xpm>
-#include <jx-af/image/jx/jx_help_toc.xpm>
-
 #include <jx-af/j2dplot/J2DPlotData.h>
 #include <jx-af/j2dplot/J2DPlotFunction.h>
 #include <jx-af/j2dplot/JX2DPlotWidget.h>
@@ -53,7 +50,6 @@
 #include <jx-af/jx/JXDownRect.h>
 #include <jx-af/jx/JXHelpManager.h>
 #include <jx-af/jx/JXHorizPartition.h>
-#include <jx-af/jx/JXImage.h>
 #include <jx-af/jx/JXMenuBar.h>
 #include <jx-af/jx/JXPSPrinter.h>
 #include <jx-af/jx/JXScrollbarSet.h>
