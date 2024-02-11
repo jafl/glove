@@ -1172,14 +1172,15 @@ PlotDirector::AddFit
 	J2DPlotDataBase* ddata = fit->GetDiffData();
 	dir->AddDiffCurve(ddata);
 	J2DPlotWidget* plot = dir->GetPlot();
-	JString numS((JUInt64)itsFits->GetItemCount());
 
+	JString numS(itsFits->GetItemCount());
 	const JUtf8Byte* map[] =
 	{
 		"n", numS.GetBytes()
 	};
 	const JString str = JGetString("DiffMenuItem::PlotDirector", map, sizeof(map));
 	plot->SetTitle(str);
+
 	plot->SetXLabel(itsPlot->GetXLabel());
 	plot->SetYLabel(itsPlot->GetYLabel());
 	plot->ProtectCurve(1, true);

@@ -46,7 +46,7 @@ TransformFunctionDialog::TransformFunctionDialog
 	}
 
 	itsDestCol = colCount;
-	JString num((JUInt64) itsDestCol);
+	JString num(itsDestCol);
 	JString str = "col[" + num + "] = ";
 	itsColNumber->GetText()->SetText(str);
 }
@@ -124,7 +124,7 @@ TransformFunctionDialog::BuildWindow()
 	ListenTo(itsDestMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
 		itsDestCol = msg.GetIndex();
-		JString num((JUInt64) itsDestCol);
+		JString num(itsDestCol);
 		JString str = "col[" + num + "] = ";
 		itsColNumber->GetText()->SetText(str);
 	}));

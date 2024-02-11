@@ -22,7 +22,7 @@
 
 const JFileVersion kCurrentPrefsVersion = 1;
 
-const JString kFitDlDirName("fitdlmodule", JString::kNoCopy);
+const JString kFitDlDirName("fitdlmodule");
 
 const JUtf8Byte* FitManager::kFitsChanged = "kFitsChanged::FitManager";
 

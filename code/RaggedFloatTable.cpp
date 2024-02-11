@@ -2315,7 +2315,7 @@ RaggedFloatTable::WriteDataCols
 	SelectionType type = GetSelectionType();
 	if (type != kColsSelected)
 	{
-		JString str((JUInt64) cols);
+		JString str(cols);
 		const JUtf8Byte* map[] =
 		{
 			"i", str.GetBytes()
@@ -2342,7 +2342,7 @@ RaggedFloatTable::WriteDataCols
 
 	if (cols > (int) ncols)
 	{
-		JString str((JUInt64) cols);
+		JString str(cols);
 		const JUtf8Byte* map[] =
 		{
 			"i", str.GetBytes()

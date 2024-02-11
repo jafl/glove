@@ -80,7 +80,7 @@ PlotFitLinearEq::InitializePolynomial
 	JString name;
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JString parm	= "a" + JString((JUInt64) i - 1);
+		JString parm	= "a" + JString(i - 1);
 		JString xTerm;
 		JIndex power	= itsPowers->GetItem(i);
 		if (power > 0)
@@ -89,7 +89,7 @@ PlotFitLinearEq::InitializePolynomial
 		}
 		if (power > 1)
 		{
-			xTerm += "^" + JString((JUInt64) power);
+			xTerm += "^" + JString(power);
 		}
 		name += parm + xTerm;
 		if (i != count)
@@ -182,7 +182,7 @@ PlotFitLinearEq::GetParameterName
 	{
 		return false;
 	}
-	*name = "a" + JString((JUInt64) index - 1);
+	*name = "a" + JString(index - 1);
 	return true;
 }
 

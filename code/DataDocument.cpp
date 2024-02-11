@@ -579,7 +579,7 @@ DataDocument::CreateNewPlot
 	const JString&			label
 	)
 {
-	JString str((JUInt64) itsPlotNumber);
+	JString str(itsPlotNumber);
 	const JUtf8Byte* map[] =
 	{
 		"i", str.GetBytes()

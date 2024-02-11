@@ -309,7 +309,7 @@ PlotApp::UpdateFileImpProgs()
 void
 PlotApp::NewFile()
 {
-	JString str = "Untitled " + JString((JUInt64) itsDirNumber);
+	JString str = "Untitled " + JString(itsDirNumber);
 	itsDirNumber++;
 	auto* tableDir = jnew DataDocument(this, str, false);
 	tableDir->Activate();

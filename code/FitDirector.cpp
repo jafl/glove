@@ -1105,7 +1105,7 @@ FitDirector::Print()
 			str += fd.GetFnName();
 			itsPrinter->String(kLeftMargin, kPlotSep, str);
 
-			str = JString((JUInt64) fd.GetParameterCount());
+			str = JString(fd.GetParameterCount());
 			const JUtf8Byte* map[] =
 			{
 				"i", str.GetBytes()

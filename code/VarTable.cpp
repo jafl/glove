@@ -88,7 +88,7 @@ VarTable::NewConstant()
 	JIndex index;
 	do
 	{
-		parm	= "a" + JString((JUInt64) parmIndex);
+		parm	= "a" + JString(parmIndex);
 		parmIndex ++;
 	}
 	while (itsVarList->ParseVariableName(parm, &index));

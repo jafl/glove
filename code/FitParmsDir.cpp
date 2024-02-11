@@ -270,7 +270,7 @@ FitParmsDir::SendToSession
 	FitBase* fit = itsFits->GetItem(index);
 	const JSize count = fit->GetParameterCount();
 
-	JString str((JUInt64) index);
+	JString str(index);
 	const JUtf8Byte* map[] =
 	{
 		"i", str.GetBytes()

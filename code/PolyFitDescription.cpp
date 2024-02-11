@@ -70,7 +70,7 @@ PolyFitDescription::PolyFitDescriptionX()
 	JString form;
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JString parm = "a" + JString((JUInt64) i - 1);
+		JString parm = "a" + JString(i - 1);
 		GetVarList()->AddVariable(parm, 0);
 		JString xTerm;
 		JUInt64 power = itsPowers->GetItem(i);
