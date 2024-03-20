@@ -38,15 +38,15 @@ protected:
 private:
 
 	PlotDirector*		itsPlotDir;
-	FitParmsTable*		itsTable;
 	JPtrArray<FitBase>*	itsFits;	// We don't own this!
 	JIndex				itsCurrentIndex;
 
 // begin JXLayout
 
-	JXTextMenu*   itsFitMenu;
-	JXTextButton* itsCloseButton;
-	JXTextButton* itsSessionButton;
+	FitParmsTable* itsTable;
+	JXTextMenu*    itsFitMenu;
+	JXTextButton*  itsCloseButton;
+	JXTextButton*  itsSessionButton;
 
 // end JXLayout
 

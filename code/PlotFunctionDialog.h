@@ -35,10 +35,11 @@ private:
 
 // begin JXLayout
 
-	JXInputField* itsFunctionString;
 	JXTextButton* itsEditButton;
-	JXTextButton* itsClearButton;
 	JXTextMenu*   itsVarMenu;
+	JXTextButton* itsClearButton;
+	JXTextButton* okButton;
+	JXInputField* itsFunctionString;
 
 // end JXLayout
 

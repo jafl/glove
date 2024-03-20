@@ -1,0 +1,83 @@
+jx_layout_editor 8
+260
+240
+"JXLayout"
+"Fit Parameters"
+""
+""
+0
+
+1
+0
+0
+"ScrollbarSet"
+2
+2
+0 0 190 260
+"scrollbarSet"
+0
+0
+0
+
+1
+1
+1
+"CustomWidget"
+2
+2
+0 0 175 245
+"itsTable"
+1
+0
+0
+"FitParmsTable"
+"scrollbarSet"
+0
+""
+
+1
+0
+0
+"Menu"
+0
+1
+210 10 230 90
+"itsFitMenu"
+1
+0
+0
+0
+"Fit"
+1
+1
+1
+
+1
+0
+0
+"TextButton"
+0
+1
+210 110 230 170
+"itsCloseButton"
+1
+0
+0
+"Close"
+""
+
+1
+0
+0
+"TextButton"
+1
+1
+210 190 230 250
+"itsSessionButton"
+1
+0
+0
+"Session"
+""
+
+0

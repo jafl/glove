@@ -1,0 +1,56 @@
+jx_layout_editor 9
+370
+240
+"JXLayout"
+"Function Editor"
+0
+0
+""
+""
+0
+
+1
+0
+0
+"CustomWidget"
+2
+2
+0 0 200 370
+"set"
+0
+0
+0
+"JXExprEditorSet"
+"list, &itsEditor"
+0
+""
+
+1
+0
+0
+"TextButton"
+0
+1
+210 70 230 140
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+0
+"TextButton"
+1
+1
+210 230 230 300
+"okButton"
+0
+0
+0
+"OK"
+"^M"
+
+0

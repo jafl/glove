@@ -57,27 +57,25 @@ EditExprDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 300,240, JString::empty);
+	auto* window = jnew JXWindow(this, 370,240, JGetString("WindowTitle::EditExprDialog::JXLayout"));
 
 	auto* set =
 		jnew JXExprEditorSet(list, &itsEditor, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 300,200);
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 370,200);
 	assert( set != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::EditExprDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,210, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 70,210, 70,20);
 	assert( cancelButton != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::EditExprDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 170,210, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::EditExprDialog::shortcuts::JXLayout"));
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 230,210, 70,20);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::EditExprDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::EditExprDialog"));
 	SetButtons(okButton, cancelButton);
 
 	assert (itsEditor != nullptr);

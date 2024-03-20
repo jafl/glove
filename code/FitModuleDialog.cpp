@@ -49,38 +49,33 @@ FitModuleDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 270,100, JString::empty);
+	auto* window = jnew JXWindow(this, 270,100, JGetString("WindowTitle::FitModuleDialog::JXLayout"));
 
 	auto* prompt =
 		jnew JXStaticText(JGetString("prompt::FitModuleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,10, 230,20);
-	assert( prompt != nullptr );
-	prompt->SetToLabel();
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 230,20);
+	prompt->SetToLabel(false);
 
 	itsFilterMenu =
 		jnew JXTextMenu(JGetString("itsFilterMenu::FitModuleDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 70,40, 70,20);
-	assert( itsFilterMenu != nullptr );
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::FitModuleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,70, 60,20);
 	assert( cancelButton != nullptr );
-
-	itsOKButton =
-		jnew JXTextButton(JGetString("itsOKButton::FitModuleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,70, 70,20);
-	assert( itsOKButton != nullptr );
-	itsOKButton->SetShortcuts(JGetString("itsOKButton::FitModuleDialog::shortcuts::JXLayout"));
 
 	itsReloadButton =
 		jnew JXTextButton(JGetString("itsReloadButton::FitModuleDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,70, 70,20);
-	assert( itsReloadButton != nullptr );
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 105,70, 60,20);
+
+	itsOKButton =
+		jnew JXTextButton(JGetString("itsOKButton::FitModuleDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 190,70, 60,20);
+	itsOKButton->SetShortcuts(JGetString("itsOKButton::shortcuts::FitModuleDialog::JXLayout"));
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::FitModuleDialog"));
 	SetButtons(itsOKButton, cancelButton);
 
 	JPtrArray<JString>* names = GetApplication()->GetFitModules();

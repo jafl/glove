@@ -42,35 +42,21 @@ protected:
 
 private:
 
-	JXExprEditor*	itsFnEditor;
-	JXExprEditor*	itsDerivativeEditor;
 	VarList*		itsVarList;
-	VarTable*		itsVarTable;
 	JXFunctionTask*	itsDelButtonTask;
 
 // begin JXLayout
 
 	JXVertPartition* itsPartition;
+	JXExprEditor*    itsFnEditor;
+	JXExprEditor*    itsDerivativeEditor;
+	VarTable*        itsVarTable;
+	JXTextButton*    itsNewButton;
+	JXTextButton*    itsDeleteButton;
 	JXTextButton*    itsHelpButton;
+	JXInputField*    itsNameInput;
 
 // end JXLayout
-// begin functionLayout
-
-	JXInputField* itsNameInput;
-
-// end functionLayout
-
-// begin derivativeLayout
-
-
-// end derivativeLayout
-
-// begin variableLayout
-
-	JXTextButton* itsNewButton;
-	JXTextButton* itsDeleteButton;
-
-// end variableLayout
 
 private:
 

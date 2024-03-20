@@ -1,0 +1,40 @@
+jx_layout_editor 9
+480
+370
+"JXLayout"
+""
+400
+300
+""
+""
+0
+
+1
+0
+0
+"MenuBar"
+2
+0
+0 0 30 480
+"menuBar"
+0
+0
+0
+
+1
+0
+0
+"CustomWidget"
+2
+2
+30 0 370 480
+"itsPlot"
+1
+0
+0
+"Plotter"
+"itsSessionDir, menuBar"
+0
+""
+
+0

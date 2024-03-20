@@ -1,0 +1,111 @@
+jx_layout_editor 8
+750
+560
+"JXLayout"
+""
+"Glove_Data"
+""
+0
+
+1
+0
+0
+"MenuBar"
+2
+0
+0 0 30 750
+"menuBar"
+0
+0
+0
+
+1
+0
+0
+"ToolBar"
+2
+2
+30 0 560 750
+"itsToolBar"
+1
+0
+0
+"GetPrefsMgr()"
+"kDataToolBarID"
+"menuBar"
+
+1
+2
+1
+"ScrollbarSet"
+2
+2
+0 0 500 750
+"itsScrollbarSet"
+1
+0
+0
+
+1
+3
+1
+"TextButton"
+0
+0
+0 0 18 28
+"okButton"
+0
+0
+0
+"OK"
+""
+
+1
+3
+1
+"CustomWidget"
+2
+0
+0 30 20 735
+"colHeader"
+0
+0
+0
+"ColHeaderWidget"
+"itsTable, itsScrollbarSet"
+0
+"itsTable"
+
+1
+3
+1
+"CustomWidget"
+0
+2
+20 0 485 30
+"rowHeader"
+0
+0
+0
+"RowHeaderWidget"
+"itsTable, itsScrollbarSet"
+0
+"itsTable"
+
+1
+3
+1
+"CustomWidget"
+2
+2
+20 30 485 735
+"itsTable"
+1
+0
+0
+"RaggedFloatTable"
+"this, okButton, itsData, 6, menuBar, itsScrollbarSet"
+0
+"okButton"
+
+0

@@ -60,41 +60,33 @@ FitParmsDir::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 260,240, JString::empty);
+	auto* window = jnew JXWindow(this, 260,240, JGetString("WindowTitle::FitParmsDir::JXLayout"));
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 260,190);
 	assert( scrollbarSet != nullptr );
 
+	itsTable =
+		jnew FitParmsTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 260,190);
+
 	itsFitMenu =
 		jnew JXTextMenu(JGetString("itsFitMenu::FitParmsDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,210, 60,20);
-	assert( itsFitMenu != nullptr );
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,210, 80,20);
 
 	itsCloseButton =
 		jnew JXTextButton(JGetString("itsCloseButton::FitParmsDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 90,210, 70,20);
-	assert( itsCloseButton != nullptr );
-	itsCloseButton->SetShortcuts(JGetString("itsCloseButton::FitParmsDir::shortcuts::JXLayout"));
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 110,210, 60,20);
 
 	itsSessionButton =
 		jnew JXTextButton(JGetString("itsSessionButton::FitParmsDir::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 180,210, 70,20);
-	assert( itsSessionButton != nullptr );
+					JXWidget::kFixedRight, JXWidget::kFixedBottom, 190,210, 60,20);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::FitParmsDir"));
 	window->PlaceAsDialogWindow();
 	window->LockCurrentSize();
-
-	itsTable =
-		jnew FitParmsTable(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0,0,100,100);
-	assert (itsTable != nullptr);
-	itsTable->FitToEnclosure();
 
 	itsFitMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsFitMenu->AttachHandler(this, &FitParmsDir::HandleFitMenu);

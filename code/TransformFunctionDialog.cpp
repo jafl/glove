@@ -70,53 +70,47 @@ TransformFunctionDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 580,90, JString::empty);
-
-	itsTransformButton =
-		jnew JXTextButton(JGetString("itsTransformButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 370,55, 80,20);
-	assert( itsTransformButton != nullptr );
-
-	itsCloseButton =
-		jnew JXTextButton(JGetString("itsCloseButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,55, 80,20);
-	assert( itsCloseButton != nullptr );
-
-	itsClearButton =
-		jnew JXTextButton(JGetString("itsClearButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,55, 80,20);
-	assert( itsClearButton != nullptr );
-
-	itsFunctionString =
-		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 200,20, 200,20);
-	assert( itsFunctionString != nullptr );
-
-	itsEditButton =
-		jnew JXTextButton(JGetString("itsEditButton::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 410,20, 50,20);
-	assert( itsEditButton != nullptr );
-	itsEditButton->SetShortcuts(JGetString("itsEditButton::TransformFunctionDialog::shortcuts::JXLayout"));
+	auto* window = jnew JXWindow(this, 570,80, JGetString("WindowTitle::TransformFunctionDialog::JXLayout"));
 
 	itsDestMenu =
 		jnew JXTextMenu(JGetString("itsDestMenu::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 115,20);
-	assert( itsDestMenu != nullptr );
-
-	itsVarMenu =
-		jnew JXTextMenu(JGetString("itsVarMenu::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 470,20, 90,20);
-	assert( itsVarMenu != nullptr );
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 120,20);
+	itsDestMenu->SetPopupArrowPosition(JXMenu::kArrowAtLeft);
 
 	itsColNumber =
 		jnew JXStaticText(JGetString("itsColNumber::TransformFunctionDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,20, 65,20);
-	assert( itsColNumber != nullptr );
-	itsColNumber->SetToLabel();
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,10, 60,20);
+	itsColNumber->SetToLabel(false);
+
+	itsEditButton =
+		jnew JXTextButton(JGetString("itsEditButton::TransformFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 400,10, 50,20);
+	itsEditButton->SetShortcuts(JGetString("itsEditButton::shortcuts::TransformFunctionDialog::JXLayout"));
+
+	itsVarMenu =
+		jnew JXTextMenu(JGetString("itsVarMenu::TransformFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 460,10, 100,20);
+
+	itsCloseButton =
+		jnew JXTextButton(JGetString("itsCloseButton::TransformFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 100,50, 80,20);
+
+	itsClearButton =
+		jnew JXTextButton(JGetString("itsClearButton::TransformFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 250,50, 80,20);
+
+	itsTransformButton =
+		jnew JXTextButton(JGetString("itsTransformButton::TransformFunctionDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 400,50, 80,20);
+	itsTransformButton->SetShortcuts(JGetString("itsTransformButton::shortcuts::TransformFunctionDialog::JXLayout"));
+
+	itsFunctionString =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 190,10, 200,20);
+	itsFunctionString->SetIsRequired();
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::TransformFunctionDialog"));
 	SetButtons(itsTransformButton, itsCloseButton);
 
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
@@ -125,7 +119,7 @@ TransformFunctionDialog::BuildWindow()
 	{
 		itsDestCol = msg.GetIndex();
 		JString num(itsDestCol);
-		JString str = "col[" + num + "] = ";
+		JString str = "col[" + num + "] =";
 		itsColNumber->GetText()->SetText(str);
 	}));
 

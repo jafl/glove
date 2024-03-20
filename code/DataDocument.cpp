@@ -145,23 +145,49 @@ DataDocument::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 480,370, JString::empty);
+	auto* window = jnew JXWindow(this, 750,560, JString::empty);
+	window->SetMinSize(150, 150);
+	window->SetWMClass(JXGetApplication()->GetWMName().GetBytes(), "Glove_Data");
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 480,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 750,30);
 	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsMgr(), kDataToolBarID, menuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 480,340);
-	assert( itsToolBar != nullptr );
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 750,530);
+
+	itsScrollbarSet =
+		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 750,530);
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::DataDocument::JXLayout"), itsScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 28,18);
+	assert( okButton != nullptr );
+
+	itsTable =
+		jnew RaggedFloatTable(this, okButton, itsData, 6, menuBar, itsScrollbarSet, itsScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 30,20, 720,510);
+
+	auto* colHeader =
+		jnew ColHeaderWidget(itsTable, itsScrollbarSet, itsScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 30,0, 720,20);
+	assert( colHeader != nullptr );
+
+	auto* rowHeader =
+		jnew RowHeaderWidget(itsTable, itsScrollbarSet, itsScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,20, 30,510);
+	assert( rowHeader != nullptr );
 
 // end JXLayout
 
-	window->SetMinSize(150, 150);
+	AdjustWindowTitle();
 
-	itsFileMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::DataDocument_File"));
+	colHeader->TurnOnColResizing(20);
+
+	itsFileMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::DataDocument_File"));
 	itsFileMenu->SetMenuItems(kFileMenuStr);
 	itsFileMenu->AttachHandlers(this,
 		&DataDocument::UpdateFileMenu,
@@ -173,49 +199,6 @@ DataDocument::BuildWindow()
 	itsExportMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsExportMenu->AttachHandler(this, &DataDocument::HandleExportMenu);
 	ConfigureExportMenu(itsExportMenu);
-
-	itsScrollbarSet =
-		jnew JXScrollbarSet(itsToolBar->GetWidgetEnclosure(),
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 100,100);
-	assert( itsScrollbarSet != nullptr );
-	itsScrollbarSet->FitToEnclosure();
-
-	AdjustWindowTitle();
-
-	// layout table and headers
-
-	const JCoordinate kRowHeaderWidth  = 30;
-	const JCoordinate kColHeaderHeight = 20;
-
-	JXContainer* encl = itsScrollbarSet->GetScrollEnclosure();
-	JRect enclApG     = encl->GetApertureGlobal();
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("OKLabel::JXGlobal"), encl,
-						JXWidget::kFixedLeft, JXWidget::kFixedTop,
-						0, 0, kRowHeaderWidth-2, kColHeaderHeight-2);
-
-	itsTable =
-		jnew RaggedFloatTable(this, okButton, itsData, 6,
-							menuBar, itsScrollbarSet, encl,
-							JXWidget::kHElastic, JXWidget::kVElastic,
-							kRowHeaderWidth,kColHeaderHeight,
-							enclApG.width()  - kRowHeaderWidth,
-							enclApG.height() - kColHeaderHeight);
-
-	enclApG = encl->GetApertureGlobal();	// JXScrollableWidget forces a change in this
-
-	jnew RowHeaderWidget(itsTable, itsScrollbarSet, encl,
-						  JXWidget::kFixedLeft, JXWidget::kVElastic,
-						  0,kColHeaderHeight, kRowHeaderWidth,
-						  enclApG.height() - kColHeaderHeight);
-
-	auto* colHeader =
-		jnew ColHeaderWidget(itsTable, itsScrollbarSet, encl,
-							  JXWidget::kHElastic, JXWidget::kFixedTop,
-							  kRowHeaderWidth,0, enclApG.width() - kRowHeaderWidth,
-							  kColHeaderHeight);
-	colHeader->TurnOnColResizing(20);
 
 	auto* windowListMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,

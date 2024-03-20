@@ -1,0 +1,89 @@
+jx_layout_editor 9
+270
+100
+"JXLayout"
+"Choose fit module"
+0
+0
+""
+""
+0
+
+1
+0
+0
+"StaticText"
+0
+0
+10 20 30 250
+"prompt"
+0
+0
+0
+"Please select the appropriate module."
+1
+0
+0
+0
+0
+
+1
+0
+0
+"Menu"
+0
+0
+40 70 60 140
+"itsFilterMenu"
+1
+0
+0
+0
+"Filter:"
+1
+1
+1
+
+1
+0
+0
+"TextButton"
+0
+1
+70 20 90 80
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+0
+"TextButton"
+0
+1
+70 105 90 165
+"itsReloadButton"
+1
+0
+0
+"Reload"
+""
+
+1
+0
+0
+"TextButton"
+0
+1
+70 190 90 250
+"itsOKButton"
+1
+0
+0
+"OK"
+"^M"
+
+0

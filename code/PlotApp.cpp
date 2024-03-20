@@ -49,7 +49,7 @@ PlotApp::PlotApp
 	JString*	prevVersStr
 	)
 	:
-	JXApplication(argc, argv, kAppSignature, kDefaultStringData)
+	JXApplication(argc, argv, kAppSignature, kAppSignature, kDefaultStringData)
 {
 // Assumption - person has home dir, or no fileimpprogs
 
@@ -76,7 +76,7 @@ PlotApp::PlotApp
 	if (!*displayAbout)
 	{
 		*prevVersStr = GetPrefsMgr()->GetGloveVersionStr();
-		if (*prevVersStr == JGetString("VERSION"))
+		if (*prevVersStr == GetVersionNumberStr())
 		{
 			prevVersStr->Clear();
 		}

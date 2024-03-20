@@ -58,7 +58,6 @@
 .cpp ./code/FitDescriptionList
 .cpp ./code/FitParameterTable
 .cpp ./code/ParmColHeaderWidget
-.cpp ./code/ChiSqLabel
 .cpp ./code/FitDescription
 .cpp ./code/PolyFitDescription
 .cpp ./code/BuiltinFitDescription

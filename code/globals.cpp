@@ -143,6 +143,33 @@ GetMDIServer()
 }
 
 /******************************************************************************
+ GetVersionNumberStr
+
+ ******************************************************************************/
+
+const JString&
+GetVersionNumberStr()
+{
+	return JGetString("VERSION");
+}
+
+/******************************************************************************
+ GetVersionStr
+
+ ******************************************************************************/
+
+JString
+GetVersionStr()
+{
+	const JUtf8Byte* map[] =
+	{
+		"version",   JGetString("VERSION").GetBytes(),
+		"copyright", JGetString("COPYRIGHT").GetBytes()
+	};
+	return JGetString("Description::global", map, sizeof(map));
+}
+
+/******************************************************************************
  BuildColumnMenus
 
  ******************************************************************************/

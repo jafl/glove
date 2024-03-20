@@ -26,6 +26,13 @@ MDIServer*		GetMDIServer();
 bool	InitGlobals(PlotApp* app);
 void	DeleteGlobals();
 
+	// version info
+
+const JString&	GetVersionNumberStr();
+JString			GetVersionStr();
+
+	// utilities
+
 void	BuildColumnMenus(const JUtf8Byte* key, const JSize count, ...);
 
 #endif

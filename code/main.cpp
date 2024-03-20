@@ -122,11 +122,6 @@ void
 PrintVersion()
 {
 	std::cout << std::endl;
-	const JUtf8Byte* map[] =
-	{
-		"version",   JGetString("VERSION").GetBytes(),
-		"copyright", JGetString("COPYRIGHT").GetBytes()
-	};
-	std::cout << JGetString("Description::global", map, sizeof(map));
+	std::cout << GetVersionStr();
 	std::cout << std::endl << std::endl;
 }

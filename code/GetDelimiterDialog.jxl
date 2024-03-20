@@ -1,0 +1,246 @@
+jx_layout_editor 9
+380
+310
+"JXLayout"
+"Choose Delimiter"
+0
+0
+""
+""
+0
+
+1
+0
+0
+"RadioGroup"
+0
+0
+10 10 110 160
+"itsRG"
+1
+0
+0
+0
+
+1
+0
+0
+"TextCheckbox"
+0
+0
+10 180 30 260
+"itsSkipCB"
+1
+0
+0
+"Skip first"
+""
+
+1
+0
+0
+"IntegerInput"
+0
+0
+10 260 30 300
+"itsSkipCountInput"
+1
+2
+0
+1
+1 0
+0 0
+
+1
+0
+0
+"StaticText"
+0
+0
+10 305 30 345
+"lineLabel"
+0
+0
+0
+"lines"
+1
+0
+0
+0
+0
+
+1
+1
+1
+"TextRadioButton"
+0
+0
+10 10 30 110
+"rb[0]"
+0
+0
+1
+"kWhiteSpace"
+"Whitespace"
+""
+
+1
+0
+0
+"TextCheckbox"
+0
+0
+40 180 60 340
+"itsCommentCB"
+1
+0
+0
+"Skip lines starting with"
+""
+
+1
+0
+0
+"CharInput"
+0
+0
+40 340 60 370
+"itsCommentInput"
+1
+3
+0
+
+1
+1
+1
+"TextRadioButton"
+0
+0
+30 10 50 110
+"rb[1]"
+0
+0
+1
+"kSpace"
+"Space"
+""
+
+1
+1
+1
+"TextRadioButton"
+0
+0
+50 10 70 110
+"rb[2]"
+0
+0
+1
+"kTab"
+"Tab"
+""
+
+1
+1
+1
+"TextRadioButton"
+0
+0
+70 10 90 110
+"rb[3]"
+0
+0
+1
+"kChar"
+"Character:"
+""
+
+1
+1
+1
+"CharInput"
+0
+0
+70 110 90 140
+"itsCharInput"
+1
+1
+0
+
+1
+0
+0
+"StaticText"
+2
+0
+120 10 140 370
+"helpLabel"
+0
+0
+0
+"In the text below, → = tab and • = space."
+1
+0
+0
+0
+0
+
+1
+0
+0
+"ScrollbarSet"
+2
+2
+140 10 270 370
+"scrollbarSet"
+0
+0
+0
+
+1
+13
+1
+"StaticText"
+2
+2
+0 0 115 345
+"itsFileText"
+1
+0
+0
+""
+0
+0
+0
+0
+0
+
+1
+0
+0
+"TextButton"
+0
+0
+280 60 300 140
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+0
+"TextButton"
+1
+0
+280 240 300 320
+"okButton"
+0
+0
+0
+"OK"
+""
+
+0

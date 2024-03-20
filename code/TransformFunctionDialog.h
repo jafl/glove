@@ -37,14 +37,14 @@ private:
 
 // begin JXLayout
 
-	JXTextButton* itsTransformButton;
+	JXTextMenu*   itsDestMenu;
+	JXStaticText* itsColNumber;
+	JXTextButton* itsEditButton;
+	JXTextMenu*   itsVarMenu;
 	JXTextButton* itsCloseButton;
 	JXTextButton* itsClearButton;
+	JXTextButton* itsTransformButton;
 	JXInputField* itsFunctionString;
-	JXTextButton* itsEditButton;
-	JXTextMenu*   itsDestMenu;
-	JXTextMenu*   itsVarMenu;
-	JXStaticText* itsColNumber;
 
 // end JXLayout
 

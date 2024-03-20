@@ -146,6 +146,7 @@ PlotDirector::BuildWindow()
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 480,370, JString::empty);
+	window->SetMinSize(400, 300);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -155,11 +156,9 @@ PlotDirector::BuildWindow()
 	itsPlot =
 		jnew Plotter(itsSessionDir, menuBar, window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 480,340);
-	assert( itsPlot != nullptr );
 
 // end JXLayout
 
-	window->SetMinSize(400, 300);
 	if (itsHideOnClose)
 	{
 		window->SetCloseAction(JXWindow::kDeactivateDirector);

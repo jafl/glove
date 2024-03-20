@@ -68,58 +68,51 @@ CreateVectorPlotDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 370,160, JString::empty);
+	auto* window = jnew JXWindow(this, 370,160, JGetString("WindowTitle::CreateVectorPlotDialog::JXLayout"));
+
+	auto* labelLabel =
+		jnew JXStaticText(JGetString("labelLabel::CreateVectorPlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
+	labelLabel->SetToLabel(false);
 
 	itsX1Menu =
 		jnew JXTextMenu(JGetString("itsX1Menu::CreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 160,30);
-	assert( itsX1Menu != nullptr );
 
 	itsY1Menu =
 		jnew JXTextMenu(JGetString("itsY1Menu::CreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,40, 160,30);
-	assert( itsY1Menu != nullptr );
 
 	itsX2Menu =
 		jnew JXTextMenu(JGetString("itsX2Menu::CreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 160,30);
-	assert( itsX2Menu != nullptr );
 
 	itsY2Menu =
 		jnew JXTextMenu(JGetString("itsY2Menu::CreateVectorPlotDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,80, 160,30);
-	assert( itsY2Menu != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,130, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::CreateVectorPlotDialog::shortcuts::JXLayout"));
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 190,130, 70,20);
-	assert( cancelButton != nullptr );
 
 	auto* plotMenu =
 		jnew JXTextMenu(JGetString("plotMenu::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 130,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,120, 120,30);
 	assert( plotMenu != nullptr );
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::CreateVectorPlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,130, 70,20);
+	assert( cancelButton != nullptr );
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::CreateVectorPlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,130, 70,20);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::CreateVectorPlotDialog::JXLayout"));
 
 	auto* labelInput =
 		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 115,10, 200,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,10, 300,20);
 	assert( labelInput != nullptr );
-
-	auto* label =
-		jnew JXStaticText(JGetString("label::CreateVectorPlotDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 65,10, 50,20);
-	assert( label != nullptr );
-	label->SetToLabel();
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::CreateVectorPlotDialog"));
 	SetButtons(okButton, cancelButton);
 
 	BuildColumnMenus("Column::global", data->GetDataColCount(),

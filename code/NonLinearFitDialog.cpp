@@ -81,26 +81,17 @@ NonLinearFitDialog::~NonLinearFitDialog()
 void
 NonLinearFitDialog::BuildWindow()
 {
-	const JCoordinate kNameInputHeight	= 20;
-	const JCoordinate kExprEditorHeight	= 100;
-	const JCoordinate kDerTableHeight	= 100;
-	const JCoordinate kVarTableHeight	= 100;
-
-	JArray<JCoordinate> heights(3);
-	heights.AppendItem(kExprEditorHeight + kNameInputHeight);
-	heights.AppendItem(kDerTableHeight);
-	heights.AppendItem(kVarTableHeight);
-
-	const JIndex elasticIndex = 3;
-
-	JArray<JCoordinate> minHeights(3);
-	minHeights.AppendItem(80);
-	minHeights.AppendItem(80);
-	minHeights.AppendItem(80);
-
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 400,430, JString::empty);
+	auto* window = jnew JXWindow(this, 400,430, JGetString("WindowTitle::NonLinearFitDialog::JXLayout"));
+
+	JArray<JCoordinate> itsPartition_sizes, itsPartition_minSizes;
+	itsPartition_sizes.AppendItem(121);
+	itsPartition_minSizes.AppendItem(80);
+	itsPartition_sizes.AppendItem(119);
+	itsPartition_minSizes.AppendItem(80);
+	itsPartition_sizes.AppendItem(110);
+	itsPartition_minSizes.AppendItem(100);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
@@ -108,150 +99,92 @@ NonLinearFitDialog::BuildWindow()
 	assert( menuBar != nullptr );
 
 	itsPartition =
-		jnew JXVertPartition(heights, elasticIndex, minHeights, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,355);
-	assert( itsPartition != nullptr );
+		jnew JXVertPartition(itsPartition_sizes, 3, itsPartition_minSizes, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 400,360);
+
+	auto* fitNameLabel =
+		jnew JXStaticText(JGetString("fitNameLabel::NonLinearFitDialog::JXLayout"), itsPartition->GetCompartment(1),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 70,20);
+	fitNameLabel->SetToLabel(false);
+
+	auto* fitFnLabel =
+		jnew JXStaticText(JGetString("fitFnLabel::NonLinearFitDialog::JXLayout"), itsPartition->GetCompartment(1),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 80,20);
+	fitFnLabel->SetToLabel(false);
+
+	auto* fnScrollbarSet =
+		jnew JXScrollbarSet(itsPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,30, 290,80);
+	assert( fnScrollbarSet != nullptr );
+
+	itsFnEditor =
+		jnew JXExprEditor(itsVarList, menuBar, fnScrollbarSet, fnScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 290,80);
+
+	auto* derivativeLabel =
+		jnew JXStaticText(JGetString("derivativeLabel::NonLinearFitDialog::JXLayout"), itsPartition->GetCompartment(2),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 90,20);
+	derivativeLabel->SetToLabel(false);
+
+	auto* derivativeScrollbarSet =
+		jnew JXScrollbarSet(itsPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,10, 290,80);
+	assert( derivativeScrollbarSet != nullptr );
+
+	itsDerivativeEditor =
+		jnew JXExprEditor(itsVarList, itsFnEditor, derivativeScrollbarSet, derivativeScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 290,80);
+
+	auto* warningText =
+		jnew JXStaticText(JGetString("warningText::NonLinearFitDialog::JXLayout"), itsPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 10,95, 380,20);
+	warningText->SetToLabel(false);
+
+	auto* parmLabel =
+		jnew JXStaticText(JGetString("parmLabel::NonLinearFitDialog::JXLayout"), itsPartition->GetCompartment(3),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 75,20);
+	parmLabel->SetToLabel(false);
+
+	auto* varScrollbarSet =
+		jnew JXScrollbarSet(itsPartition->GetCompartment(3),
+					JXWidget::kHElastic, JXWidget::kVElastic, 100,10, 290,90);
+	assert( varScrollbarSet != nullptr );
+
+	itsVarTable =
+		jnew VarTable(itsVarList, varScrollbarSet, varScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 290,90);
+
+	itsNewButton =
+		jnew JXTextButton(JGetString("itsNewButton::NonLinearFitDialog::JXLayout"), itsPartition->GetCompartment(3),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,40, 60,20);
+
+	itsDeleteButton =
+		jnew JXTextButton(JGetString("itsDeleteButton::NonLinearFitDialog::JXLayout"), itsPartition->GetCompartment(3),
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 60,20);
 
 	auto* cancelButton =
 		jnew JXTextButton(JGetString("cancelButton::NonLinearFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,400, 70,20);
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 40,400, 70,20);
 	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::NonLinearFitDialog::shortcuts::JXLayout"));
 
 	itsHelpButton =
 		jnew JXTextButton(JGetString("itsHelpButton::NonLinearFitDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 165,400, 70,20);
-	assert( itsHelpButton != nullptr );
 
 	auto* okButton =
 		jnew JXTextButton(JGetString("okButton::NonLinearFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 310,400, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::NonLinearFitDialog::shortcuts::JXLayout"));
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 290,400, 70,20);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::NonLinearFitDialog::JXLayout"));
+
+	itsNameInput =
+		jnew JXInputField(itsPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 100,10, 290,20);
+	itsNameInput->SetIsRequired();
 
 // end JXLayout
 
-	JXContainer* container = itsPartition->GetCompartment(1);
-
-// begin functionLayout
-
-	const JRect functionLayout_Aperture = container->GetAperture();
-	container->AdjustSize(380 - functionLayout_Aperture.width(), 120 - functionLayout_Aperture.height());
-
-	itsNameInput =
-		jnew JXInputField(container,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 120,0, 260,20);
-	assert( itsNameInput != nullptr );
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(container,
-					JXWidget::kHElastic, JXWidget::kVElastic, 120,20, 260,100);
-	assert( scrollbarSet != nullptr );
-
-	auto* fitNameLabel =
-		jnew JXStaticText(JGetString("fitNameLabel::NonLinearFitDialog::functionLayout"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 110,20);
-	assert( fitNameLabel != nullptr );
-	fitNameLabel->SetToLabel();
-
-	auto* fitFnLabel =
-		jnew JXStaticText(JGetString("fitFnLabel::NonLinearFitDialog::functionLayout"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,20, 110,20);
-	assert( fitFnLabel != nullptr );
-	fitFnLabel->SetToLabel();
-
-	container->SetSize(functionLayout_Aperture.width(), functionLayout_Aperture.height());
-
-// end functionLayout
-
-	itsFnEditor	=
-		jnew JXExprEditor(itsVarList, menuBar,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 100, 100);
-	assert(itsFnEditor != nullptr);
-	itsFnEditor->FitToEnclosure();
-
-	container = itsPartition->GetCompartment(2);
-
-// begin derivativeLayout
-
-	const JRect derivativeLayout_Aperture = container->GetAperture();
-	container->AdjustSize(380 - derivativeLayout_Aperture.width(), 100 - derivativeLayout_Aperture.height());
-
-	auto* derivativeLabel =
-		jnew JXStaticText(JGetString("derivativeLabel::NonLinearFitDialog::derivativeLayout"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
-	assert( derivativeLabel != nullptr );
-	derivativeLabel->SetToLabel();
-
-	scrollbarSet =
-		jnew JXScrollbarSet(container,
-					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
-	assert( scrollbarSet != nullptr );
-
-	auto* warningText =
-		jnew JXStaticText(JGetString("warningText::NonLinearFitDialog::derivativeLayout"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,20, 90,60);
-	assert( warningText != nullptr );
-	warningText->SetFontSize(JFontManager::GetDefaultFontSize()-2);
-
-	container->SetSize(derivativeLayout_Aperture.width(), derivativeLayout_Aperture.height());
-
-// end derivativeLayout
-
-	itsDerivativeEditor	=
-		jnew JXExprEditor(itsVarList, itsFnEditor,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 100, 100);
-	assert(itsDerivativeEditor != nullptr);
-	itsDerivativeEditor->FitToEnclosure(true, true);
-
-	container = itsPartition->GetCompartment(3);
-
-// begin variableLayout
-
-	const JRect variableLayout_Aperture = container->GetAperture();
-	container->AdjustSize(380 - variableLayout_Aperture.width(), 100 - variableLayout_Aperture.height());
-
-	scrollbarSet =
-		jnew JXScrollbarSet(container,
-					JXWidget::kHElastic, JXWidget::kVElastic, 120,0, 260,100);
-	assert( scrollbarSet != nullptr );
-
-	auto* parmLabel =
-		jnew JXStaticText(JGetString("parmLabel::NonLinearFitDialog::variableLayout"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,0, 100,20);
-	assert( parmLabel != nullptr );
-	parmLabel->SetToLabel();
-
-	itsNewButton =
-		jnew JXTextButton(JGetString("itsNewButton::NonLinearFitDialog::variableLayout"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,30, 65,20);
-	assert( itsNewButton != nullptr );
-	itsNewButton->SetShortcuts(JGetString("itsNewButton::NonLinearFitDialog::shortcuts::variableLayout"));
-
-	itsDeleteButton =
-		jnew JXTextButton(JGetString("itsDeleteButton::NonLinearFitDialog::variableLayout"), container,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 40,60, 65,20);
-	assert( itsDeleteButton != nullptr );
-
-	container->SetSize(variableLayout_Aperture.width(), variableLayout_Aperture.height());
-
-// end variableLayout
-
-	window->SetTitle(JGetString("WindowTitle::NonLinearFitDialog"));
 	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
-
-	itsVarTable	=
-		jnew VarTable(itsVarList,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic,
-			0, 0, 100, 100);
-	assert(itsVarTable != nullptr);
-	itsVarTable->FitToEnclosure(true, true);
 
 	ListenTo(itsNewButton);
 	ListenTo(itsDeleteButton);
@@ -333,29 +266,15 @@ NonLinearFitDialog::OKToDeactivate()
 	{
 		return true;
 	}
-	JString name	= itsNameInput->GetText()->GetText();
-	name.TrimWhitespace();
-	if (name.IsEmpty())
-	{
-		JGetUserNotification()->ReportError(JGetString("MissingName::NonLinearFitDialog"));
-		itsNameInput->Focus();
-		return false;
-	}
+
 	if (itsFnEditor->ContainsUIF())
 	{
 		JGetUserNotification()->ReportError(JGetString("MissingFunction::NonLinearFitDialog"));
 		itsFnEditor->Focus();
 		return false;
 	}
-	if (!itsDerivativeEditor->EndEditing())
-	{
-		return false;
-	}
-	if (!itsVarTable->EndEditing())
-	{
-		return false;
-	}
-	return true;
+
+	return itsDerivativeEditor->EndEditing() && itsVarTable->EndEditing();
 }
 
 /******************************************************************************

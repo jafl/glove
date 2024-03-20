@@ -13,7 +13,6 @@
 #include "FitManager.h"
 #include "FitParameterTable.h"
 #include "ParmColHeaderWidget.h"
-#include "ChiSqLabel.h"
 #include "PlotFitFunction.h"
 #include "PlotFitLinearEq.h"
 #include "PlotFitExp.h"
@@ -126,247 +125,165 @@ FitDirector::~FitDirector()
 void
 FitDirector::BuildWindow()
 {
+	itsExprVarList = jnew VarList();
+
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 600,500, JString::empty);
+	auto* window = jnew JXWindow(this, 850,760, JString::empty);
+	window->SetMinSize(600, 500);
+
+	JArray<JCoordinate> itsMainPartition_sizes, itsMainPartition_minSizes;
+	itsMainPartition_sizes.AppendItem(155);
+	itsMainPartition_minSizes.AppendItem(100);
+	itsMainPartition_sizes.AppendItem(690);
+	itsMainPartition_minSizes.AppendItem(300);
+
+	JArray<JCoordinate> itsPlotPartition_sizes, itsPlotPartition_minSizes;
+	itsPlotPartition_sizes.AppendItem(80);
+	itsPlotPartition_minSizes.AppendItem(70);
+	itsPlotPartition_sizes.AppendItem(344);
+	itsPlotPartition_minSizes.AppendItem(100);
+	itsPlotPartition_sizes.AppendItem(296);
+	itsPlotPartition_minSizes.AppendItem(100);
+
+	JArray<JCoordinate> itsListPartition_sizes, itsListPartition_minSizes;
+	itsListPartition_sizes.AppendItem(80);
+	itsListPartition_minSizes.AppendItem(50);
+	itsListPartition_sizes.AppendItem(569);
+	itsListPartition_minSizes.AppendItem(100);
+	itsListPartition_sizes.AppendItem(71);
+	itsListPartition_minSizes.AppendItem(40);
 
 	auto* menuBar =
 		jnew JXMenuBar(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 600,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 850,30);
 	assert( menuBar != nullptr );
 
 	itsToolBar =
 		jnew JXToolBar(GetPrefsMgr(), kFitToolBarID, menuBar, window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 600,470);
-	assert( itsToolBar != nullptr );
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 850,730);
+
+	itsMainPartition =
+		jnew JXHorizPartition(itsMainPartition_sizes, 2, itsMainPartition_minSizes, itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 850,730);
+
+	itsListPartition =
+		jnew JXVertPartition(itsListPartition_sizes, 2, itsListPartition_minSizes, itsMainPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 155,730);
+
+	auto* scrollbarSet_1_1 =
+		jnew JXScrollbarSet(itsListPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 155,80);
+	assert( scrollbarSet_1_1 != nullptr );
+
+	itsPlotPartition =
+		jnew JXVertPartition(itsPlotPartition_sizes, 2, itsPlotPartition_minSizes, itsMainPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 690,730);
+
+	auto* scrollbarSet_1_2 =
+		jnew JXScrollbarSet(itsPlotPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 690,60);
+	assert( scrollbarSet_1_2 != nullptr );
+
+	itsCurveList =
+		jnew CurveNameList(itsDir, itsPlot, scrollbarSet_1_1, scrollbarSet_1_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 155,60);
+
+	itsParameterTable =
+		jnew FitParameterTable(scrollbarSet_1_2, scrollbarSet_1_2->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 690,40);
+
+	auto* chiSqContainer =
+		jnew JXDownRect(itsPlotPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,60, 690,20);
+	chiSqContainer->SetBorderWidth(2);
+
+	auto* chiSqLabel =
+		jnew JXStaticText(JGetString("chiSqLabel::FitDirector::JXLayout"), chiSqContainer,
+					JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 150,16);
+	chiSqLabel->SetToLabel(false);
+
+	itsChiSq =
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, chiSqContainer,
+					JXWidget::kHElastic, JXWidget::kVElastic, 150,0, 536,16);
+	itsChiSq->SetToLabel(false);
+
+	auto* scrollbarSet_2_1 =
+		jnew JXScrollbarSet(itsListPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 155,569);
+	assert( scrollbarSet_2_1 != nullptr );
+
+	itsFitList =
+		jnew FitDescriptionList(scrollbarSet_2_1, scrollbarSet_2_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 155,549);
+
+	auto* scrollbarSet_3_1 =
+		jnew JXScrollbarSet(itsListPartition->GetCompartment(3),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 155,71);
+	assert( scrollbarSet_3_1 != nullptr );
+
+	itsExprWidget =
+		jnew JXExprEditor(itsExprVarList, menuBar, scrollbarSet_3_1, scrollbarSet_3_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 155,71);
+
+	auto* header_1_1 =
+		jnew JXColHeaderWidget(itsCurveList, scrollbarSet_1_1, scrollbarSet_1_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 155,20);
+	assert( header_1_1 != nullptr );
+
+	itsParameterColHeader =
+		jnew ParmColHeaderWidget(itsParameterTable, scrollbarSet_1_2, scrollbarSet_1_2->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 690,20);
+
+	auto* header_2_1 =
+		jnew JXColHeaderWidget(itsFitList, scrollbarSet_2_1, scrollbarSet_2_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 155,20);
+	assert( header_2_1 != nullptr );
+
+	itsFitPlot =
+		jnew JX2DPlotWidget(menuBar, itsPlotPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 690,344);
+
+	itsDiffPlot =
+		jnew JX2DPlotWidget(itsFitPlot, itsPlotPartition->GetCompartment(3),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 690,296);
 
 // end JXLayout
 
 	window->SetCloseAction(JXWindow::kDeactivateDirector);
 	window->LockCurrentMinSize();
 
-	itsFitMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::FitDirector_Fit"));
-	itsFitMenu->SetMenuItems(kFitMenuStr);
-	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
-	itsFitMenu->AttachHandlers(this,
-		&FitDirector::UpdateFitMenu,
-		&FitDirector::HandleFitMenu);
-	ConfigureFitMenu(itsFitMenu);
-
-	JArray<JCoordinate> widths(2);
-	widths.AppendItem(155);
-	widths.AppendItem(300);
-
-	const JIndex elasticIndex = 2;
-
-	JArray<JCoordinate> minWidths(2);
-	minWidths.AppendItem(100);
-	minWidths.AppendItem(300);
-
-	itsMainPartition =
-		jnew JXHorizPartition(widths, elasticIndex, minWidths,
-							  itsToolBar->GetWidgetEnclosure(),
-							  JXWidget::kHElastic,JXWidget::kVElastic,
-							  0,0, 500,100);
-	assert( itsMainPartition != nullptr );
-	itsMainPartition->FitToEnclosure();
-
-	const JCoordinate kColHeaderHeight = 20;
-
-	// This is the first column that contains the curve and fit lists.
-
-	JXContainer* container = itsMainPartition->GetCompartment(1);
-
-	JArray<JCoordinate> heights(3);
-	heights.AppendItem(100);
-	heights.AppendItem(100);
-	heights.AppendItem(50);
-
-	JArray<JCoordinate> minHeights(3);
-	minHeights.AppendItem(50);
-	minHeights.AppendItem(100);
-	minHeights.AppendItem(40);
-
-	itsListPartition =
-		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
-							 JXWidget::kHElastic, JXWidget::kVElastic,
-							 0,0, 100,300);
-	itsListPartition->FitToEnclosure();
-
-	// This will be the curve list
-
-	container = itsListPartition->GetCompartment(1);
-
-	JXScrollbarSet* scrollbarSet =
-		jnew JXScrollbarSet(container,
-							JXWidget::kHElastic,JXWidget::kVElastic,
-							0,0, 100,100);
-	scrollbarSet->FitToEnclosure();
-	scrollbarSet->Move(0, kColHeaderHeight);
-	scrollbarSet->AdjustSize(0, -kColHeaderHeight);
-
-	itsCurveList =
-		jnew CurveNameList(itsDir, itsPlot, scrollbarSet,
-							scrollbarSet->GetScrollEnclosure(),
-							JXWidget::kHElastic, JXWidget::kVElastic,
-							0,0,  100,100);
-	assert(itsCurveList != nullptr);
-	itsCurveList->FitToEnclosure();
 	ListenTo(itsCurveList);
-
-	JXColHeaderWidget* header =
-		jnew JXColHeaderWidget(itsCurveList, scrollbarSet, container,
-								JXWidget::kHElastic, JXWidget::kFixedTop,
-								0,0, 100,kColHeaderHeight);
-	header->FitToEnclosure(true, false);
-	header->SetColTitle(1, JGetString("CurvesColTitle::FitDirector"));
-
-	// This will be the fit list
-
-	container = itsListPartition->GetCompartment(2);
-
-	scrollbarSet =
-		jnew JXScrollbarSet(container,
-							JXWidget::kHElastic,JXWidget::kVElastic,
-							0,0, 100,100);
-	scrollbarSet->FitToEnclosure();
-	scrollbarSet->Move(0, kColHeaderHeight);
-	scrollbarSet->AdjustSize(0, -kColHeaderHeight);
-
-	itsFitList	=
-		jnew FitDescriptionList(scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-								JXWidget::kHElastic, JXWidget::kVElastic,
-			0,0, 100,100);
-	assert(itsFitList != nullptr);
-	itsFitList->FitToEnclosure();
 	ListenTo(itsFitList);
 
-	header =
-		jnew JXColHeaderWidget(itsFitList, scrollbarSet, container,
-								JXWidget::kHElastic, JXWidget::kFixedTop,
-								0,0, 100,kColHeaderHeight);
-	header->FitToEnclosure(true, false);
-	header->SetColTitle(1, JGetString("FitsColTitle::FitDirector"));
-
-	// this is the expression widget that displays the current JFunction
-
-	container = itsListPartition->GetCompartment(3);
-
-	scrollbarSet =
-		jnew JXScrollbarSet(container,
-						   JXWidget::kHElastic,JXWidget::kVElastic,
-						   0,0, 100,100);
-	scrollbarSet->FitToEnclosure();
-	assert( scrollbarSet != nullptr );
-
-	itsExprVarList	= jnew VarList();
-
-	itsExprWidget	=
-		jnew JXExprEditor(itsExprVarList, menuBar, scrollbarSet,
-						  scrollbarSet->GetScrollEnclosure(),
-						  JXWidget::kHElastic, JXWidget::kVElastic,
-						  0,0, 100,100);
-	assert(itsExprWidget != nullptr);
-	itsExprWidget->FitToEnclosure();
+	header_1_1->SetColTitle(1, JGetString("CurvesColTitle::FitDirector"));
+	header_2_1->SetColTitle(1, JGetString("FitsColTitle::FitDirector"));
 	itsExprWidget->Hide();
-
-	// This is the second column that will contain the parameter table
-	// and the plots
-
-	container = itsMainPartition->GetCompartment(2);
-
-	heights.RemoveAll();
-	heights.AppendItem(80);
-	heights.AppendItem(150);
-	heights.AppendItem(150);
-
-	minHeights.RemoveAll();
-	minHeights.AppendItem(70);
-	minHeights.AppendItem(100);
-	minHeights.AppendItem(100);
-
-	itsPlotPartition =
-		jnew JXVertPartition(heights, elasticIndex, minHeights, container,
-							 JXWidget::kHElastic, JXWidget::kVElastic,
-							 0,0, 100,400);
-	itsPlotPartition->FitToEnclosure();
-
-	container = itsPlotPartition->GetCompartment(1);
-
-// begin parameterLayout
-
-	const JRect parameterLayout_Aperture = container->GetAperture();
-	container->AdjustSize(361 - parameterLayout_Aperture.width(), 241 - parameterLayout_Aperture.height());
-
-	auto* scrollbarSet2 =
-		jnew JXScrollbarSet(container,
-					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 360,200);
-	assert( scrollbarSet2 != nullptr );
-
-	auto* label =
-		jnew ChiSqLabel(container,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,220, 170,20);
-	assert( label != nullptr );
-
-	auto* downRect =
-		jnew JXDownRect(container,
-					JXWidget::kHElastic, JXWidget::kFixedBottom, 170,220, 190,20);
-	assert( downRect != nullptr );
-
-	container->SetSize(parameterLayout_Aperture.width(), parameterLayout_Aperture.height());
-
-// end parameterLayout
-
-	itsParameterTable =
-		jnew FitParameterTable(scrollbarSet2, scrollbarSet2->GetScrollEnclosure(),
-								JXWidget::kHElastic, JXWidget::kVElastic,
-								0,0, 100,100);
-	assert(itsParameterTable != nullptr);
-	itsParameterTable->FitToEnclosure();
-	ListenTo(itsParameterTable);
-
-	itsParameterColHeader =
-		jnew ParmColHeaderWidget(itsParameterTable, scrollbarSet2, container,
-								 JXWidget::kHElastic, JXWidget::kFixedTop,
-								 0,0, 100, kColHeaderHeight);
-	itsParameterColHeader->FitToEnclosure(true, false);
-	assert(itsParameterColHeader != nullptr);
 
 	itsParameterTable->SetColHeaderWidget(itsParameterColHeader);
 
-	itsChiSq =
-		jnew JXStaticText(JString::empty, downRect,
-						  JXWidget::kHElastic, JXWidget::kVElastic,
-						  0,0, 100,100);
-	itsChiSq->FitToEnclosure();
+	chiSqLabel->SetBackColor(JColorManager::GetWhiteColor());
 	itsChiSq->SetBackColor(JColorManager::GetWhiteColor());
+	itsChiSq->SetBorderWidth(0);
 
-	// now add the 2 plots
-
-	container = itsPlotPartition->GetCompartment(2);
-
-	itsFitPlot	=
-		jnew JX2DPlotWidget(menuBar, container,
-							JXWidget::kHElastic, JXWidget::kVElastic,
-							0,0, 100,100);
-	itsFitPlot->FitToEnclosure();
 	itsFitPlot->SetTitle(JGetString("FitPlotTitle::FitDirector"));
 	itsFitPlot->SetXLabel(itsPlot->GetXLabel());
 	itsFitPlot->SetYLabel(itsPlot->GetYLabel());
 
-	container = itsPlotPartition->GetCompartment(3);
-
-	itsDiffPlot	=
-		jnew JX2DPlotWidget(itsFitPlot, container,
-							JXWidget::kHElastic, JXWidget::kVElastic,
-							0,0, 100,100);
-	itsDiffPlot->FitToEnclosure();
 	itsDiffPlot->SetTitle(JGetString("DiffPlotTitle::FitDirector"));
 	itsDiffPlot->SetXLabel(itsPlot->GetXLabel());
 	itsDiffPlot->SetYLabel(itsPlot->GetYLabel());
 	itsDiffPlot->ShowFrame(false);
 
 	// menus & toolbar
+
+	itsFitMenu = menuBar->PrependTextMenu(JGetString("MenuTitle::FitDirector_Fit"));
+	itsFitMenu->SetMenuItems(kFitMenuStr);
+	itsFitMenu->SetUpdateAction(JXMenu::kDisableAll);
+	itsFitMenu->AttachHandlers(this,
+		&FitDirector::UpdateFitMenu,
+		&FitDirector::HandleFitMenu);
+	ConfigureFitMenu(itsFitMenu);
 
 	itsPrefsMenu = menuBar->AppendTextMenu(JGetString("MenuTitle::Generic_Preferences"));
 	itsPrefsMenu->SetMenuItems(kPreferencesMenuStr);

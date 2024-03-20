@@ -51,95 +51,78 @@ PolyFitDialog::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 380,220, JString::empty);
-
-	itsCB[0] =
-		jnew JXTextCheckbox(JGetString("itsCB[0]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,50, 100,20);
-	assert( itsCB[0] != nullptr );
-
-	itsCB[1] =
-		jnew JXTextCheckbox(JGetString("itsCB[1]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,75, 40,20);
-	assert( itsCB[1] != nullptr );
-
-	itsCB[2] =
-		jnew JXTextCheckbox(JGetString("itsCB[2]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,100, 40,20);
-	assert( itsCB[2] != nullptr );
-
-	itsCB[3] =
-		jnew JXTextCheckbox(JGetString("itsCB[3]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,125, 40,20);
-	assert( itsCB[3] != nullptr );
-
-	itsCB[4] =
-		jnew JXTextCheckbox(JGetString("itsCB[4]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 85,150, 40,20);
-	assert( itsCB[4] != nullptr );
-
-	itsCB[5] =
-		jnew JXTextCheckbox(JGetString("itsCB[5]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 225,50, 40,20);
-	assert( itsCB[5] != nullptr );
-
-	itsCB[6] =
-		jnew JXTextCheckbox(JGetString("itsCB[6]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 225,75, 40,20);
-	assert( itsCB[6] != nullptr );
-
-	itsCB[7] =
-		jnew JXTextCheckbox(JGetString("itsCB[7]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 225,100, 40,20);
-	assert( itsCB[7] != nullptr );
-
-	itsCB[8] =
-		jnew JXTextCheckbox(JGetString("itsCB[8]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 225,125, 40,20);
-	assert( itsCB[8] != nullptr );
-
-	itsCB[9] =
-		jnew JXTextCheckbox(JGetString("itsCB[9]::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 225,150, 40,20);
-	assert( itsCB[9] != nullptr );
-
-	auto* powersLabel =
-		jnew JXStaticText(JGetString("powersLabel::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 20,50, 65,20);
-	assert( powersLabel != nullptr );
-	powersLabel->SetToLabel();
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 25,185, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::PolyFitDialog::shortcuts::JXLayout"));
-
-	itsHelpButton =
-		jnew JXTextButton(JGetString("itsHelpButton::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 155,185, 70,20);
-	assert( itsHelpButton != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 285,185, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::PolyFitDialog::shortcuts::JXLayout"));
-
-	itsNameInput =
-		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 90,15, 270,20);
-	assert( itsNameInput != nullptr );
+	auto* window = jnew JXWindow(this, 330,190, JGetString("WindowTitle::PolyFitDialog::JXLayout"));
 
 	auto* fitNameLabel =
 		jnew JXStaticText(JGetString("fitNameLabel::PolyFitDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,15, 65,20);
-	assert( fitNameLabel != nullptr );
-	fitNameLabel->SetToLabel();
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 70,20);
+	fitNameLabel->SetToLabel(false);
+
+	auto* powersLabel =
+		jnew JXStaticText(JGetString("powersLabel::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 70,20);
+	powersLabel->SetToLabel(false);
+
+	itsCB[0] =
+		jnew JXTextCheckbox(JGetString("itsCB[0]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,40, 110,20);
+
+	itsCB[5] =
+		jnew JXTextCheckbox(JGetString("itsCB[5]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,40, 110,20);
+
+	itsCB[1] =
+		jnew JXTextCheckbox(JGetString("itsCB[1]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,60, 110,20);
+
+	itsCB[6] =
+		jnew JXTextCheckbox(JGetString("itsCB[6]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,60, 110,20);
+
+	itsCB[2] =
+		jnew JXTextCheckbox(JGetString("itsCB[2]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,80, 110,20);
+
+	itsCB[7] =
+		jnew JXTextCheckbox(JGetString("itsCB[7]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,80, 110,20);
+
+	itsCB[3] =
+		jnew JXTextCheckbox(JGetString("itsCB[3]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,100, 110,20);
+
+	itsCB[8] =
+		jnew JXTextCheckbox(JGetString("itsCB[8]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,100, 110,20);
+
+	itsCB[4] =
+		jnew JXTextCheckbox(JGetString("itsCB[4]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 80,120, 110,20);
+
+	itsCB[9] =
+		jnew JXTextCheckbox(JGetString("itsCB[9]::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 210,120, 110,20);
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 70,20);
+	assert( cancelButton != nullptr );
+
+	itsHelpButton =
+		jnew JXTextButton(JGetString("itsHelpButton::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,160, 70,20);
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::PolyFitDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 240,160, 70,20);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::PolyFitDialog::JXLayout"));
+
+	itsNameInput =
+		jnew JXInputField(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 80,10, 240,20);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::PolyFitDialog"));
 	SetButtons(okButton, cancelButton);
 
 	ListenTo(itsHelpButton);

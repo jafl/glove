@@ -1,8 +1,6 @@
 /******************************************************************************
  History.cpp
 
-	Implements a source code editor, built on top of JTextEditor.
-
 	BASE CLASS = JXTEBase
 
 	Copyright (C) 1997 by Glenn W. Bach.

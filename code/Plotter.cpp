@@ -34,7 +34,7 @@
 
 Plotter::Plotter
 	(
-	HistoryDir*	sessionDir,
+	HistoryDir*			sessionDir,
 	JXMenuBar*			menuBar,
 	JXContainer*		enclosure,
 	const HSizingOption	hSizing,

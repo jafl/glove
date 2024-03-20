@@ -61,29 +61,26 @@ HistoryDir::BuildWindow()
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 480,320, JString::empty);
+	auto* window = jnew JXWindow(this, 480,320, JGetString("WindowTitle::HIstoryDir::JXLayout"));
+	window->SetMinSize(300, 200);
 
 	itsMenuBar =
 		jnew JXMenuBar(window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 480,30);
-	assert( itsMenuBar != nullptr );
 
 	auto* scrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 480,290);
 	assert( scrollbarSet != nullptr );
 
-// end JXLayout
-
-	window->SetTitle(JGetString("WindowTitle::HistoryDir"));
-	window->SetMinSize(300,200);
-	window->SetCloseAction(JXWindow::kDeactivateDirector);
-
 	itsHistory =
 		jnew History(itsMenuBar, scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-					 JXWidget::kHElastic, JXWidget::kVElastic, 0, 0, 10, 10);
-	assert( itsHistory != nullptr );
-	itsHistory->FitToEnclosure(true, true);
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 0,0, 465,275);
+
+// end JXLayout
+
+	window->SetCloseAction(JXWindow::kDeactivateDirector);
+
 	ListenTo(itsHistory, std::function([this](const JStyledText::TextChanged&)
 	{
 		Broadcast(SessionChanged());

@@ -9,9 +9,9 @@
 
  *****************************************************************************/
 
-#include <PrefsMgr.h>
-#include <FitDirector.h>
-#include <globals.h>
+#include "PrefsMgr.h"
+#include "FitDirector.h"
+#include "globals.h"
 
 #include <jx-af/jx/JXWindow.h>
 #include <jx-af/jx/JXPTPrinter.h>
@@ -42,7 +42,7 @@ PrefsMgr::PrefsMgr
 
 PrefsMgr::~PrefsMgr()
 {
-	SetData(kProgramVersionID, JGetString("VERSION"));
+	SetData(kProgramVersionID, GetVersionNumberStr());
 	SaveToDisk();
 }
 

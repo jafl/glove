@@ -70,59 +70,51 @@ CreatePlotDialog::BuildWindow
 
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 370,160, JString::empty);
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 280,130, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::CreatePlotDialog::shortcuts::JXLayout"));
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 180,130, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::CreatePlotDialog::shortcuts::JXLayout"));
-
-	auto* labelInput =
-		jnew JXInputField(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 115,10, 200,20);
-	assert( labelInput != nullptr );
+	auto* window = jnew JXWindow(this, 370,160, JGetString("WindowTitle::CreatePlotDialog::JXLayout"));
 
 	auto* labelLabel =
 		jnew JXStaticText(JGetString("labelLabel::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 65,10, 50,20);
-	assert( labelLabel != nullptr );
-	labelLabel->SetToLabel();
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 50,20);
+	labelLabel->SetToLabel(false);
 
 	itsXMenu =
 		jnew JXTextMenu(JGetString("itsXMenu::CreatePlotDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,40, 160,30);
-	assert( itsXMenu != nullptr );
-
-	itsXErrMenu =
-		jnew JXTextMenu(JGetString("itsXErrMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 160,30);
-	assert( itsXErrMenu != nullptr );
-
-	itsYErrMenu =
-		jnew JXTextMenu(JGetString("itsYErrMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,80, 160,30);
-	assert( itsYErrMenu != nullptr );
 
 	itsYMenu =
 		jnew JXTextMenu(JGetString("itsYMenu::CreatePlotDialog::JXLayout"), window,
 					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,40, 160,30);
-	assert( itsYMenu != nullptr );
+
+	itsXErrMenu =
+		jnew JXTextMenu(JGetString("itsXErrMenu::CreatePlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 160,30);
+
+	itsYErrMenu =
+		jnew JXTextMenu(JGetString("itsYErrMenu::CreatePlotDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 200,80, 160,30);
 
 	auto* plotMenu =
 		jnew JXTextMenu(JGetString("plotMenu::CreatePlotDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,120, 130,30);
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,120, 120,30);
 	assert( plotMenu != nullptr );
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::CreatePlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 190,130, 70,20);
+	assert( cancelButton != nullptr );
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::CreatePlotDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 280,130, 70,20);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::CreatePlotDialog::JXLayout"));
+
+	auto* labelInput =
+		jnew JXInputField(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,10, 300,20);
+	assert( labelInput != nullptr );
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::CreatePlotDialog"));
 	SetButtons(okButton, cancelButton);
 
 	itsXErrMenu->AppendItem(JGetString("NoneItemLabel::CreatePlotDialog"));

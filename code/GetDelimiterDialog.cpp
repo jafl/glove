@@ -16,13 +16,11 @@
 #include <jx-af/jx/JXTextButton.h>
 #include <jx-af/jx/JXTextRadioButton.h>
 #include <jx-af/jx/JXTextCheckbox.h>
+#include <jx-af/jx/JXCharInput.h>
 #include <jx-af/jx/JXIntegerInput.h>
-#include <jx-af/jx/JXTextMenu.h>
 #include <jx-af/jx/JXRadioGroup.h>
 #include <jx-af/jx/JXStaticText.h>
 #include <jx-af/jx/JXScrollbarSet.h>
-#include <jx-af/jx/JXColorManager.h>
-#include <jx-af/jx/JXInputField.h>
 
 #include <jx-af/jcore/JStringIterator.h>
 #include <jx-af/jcore/jStreamUtil.h>
@@ -87,111 +85,91 @@ GetDelimiterDialog::BuildWindow()
 
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 330,360, JString::empty);
-
-	auto* scrollbarSet =
-		jnew JXScrollbarSet(window,
-					JXWidget::kHElastic, JXWidget::kVElastic, 10,220, 310,100);
-	assert( scrollbarSet != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,330, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::GetDelimiterDialog::shortcuts::JXLayout"));
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,330, 70,20);
-	assert( cancelButton != nullptr );
+	auto* window = jnew JXWindow(this, 380,310, JGetString("WindowTitle::GetDelimiterDialog::JXLayout"));
 
 	itsRG =
 		jnew JXRadioGroup(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 215,110);
-	assert( itsRG != nullptr );
-
-	rb[0] =
-		jnew JXTextRadioButton(1, JGetString("rb[0]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,10, 120,20);
-	assert( rb[0] != nullptr );
-
-	rb[1] =
-		jnew JXTextRadioButton(2, JGetString("rb[1]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,30, 120,20);
-	assert( rb[1] != nullptr );
-
-	rb[2] =
-		jnew JXTextRadioButton(3, JGetString("rb[2]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,50, 120,20);
-	assert( rb[2] != nullptr );
-
-	rb[3] =
-		jnew JXTextRadioButton(4, JGetString("rb[3]::GetDelimiterDialog::JXLayout"), itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,70, 100,20);
-	assert( rb[3] != nullptr );
-
-	itsCharInput =
-		jnew JXInputField(itsRG,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 125,70, 40,20);
-	assert( itsCharInput != nullptr );
-
-	auto* helpLabel =
-		jnew JXStaticText(JGetString("helpLabel::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 10,200, 310,20);
-	assert( helpLabel != nullptr );
-	helpLabel->SetToLabel();
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 150,100);
 
 	itsSkipCB =
 		jnew JXTextCheckbox(JGetString("itsSkipCB::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,140, 80,20);
-	assert( itsSkipCB != nullptr );
-
-	itsCommentCB =
-		jnew JXTextCheckbox(JGetString("itsCommentCB::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 170,20);
-	assert( itsCommentCB != nullptr );
-
-	itsSkipCountInput =
-		jnew JXIntegerInput(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 90,140, 40,20);
-	assert( itsSkipCountInput != nullptr );
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,10, 80,20);
 
 	auto* lineLabel =
 		jnew JXStaticText(JGetString("lineLabel::GetDelimiterDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 135,140, 60,20);
-	assert( lineLabel != nullptr );
-	lineLabel->SetToLabel();
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 305,10, 40,20);
+	lineLabel->SetToLabel(false);
+
+	rb[0] =
+		jnew JXTextRadioButton(kWhiteSpace, JGetString("rb[0]::GetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
+
+	itsCommentCB =
+		jnew JXTextCheckbox(JGetString("itsCommentCB::GetDelimiterDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,40, 160,20);
+
+	rb[1] =
+		jnew JXTextRadioButton(kSpace, JGetString("rb[1]::GetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
+
+	rb[2] =
+		jnew JXTextRadioButton(kTab, JGetString("rb[2]::GetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 100,20);
+
+	rb[3] =
+		jnew JXTextRadioButton(kChar, JGetString("rb[3]::GetDelimiterDialog::JXLayout"), itsRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,20);
+
+	auto* helpLabel =
+		jnew JXStaticText(JGetString("helpLabel::GetDelimiterDialog::JXLayout"), window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,120, 360,20);
+	helpLabel->SetToLabel(false);
+
+	auto* scrollbarSet =
+		jnew JXScrollbarSet(window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 10,140, 360,130);
+	assert( scrollbarSet != nullptr );
+
+	itsFileText =
+		jnew JXStaticText(JString::empty, scrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 360,130);
+	itsFileText->SetBorderWidth(0);
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::GetDelimiterDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 60,280, 80,20);
+	assert( cancelButton != nullptr );
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::GetDelimiterDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 240,280, 80,20);
+	assert( okButton != nullptr );
+
+	itsCharInput =
+		jnew JXCharInput(itsRG,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 110,70, 30,20);
+
+	itsSkipCountInput =
+		jnew JXIntegerInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 260,10, 40,20);
+	itsSkipCountInput->SetLowerLimit(0);
 
 	itsCommentInput =
-		jnew JXInputField(window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,160, 50,20);
-	assert( itsCommentInput != nullptr );
+		jnew JXCharInput(window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 340,40, 30,20);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::GetDelimiterDialog"));
 	SetButtons(okButton, cancelButton);
 
-	itsFileText =
-		jnew JXStaticText(JString::empty, false, false, false,
-			scrollbarSet, scrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
-	assert(itsFileText != nullptr);
-	itsFileText->FitToEnclosure();
-
 	itsCharInput->Deactivate();
-	itsCharInput->SetMaxLength(1);
-
 	itsSkipCountInput->Deactivate();
 	itsCommentInput->Deactivate();
-
-	helpLabel->GetText()->SetText(JGetString("Help::GetDelimiterDialog"));
+	itsCommentInput->GetText()->SetText("#");
 
 	ListenTo(itsRG);
 	ListenTo(itsSkipCB);
 	ListenTo(itsCommentCB);
-
-	itsCommentInput->GetText()->SetText("#");
 }
 
 /******************************************************************************

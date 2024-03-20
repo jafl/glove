@@ -1,4 +1,4 @@
-jx_browser_data 94
+jx_browser_data 95
 # project tree
 0 "root"
 T
@@ -31,6 +31,10 @@ T
 2 "AboutDialog.cpp"
 F
 "./code/AboutDialog.cpp"
+T
+2 "AboutDialog.jxl"
+F
+"./code/AboutDialog.jxl"
 F
 T
 1 "directors"
@@ -38,6 +42,10 @@ T
 2 "DataDocument.cpp"
 F
 "./code/DataDocument.cpp"
+T
+2 "DataDocument.jxl"
+F
+"./code/DataDocument.jxl"
 T
 2 "DataDocument-File.jxm"
 F
@@ -55,17 +63,33 @@ T
 F
 "./code/EditExprDialog.cpp"
 T
+2 "EditExprDialog.jxl"
+F
+"./code/EditExprDialog.jxl"
+T
 2 "FitModuleDialog.cpp"
 F
 "./code/FitModuleDialog.cpp"
+T
+2 "FitModuleDialog.jxl"
+F
+"./code/FitModuleDialog.jxl"
 T
 2 "FitParmsDir.cpp"
 F
 "./code/FitParmsDir.cpp"
 T
+2 "FitParmsDir.jxl"
+F
+"./code/FitParmsDir.jxl"
+T
 2 "HistoryDir.cpp"
 F
 "./code/HistoryDir.cpp"
+T
+2 "HIstoryDir.jxl"
+F
+"./code/HIstoryDir.jxl"
 T
 2 "HistoryDir-File.jxm"
 F
@@ -75,13 +99,25 @@ T
 F
 "./code/ChooseFileImportDialog.cpp"
 T
+2 "ChooseFileImportDialog.jxl"
+F
+"./code/ChooseFileImportDialog.jxl"
+T
 2 "ColByIncDialog.cpp"
 F
 "./code/ColByIncDialog.cpp"
 T
+2 "ColByIncDialog.jxl"
+F
+"./code/ColByIncDialog.jxl"
+T
 2 "ColByRangeDialog.cpp"
 F
 "./code/ColByRangeDialog.cpp"
+T
+2 "ColByRangeDialog.jxl"
+F
+"./code/ColByRangeDialog.jxl"
 T
 2 "CreatePlotDialogBase.cpp"
 F
@@ -91,25 +127,49 @@ T
 F
 "./code/CreatePlotDialog.cpp"
 T
+2 "CreatePlotDialog.jxl"
+F
+"./code/CreatePlotDialog.jxl"
+T
 2 "CreateVectorPlotDialog.cpp"
 F
 "./code/CreateVectorPlotDialog.cpp"
+T
+2 "CreateVectorPlotDialog.jxl"
+F
+"./code/CreateVectorPlotDialog.jxl"
 T
 2 "GetDelimiterDialog.cpp"
 F
 "./code/GetDelimiterDialog.cpp"
 T
+2 "GetDelimiterDialog.jxl"
+F
+"./code/GetDelimiterDialog.jxl"
+T
 2 "PlotFunctionDialog.cpp"
 F
 "./code/PlotFunctionDialog.cpp"
+T
+2 "PlotFunctionDialog.jxl"
+F
+"./code/PlotFunctionDialog.jxl"
 T
 2 "TransformFunctionDialog.cpp"
 F
 "./code/TransformFunctionDialog.cpp"
 T
+2 "TransformFunctionDialog.jxl"
+F
+"./code/TransformFunctionDialog.jxl"
+T
 2 "PlotDirector.cpp"
 F
 "./code/PlotDirector.cpp"
+T
+2 "PlotDirector.jxl"
+F
+"./code/PlotDirector.jxl"
 T
 2 "PlotDirector-Plot.jxm"
 F
@@ -259,6 +319,10 @@ T
 F
 "./code/FitDirector.cpp"
 T
+2 "FitDirector.jxl"
+F
+"./code/FitDirector.jxl"
+T
 2 "FitDirector-Fit.jxm"
 F
 "./code/FitDirector-Fit.jxm"
@@ -282,10 +346,6 @@ T
 2 "ParmColHeaderWidget.cpp"
 F
 "./code/ParmColHeaderWidget.cpp"
-T
-2 "ChiSqLabel.cpp"
-F
-"./code/ChiSqLabel.cpp"
 T
 2 "FitDescription.cpp"
 F
@@ -315,6 +375,10 @@ T
 F
 "./code/NonLinearFitDialog.cpp"
 T
+2 "NonLinearFitDialog.jxl"
+F
+"./code/NonLinearFitDialog.jxl"
+T
 2 "VarTable.cpp"
 F
 "./code/VarTable.cpp"
@@ -322,6 +386,10 @@ T
 2 "PolyFitDialog.cpp"
 F
 "./code/PolyFitDialog.cpp"
+T
+2 "PolyFitDialog.jxl"
+F
+"./code/PolyFitDialog.jxl"
 F
 T
 1 "undo classes"
@@ -380,13 +448,6 @@ T
 F
 "./release/doc/ChangeLog.html"
 F
-T
-1 "layouts"
-T
-2 "glove.fd"
-F
-"./glove.fd"
-F
 F
 # tasks
 4
@@ -405,6 +466,7 @@ T "../JX/include/jx-af/jcore" T
 T "../JX/include/jx-af/jexpr" T
 T "../JX/include/jx-af/jx" T
 T "./code" T
+T "./image-build" T
 F
 # C preprocessor
 F

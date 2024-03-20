@@ -71,43 +71,38 @@ ChooseFileImportDialog::BuildWindow
 {
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 330,230, JString::empty);
+	auto* window = jnew JXWindow(this, 330,230, JGetString("WindowTitle::ChooseFileImportDialog::JXLayout"));
 
 	auto* errorMessage =
-		jnew JXStaticText(JGetString("errorMessage::ChooseFileImportDialog::JXLayout"), window,
+		jnew JXStaticText(JGetString("errorMessage::ChooseFileImportDialog::JXLayout"), true, false, false, nullptr, window,
 					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 310,40);
-	assert( errorMessage != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 210,200, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::ChooseFileImportDialog::shortcuts::JXLayout"));
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 50,200, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::ChooseFileImportDialog::shortcuts::JXLayout"));
-
-	itsReloadButton =
-		jnew JXTextButton(JGetString("itsReloadButton::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedRight, JXWidget::kFixedBottom, 130,200, 70,20);
-	assert( itsReloadButton != nullptr );
-
-	itsFilterMenu =
-		jnew JXTextMenu(JGetString("itsFilterMenu::ChooseFileImportDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 10,160, 70,30);
-	assert( itsFilterMenu != nullptr );
+	errorMessage->SetBorderWidth(0);
 
 	auto* textScrollbarSet =
 		jnew JXScrollbarSet(window,
 					JXWidget::kHElastic, JXWidget::kVElastic, 10,50, 310,100);
 	assert( textScrollbarSet != nullptr );
 
+	itsFilterMenu =
+		jnew JXTextMenu(JGetString("itsFilterMenu::ChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,160, 70,30);
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::ChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 30,200, 70,20);
+	assert( cancelButton != nullptr );
+
+	itsReloadButton =
+		jnew JXTextButton(JGetString("itsReloadButton::ChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 130,200, 70,20);
+
+	okButton =
+		jnew JXTextButton(JGetString("okButton::ChooseFileImportDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,200, 70,20);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::ChooseFileImportDialog::JXLayout"));
+
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::ChooseFileImportDialog"));
 	window->LockCurrentMinSize();
 	SetButtons(okButton, cancelButton);
 

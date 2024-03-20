@@ -58,31 +58,30 @@ private:
 	JXTextMenu*		itsPrefsMenu;
 	J2DPlotWidget*	itsPlot;
 
-	CurveNameList*			itsCurveList;
-	FitDescriptionList*		itsFitList;
-	FitParameterTable*		itsParameterTable;
-	ParmColHeaderWidget*	itsParameterColHeader;
-	JX2DPlotWidget*			itsFitPlot;
-	JX2DPlotWidget*			itsDiffPlot;
-	JXStaticText*			itsChiSq;
-	PlotFitFunction*		itsCurrentFit;
-	J2DPlotFunction*		itsTestFunction;
+	PlotFitFunction*	itsCurrentFit;
+	J2DPlotFunction*	itsTestFunction;
 
-	JXHorizPartition*		itsMainPartition;
-	JXVertPartition*		itsListPartition;
-	JXVertPartition*		itsPlotPartition;
+	HistoryDir*	itsHistory;
 
-	HistoryDir*				itsHistory;
+	VarList*	itsExprVarList;
 
-	JXExprEditor*			itsExprWidget;
-	VarList*				itsExprVarList;
-
-	PlotDirector*			itsDir;
-	JXPSPrinter*			itsPrinter;
+	PlotDirector*	itsDir;
+	JXPSPrinter*	itsPrinter;
 
 // begin JXLayout
 
-	JXToolBar* itsToolBar;
+	JXToolBar*           itsToolBar;
+	JXHorizPartition*    itsMainPartition;
+	JXVertPartition*     itsListPartition;
+	JXVertPartition*     itsPlotPartition;
+	CurveNameList*       itsCurveList;
+	FitParameterTable*   itsParameterTable;
+	JXStaticText*        itsChiSq;
+	FitDescriptionList*  itsFitList;
+	JXExprEditor*        itsExprWidget;
+	ParmColHeaderWidget* itsParameterColHeader;
+	JX2DPlotWidget*      itsFitPlot;
+	JX2DPlotWidget*      itsDiffPlot;
 
 // end JXLayout
 

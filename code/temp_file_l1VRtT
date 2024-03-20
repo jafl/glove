@@ -1,0 +1,249 @@
+/******************************************************************************
+ FitDirector.cpp
+
+	BASE CLASS = public JXWindowDirector
+
+	Copyright (C) 2000 by Glenn W. Bach.
+
+ *****************************************************************************/
+
+#include <FitDirector.h>
+#include "CurveNameList.h"
+#include "FitDescriptionList.h"
+#include "FitManager.h"
+#include "FitParameterTable.h"
+#include "ParmColHeaderWidget.h"
+#include "PlotFitFunction.h"
+#include "PlotFitLinearEq.h"
+#include "PlotFitExp.h"
+#include "PlotFitPowerLaw.h"
+#include "PlotFitProxy.h"
+#include "PolyFitDescription.h"
+#include "BuiltinFitDescription.h"
+#include "NonLinearFitDescription.h"
+#include "ModuleFitDescription.h"
+#include "NonLinearFitDialog.h"
+#include "PolyFitDialog.h"
+#include "VarList.h"
+#include "HistoryDir.h"
+#include "PlotDirector.h"
+
+#include "PlotFitLinear.h"
+#include "PlotFitNonLinear.h"
+#include "PlotFitModule.h"
+
+#include "PrefsMgr.h"
+#include "globals.h"
+#include "PlotApp.h"
+
+#include <jx-af/j2dplot/J2DPlotData.h>
+#include <jx-af/j2dplot/J2DPlotFunction.h>
+#include <jx-af/j2dplot/JX2DPlotWidget.h>
+
+#include <jx-af/jx/JXToolBar.h>
+
+#include <jx-af/jx/JXApplication.h>
+#include <jx-af/jx/JXDisplay.h>
+#include <jx-af/jx/JXColHeaderWidget.h>
+#include <jx-af/jx/JXColorManager.h>
+#include <jx-af/jx/JXDownRect.h>
+#include <jx-af/jx/JXHelpManager.h>
+#include <jx-af/jx/JXHorizPartition.h>
+#include <jx-af/jx/JXMenuBar.h>
+#include <jx-af/jx/JXPSPrinter.h>
+#include <jx-af/jx/JXScrollbarSet.h>
+#include <jx-af/jx/JXStaticText.h>
+#include <jx-af/jx/JXTextButton.h>
+#include <jx-af/jx/JXTextMenu.h>
+#include <jx-af/jx/JXUpRect.h>
+#include <jx-af/jx/JXVertPartition.h>
+#include <jx-af/jx/JXWindow.h>
+#include <jx-af/jx/JXMacWinPrefsDialog.h>
+
+#include <jx-af/jexpr/JXExprEditor.h>
+#include <jx-af/jexpr/JExprParser.h>
+#include <jx-af/jcore/JVector.h>
+#include <jx-af/jcore/JUndoRedoChain.h>
+#include <jx-af/jcore/jDirUtil.h>
+#include <jx-af/jcore/jAssert.h>
+
+const JCoordinate kCurrentPrefsVersion	= 1;
+
+/******************************************************************************
+ Constructor
+
+ *****************************************************************************/
+
+FitDirector::FitDirector
+	(
+	PlotDirector*	supervisor,
+	J2DPlotWidget*	plot,
+	const JString&	file
+	)
+	:
+	JXWindowDirector(supervisor),
+	itsPlot(plot),
+	itsCurrentFit(nullptr),
+	itsTestFunction(nullptr),
+	itsDir(supervisor),
+	itsPrinter(nullptr)
+{
+	BuildWindow();
+
+	itsHistory	= jnew HistoryDir(this);
+
+	JString name;
+	JString path;
+	JSplitPathAndName(file, &path, &name);
+	const JString title = JGetString("FitTitle::FitDirector") + name;
+	GetWindow()->SetTitle(title);
+
+	itsPrinter = jnew JXPSPrinter(GetDisplay());
+	assert( itsPrinter != nullptr );
+	itsPrinter->SetOrientation(JPSPrinter::kPortrait);
+
+	GetPrefsMgr()->ReadFitDirectorSetup(this);
+}
+
+/******************************************************************************
+ Destructor
+
+ *****************************************************************************/
+
+FitDirector::~FitDirector()
+{
+}
+
+/******************************************************************************
+ BuildWindow
+
+ ******************************************************************************/
+
+#include "FitDirector-Fit.h"
+#include "Generic-Preferences.h"
+
+void
+FitDirector::BuildWindow()
+{
+	itsExprVarList = jnew VarList();
+
+// begin JXLayout
+
+	auto* window = jnew JXWindow(this, 850,760, JString::empty);
+
+	JArray<JCoordinate> itsMainPartition_sizes, itsMainPartition_minSizes;
+	itsMainPartition_sizes.AppendItem(155);
+	itsMainPartition_minSizes.AppendItem(100);
+	itsMainPartition_sizes.AppendItem(688);
+	itsMainPartition_minSizes.AppendItem(300);
+
+	JArray<JCoordinate> itsPlotPartition_sizes, itsPlotPartition_minSizes;
+	itsPlotPartition_sizes.AppendItem(80);
+	itsPlotPartition_minSizes.AppendItem(70);
+	itsPlotPartition_sizes.AppendItem(488);
+	itsPlotPartition_minSizes.AppendItem(100);
+	itsPlotPartition_sizes.AppendItem(150);
+	itsPlotPartition_minSizes.AppendItem(100);
+
+	JArray<JCoordinate> itsListPartition_sizes, itsListPartition_minSizes;
+	itsListPartition_sizes.AppendItem(104);
+	itsListPartition_minSizes.AppendItem(50);
+	itsListPartition_sizes.AppendItem(543);
+	itsListPartition_minSizes.AppendItem(100);
+	itsListPartition_sizes.AppendItem(71);
+	itsListPartition_minSizes.AppendItem(40);
+
+	auto* menuBar =
+		jnew JXMenuBar(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 850,30);
+	assert( menuBar != nullptr );
+
+	itsToolBar =
+		jnew JXToolBar(GetPrefsMgr(), kFitToolBarID, menuBar, window,
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,30, 850,730);
+
+	itsMainPartition =
+		jnew JXHorizPartition(itsMainPartition_sizes, 2, itsMainPartition_minSizes, itsToolBar->GetWidgetEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 848,728);
+
+	itsListPartition =
+		jnew JXVertPartition(itsListPartition_sizes, 2, itsListPartition_minSizes, itsMainPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 155,728);
+
+	itsPlotPartition =
+		jnew JXVertPartition(itsPlotPartition_sizes, 2, itsPlotPartition_minSizes, itsMainPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 688,728);
+
+	auto* scrollbarSet_1_1 =
+		jnew JXScrollbarSet(itsListPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 153,102);
+	assert( scrollbarSet_1_1 != nullptr );
+
+	auto* scrollbarSet_1_2 =
+		jnew JXScrollbarSet(itsPlotPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 686,58);
+	assert( scrollbarSet_1_2 != nullptr );
+
+	itsCurveList =
+		jnew CurveNameList(itsDir, itsPlot, scrollbarSet_1_1, scrollbarSet_1_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 151,80);
+
+	itsParameterTable =
+		jnew FitParameterTable(scrollbarSet_1_2, scrollbarSet_1_2->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 684,36);
+
+	auto* chiSqContainer =
+		jnew JXDownRect(itsPlotPartition->GetCompartment(1),
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 0,58, 688,20);
+	chiSqContainer->SetBorderWidth(2);
+
+	auto* chiSqLabel =
+		jnew JXStaticText(JGetString("chiSqLabel::FitDirector::JXLayout"), chiSqContainer,
+					JXWidget::kFixedLeft, JXWidget::kFixedBottom, 0,2, 160,16);
+	chiSqLabel->SetToLabel(false);
+
+	itsChiSq =
+		jnew JXStaticText(JString::empty, false, true, false, nullptr, chiSqContainer,
+					JXWidget::kHElastic, JXWidget::kFixedBottom, 160,2, 522,16);
+	itsChiSq->SetToLabel(false);
+
+	auto* scrollbarSet_2_1 =
+		jnew JXScrollbarSet(itsListPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 153,541);
+	assert( scrollbarSet_2_1 != nullptr );
+
+	itsFitList =
+		jnew FitDescriptionList(scrollbarSet_2_1, scrollbarSet_2_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,20, 151,519);
+
+	auto* scrollbarSet_3_1 =
+		jnew JXScrollbarSet(itsListPartition->GetCompartment(3),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 153,69);
+	assert( scrollbarSet_3_1 != nullptr );
+
+	itsExprWidget =
+		jnew JXExprEditor(itsExprVarList, menuBar, scrollbarSet_3_1, scrollbarSet_3_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 151,67);
+
+	auto* header_1_1 =
+		jnew JXColHeaderWidget(itsCurveList, scrollbarSet_1_1, scrollbarSet_1_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 151,20);
+	assert( header_1_1 != nullptr );
+
+	itsParameterColHeader =
+		jnew ParmColHeaderWidget(itsParameterTable, scrollbarSet_1_2, scrollbarSet_1_2->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 684,20);
+
+	itsFitPlot =
+		jnew JX2DPlotWidget(menuBar, itsPlotPartition->GetCompartment(2),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 686,486);
+
+	auto* header_2_1 =
+		jnew JXColHeaderWidget(itsFitList, scrollbarSet_2_1, scrollbarSet_2_1->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kFixedTop, 0,0, 151,20);
+	assert( header_2_1 != nullptr );
+
+	itsDiffPlot =
+		jnew JX2DPlotWidget(itsFitPlot, itsPlotPartition->GetCompartment(3),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 686,148);
+

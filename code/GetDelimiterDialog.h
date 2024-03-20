@@ -13,11 +13,10 @@
 #include <jx-af/jx/JXModalDialogDirector.h>
 #include <jx-af/jcore/JPrefObject.h>
 
-class JXTextMenu;
 class JXRadioGroup;
 class JXTextButton;
 class JXStaticText;
-class JXInputField;
+class JXCharInput;
 class JXIntegerInput;
 class JXTextCheckbox;
 
@@ -54,16 +53,15 @@ protected:
 
 private:
 
-	JXStaticText*	itsFileText;
-
 // begin JXLayout
 
 	JXRadioGroup*   itsRG;
-	JXInputField*   itsCharInput;
 	JXTextCheckbox* itsSkipCB;
 	JXTextCheckbox* itsCommentCB;
+	JXStaticText*   itsFileText;
+	JXCharInput*    itsCharInput;
 	JXIntegerInput* itsSkipCountInput;
-	JXInputField*   itsCommentInput;
+	JXCharInput*    itsCommentInput;
 
 // end JXLayout
 

@@ -1,0 +1,101 @@
+jx_layout_editor 9
+330
+230
+"JXLayout"
+"Choose Import Filter"
+0
+0
+""
+""
+0
+
+1
+0
+0
+"StaticText"
+2
+0
+10 10 50 320
+"errorMessage"
+0
+0
+0
+"This is not a Glove data file.  Please select the appropriate filter."
+0
+0
+1
+0
+0
+
+1
+0
+0
+"ScrollbarSet"
+2
+2
+50 10 150 320
+"textScrollbarSet"
+0
+0
+0
+
+1
+0
+0
+"Menu"
+0
+0
+160 10 190 80
+"itsFilterMenu"
+1
+0
+0
+0
+"Filter:"
+1
+1
+1
+
+1
+0
+0
+"TextButton"
+0
+0
+200 30 220 100
+"cancelButton"
+0
+0
+0
+"Cancel"
+""
+
+1
+0
+0
+"TextButton"
+0
+0
+200 130 220 200
+"itsReloadButton"
+1
+0
+0
+"Reload"
+""
+
+1
+0
+0
+"TextButton"
+0
+0
+200 230 220 300
+"okButton"
+1
+0
+0
+"OK"
+"^M"
+
+0

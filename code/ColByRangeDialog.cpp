@@ -56,77 +56,63 @@ ColByRangeDialog::BuildWindow()
 
 // begin JXLayout
 
-	auto* window = jnew JXWindow(this, 210,190, JString::empty);
-
-	itsBeginning =
-		jnew JXFloatInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 95,55, 100,20);
-	assert( itsBeginning != nullptr );
-
-	auto* okButton =
-		jnew JXTextButton(JGetString("okButton::ColByRangeDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 120,160, 70,20);
-	assert( okButton != nullptr );
-	okButton->SetShortcuts(JGetString("okButton::ColByRangeDialog::shortcuts::JXLayout"));
-
-	auto* cancelButton =
-		jnew JXTextButton(JGetString("cancelButton::ColByRangeDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,160, 70,20);
-	assert( cancelButton != nullptr );
-	cancelButton->SetShortcuts(JGetString("cancelButton::ColByRangeDialog::shortcuts::JXLayout"));
-
-	itsEnd =
-		jnew JXFloatInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 95,90, 100,20);
-	assert( itsEnd != nullptr );
-
-	auto* maxLabel =
-		jnew JXStaticText(JGetString("maxLabel::ColByRangeDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,90, 70,20);
-	assert( maxLabel != nullptr );
-	maxLabel->SetToLabel();
-
-	auto* minLabel =
-		jnew JXStaticText(JGetString("minLabel::ColByRangeDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,55, 70,20);
-	assert( minLabel != nullptr );
-	minLabel->SetToLabel();
-
-	itsCount =
-		jnew JXIntegerInput(window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 95,125, 100,20);
-	assert( itsCount != nullptr );
-
-	auto* countLabel =
-		jnew JXStaticText(JGetString("countLabel::ColByRangeDialog::JXLayout"), window,
-					JXWidget::kFixedLeft, JXWidget::kFixedTop, 15,125, 70,20);
-	assert( countLabel != nullptr );
-	countLabel->SetToLabel();
+	auto* window = jnew JXWindow(this, 210,180, JGetString("WindowTitle::ColByRangeDialog::JXLayout"));
 
 	itsDestMenu =
 		jnew JXTextMenu(JGetString("itsDestMenu::ColByRangeDialog::JXLayout"), window,
-					JXWidget::kHElastic, JXWidget::kFixedTop, 15,15, 180,30);
-	assert( itsDestMenu != nullptr );
+					JXWidget::kHElastic, JXWidget::kFixedTop, 10,10, 190,30);
+
+	auto* minLabel =
+		jnew JXStaticText(JGetString("minLabel::ColByRangeDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 70,20);
+	minLabel->SetToLabel(false);
+
+	auto* maxLabel =
+		jnew JXStaticText(JGetString("maxLabel::ColByRangeDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,80, 70,20);
+	maxLabel->SetToLabel(false);
+
+	auto* countLabel =
+		jnew JXStaticText(JGetString("countLabel::ColByRangeDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,110, 70,20);
+	countLabel->SetToLabel(false);
+
+	auto* cancelButton =
+		jnew JXTextButton(JGetString("cancelButton::ColByRangeDialog::JXLayout"), window,
+					JXWidget::kFixedLeft, JXWidget::kFixedTop, 20,150, 70,20);
+	assert( cancelButton != nullptr );
+
+	auto* okButton =
+		jnew JXTextButton(JGetString("okButton::ColByRangeDialog::JXLayout"), window,
+					JXWidget::kFixedRight, JXWidget::kFixedTop, 120,150, 70,20);
+	okButton->SetShortcuts(JGetString("okButton::shortcuts::ColByRangeDialog::JXLayout"));
+
+	itsBeginning =
+		jnew JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 80,50, 120,20);
+
+	itsEnd =
+		jnew JXFloatInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 80,80, 120,20);
+
+	itsCount =
+		jnew JXIntegerInput(window,
+					JXWidget::kHElastic, JXWidget::kFixedTop, 80,110, 120,20);
+	itsCount->SetLowerLimit(2);
 
 // end JXLayout
 
-	window->SetTitle(JGetString("WindowTitle::ColByRangeDialog"));
 	SetButtons(okButton, cancelButton);
 
 	BuildColumnMenus("Column::global", itsDestCol, itsDestMenu, nullptr);
 
 	itsDestMenu->SetToPopupChoice(true, itsDestCol);
-//	itsDestMenu->SetPopupChoice(itsDestCol);
 	itsDestMenu->SetUpdateAction(JXMenu::kDisableNone);
 	ListenTo(itsDestMenu, std::function([this](const JXMenu::ItemSelected& msg)
 	{
 		itsDestCol = msg.GetIndex();
 	}));
 
-	itsBeginning->SetIsRequired(true);
-	itsEnd->SetIsRequired(true);
-	itsCount->SetIsRequired(true);
-	itsCount->SetLowerLimit(2);
 	itsCount->SetValue(2);
 }
 

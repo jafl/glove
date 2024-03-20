@@ -57,7 +57,6 @@ private:
 
 	JXPSPrinter*			itsPrinter;
 	RaggedFloatTableData*	itsData;
-	RaggedFloatTable*		itsTable;			// owned by its enclosure
 	JXTextMenu*				itsFileMenu;		// owned by the menu bar
 	JXTextMenu*				itsExportMenu;
 	JXTextMenu*				itsPrefsMenu;
@@ -68,11 +67,11 @@ private:
 	JSize					itsPlotNumber;
 	bool					itsListenToData;
 
-	JXScrollbarSet*			itsScrollbarSet;
-
 // begin JXLayout
 
-	JXToolBar* itsToolBar;
+	JXToolBar*        itsToolBar;
+	JXScrollbarSet*   itsScrollbarSet;
+	RaggedFloatTable* itsTable;
 
 // end JXLayout
 

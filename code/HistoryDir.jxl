@@ -1,0 +1,52 @@
+jx_layout_editor 9
+480
+320
+"JXLayout"
+"Glove Session"
+300
+200
+""
+""
+0
+
+1
+0
+0
+"MenuBar"
+2
+0
+0 0 30 480
+"itsMenuBar"
+1
+0
+0
+
+1
+0
+0
+"ScrollbarSet"
+2
+2
+30 0 320 480
+"scrollbarSet"
+0
+0
+0
+
+1
+2
+1
+"CustomWidget"
+0
+0
+0 0 275 465
+"itsHistory"
+1
+0
+0
+"History"
+"itsMenuBar, scrollbarSet"
+0
+""
+
+0

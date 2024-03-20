@@ -40,12 +40,12 @@ protected:
 
 private:
 
-	History*	itsHistory;
 	JXTextMenu*	itsFileMenu;
 
 // begin JXLayout
 
 	JXMenuBar* itsMenuBar;
+	History*   itsHistory;
 
 // end JXLayout
 

@@ -39,9 +39,9 @@ private:
 // begin JXLayout
 
 	JXTextMenu* itsXMenu;
+	JXTextMenu* itsYMenu;
 	JXTextMenu* itsXErrMenu;
 	JXTextMenu* itsYErrMenu;
-	JXTextMenu* itsYMenu;
 
 // end JXLayout
 
