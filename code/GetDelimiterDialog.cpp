@@ -81,8 +81,6 @@ GetDelimiterDialog::~GetDelimiterDialog()
 void
 GetDelimiterDialog::BuildWindow()
 {
-	JXTextRadioButton* rb[4];
-
 // begin JXLayout
 
 	auto* window = jnew JXWindow(this, 380,310, JGetString("WindowTitle::GetDelimiterDialog::JXLayout"));
@@ -100,25 +98,29 @@ GetDelimiterDialog::BuildWindow()
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 305,10, 40,20);
 	lineLabel->SetToLabel(false);
 
-	rb[0] =
-		jnew JXTextRadioButton(kWhiteSpace, JGetString("rb[0]::GetDelimiterDialog::JXLayout"), itsRG,
+	auto* rb0 =
+		jnew JXTextRadioButton(kWhiteSpace, JGetString("rb0::GetDelimiterDialog::JXLayout"), itsRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,10, 100,20);
+	assert( rb0 != nullptr );
 
 	itsCommentCB =
 		jnew JXTextCheckbox(JGetString("itsCommentCB::GetDelimiterDialog::JXLayout"), window,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 180,40, 160,20);
 
-	rb[1] =
-		jnew JXTextRadioButton(kSpace, JGetString("rb[1]::GetDelimiterDialog::JXLayout"), itsRG,
+	auto* rb1 =
+		jnew JXTextRadioButton(kSpace, JGetString("rb1::GetDelimiterDialog::JXLayout"), itsRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,30, 100,20);
+	assert( rb1 != nullptr );
 
-	rb[2] =
-		jnew JXTextRadioButton(kTab, JGetString("rb[2]::GetDelimiterDialog::JXLayout"), itsRG,
+	auto* rb2 =
+		jnew JXTextRadioButton(kTab, JGetString("rb2::GetDelimiterDialog::JXLayout"), itsRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,50, 100,20);
+	assert( rb2 != nullptr );
 
-	rb[3] =
-		jnew JXTextRadioButton(kChar, JGetString("rb[3]::GetDelimiterDialog::JXLayout"), itsRG,
+	auto* rb3 =
+		jnew JXTextRadioButton(kChar, JGetString("rb3::GetDelimiterDialog::JXLayout"), itsRG,
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 10,70, 100,20);
+	assert( rb3 != nullptr );
 
 	auto* helpLabel =
 		jnew JXStaticText(JGetString("helpLabel::GetDelimiterDialog::JXLayout"), window,

@@ -1,13 +1,13 @@
 1
+rb3::GetDelimiterDialog::JXLayout "Character:"
 WindowTitle::GetDelimiterDialog::JXLayout "Choose Delimiter"
-rb[1]::GetDelimiterDialog::JXLayout "Space"
-rb[2]::GetDelimiterDialog::JXLayout "Tab"
+rb1::GetDelimiterDialog::JXLayout "Space"
 itsSkipCB::GetDelimiterDialog::JXLayout "Skip first"
-rb[3]::GetDelimiterDialog::JXLayout "Character:"
 okButton::GetDelimiterDialog::JXLayout "OK"
-helpLabel::GetDelimiterDialog::JXLayout "In the text below, → = tab and • = space."
-rb[0]::GetDelimiterDialog::JXLayout "Whitespace"
+rb0::GetDelimiterDialog::JXLayout "Whitespace"
+rb2::GetDelimiterDialog::JXLayout "Tab"
 cancelButton::GetDelimiterDialog::JXLayout "Cancel"
+helpLabel::GetDelimiterDialog::JXLayout "In the text below, → = tab and • = space."
 itsCommentCB::GetDelimiterDialog::JXLayout "Skip lines starting with"
 lineLabel::GetDelimiterDialog::JXLayout "lines"
 

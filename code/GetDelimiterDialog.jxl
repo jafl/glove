@@ -76,10 +76,10 @@ jx_layout_editor 9
 0
 0
 10 10 30 110
-"rb[0]"
+"rb0"
 0
 0
-1
+0
 "kWhiteSpace"
 "Whitespace"
 ""
@@ -117,10 +117,10 @@ jx_layout_editor 9
 0
 0
 30 10 50 110
-"rb[1]"
+"rb1"
 0
 0
-1
+0
 "kSpace"
 "Space"
 ""
@@ -132,10 +132,10 @@ jx_layout_editor 9
 0
 0
 50 10 70 110
-"rb[2]"
+"rb2"
 0
 0
-1
+0
 "kTab"
 "Tab"
 ""
@@ -147,10 +147,10 @@ jx_layout_editor 9
 0
 0
 70 10 90 110
-"rb[3]"
+"rb3"
 0
 0
-1
+0
 "kChar"
 "Character:"
 ""
