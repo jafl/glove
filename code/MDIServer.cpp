@@ -65,7 +65,7 @@ MDIServer::HandleMDIRequest
 	}
 
 	const JString origDir = JGetCurrentDirectory();
-	if (!JChangeDirectory(dir).OK())
+	if (!JChangeDirectory(dir))
 	{
 		const JUtf8Byte* map[] =
 		{
@@ -144,8 +144,8 @@ MDIServer::HandleMDIRequest
 		pg.ProcessFinished();
 	}
 
-	const JError err = JChangeDirectory(origDir);
-	assert_ok( err );
+	const bool ok = JChangeDirectory(origDir);
+	assert( ok );
 
 	if (!hasFile)
 	{
