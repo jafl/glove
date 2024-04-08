@@ -63,9 +63,8 @@ RaggedFloatTableData::RaggedFloatTableData
 	const JSize count = (source.itsCols)->GetItemCount();
 	for (JIndex i=1; i<=count; i++)
 	{
-		const JArray<JFloat>* origColData = (source.itsCols)->GetItem(i);
-		JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
-		assert( newColData != nullptr );
+		auto origColData = source.itsCols->GetItem(i);
+		auto newColData = jnew JArray<JFloat>(*origColData);
 		itsCols->Append(newColData);
 	}
 }
@@ -474,13 +473,12 @@ RaggedFloatTableData::InsertCol
 		trueIndex = maxIndex;
 	}
 
-	JArray<JFloat>* colData = jnew JArray<JFloat>;
-	assert( colData != nullptr );
+	auto colData = jnew JArray<JFloat>;
 	itsCols->InsertAtIndex(trueIndex, colData);
 
 	if (initData != nullptr)
 	{
-		JListIterator<JFloat>* iter = initData->NewIterator();
+		auto iter = initData->NewIterator();
 
 		JFloat v;
 		JIndex i = 1;
@@ -537,9 +535,8 @@ RaggedFloatTableData::DuplicateCol
 		trueIndex = maxIndex;
 	}
 
-	JArray<JFloat>* origColData = itsCols->GetItem(origIndex);
-	JArray<JFloat>* newColData = jnew JArray<JFloat>(*origColData);
-	assert( newColData != nullptr );
+	auto origColData = itsCols->GetItem(origIndex);
+	auto newColData = jnew JArray<JFloat>(*origColData);
 	itsCols->InsertAtIndex(trueIndex, newColData);
 
 	ColsAdded(1);

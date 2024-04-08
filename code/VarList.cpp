@@ -50,19 +50,16 @@ VarList::VarList
 	const JSize ncount	= list.itsNames->GetItemCount();
 	for (JIndex i = 1; i <= ncount; i++)
 	{
-		JString* str = jnew JString(*(list.itsNames->GetItem(i)));
-		assert(str != nullptr);
-		itsNames->Append(str);
+		itsNames->Append(*list.itsNames->GetItem(i));
 	}
 
 	const JSize acount	= list.itsArrays->GetItemCount();
 	for (JIndex i = 1; i <= acount; i++)
 	{
-		JArray<JFloat>* array = list.itsArrays->GetItem(i);
+		auto array = list.itsArrays->GetItem(i);
 		if (array != nullptr)
 		{
-			array	= jnew JArray<JFloat>(*array);
-			assert(array != nullptr);
+			array = jnew JArray<JFloat>(*array);
 		}
 		itsArrays->Append(array);
 	}
@@ -178,7 +175,7 @@ VarList::AddVariable
 	JIndex index;
 	if (NameValid(name) && !ParseVariableName(name, &index))
 	{
-		JString* varName = jnew JString(name);
+		auto varName = jnew JString(name);
 		itsNames->Append(varName);
 		itsValues->AppendItem(value);
 		itsArrays->AppendItem(static_cast<GNArray*>(nullptr));
@@ -223,10 +220,10 @@ VarList::AddArray
 {
 	if (NameValid(name))
 	{
-		JString* varName = jnew JString(name);
+		auto varName = jnew JString(name);
 		itsNames->Append(varName);
 		itsValues->AppendItem(0.0);
-		GNArray* newArray = jnew GNArray(values);
+		auto newArray = jnew GNArray(values);
 		itsArrays->AppendItem(newArray);
 		return true;
 	}

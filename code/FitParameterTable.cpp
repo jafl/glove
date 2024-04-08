@@ -398,7 +398,7 @@ FitParameterTable::SetFitDescription
 	AppendRows(count);
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JString* str = jnew JString;
+		auto str = jnew JString;
 		fit.GetParameterName(i, str);
 		itsNameList->Append(str);
 		itsStartValues->AppendItem(0);
@@ -552,8 +552,8 @@ FitParameterTable::PrintOnPage
 	JCoordinate*		height
 	)
 {
-	const JSize origWidth	= GetBoundsWidth();
-	JSize printWidth		= JSize(p.GetPageWidth() * 0.9);
+	const JSize origWidth = GetBoundsWidth();
+	const JSize printWidth = JLFloor(p.GetPageWidth() * 0.9);
 
 	AdjustSize(printWidth - origWidth, 0);
 //	SetSize(printWidth, GetBoundsHeight());

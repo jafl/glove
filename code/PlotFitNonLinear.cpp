@@ -225,7 +225,7 @@ PlotFitNonLinear::GetYValue
 	)
 	const
 {
-	PlotFitNonLinear* th = const_cast< PlotFitNonLinear* >(this);
+	auto th = const_cast< PlotFitNonLinear* >(this);
 	*y	= th->FunctionN(x);
 	return true;
 }

@@ -54,7 +54,7 @@ DataModule::Create
 
 	if (err.OK())
 	{
-		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
+		auto op = jnew JOutPipeStream(outFD, true);
 		assert( op->good() );
 		*module = jnew DataModule(table, data, process, inFD, op);
 		return true;
@@ -145,8 +145,7 @@ DataModule::Receive
 	}
 	else if (sender == itsData && message.Is(JTableData::kColsRemoved))
 	{
-		const JTableData::ColsRemoved* info =
-			dynamic_cast<const JTableData::ColsRemoved*>(&message);
+		auto info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();
@@ -171,8 +170,7 @@ DataModule::Receive
 
 	else if (sender == itsData && message.Is(JTableData::kColsInserted))
 	{
-		const JTableData::ColsInserted* info =
-			dynamic_cast<const JTableData::ColsInserted*>(&message);
+		auto info = dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();
@@ -265,7 +263,7 @@ DataModule::HandlePrepareCols
 		itsData->AppendCol();
 		itsCols->AppendItem(itsColStart - 1 + i);
 	}
-	UndoElementsInsert* undo =
+	auto undo =
 		jnew UndoElementsInsert(itsTable, JPoint(itsColStart, 1),
 								 JPoint(itsColStart + itsColNum - 1, itsTable->GetRowCount()),
 								 UndoElementsBase::kCols);

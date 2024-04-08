@@ -95,13 +95,13 @@ PlotModuleFit::PlotModuleFit
 	:
 	PlotFitFunction(plot, fitData, 0, 10)
 {
-	JPtrArray<JString>* names = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	JArray<JFloat>* values = jnew JArray<JFloat>;
+	auto names = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	auto values = jnew JArray<JFloat>;
 	int count;
 	is >> count;
 	for (int i = 1; i <= count; i++)
 	{
-		JString* name = jnew JString();
+		auto name = jnew JString();
 		JFloat value;
 		is >> *name;
 		names->Append(name);
@@ -116,7 +116,7 @@ PlotModuleFit::PlotModuleFit
 	is >> JBoolFromString(gof);
 	JString fstring;
 	is >> fstring;
-	VarList* list = jnew VarList;
+	auto list = jnew VarList;
 	list->AddVariable(JGetString("DefaultVarName::global"), 0);
 	for (int i = 1; i <= parmscount; i++)
 	{
@@ -125,7 +125,7 @@ PlotModuleFit::PlotModuleFit
 		{
 			index = i * 2 - 1;
 		}
-		JString parm(*(names->GetItem(index)));
+		JString parm(*names->GetItem(index));
 		JFloat value = values->GetItem(index);
 		list->AddVariable(parm, value);
 	}

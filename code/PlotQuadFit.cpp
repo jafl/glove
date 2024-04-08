@@ -27,7 +27,7 @@ const JSize	ITMAX	= 100;
 const JFloat	CGOLD	= 0.3819660;
 const JFloat	ZEPS	= 1.0e-12;
 const JFloat	TOLL	= 1.0e-10;
-const JFloat	GOLD	= 1.618034;
+const JFloat	GOLD	= std::numbers::phi;
 const JFloat	IMIT	= 100.0;
 const JFloat	TINY	= 1.0e-20;
 

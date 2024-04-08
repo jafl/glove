@@ -38,38 +38,37 @@ DLFitModule::Create
 	DLFitModule**	fit
 	)
 {
-	ACE_DLL* module = jnew ACE_DLL(moduleName.GetBytes());
-	assert(module != nullptr);
+	auto module = jnew ACE_DLL(moduleName.GetBytes());
 
 	bool ok	= true;
 
-	EvalFn	fn = (EvalFn)module->symbol(kFNName);
+	auto fn = (EvalFn)module->symbol(kFNName);
 	if (fn == nullptr)
 	{
 		ok	= false;
 	}
-	EvalFn	fnprimed = (EvalFn)module->symbol(kFNPrimedName);
-	GetParmsFn pf    = (GetParmsFn)module->symbol(kGetParmsName);
+	auto fnprimed = (EvalFn)module->symbol(kFNPrimedName);
+	auto pf    = (GetParmsFn)module->symbol(kGetParmsName);
 	if (pf == nullptr)
 	{
 		ok	= false;
 	}
-	GetParmCountFn pc = (GetParmCountFn)module->symbol(kParmCountName);
+	auto pc = (GetParmCountFn)module->symbol(kParmCountName);
 	if (pc == nullptr)
 	{
 		ok	= false;
 	}
-	GetNameFn ff = (GetNameFn)module->symbol(kFormName);
+	auto ff = (GetNameFn)module->symbol(kFormName);
 	if (ff == nullptr)
 	{
 		ok	= false;
 	}
-	GetNameFn fname	= (GetNameFn)module->symbol(kFitName);
+	auto fname	= (GetNameFn)module->symbol(kFitName);
 	if (fname == nullptr)
 	{
 		ok	= false;
 	}
-	InitialValFn ifn = (InitialValFn)module->symbol(kInitValName);
+	auto ifn = (InitialValFn)module->symbol(kInitValName);
 
 	if (!ok)
 	{
@@ -78,7 +77,6 @@ DLFitModule::Create
 	}
 
 	*fit = jnew DLFitModule(module, fn, fnprimed, ifn, pc(), pf(), ff(), fname());
-	assert(*fit != nullptr);
 	return true;
 }
 
@@ -88,7 +86,7 @@ DLFitModule::DLFitModule
 	EvalFn				function,
 	EvalFn				fprimed,
 	InitialValFn		initFn,
-	const JSize		count,
+	const JSize			count,
 	const JUtf8Byte**	parms,
 	const JUtf8Byte*	form,
 	const JUtf8Byte*	name
@@ -102,14 +100,12 @@ DLFitModule::DLFitModule
 	itsGetStartValFn(initFn),
 	itsModule(module)
 {
-	itsParmNames	= jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsParmNames != nullptr);
+	itsParmNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JString* str	= jnew JString(parms[i - 1]);
-		itsParmNames->Append(str);
+		itsParmNames->Append(parms[i - 1]);
 	}
-	itsParameters	= jnew JVector(count);
+	itsParameters = jnew JVector(count);
 }
 
 

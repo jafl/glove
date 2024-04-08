@@ -211,8 +211,7 @@ FitManager::WritePrefs
 void
 FitManager::InitializeList()
 {
-	BuiltinFitDescription* bd =
-		jnew BuiltinFitDescription(FitDescription::kBLinear);
+	auto bd = jnew BuiltinFitDescription(FitDescription::kBLinear);
 	itsFitDescriptions->InsertSorted(bd);
 
 	bd = jnew BuiltinFitDescription(FitDescription::kBExp);
@@ -233,7 +232,7 @@ FitManager::InitializeList()
 				DLFitModule* fit;
 				if (!entry->IsDirectory() && DLFitModule::Create(entry->GetFullName(), &fit))
 				{
-					ModuleFitDescription* md = jnew ModuleFitDescription(fit);
+					auto md = jnew ModuleFitDescription(fit);
 					itsFitDescriptions->InsertSorted(md);
 				}
 			}

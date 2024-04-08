@@ -197,7 +197,7 @@ PlotDirector::BuildWindow()
 
 	itsAnalysisMenu->DisableItem(kDiffPlotCmd);
 
-	JXDocumentMenu* windowListMenu =
+	auto windowListMenu =
 		jnew JXDocumentMenu(JGetString("WindowsMenuTitle::JXGlobal"), menuBar,
 			JXWidget::kFixedLeft, JXWidget::kVElastic, 0,0, 10,10);
 	menuBar->AppendMenu(windowListMenu);
@@ -262,8 +262,7 @@ PlotDirector::Receive
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 	{
-		const J2DPlotWidget::CurveRemoved* info =
-			dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
+		auto info = dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert( info != nullptr );
 		HandleCurveRemoved(info->GetIndex());
 	}
@@ -393,7 +392,7 @@ PlotDirector::WriteCurves
 		GloveCurveStats stat = itsCurveStats->GetItem(i);
 		if (stat.type == kGDataCurve && jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 		{
-			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(jpdb);
+			auto pd = dynamic_cast<J2DPlotData*>(jpdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
 			{
@@ -402,8 +401,8 @@ PlotDirector::WriteCurves
 		}
 		else if (stat.type == kGFitCurve)
 		{
-			J2DPlotDataBase* pdb = itsPlot->GetCurve(stat.provider);
-			J2DPlotData* pd = dynamic_cast<J2DPlotData*>(pdb);
+			auto pdb = itsPlot->GetCurve(stat.provider);
+			auto pd = dynamic_cast<J2DPlotData*>(pdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
 			{
@@ -425,7 +424,7 @@ PlotDirector::WriteCurves
 		{
 			if (jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 			{
-				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(jpdb);
+				auto pd = dynamic_cast<J2DPlotData*>(jpdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
 				{
@@ -456,14 +455,14 @@ PlotDirector::WriteCurves
 			}
 			else if (jpdb->GetType() == J2DPlotDataBase::kVectorPlot)
 			{
-				J2DVectorData* vd = dynamic_cast<J2DVectorData*>(jpdb);
+				auto vd = dynamic_cast<J2DVectorData*>(jpdb);
 				assert( vd != nullptr );
 				os << (int)kGDataCurve << ' ';
 				os << (int)jpdb->GetType() << ' ';
 				JIndex index;
 				const JArray<JFloat>* carray;
 				carray	= &(vd->GetXData());
-				JArray<JFloat>* array = const_cast< JArray<JFloat>* >(carray);
+				auto array = const_cast< JArray<JFloat>* >(carray);
 				data->FindColumn(array, &index);
 				os << index << ' ';
 				carray	= &(vd->GetYData());
@@ -487,14 +486,14 @@ PlotDirector::WriteCurves
 				os << (int)kGFitCurve << ' ';
 				os << (int)stat.fitType << ' ';
 				os << stat.provider << ' ';
-				PlotModuleFit* mf = dynamic_cast<PlotModuleFit*>(jpdb);
+				auto mf = dynamic_cast<PlotModuleFit*>(jpdb);
 				assert( mf != nullptr );
 				mf->WriteData(os);
 			}
 			else
 			{
-				J2DPlotDataBase* pdb = itsPlot->GetCurve(stat.provider);
-				J2DPlotData* pd = dynamic_cast<J2DPlotData*>(pdb);
+				auto pdb = itsPlot->GetCurve(stat.provider);
+				auto pd = dynamic_cast<J2DPlotData*>(pdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
 				{
@@ -504,7 +503,7 @@ PlotDirector::WriteCurves
 
 					if (stat.fitType == kGProxyFit)
 					{
-						PlotFitProxy* pf = dynamic_cast<PlotFitProxy*>(jpdb);
+						auto pf = dynamic_cast<PlotFitProxy*>(jpdb);
 						assert(pf != nullptr);
 						pf->WriteData(os);
 					}
@@ -513,7 +512,7 @@ PlotDirector::WriteCurves
 		}
 		else if (stat.type == kGFunctionCurve)
 		{
-			J2DPlotFunction* pd = dynamic_cast<J2DPlotFunction*>(jpdb);
+			auto pd = dynamic_cast<J2DPlotFunction*>(jpdb);
 			assert( pd != nullptr );
 			os << (int)kGFunctionCurve << ' ';
 			os << pd->GetFunctionString() << ' ';

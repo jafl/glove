@@ -52,8 +52,7 @@ UndoElementsChange::UndoElementsChange
 
 	for (JSize i = colstart; i <= colend; i++)
 	{
-		JArray<JFloat>* col = jnew JArray<JFloat>;
-		assert(col != nullptr);
+		auto col = jnew JArray<JFloat>;
 		itsValues->Append(col);
 
 		JIndex rowstart;
@@ -103,9 +102,7 @@ UndoElementsChange::Undo()
 	// it needs to read the old data first. We can't yet call NewUndo,
 	// though, because that will delete us.
 
-	UndoElementsChange* undo =
-		jnew UndoElementsChange(GetTable(), GetStartCell(), GetEndCell(), GetType());
-	assert(undo != nullptr);
+	auto undo = jnew UndoElementsChange(GetTable(), GetStartCell(), GetEndCell(), GetType());
 
 	RaggedFloatTableData* data		= GetData();
 	JPoint start						= GetStartCell();

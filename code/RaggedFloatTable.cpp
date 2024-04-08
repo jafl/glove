@@ -2200,7 +2200,7 @@ RaggedFloatTable::ChooseNewTransformFunction()
 	}
 
 	VarList xformVarList;
-	JArray<JFloat>* ar = jnew JArray<JFloat>;
+	auto ar = jnew JArray<JFloat>;
 	for (JSize i = 1; i < count; i++)
 	{
 		ar->AppendItem(0);

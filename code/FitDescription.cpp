@@ -36,8 +36,7 @@ FitDescription::FitDescription
 	itsRequiresStartValues(false),
 	itsCanUseStartValues(true)
 {
-	itsVarList	= jnew VarList();
-
+	itsVarList = jnew VarList();
 	itsVarList->AddVariable(JGetString("DefaultVarName::global"), 0);
 }
 
@@ -66,25 +65,25 @@ FitDescription::Create
 	JPtrArray<JString> vars(JPtrArrayT::kDeleteAll);
 	for (JIndex i = 1; i <= count; i++)
 	{
-		JString* var = jnew JString();
+		auto var = jnew JString();
 		is >> *var;
 		vars.Append(var);
 	}
 
 	if (type == kPolynomial)
 	{
-		PolyFitDescription* pfd	= jnew PolyFitDescription(is);
+		auto pfd = jnew PolyFitDescription(is);
 		*fd	= pfd;
 	}
 	else if (type == kNonLinear)
 	{
-		NonLinearFitDescription* nfd	= jnew NonLinearFitDescription(is);
+		auto nfd = jnew NonLinearFitDescription(is);
 		*fd	= nfd;
 		for (JIndex i = 1; i <= count; i++)
 		{
-			(*fd)->itsVarList->AddVariable(*(vars.GetItem(i)), 0);
+			(**fd).itsVarList->AddVariable(*vars.GetItem(i), 0);
 		}
-		(*fd)->SetParameterCount(count);
+		(**fd).SetParameterCount(count);
 	}
 	else
 	{
@@ -92,8 +91,8 @@ FitDescription::Create
 	}
 
 	vars.DeleteAll();
-	(*fd)->itsFnName	= name;
-	(*fd)->itsFnForm	= form;
+	(**fd).itsFnName	= name;
+	(**fd).itsFnForm	= form;
 
 	return true;
 }

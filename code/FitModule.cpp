@@ -54,7 +54,7 @@ FitModule::Create
 							kJIgnoreConnection, nullptr);
 	if (err.OK())
 	{
-		JOutPipeStream* op = jnew JOutPipeStream(outFD, true);
+		auto op = jnew JOutPipeStream(outFD, true);
 		assert( op->good() );
 		*module = jnew FitModule(dir, fitData, process, inFD, op);
 		return true;
@@ -308,7 +308,7 @@ FitModule::HandleDataRead
 	}
 	std::string s(str.GetRawBytes(), str.GetByteCount());
 	std::istringstream iss(s);
-	JString* instr = jnew JString();
+	auto instr = jnew JString();
 	iss >> *instr;
 	JFloat value;
 	iss >> value;
@@ -347,7 +347,7 @@ FitModule::HandleFit()
 	}
 	else
 	{
-		VarList* list = jnew VarList;
+		auto list = jnew VarList;
 		list->AddVariable(JGetString("DefaultVarName::global"), 0);
 		for (JSize i = 1; i <= itsParmsCount; i++)
 		{
@@ -368,11 +368,11 @@ FitModule::HandleFit()
 		{
 			JFloat xmax, xmin, ymax, ymin;
 			itsDir->GetPlot()->GetRange(&xmin, &xmax, &ymin, &ymax);
-			PlotModuleFit* fit =
+			auto fit =
 				jnew PlotModuleFit(itsDir->GetPlot(), itsData, xmin, xmax,
 					itsNames, itsValues, f, list, itsParmsCount,
 					itsHasErrors, itsHasGOF);
-			assert(fit != nullptr);
+
 			if (!(itsDir->AddFitModule(fit, itsData)))
 			{
 				jdelete fit;

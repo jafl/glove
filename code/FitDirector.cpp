@@ -323,8 +323,7 @@ FitDirector::Receive
 {
 	if (sender == itsCurveList && message.Is(CurveNameList::kCurveSelected))
 	{
-		const CurveNameList::CurveSelected* info =
-			dynamic_cast<const CurveNameList::CurveSelected*>(&message);
+		auto info = dynamic_cast<const CurveNameList::CurveSelected*>(&message);
 		assert(info != nullptr);
 
 		RemoveFit();
@@ -334,14 +333,13 @@ FitDirector::Receive
 		itsChiSq->GetText()->SetText(JString::empty);
 
 		// add new curve.
-		J2DPlotDataBase* curve = itsPlot->GetCurve(info->GetIndex());
+		auto curve = itsPlot->GetCurve(info->GetIndex());
 		itsFitPlot->AddCurve(curve, false, itsPlot->GetCurveName(info->GetIndex()));
 		itsFitPlot->ProtectCurve(1, true);
 	}
 	else if (sender == itsFitList && message.Is(FitDescriptionList::kFitSelected))
 	{
-		const FitDescriptionList::FitSelected* info =
-			dynamic_cast<const FitDescriptionList::FitSelected*>(&message);
+		auto info = dynamic_cast<const FitDescriptionList::FitSelected*>(&message);
 		assert(info != nullptr);
 		const FitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
 		itsParameterTable->SetFitDescription(fd);
@@ -359,8 +357,7 @@ FitDirector::Receive
 	}
 	else if (sender == itsFitList && message.Is(FitDescriptionList::kFitInitiated))
 	{
-		const FitDescriptionList::FitInitiated* info =
-			dynamic_cast<const FitDescriptionList::FitInitiated*>(&message);
+		auto info = dynamic_cast<const FitDescriptionList::FitInitiated*>(&message);
 		assert(info != nullptr);
 		if (!itsParameterTable->BeginEditingStartValues())
 		{
@@ -370,15 +367,14 @@ FitDirector::Receive
 	}
 	else if (sender == itsParameterTable && message.Is(FitParameterTable::kValueChanged))
 	{
-		const FitParameterTable::ValueChanged* info =
-			dynamic_cast<const FitParameterTable::ValueChanged*>(&message);
+		auto info = dynamic_cast<const FitParameterTable::ValueChanged*>(&message);
 		assert(info != nullptr);
 		JIndex index;
 		bool ok	= itsFitList->GetCurrentFitIndex(&index);
 		assert(ok);
-		FitDescription& fd	= GetFitManager()->GetFitDescription(index);
-		const JArray<JFloat>& parms	= itsParameterTable->GetStartValues();
-		const JSize count	= parms.GetItemCount();
+		auto& fd = GetFitManager()->GetFitDescription(index);
+		auto& parms	= itsParameterTable->GetStartValues();
+		const JSize count = parms.GetItemCount();
 		for (JIndex i = 1; i <= count; i++)
 		{
 			fd.GetVarList()->SetValue(i + 1, parms.GetItem(i));
@@ -407,12 +403,11 @@ FitDirector::HandleFitMenu
 		auto* dlog = jnew NonLinearFitDialog();
 		if (dlog->DoDialog())
 		{
-			NonLinearFitDescription* fit =
+			auto fit =
 				jnew NonLinearFitDescription(dlog->GetFitName(),
 											 dlog->GetFunctionString(),
 											 dlog->GetDerivativeString(),
 											 dlog->GetVarList().GetVariables());
-			assert(fit != nullptr);
 			GetFitManager()->AddFitDescription(fit);
 		}
 	}
@@ -423,8 +418,7 @@ FitDirector::HandleFitMenu
 		{
 			JArray<JIndex> powers;
 			dlog->GetPowers(&powers);
-			PolyFitDescription* fit	= jnew PolyFitDescription(dlog->GetFitName(), powers);
-			assert(fit != nullptr);
+			auto fit = jnew PolyFitDescription(dlog->GetFitName(), powers);
 			GetFitManager()->AddFitDescription(fit);
 		}
 	}
@@ -470,13 +464,13 @@ FitDirector::HandleFitMenu
 		JIndex index1;
 		bool ok	= itsCurveList->GetCurrentCurveIndex(&index1);
 		assert(ok);
-		J2DPlotDataBase* data = itsPlot->GetCurve(index1);
+		auto data = itsPlot->GetCurve(index1);
 		assert(itsCurrentFit != nullptr);
-		PlotFitProxy* proxy	= jnew PlotFitProxy(itsCurrentFit, itsPlot, data);
+		auto proxy	= jnew PlotFitProxy(itsCurrentFit, itsPlot, data);
 		JIndex findex;
 		ok = itsFitList->GetCurrentFitIndex(&findex);
 		assert(ok);
-		const FitDescription& fd = GetFitManager()->GetFitDescription(findex);
+		auto& fd = GetFitManager()->GetFitDescription(findex);
 		itsDir->AddFitProxy(proxy, index1, fd.GetFnName());
 	}
 	else if (index == kShowHistoryCmd)
@@ -509,7 +503,7 @@ FitDirector::UpdateFitMenu()
 		itsFitList->GetCurrentFitIndex(&index))
 	{
 		itsFitMenu->EnableItem(kFitCmd);
-		const FitDescription& fd	= GetFitManager()->GetFitDescription(index);
+		auto& fd = GetFitManager()->GetFitDescription(index);
 		if (fd.RequiresStartValues())
 		{
 			itsFitMenu->EnableItem(kTestFitCmd);
@@ -630,14 +624,14 @@ FitDirector::Fit()
 	JIndex index;
 	bool ok = itsCurveList->GetCurrentCurveIndex(&index);
 	assert(ok);
-	J2DPlotDataBase* data = itsPlot->GetCurve(index);
+	auto data = itsPlot->GetCurve(index);
 	ok = itsFitList->GetCurrentFitIndex(&index);
 	assert(ok);
 	const FitDescription& fd = GetFitManager()->GetFitDescription(index);
 	if (fd.GetType() == FitDescription::kPolynomial)
 	{
 		JArray<JIndex> powers;
-		const PolyFitDescription& pd = dynamic_cast<const PolyFitDescription&>(fd);
+		auto& pd = dynamic_cast<const PolyFitDescription&>(fd);
 		pd.GetPowers(&powers);
 		assert(ok);
 
@@ -673,8 +667,7 @@ FitDirector::Fit()
 	}
 	else if (fd.GetType() == FitDescription::kNonLinear)
 	{
-		NonLinearFitDescription& nd	=
-			dynamic_cast<NonLinearFitDescription&>(const_cast<FitDescription&>(fd));
+		auto& nd = dynamic_cast<NonLinearFitDescription&>(const_cast<FitDescription&>(fd));
 
 		JFloat xmax, xmin, ymax, ymin;
 		PlotFitNonLinear* fit;

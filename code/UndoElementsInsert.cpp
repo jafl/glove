@@ -22,7 +22,7 @@
 
 UndoElementsInsert::UndoElementsInsert
 	(
-	RaggedFloatTable*				table,
+	RaggedFloatTable*					table,
 	const JPoint&						start,
 	const JPoint&						end,
 	const UndoElementsBase::UndoType	type
@@ -54,9 +54,7 @@ UndoElementsInsert::Undo()
 	// it needs to read the old data first. We can't yet call NewUndo,
 	// though, because that will delete us.
 
-	UndoElementsCut* undo =
-		jnew UndoElementsCut(GetTable(), GetStartCell(), GetEndCell(), GetType());
-	assert(undo != nullptr);
+	auto undo = jnew UndoElementsCut(GetTable(), GetStartCell(), GetEndCell(), GetType());
 
 	RaggedFloatTableData* data		= GetData();
 	JPoint start					= GetStartCell();

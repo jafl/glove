@@ -172,8 +172,8 @@ PlotFitModule::GetYValue
 	)
 	const
 {
-	PlotFitModule* th	= const_cast< PlotFitModule* >(this);
-	*y	= th->itsModule->Function(x);
+	auto th = const_cast< PlotFitModule* >(this);
+	*y = th->itsModule->Function(x);
 	return true;
 }
 
@@ -196,7 +196,7 @@ PlotFitModule::GetParameterName
 	{
 		return false;
 	}
-	*name	= itsModule->GetParameterName(index);
+	*name = itsModule->GetParameterName(index);
 	return true;
 }
 

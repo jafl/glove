@@ -361,9 +361,8 @@ FitDescriptionList::SyncWithManager()
 
 	for (JIndex i=1; i<=count; i++)
 	{
-		const FitDescription& fd	= GetFitManager()->GetFitDescription(i);
-		JString* str	= jnew JString(fd.GetFnName());
-		assert(str != nullptr);
+		auto& fd = GetFitManager()->GetFitDescription(i);
+		auto str = jnew JString(fd.GetFnName());
 		itsNameList->Append(str);
 
 		const JCoordinate width = 2*kHMarginWidth + kIconWidth +

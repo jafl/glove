@@ -201,7 +201,7 @@ Plotter::HandleModuleMenu
 		*op << XCursorVisible();
 		*op << YCursorVisible();
 		*op << DualCursorsVisible() << " ";
-		if (XCursorVisible())
+/*		if (XCursorVisible())
 		{
 //			*op << itsXCursorVal1 << " ";
 			if (DualCursorsVisible())
@@ -217,7 +217,7 @@ Plotter::HandleModuleMenu
 //				*op << itsYCursorVal2 << " ";
 			}
 		}
-		jdelete op;
+*/		jdelete op;
 		itsCursorFirstPass = true;
 	}
 }
