@@ -87,12 +87,9 @@ FitModule::FitModule
 //	itsLink->set_hanle(input);
 	ListenTo(itsLink);
 //	itsProcessInput = jnew JIPCLine(input, true);
-//	assert(itsProcessInput != nullptr);
 //	ListenTo(itsProcessInput);
 	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsNames != nullptr);
 	itsValues = jnew JArray<JFloat>;
-	assert(itsValues != nullptr);
 	itsStatusRead = false;
 	itsHeaderRead = false;
 	itsFunctionRead = false;

@@ -111,7 +111,6 @@ PlotFunctionDialog::BuildWindow()
 	ListenTo(itsEditButton, std::function([this](const JXButton::Pushed&)
 	{
 		auto* dlog = jnew EditExprDialog(itsList, itsFunctionString->GetText()->GetText());
-		assert(dlog != nullptr);
 		if (dlog->DoDialog())
 		{
 			itsFunctionString->GetText()->SetText(dlog->GetString());

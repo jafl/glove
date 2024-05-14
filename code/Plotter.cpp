@@ -53,7 +53,6 @@ Plotter::Plotter
 	cursorMenu->AppendItem(JGetString("ModuleMenuTitle::Plotter"));
 
 	itsModuleMenu = jnew JXTextMenu(cursorMenu, cursorMenu->GetItemCount(), menuBar);
-	assert( itsModuleMenu != nullptr );
 	itsModuleMenu->SetMenuItems(kModuleMenuStr);
 	itsModuleMenu->SetUpdateAction(JXMenu::kDisableNone);
 	itsModuleMenu->AttachHandler(this, &Plotter::HandleModuleMenu);

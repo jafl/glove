@@ -78,7 +78,7 @@ EditExprDialog::BuildWindow
 
 	SetButtons(okButton, cancelButton);
 
-	assert (itsEditor != nullptr);
+	assert( itsEditor != nullptr );
 	JExprParser p(itsEditor);
 
 	JFunction* f;

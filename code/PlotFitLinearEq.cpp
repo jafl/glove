@@ -73,7 +73,6 @@ PlotFitLinearEq::InitializePolynomial
 	)
 {
 	itsPowers			= jnew JArray<JIndex>(powers);
-	assert(itsPowers != nullptr);
 	const JSize count	= itsPowers->GetItemCount();
 	SetParameterCount(count);
 	SetHasGoodnessOfFit(true);

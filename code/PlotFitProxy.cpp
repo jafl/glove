@@ -55,8 +55,7 @@ PlotFitProxy::PlotFitProxy
 	if (fit->HasParameterErrors())
 	{
 		SetHasParameterErrors(true);
-		itsErrors	= jnew JArray<JFloat>;
-		assert(itsErrors != nullptr);
+		itsErrors = jnew JArray<JFloat>;
 		for (JIndex i = 1; i <= count; i++)
 		{
 			JFloat value;
@@ -136,7 +135,6 @@ PlotFitProxy::PlotFitProxy
 	{
 		SetHasParameterErrors(true);
 		itsErrors = jnew JArray<JFloat>;
-		assert(itsErrors != nullptr);
 		for (JIndex i=1; i<=count; i++)
 		{
 			JFloat value;

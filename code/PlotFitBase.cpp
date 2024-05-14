@@ -108,7 +108,6 @@ PlotFitBase::JPlotFitBaseX
 	}
 
 	itsRealData = jnew JArray<J2DDataPoint>;
-	assert(itsRealData != nullptr);
 	const JSize count = fitData->GetItemCount();
 	for (JSize i=1; i<= count; i++)
 	{

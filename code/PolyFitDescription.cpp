@@ -27,8 +27,6 @@ PolyFitDescription::PolyFitDescription
 	FitDescription(kPolynomial, JString::empty, name)
 {
 	itsPowers = jnew JArray<JIndex>(powers);
-	assert(itsPowers != nullptr);
-
 	PolyFitDescriptionX();
 }
 
@@ -40,7 +38,6 @@ PolyFitDescription::PolyFitDescription
 	FitDescription(kPolynomial, JString::empty, JString::empty)
 {
 	itsPowers = jnew JArray<JIndex>;
-	assert(itsPowers != nullptr);
 
 	JFileVersion version;
 	is >> version;

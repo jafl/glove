@@ -77,7 +77,6 @@ PlotDirector::PlotDirector
 	itsPrinter(nullptr)
 {
 	itsSessionDir = jnew HistoryDir(JXGetApplication());
-	assert(itsSessionDir != nullptr);
 	JXGetDocumentManager()->DocumentMustStayOpen(itsSessionDir, true);
 	ListenTo(itsSessionDir);
 
@@ -87,28 +86,22 @@ PlotDirector::PlotDirector
 	itsXVarIndex = 1;
 
 	itsFits = jnew JPtrArray<FitBase>(JPtrArrayT::kForgetAll);
-	assert( itsFits != nullptr );
 	ListenTo(itsFits);
 
 	itsFitParmsDir = jnew FitParmsDir(this, itsFits);
-
-	itsCurveStats = jnew JArray<GloveCurveStats>;
-	assert( itsCurveStats != nullptr );
+	itsCurveStats  = jnew JArray<GloveCurveStats>;
 
 	itsCurrentCurveType = kGDataCurve;
 
 	itsDiffDirs = jnew JPtrArray<PlotDirector>(JPtrArrayT::kForgetAll);
-	assert( itsDiffDirs != nullptr );
 	ListenTo(itsDiffDirs);
 
 	BuildWindow();
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != nullptr );
 	itsPrinter->SetOrientation(JPSPrinter::kLandscape);
 
 	itsEPSPrinter = jnew JX2DPlotEPSPrinter(GetDisplay());
-	assert(itsEPSPrinter != nullptr);
 	itsPlot->SetEPSPrinter(itsEPSPrinter);
 }
 
@@ -262,7 +255,7 @@ PlotDirector::Receive
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 	{
-		auto info = dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
+		auto* info = dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert( info != nullptr );
 		HandleCurveRemoved(info->GetIndex());
 	}
@@ -392,7 +385,7 @@ PlotDirector::WriteCurves
 		GloveCurveStats stat = itsCurveStats->GetItem(i);
 		if (stat.type == kGDataCurve && jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 		{
-			auto pd = dynamic_cast<J2DPlotData*>(jpdb);
+			auto* pd = dynamic_cast<J2DPlotData*>(jpdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
 			{
@@ -402,7 +395,7 @@ PlotDirector::WriteCurves
 		else if (stat.type == kGFitCurve)
 		{
 			auto pdb = itsPlot->GetCurve(stat.provider);
-			auto pd = dynamic_cast<J2DPlotData*>(pdb);
+			auto* pd = dynamic_cast<J2DPlotData*>(pdb);
 			assert( pd != nullptr );
 			if (pd->IsValid())
 			{
@@ -424,7 +417,7 @@ PlotDirector::WriteCurves
 		{
 			if (jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 			{
-				auto pd = dynamic_cast<J2DPlotData*>(jpdb);
+				auto* pd = dynamic_cast<J2DPlotData*>(jpdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
 				{
@@ -455,7 +448,7 @@ PlotDirector::WriteCurves
 			}
 			else if (jpdb->GetType() == J2DPlotDataBase::kVectorPlot)
 			{
-				auto vd = dynamic_cast<J2DVectorData*>(jpdb);
+				auto* vd = dynamic_cast<J2DVectorData*>(jpdb);
 				assert( vd != nullptr );
 				os << (int)kGDataCurve << ' ';
 				os << (int)jpdb->GetType() << ' ';
@@ -486,14 +479,14 @@ PlotDirector::WriteCurves
 				os << (int)kGFitCurve << ' ';
 				os << (int)stat.fitType << ' ';
 				os << stat.provider << ' ';
-				auto mf = dynamic_cast<PlotModuleFit*>(jpdb);
+				auto* mf = dynamic_cast<PlotModuleFit*>(jpdb);
 				assert( mf != nullptr );
 				mf->WriteData(os);
 			}
 			else
 			{
 				auto pdb = itsPlot->GetCurve(stat.provider);
-				auto pd = dynamic_cast<J2DPlotData*>(pdb);
+				auto* pd = dynamic_cast<J2DPlotData*>(pdb);
 				assert( pd != nullptr );
 				if (pd->IsValid())
 				{
@@ -503,7 +496,7 @@ PlotDirector::WriteCurves
 
 					if (stat.fitType == kGProxyFit)
 					{
-						auto pf = dynamic_cast<PlotFitProxy*>(jpdb);
+						auto* pf = dynamic_cast<PlotFitProxy*>(jpdb);
 						assert(pf != nullptr);
 						pf->WriteData(os);
 					}
@@ -512,7 +505,7 @@ PlotDirector::WriteCurves
 		}
 		else if (stat.type == kGFunctionCurve)
 		{
-			auto pd = dynamic_cast<J2DPlotFunction*>(jpdb);
+			auto* pd = dynamic_cast<J2DPlotFunction*>(jpdb);
 			assert( pd != nullptr );
 			os << (int)kGFunctionCurve << ' ';
 			os << pd->GetFunctionString() << ' ';
@@ -1049,7 +1042,6 @@ PlotDirector::NewFit
 			data->GetXRange(&xmin, &xmax);
 			lf = jnew PlotLinearFit(itsPlot, data, xmin, xmax);
 		}
-		assert(lf != nullptr);
 		itsFits->Append(lf);
 		df = lf;
 	}
@@ -1068,11 +1060,9 @@ PlotDirector::NewFit
 			data->GetXRange(&xmin, &xmax);
 			lf = jnew PlotLinearFit(itsPlot, data, xmin, xmax, false, true);
 		}
-		assert(lf != nullptr);
 		itsFits->Append(lf);
 		df = lf;
 //		PlotExpFit* ef = jnew PlotExpFit(itsPlot, data);
-//		assert(ef != nullptr);
 //		itsFits->Append(ef);
 //		df = ef;
 	}
@@ -1090,7 +1080,6 @@ PlotDirector::NewFit
 			data->GetXRange(&xmin, &xmax);
 			lf = jnew PlotQuadFit(itsPlot, data, xmin, xmax);
 		}
-		assert(lf != nullptr);
 		itsFits->Append(lf);
 		df = lf;
 	}

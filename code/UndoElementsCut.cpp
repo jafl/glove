@@ -25,7 +25,7 @@
 
 UndoElementsCut::UndoElementsCut
 	(
-	RaggedFloatTable*				table,
+	RaggedFloatTable*					table,
 	const JPoint&						start,
 	const JPoint&						end,
 	const UndoElementsBase::UndoType	type
@@ -34,7 +34,6 @@ UndoElementsCut::UndoElementsCut
 	UndoElementsBase(table, start, end, type)
 {
 	itsValues = jnew JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert(itsValues != nullptr);
 
 	RaggedFloatTableData* data = GetData();
 

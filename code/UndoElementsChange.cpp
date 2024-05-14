@@ -33,7 +33,6 @@ UndoElementsChange::UndoElementsChange
 	UndoElementsBase(table, start, end, type)
 {
 	itsValues = jnew JPtrArray<JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert(itsValues != nullptr);
 
 	RaggedFloatTableData* data = GetData();
 

@@ -54,10 +54,8 @@ PlotApp::PlotApp
 // Assumption - person has home dir, or no fileimpprogs
 
 	itsModulePath = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsModulePath != nullptr);
 
 	JString homeDir;
-
 	if (!JGetHomeDirectory(&homeDir))
 	{
 		homeDir = JGetRootDirectory();
@@ -642,7 +640,8 @@ PlotApp::DisplayAbout
 			ForgetPrefsMgr();
 			JXGetApplication()->Quit();
 		}
-	});
+	},
+	"PlotApp::DisplayAbout");
 }
 
 /******************************************************************************

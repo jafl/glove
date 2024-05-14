@@ -36,9 +36,7 @@ FitManager::FitManager()
 	JPrefObject(GetPrefsMgr(), kFitManagerID),
 	itsIsInitialized(false)
 {
-	itsFitDescriptions	= jnew JPtrArray<FitDescription>(JPtrArrayT::kDeleteAll);
-	assert(itsFitDescriptions != nullptr);
-
+	itsFitDescriptions = jnew JPtrArray<FitDescription>(JPtrArrayT::kDeleteAll);
 	itsFitDescriptions->SetCompareFunction(FitDescription::CompareFits);
 
 	JPrefObject::ReadPrefs();

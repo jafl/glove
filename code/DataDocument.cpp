@@ -96,17 +96,13 @@ DataDocument::DataDocument
 	:
 	JXFileDocument(supervisor, fileName, onDisk, false, ".glv")
 {
-	itsData = jnew RaggedFloatTableData(0.0);
-
+	itsData        = jnew RaggedFloatTableData(0.0);
 	itsPlotWindows = jnew JPtrArray<PlotDirector>(JPtrArrayT::kForgetAll);
-	assert( itsPlotWindows != nullptr );
-
-	itsPrinter = nullptr;
+	itsPrinter     = nullptr;
 
 	BuildWindow();
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != nullptr );
 
 	itsPlotNumber = 1;
 	UpdateExportMenu();
@@ -571,11 +567,9 @@ DataDocument::CreateNewPlot
 	itsPlotNumber++;
 
 	auto* plotDir = jnew PlotDirector(this, this, GetFileName());
-	assert (plotDir != nullptr);
 	itsPlotWindows->Append(plotDir);
 
-	JX2DPlotWidget* plot = plotDir->GetPlot();
-	assert( plot != nullptr );
+	auto* plot = plotDir->GetPlot();
 	ListenTo(plot);
 
 	AddToPlot(itsPlotWindows->GetItemCount(), type, xCol, x2Col, yCol, y2Col, linked, label);
@@ -746,8 +740,6 @@ DataDocument::ReadPlotData
 	for (JSize i = 1; i <= count; i++)
 	{
 		auto* plotDir = jnew PlotDirector(this, this, GetFileName());
-		assert (plotDir != nullptr);
-
 		plotDir->ReadSetup(is, gloveVersion);
 		plotDir->ReadData(is, itsData, gloveVersion);
 		plotDir->Activate();

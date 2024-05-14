@@ -41,9 +41,7 @@ FitParmsTable::FitParmsTable
 {
 	AppendCols(2, kDefColWidth);
 	itsCol1 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsCol1 != nullptr);
 	itsCol2 = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsCol2 != nullptr);
 	SetColBorderInfo(0, JColorManager::GetBlackColor());
 	SetRowBorderInfo(0, JColorManager::GetBlackColor());
 }

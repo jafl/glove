@@ -63,7 +63,6 @@ CurveNameList::CurveNameList
 	const JSize count = plot->GetCurveCount();
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, count);
-	assert(itsNameList != nullptr);
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)
@@ -303,7 +302,7 @@ CurveNameList::Receive
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveAdded))
 	{
-		auto info = dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
+		auto* info = dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
 		assert(info != nullptr);
 
 		auto str = jnew JString(itsPlot->GetCurveName(info->GetIndex()));
@@ -321,8 +320,9 @@ CurveNameList::Receive
 	}
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 	{
-		auto info = dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
+		auto* info = dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
 		assert(info != nullptr);
+
 		RemoveRow(info->GetIndex());
 		itsNameList->DeleteItem(info->GetIndex());
 		TableRefresh();

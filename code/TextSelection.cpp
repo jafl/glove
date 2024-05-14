@@ -86,7 +86,6 @@ TextSelection::ConvertData
 	{
 		*bitsPerBlock = 8;
 		*data = jnew unsigned char[ itsGloveData.GetByteCount()];
-		assert( *data != nullptr );
 		memcpy(*data, itsGloveData.GetRawBytes(), itsGloveData.GetByteCount());
 		*dataLength = itsGloveData.GetByteCount();
 		*returnType = itsGloveTextXAtom;

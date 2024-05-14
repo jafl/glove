@@ -99,7 +99,6 @@ FitDirector::FitDirector
 	GetWindow()->SetTitle(title);
 
 	itsPrinter = jnew JXPSPrinter(GetDisplay());
-	assert( itsPrinter != nullptr );
 	itsPrinter->SetOrientation(JPSPrinter::kPortrait);
 
 	GetPrefsMgr()->ReadFitDirectorSetup(this);
@@ -323,7 +322,7 @@ FitDirector::Receive
 {
 	if (sender == itsCurveList && message.Is(CurveNameList::kCurveSelected))
 	{
-		auto info = dynamic_cast<const CurveNameList::CurveSelected*>(&message);
+		auto* info = dynamic_cast<const CurveNameList::CurveSelected*>(&message);
 		assert(info != nullptr);
 
 		RemoveFit();
@@ -339,8 +338,9 @@ FitDirector::Receive
 	}
 	else if (sender == itsFitList && message.Is(FitDescriptionList::kFitSelected))
 	{
-		auto info = dynamic_cast<const FitDescriptionList::FitSelected*>(&message);
+		auto* info = dynamic_cast<const FitDescriptionList::FitSelected*>(&message);
 		assert(info != nullptr);
+
 		const FitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
 		itsParameterTable->SetFitDescription(fd);
 		RemoveFit();
@@ -357,8 +357,9 @@ FitDirector::Receive
 	}
 	else if (sender == itsFitList && message.Is(FitDescriptionList::kFitInitiated))
 	{
-		auto info = dynamic_cast<const FitDescriptionList::FitInitiated*>(&message);
+		auto* info = dynamic_cast<const FitDescriptionList::FitInitiated*>(&message);
 		assert(info != nullptr);
+
 		if (!itsParameterTable->BeginEditingStartValues())
 		{
 			Fit();
@@ -367,8 +368,9 @@ FitDirector::Receive
 	}
 	else if (sender == itsParameterTable && message.Is(FitParameterTable::kValueChanged))
 	{
-		auto info = dynamic_cast<const FitParameterTable::ValueChanged*>(&message);
+		auto* info = dynamic_cast<const FitParameterTable::ValueChanged*>(&message);
 		assert(info != nullptr);
+
 		JIndex index;
 		bool ok	= itsFitList->GetCurrentFitIndex(&index);
 		assert(ok);

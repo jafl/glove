@@ -27,12 +27,12 @@ public:
 
 private:
 
+	JXExprEditor*	itsEditor;
+
 // begin JXLayout
 
 
 // end JXLayout
-
-	JXExprEditor*	itsEditor;
 
 private:
 

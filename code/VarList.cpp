@@ -136,14 +136,9 @@ VarList::VarList
 void
 VarList::GVarListX()
 {
-	itsNames = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert( itsNames != nullptr );
-
+	itsNames  = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 	itsValues = jnew JArray<JFloat>;
-	assert( itsValues != nullptr );
-
 	itsArrays = jnew JPtrArray<GNArray>(JPtrArrayT::kDeleteAll);
-	assert( itsArrays != nullptr );
 
 	InstallCollection(itsNames);
 }

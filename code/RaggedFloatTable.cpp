@@ -114,8 +114,9 @@ RaggedFloatTable::RaggedFloatTable
 	itsOKButton(okButton),
 	itsUndoChain(jnew JUndoRedoChain(true))
 {
-	itsTableDir = dir;
 	assert( data != nullptr );
+
+	itsTableDir = dir;
 
 	ListenTo(itsOKButton, std::function([this](const JXButton::Pushed&)
 	{
@@ -562,9 +563,7 @@ RaggedFloatTable::ExtendSelection
 	const JPoint cell
 	)
 {
-	auto* iter =
-		jnew JTableSelectionIterator(&(GetTableSelection()));
-	assert (iter != nullptr);
+	auto* iter = jnew JTableSelectionIterator(&GetTableSelection());
 
 	JPoint sCell;
 	bool success = iter->Next(&sCell);
@@ -675,9 +674,7 @@ RaggedFloatTable::ExtendSelectionToRow
 	const JIndex row
 	)
 {
-	auto* iter =
-		jnew JTableSelectionIterator(&(GetTableSelection()));
-	assert (iter != nullptr);
+	auto* iter = jnew JTableSelectionIterator(&GetTableSelection());
 
 	JPoint sCell;
 	bool success = iter->Next(&sCell);
@@ -1009,7 +1006,6 @@ RaggedFloatTable::HandleCopyCmd()
 	}
 
 	auto* data = jnew TextSelection(GetDisplay(), os.str());
-	assert(data != nullptr);
 
 	std::ostringstream os2;
 	os2 << (int)type << " ";
@@ -1969,7 +1965,6 @@ void
 RaggedFloatTable::GetNewColByRange()
 {
 	auto* dlog = jnew ColByRangeDialog(itsFloatData->GetDataColCount() + 1);
-	assert (dlog != nullptr);
 	if (dlog->DoDialog())
 	{
 		JIndex dest;
@@ -2024,7 +2019,6 @@ void
 RaggedFloatTable::GetNewColByInc()
 {
 	auto* dlog = jnew ColByIncDialog(itsFloatData->GetDataColCount() + 1);
-	assert (dlog != nullptr);
 	if (dlog->DoDialog())
 	{
 		JIndex dest;

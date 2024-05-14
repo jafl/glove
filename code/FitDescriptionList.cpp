@@ -68,7 +68,6 @@ FitDescriptionList::FitDescriptionList
 	SetDefaultRowHeight(rowHeight);
 
 	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsNameList != nullptr);
 
 	AppendCols(1);
 	SyncWithManager();

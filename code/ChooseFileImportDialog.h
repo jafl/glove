@@ -38,7 +38,6 @@ protected:
 private:
 
 	JIndex			itsFilterIndex;
-	JXStaticText*	itsFileText;
 	DataDocument*	itsDir;
 
 // begin JXLayout
@@ -46,6 +45,7 @@ private:
 	JXTextMenu*   itsFilterMenu;
 	JXTextButton* itsReloadButton;
 	JXTextButton* okButton;
+	JXStaticText* itsFileText;
 
 // end JXLayout
 

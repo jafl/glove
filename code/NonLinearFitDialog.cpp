@@ -57,8 +57,8 @@ NonLinearFitDialog::NonLinearFitDialog()
 		{
 			itsDeleteButton->Deactivate();
 		}
-	});
-	assert(itsDelButtonTask != nullptr);
+	},
+	"NonLinearFitDialog::UpdateDeleteButton");
 	itsDelButtonTask->Start();
 }
 

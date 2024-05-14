@@ -30,7 +30,6 @@ RaggedFloatTableData::RaggedFloatTableData
 	itsDefValue(defValue)
 {
 	itsCols = jnew JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != nullptr );
 
 	const JSize kInitialColCount = 20;
 	const JSize kInitialRowCount = 100;
@@ -58,7 +57,6 @@ RaggedFloatTableData::RaggedFloatTableData
 	itsBroadcast(source.itsBroadcast)
 {
 	itsCols = jnew JPtrArray< JArray<JFloat> >(JPtrArrayT::kDeleteAll);
-	assert( itsCols != nullptr );
 
 	const JSize count = (source.itsCols)->GetItemCount();
 	for (JIndex i=1; i<=count; i++)

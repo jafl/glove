@@ -101,6 +101,10 @@ ChooseFileImportDialog::BuildWindow
 					JXWidget::kFixedLeft, JXWidget::kFixedTop, 230,200, 70,20);
 	okButton->SetShortcuts(JGetString("okButton::shortcuts::ChooseFileImportDialog::JXLayout"));
 
+	itsFileText =
+		jnew JXStaticText(JString::empty, false, true, false, textScrollbarSet, textScrollbarSet->GetScrollEnclosure(),
+					JXWidget::kHElastic, JXWidget::kVElastic, 0,0, 310,100);
+
 // end JXLayout
 
 	window->LockCurrentMinSize();
@@ -151,12 +155,7 @@ ChooseFileImportDialog::BuildWindow
 	JString text;
 	text.Read(is, kFileByteCount);
 
-	itsFileText =
-		jnew JXStaticText(text, false, true, false,
-			textScrollbarSet, textScrollbarSet->GetScrollEnclosure(),
-			JXWidget::kHElastic, JXWidget::kVElastic, 10,60, 310,90);
-	assert(itsFileText != nullptr);
-	itsFileText->FitToEnclosure();
+	itsFileText->GetText()->SetText(text);
 	itsFileText->SetFont(JFontManager::GetDefaultMonospaceFont());
 	itsFileText->SetCaretLocation(1);
 }

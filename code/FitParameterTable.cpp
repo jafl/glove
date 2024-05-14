@@ -66,17 +66,10 @@ FitParameterTable::FitParameterTable
 	const JSize rowHeight = 2*kVMarginWidth + JFontManager::GetDefaultFont().GetLineHeight(fontMgr);
 	SetDefaultRowHeight(rowHeight);
 
-	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
-	assert(itsNameList != nullptr);
-
-	itsStartValues	= jnew JArray<JFloat>;
-	assert(itsStartValues != nullptr);
-
-	itsFitValues	= jnew JArray<JFloat>;
-	assert(itsFitValues != nullptr);
-
-	itsErrorValues	= jnew JArray<JFloat>;
-	assert(itsErrorValues != nullptr);
+	itsNameList    = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
+	itsStartValues = jnew JArray<JFloat>;
+	itsFitValues   = jnew JArray<JFloat>;
+	itsErrorValues = jnew JArray<JFloat>;
 
 	AppendCols(4, kDefColWidth);
 	AdjustColWidth();

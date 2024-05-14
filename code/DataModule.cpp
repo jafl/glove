@@ -70,11 +70,11 @@ DataModule::Create
 
 DataModule::DataModule
 	(
-	RaggedFloatTable*	table,
+	RaggedFloatTable*		table,
 	RaggedFloatTableData*	data,
 	JProcess*				process,
 	const int				fd,
-	JOutPipeStream*		output
+	JOutPipeStream*			output
 	)
 {
 	itsTable = table;
@@ -93,7 +93,6 @@ DataModule::DataModule
 	itsSentData = false;
 	itsPG = nullptr;
 	itsCols = jnew JArray<JIndex>;
-	assert(itsCols != nullptr);
 }
 
 /*******************************************************************************
@@ -145,7 +144,7 @@ DataModule::Receive
 	}
 	else if (sender == itsData && message.Is(JTableData::kColsRemoved))
 	{
-		auto info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
+		auto* info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
 		assert( info != nullptr );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();
@@ -170,7 +169,7 @@ DataModule::Receive
 
 	else if (sender == itsData && message.Is(JTableData::kColsInserted))
 	{
-		auto info = dynamic_cast<const JTableData::ColsInserted*>(&message);
+		auto* info = dynamic_cast<const JTableData::ColsInserted*>(&message);
 		assert( info != nullptr );
 		JIndex fIndex	= info->GetFirstIndex();
 		JIndex lIndex	= info->GetLastIndex();
