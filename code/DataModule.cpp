@@ -144,10 +144,9 @@ DataModule::Receive
 	}
 	else if (sender == itsData && message.Is(JTableData::kColsRemoved))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsRemoved*>(&message);
-		assert( info != nullptr );
-		JIndex fIndex	= info->GetFirstIndex();
-		JIndex lIndex	= info->GetLastIndex();
+		auto& info    = dynamic_cast<const JTableData::ColsRemoved&>(message);
+		JIndex fIndex = info.GetFirstIndex();
+		JIndex lIndex = info.GetLastIndex();
 		for (JIndex index = fIndex; index <= lIndex; index++)
 		{
 			for (JIndex i = 1; i <= itsCols->GetItemCount(); i++)
@@ -169,10 +168,9 @@ DataModule::Receive
 
 	else if (sender == itsData && message.Is(JTableData::kColsInserted))
 	{
-		auto* info = dynamic_cast<const JTableData::ColsInserted*>(&message);
-		assert( info != nullptr );
-		JIndex fIndex	= info->GetFirstIndex();
-		JIndex lIndex	= info->GetLastIndex();
+		auto& info    = dynamic_cast<const JTableData::ColsInserted&>(message);
+		JIndex fIndex = info.GetFirstIndex();
+		JIndex lIndex = info.GetLastIndex();
 		for (JIndex index = fIndex; index <= lIndex; index++)
 		{
 			for (JIndex i = 1; i <= itsCols->GetItemCount(); i++)

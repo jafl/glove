@@ -801,17 +801,13 @@ RaggedFloatTable::Receive
 {
 	if (sender == itsFloatData && message.Is(RaggedFloatTableData::kItemRemoved))
 	{
-		const auto* info =
-			dynamic_cast<const RaggedFloatTableData::ItemRemoved*>(&message);
-		assert( info != nullptr );
-		TableRefreshCol(info->GetCol());
+		auto& info = dynamic_cast<const RaggedFloatTableData::ItemRemoved&>(message);
+		TableRefreshCol(info.GetCol());
 	}
 	else if (sender == itsFloatData && message.Is(RaggedFloatTableData::kItemInserted))
 	{
-		const auto* info =
-			dynamic_cast<const RaggedFloatTableData::ItemRemoved*>(&message);
-		assert( info != nullptr );
-		TableRefreshCol(info->GetCol());
+		auto& info = dynamic_cast<const RaggedFloatTableData::ItemRemoved&>(message);
+		TableRefreshCol(info.GetCol());
 	}
 	else if (sender == itsFloatData && message.Is(RaggedFloatTableData::kDataChanged))
 	{
@@ -2143,7 +2139,7 @@ jCollectColumnIndexes
 	JArray<JIndex>*		inds
 	)
 {
-	const auto* fwv = dynamic_cast<const JFunctionWithVar*>(root);
+	auto* fwv = dynamic_cast<const JFunctionWithVar*>(root);
 	if (fwv != nullptr)
 	{
 		const JFunction* ai = fwv->GetArrayIndex();
@@ -2167,7 +2163,7 @@ jCollectColumnIndexes
 		return true;
 	}
 
-	const auto* fwa = dynamic_cast<const JFunctionWithArgs*>(root);
+	auto* fwa = dynamic_cast<const JFunctionWithArgs*>(root);
 	if (fwa != nullptr)
 	{
 		const JSize argCount = fwa->GetArgCount();

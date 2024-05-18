@@ -255,9 +255,8 @@ PlotDirector::Receive
 
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 	{
-		auto* info = dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
-		assert( info != nullptr );
-		HandleCurveRemoved(info->GetIndex());
+		auto& info = dynamic_cast<const J2DPlotWidget::CurveRemoved&>(message);
+		HandleCurveRemoved(info.GetIndex());
 	}
 
 	else if (sender == itsFits &&
@@ -385,9 +384,8 @@ PlotDirector::WriteCurves
 		GloveCurveStats stat = itsCurveStats->GetItem(i);
 		if (stat.type == kGDataCurve && jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 		{
-			auto* pd = dynamic_cast<J2DPlotData*>(jpdb);
-			assert( pd != nullptr );
-			if (pd->IsValid())
+			auto& pd = dynamic_cast<J2DPlotData&>(*jpdb);
+			if (pd.IsValid())
 			{
 				count++;
 			}
@@ -395,9 +393,8 @@ PlotDirector::WriteCurves
 		else if (stat.type == kGFitCurve)
 		{
 			auto pdb = itsPlot->GetCurve(stat.provider);
-			auto* pd = dynamic_cast<J2DPlotData*>(pdb);
-			assert( pd != nullptr );
-			if (pd->IsValid())
+			auto& pd = dynamic_cast<J2DPlotData&>(*pdb);
+			if (pd.IsValid())
 			{
 				count++;
 			}
@@ -417,30 +414,29 @@ PlotDirector::WriteCurves
 		{
 			if (jpdb->GetType() == J2DPlotDataBase::kScatterPlot)
 			{
-				auto* pd = dynamic_cast<J2DPlotData*>(jpdb);
-				assert( pd != nullptr );
-				if (pd->IsValid())
+				auto& pd = dynamic_cast<J2DPlotData&>(*jpdb);
+				if (pd.IsValid())
 				{
 					os << (int)kGDataCurve << ' ';
 					os << (int)jpdb->GetType() << ' ';
 					JIndex index;
-					data->FindColumn(const_cast< JArray<JFloat>* >(&(pd->GetXData())), &index);
+					data->FindColumn(const_cast< JArray<JFloat>* >(&pd.GetXData()), &index);
 					os << index << ' ';
-					data->FindColumn(const_cast< JArray<JFloat>* >(&(pd->GetYData())), &index);
+					data->FindColumn(const_cast< JArray<JFloat>* >(&pd.GetYData()), &index);
 					os << index << ' ';
-					os << JBoolToString(pd->HasXErrors())
-					   << JBoolToString(pd->HasYErrors()) << ' ';
-					if (pd->HasXErrors())
+					os << JBoolToString(pd.HasXErrors())
+					   << JBoolToString(pd.HasYErrors()) << ' ';
+					if (pd.HasXErrors())
 					{
 						const JArray<JFloat>* testArray;
-						pd->GetXPErrorData(&testArray);
+						pd.GetXPErrorData(&testArray);
 						data->FindColumn(testArray, &index);
 						os << index << ' ';
 					}
-					if (pd->HasYErrors())
+					if (pd.HasYErrors())
 					{
 						const JArray<JFloat>* testArray;
-						pd->GetYPErrorData(&testArray);
+						pd.GetYPErrorData(&testArray);
 						data->FindColumn(testArray, &index);
 						os << index << ' ';
 					}
@@ -448,25 +444,24 @@ PlotDirector::WriteCurves
 			}
 			else if (jpdb->GetType() == J2DPlotDataBase::kVectorPlot)
 			{
-				auto* vd = dynamic_cast<J2DVectorData*>(jpdb);
-				assert( vd != nullptr );
+				auto& vd = dynamic_cast<J2DVectorData&>(*jpdb);
 				os << (int)kGDataCurve << ' ';
 				os << (int)jpdb->GetType() << ' ';
 				JIndex index;
 				const JArray<JFloat>* carray;
-				carray	= &(vd->GetXData());
+				carray	= &vd.GetXData();
 				auto array = const_cast< JArray<JFloat>* >(carray);
 				data->FindColumn(array, &index);
 				os << index << ' ';
-				carray	= &(vd->GetYData());
+				carray	= &vd.GetYData();
 				array = const_cast< JArray<JFloat>* >(carray);
 				data->FindColumn(array, &index);
 				os << index << ' ';
-				carray	= &(vd->GetVXData());
+				carray	= &vd.GetVXData();
 				array = const_cast< JArray<JFloat>* >(carray);
 				data->FindColumn(array, &index);
 				os << index << ' ';
-				carray	= &(vd->GetVYData());
+				carray	= &vd.GetVYData();
 				array = const_cast< JArray<JFloat>* >(carray);
 				data->FindColumn(array, &index);
 				os << index << ' ';
@@ -479,16 +474,14 @@ PlotDirector::WriteCurves
 				os << (int)kGFitCurve << ' ';
 				os << (int)stat.fitType << ' ';
 				os << stat.provider << ' ';
-				auto* mf = dynamic_cast<PlotModuleFit*>(jpdb);
-				assert( mf != nullptr );
-				mf->WriteData(os);
+				auto& mf = dynamic_cast<PlotModuleFit&>(*jpdb);
+				mf.WriteData(os);
 			}
 			else
 			{
 				auto pdb = itsPlot->GetCurve(stat.provider);
-				auto* pd = dynamic_cast<J2DPlotData*>(pdb);
-				assert( pd != nullptr );
-				if (pd->IsValid())
+				auto& pd = dynamic_cast<J2DPlotData&>(*pdb);
+				if (pd.IsValid())
 				{
 					os << (int)kGFitCurve << ' ';
 					os << (int)stat.fitType << ' ';
@@ -496,19 +489,17 @@ PlotDirector::WriteCurves
 
 					if (stat.fitType == kGProxyFit)
 					{
-						auto* pf = dynamic_cast<PlotFitProxy*>(jpdb);
-						assert(pf != nullptr);
-						pf->WriteData(os);
+						auto& pf = dynamic_cast<PlotFitProxy&>(*jpdb);
+						pf.WriteData(os);
 					}
 				}
 			}
 		}
 		else if (stat.type == kGFunctionCurve)
 		{
-			auto* pd = dynamic_cast<J2DPlotFunction*>(jpdb);
-			assert( pd != nullptr );
+			auto& pd = dynamic_cast<J2DPlotFunction&>(*jpdb);
 			os << (int)kGFunctionCurve << ' ';
-			os << pd->GetFunctionString() << ' ';
+			os << pd.GetFunctionString() << ' ';
 		}
 		else
 		{

@@ -302,10 +302,8 @@ CurveNameList::Receive
 {
 	if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveAdded))
 	{
-		auto* info = dynamic_cast<const J2DPlotWidget::CurveAdded*>(&message);
-		assert(info != nullptr);
-
-		auto str = jnew JString(itsPlot->GetCurveName(info->GetIndex()));
+		auto& info = dynamic_cast<const J2DPlotWidget::CurveAdded&>(message);
+		auto str   = jnew JString(itsPlot->GetCurveName(info.GetIndex()));
 		AppendRows(1);
 		itsNameList->Append(str);
 
@@ -320,11 +318,9 @@ CurveNameList::Receive
 	}
 	else if (sender == itsPlot && message.Is(J2DPlotWidget::kCurveRemoved))
 	{
-		auto* info = dynamic_cast<const J2DPlotWidget::CurveRemoved*>(&message);
-		assert(info != nullptr);
-
-		RemoveRow(info->GetIndex());
-		itsNameList->DeleteItem(info->GetIndex());
+		auto& info = dynamic_cast<const J2DPlotWidget::CurveRemoved&>(message);
+		RemoveRow(info.GetIndex());
+		itsNameList->DeleteItem(info.GetIndex());
 		TableRefresh();
 	}
 }

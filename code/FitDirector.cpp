@@ -322,8 +322,7 @@ FitDirector::Receive
 {
 	if (sender == itsCurveList && message.Is(CurveNameList::kCurveSelected))
 	{
-		auto* info = dynamic_cast<const CurveNameList::CurveSelected*>(&message);
-		assert(info != nullptr);
+		auto& info = dynamic_cast<const CurveNameList::CurveSelected&>(message);
 
 		RemoveFit();
 		RemoveCurves();
@@ -332,16 +331,15 @@ FitDirector::Receive
 		itsChiSq->GetText()->SetText(JString::empty);
 
 		// add new curve.
-		auto curve = itsPlot->GetCurve(info->GetIndex());
-		itsFitPlot->AddCurve(curve, false, itsPlot->GetCurveName(info->GetIndex()));
+		auto curve = itsPlot->GetCurve(info.GetIndex());
+		itsFitPlot->AddCurve(curve, false, itsPlot->GetCurveName(info.GetIndex()));
 		itsFitPlot->ProtectCurve(1, true);
 	}
 	else if (sender == itsFitList && message.Is(FitDescriptionList::kFitSelected))
 	{
-		auto* info = dynamic_cast<const FitDescriptionList::FitSelected*>(&message);
-		assert(info != nullptr);
+		auto& info = dynamic_cast<const FitDescriptionList::FitSelected&>(message);
 
-		const FitDescription& fd	= GetFitManager()->GetFitDescription(info->GetIndex());
+		const FitDescription& fd = GetFitManager()->GetFitDescription(info.GetIndex());
 		itsParameterTable->SetFitDescription(fd);
 		RemoveFit();
 		itsChiSq->GetText()->SetText(JString::empty);
@@ -357,9 +355,6 @@ FitDirector::Receive
 	}
 	else if (sender == itsFitList && message.Is(FitDescriptionList::kFitInitiated))
 	{
-		auto* info = dynamic_cast<const FitDescriptionList::FitInitiated*>(&message);
-		assert(info != nullptr);
-
 		if (!itsParameterTable->BeginEditingStartValues())
 		{
 			Fit();
@@ -368,9 +363,6 @@ FitDirector::Receive
 	}
 	else if (sender == itsParameterTable && message.Is(FitParameterTable::kValueChanged))
 	{
-		auto* info = dynamic_cast<const FitParameterTable::ValueChanged*>(&message);
-		assert(info != nullptr);
-
 		JIndex index;
 		bool ok	= itsFitList->GetCurrentFitIndex(&index);
 		assert(ok);
@@ -795,8 +787,7 @@ FitDirector::Fit()
 	}
 	else if (fd.GetType() == FitDescription::kModule)
 	{
-		ModuleFitDescription& md	=
-			dynamic_cast<ModuleFitDescription&>(const_cast<FitDescription&>(fd));
+		auto& md = dynamic_cast<ModuleFitDescription&>(const_cast<FitDescription&>(fd));
 		JFloat xmax, xmin, ymax, ymin;
 		PlotFitModule* fit;
 		if (itsFitPlot->IsUsingRange())
