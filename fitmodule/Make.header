@@ -1,14 +1,6 @@
 # Edit this file to define constants and custom build targets.
 # Please refer to the makemake documentation for more information.
 
-# Useful directories
-
-MYCODEDIR := .
-
-# Directories to search for header files
-
-SEARCHDIRS := -I${MYCODEDIR}
-
 # makemake variables
 
 DEPENDFLAGS  := -g -Wall -Werror ${SEARCHDIRS}
