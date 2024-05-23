@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <CurveNameList.h>
+#include "CurveNameList.h"
 #include "PlotDirector.h"
 #include <jx-af/j2dplot/J2DPlotWidget.h>
 
@@ -17,10 +17,8 @@
 #include <jx-af/jcore/JFontManager.h>
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JTableSelection.h>
-
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jASCIIConstants.h>
-
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 

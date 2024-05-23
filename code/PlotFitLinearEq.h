@@ -10,7 +10,7 @@
 #ifndef _H_PlotFitLinearEq
 #define _H_PlotFitLinearEq
 
-#include <PlotFitBase.h>
+#include "PlotFitBase.h"
 #include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/JString.h>
 

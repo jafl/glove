@@ -10,7 +10,7 @@
 #ifndef _H_UndoElementsChange
 #define _H_UndoElementsChange
 
-#include <UndoElementsBase.h>
+#include "UndoElementsBase.h"
 #include <jx-af/jcore/JPoint.h>
 #include <jx-af/jcore/JPtrArray.h>
 

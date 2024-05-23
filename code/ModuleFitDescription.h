@@ -10,8 +10,7 @@
 #ifndef _H_ModuleFitDescription
 #define _H_ModuleFitDescription
 
-// Superclass Header
-#include <FitDescription.h>
+#include "FitDescription.h"
 
 class DLFitModule;
 

@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <FitDirector.h>
+#include "FitDirector.h"
 #include "CurveNameList.h"
 #include "FitDescriptionList.h"
 #include "FitManager.h"

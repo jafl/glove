@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <NonLinearFitDescription.h>
+#include "NonLinearFitDescription.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 

@@ -10,9 +10,7 @@
 #ifndef _H_PlotFitProxy
 #define _H_PlotFitProxy
 
-
-#include <PlotFitFunction.h>
-
+#include "PlotFitFunction.h"
 #include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/JString.h>
 

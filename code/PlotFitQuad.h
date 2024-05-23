@@ -10,7 +10,7 @@
 #ifndef _H_PlotFitQuad
 #define _H_PlotFitQuad
 
-#include <PlotFitLinearEq.h>
+#include "PlotFitLinearEq.h"
 
 class J2DPlotWidget;
 

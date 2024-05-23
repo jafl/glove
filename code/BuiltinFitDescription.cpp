@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <BuiltinFitDescription.h>
+#include "BuiltinFitDescription.h"
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jAssert.h>
 

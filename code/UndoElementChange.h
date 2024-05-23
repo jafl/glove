@@ -10,7 +10,7 @@
 #ifndef _H_UndoElementChange
 #define _H_UndoElementChange
 
-#include <UndoElementBase.h>
+#include "UndoElementBase.h"
 #include <jx-af/jcore/JPoint.h>
 
 class RaggedFloatTable;

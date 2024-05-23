@@ -10,7 +10,7 @@
 #ifndef _H_PlotFitExp
 #define _H_PlotFitExp
 
-#include <PlotFitBase.h>
+#include "PlotFitBase.h"
 #include <jx-af/jcore/JString.h>
 
 class J2DPlotWidget;

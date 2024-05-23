@@ -10,10 +10,7 @@
 #ifndef _H_PolyFitDescription
 #define _H_PolyFitDescription
 
-// Superclass Header
-#include <FitDescription.h>
-
-
+#include "FitDescription.h"
 
 class PolyFitDescription : public FitDescription
 {

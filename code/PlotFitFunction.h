@@ -11,7 +11,7 @@
 #define _H_PlotFitFunction
 
 #include <jx-af/j2dplot/J2DPlotFunctionBase.h>
-#include <FitBase.h>
+#include "FitBase.h"
 #include <jx-af/jcore/JArray.h>
 
 class J2DPlotWidget;

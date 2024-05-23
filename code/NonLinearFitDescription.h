@@ -10,8 +10,7 @@
 #ifndef _H_NonLinearFitDescription
 #define _H_NonLinearFitDescription
 
-// Superclass Header
-#include <FitDescription.h>
+#include "FitDescription.h"
 
 class NonLinearFitDescription : public FitDescription
 {

@@ -7,9 +7,9 @@
 
  *****************************************************************************/
 
-#include <FitParameterTable.h>
+#include "FitParameterTable.h"
 #include "FitDescription.h"
-#include <ParmColHeaderWidget.h>
+#include "ParmColHeaderWidget.h"
 
 #include <jx-af/j2dplot/J2DPlotWidget.h>
 
@@ -20,10 +20,8 @@
 #include <jx-af/jcore/JPagePrinter.h>
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JTableSelection.h>
-
 #include <jx-af/jcore/jGlobals.h>
 #include <jx-af/jcore/jASCIIConstants.h>
-
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 

@@ -10,7 +10,7 @@
 #ifndef _H_PlotFitPowerLaw
 #define _H_PlotFitPowerLaw
 
-#include <PlotFitBase.h>
+#include "PlotFitBase.h"
 #include <jx-af/jcore/JString.h>
 
 class J2DPlotWidget;

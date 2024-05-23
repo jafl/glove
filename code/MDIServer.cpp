@@ -9,14 +9,13 @@
 
  *****************************************************************************/
 
-#include <MDIServer.h>
-#include <globals.h>
-#include <PrefsMgr.h>
-#include <PlotApp.h>
+#include "MDIServer.h"
+#include "PrefsMgr.h"
+#include "PlotApp.h"
+#include "globals.h"
 
 #include <jx-af/jx/JXStandAlonePG.h>
 #include <jx-af/jx/jXGlobals.h>
-
 #include <jx-af/jcore/jFileUtil.h>
 #include <jx-af/jcore/jFStreamUtil.h>
 #include <jx-af/jcore/jAssert.h>

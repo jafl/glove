@@ -10,8 +10,7 @@
 #ifndef _H_BuiltinFitDescription
 #define _H_BuiltinFitDescription
 
-// Superclass Header
-#include <FitDescription.h>
+#include "FitDescription.h"
 
 class BuiltinFitDescription : public FitDescription
 {

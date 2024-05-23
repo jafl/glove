@@ -7,7 +7,7 @@
 
  ******************************************************************************/
 
-#include <FitParmsTable.h>
+#include "FitParmsTable.h"
 #include <jx-af/jx/JXColorManager.h>
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JFontManager.h>

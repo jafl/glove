@@ -10,8 +10,7 @@
 #ifndef _H_PlotFitNonLinear
 #define _H_PlotFitNonLinear
 
-// Superclass Header
-#include <PlotFitBase.h>
+#include "PlotFitBase.h"
 #include <jx-af/jcore/JString.h>
 
 class VarList;

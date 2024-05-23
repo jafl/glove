@@ -10,7 +10,7 @@
 #ifndef _H_PlotModuleFit
 #define _H_PlotModuleFit
 
-#include <PlotFitFunction.h>
+#include "PlotFitFunction.h"
 #include <jx-af/jcore/JPtrArray-JString.h>
 
 class J2DPlotWidget;

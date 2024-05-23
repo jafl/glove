@@ -5,7 +5,7 @@
 
  ******************************************************************************/
 
-#include <PlotApp.h>
+#include "PlotApp.h"
 #include "MDIServer.h"
 #include "PrefsMgr.h"
 #include "globals.h"

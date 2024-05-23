@@ -10,7 +10,7 @@
 #ifndef _H_PlotFitBase
 #define _H_PlotFitBase
 
-#include <PlotFitFunction.h>
+#include "PlotFitFunction.h"
 #include <jx-af/jcore/JArray.h>
 #include <jx-af/jcore/JString.h>
 

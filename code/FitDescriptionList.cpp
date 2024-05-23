@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <FitDescriptionList.h>
+#include "FitDescriptionList.h"
 
 #include "FitManager.h"
 #include "globals.h"
@@ -29,7 +29,6 @@
 #include <jx-af/jcore/JPainter.h>
 #include <jx-af/jcore/JTableSelection.h>
 #include <jx-af/jcore/jASCIIConstants.h>
-
 #include <jx-af/jcore/JMinMax.h>
 #include <jx-af/jcore/jAssert.h>
 

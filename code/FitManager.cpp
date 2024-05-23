@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <FitManager.h>
+#include "FitManager.h"
 #include "PolyFitDescription.h"
 #include "BuiltinFitDescription.h"
 #include "NonLinearFitDescription.h"
