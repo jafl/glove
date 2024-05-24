@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <ModuleFitDescription.h>
+#include "ModuleFitDescription.h"
 #include "DLFitModule.h"
 #include <jx-af/jcore/jAssert.h>
 

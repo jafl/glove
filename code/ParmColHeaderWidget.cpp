@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <ParmColHeaderWidget.h>
+#include "ParmColHeaderWidget.h"
 #include <jx-af/jcore/JPagePrinter.h>
 #include <jx-af/jcore/jAssert.h>
 

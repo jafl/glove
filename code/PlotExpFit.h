@@ -10,7 +10,7 @@
 #ifndef _H_PlotExpFit
 #define _H_PlotExpFit
 
-#include <PlotLinearFit.h>
+#include "PlotLinearFit.h"
 #include <jx-af/jcore/jTypes.h>
 #include <jx-af/jcore/JArray.h>
 

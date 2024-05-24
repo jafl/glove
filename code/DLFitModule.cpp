@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <DLFitModule.h>
+#include "DLFitModule.h"
 
 #include <jx-af/jcore/JVector.h>
 

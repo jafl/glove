@@ -9,9 +9,9 @@
 
  ******************************************************************************/
 
-#include <UndoElementsBase.h>
-#include <RaggedFloatTable.h>
-#include <RaggedFloatTableData.h>
+#include "UndoElementsBase.h"
+#include "RaggedFloatTable.h"
+#include "RaggedFloatTableData.h"
 #include <jx-af/jcore/jAssert.h>
 
 /******************************************************************************

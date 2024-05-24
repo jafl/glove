@@ -7,7 +7,7 @@
 
  *****************************************************************************/
 
-#include <PolyFitDescription.h>
+#include "PolyFitDescription.h"
 
 #include <jx-af/jcore/jAssert.h>
 

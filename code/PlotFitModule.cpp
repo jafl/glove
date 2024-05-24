@@ -7,11 +7,10 @@
 
  *****************************************************************************/
 
-#include <PlotFitModule.h>
+#include "PlotFitModule.h"
 #include "DLFitModule.h"
 
 #include <jx-af/jcore/JVector.h>
-
 #include <jx-af/jcore/jAssert.h>
 
 
