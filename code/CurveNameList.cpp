@@ -60,7 +60,7 @@ CurveNameList::CurveNameList
 
 	const JSize count = plot->GetCurveCount();
 
-	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll, count);
+	itsNameList = jnew JPtrArray<JString>(JPtrArrayT::kDeleteAll);
 
 	AppendRows(count);
 	for (JIndex i=1; i<=count; i++)

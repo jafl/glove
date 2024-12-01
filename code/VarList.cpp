@@ -47,13 +47,13 @@ VarList::VarList
 
 	*itsValues	= *(list.itsValues);
 
-	const JSize ncount	= list.itsNames->GetItemCount();
+	const JSize ncount = list.itsNames->GetItemCount();
 	for (JIndex i = 1; i <= ncount; i++)
 	{
 		itsNames->Append(*list.itsNames->GetItem(i));
 	}
 
-	const JSize acount	= list.itsArrays->GetItemCount();
+	const JSize acount = list.itsArrays->GetItemCount();
 	for (JIndex i = 1; i <= acount; i++)
 	{
 		auto array = list.itsArrays->GetItem(i);
