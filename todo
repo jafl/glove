@@ -1,0 +1,18 @@
+undo then redo "transform creates column": puts values back in inverted order
+
+NonLinearFitDialog: scrollbar sets are wider than window
+
+remember open documents and restore when start
+
+fit window:
+	show which plot has focus, and therefore applies to menus
+	show only data curves in "Curves" list, not existing fit curves
+
+help for PolyFitDialog
+fit & polyfitdialog:
+	display function as read-only, no menus
+
+generate column with uniform or gaussian noise
+test on 1000, 10000 rows: run fit in thread?
+
+catch NaN during fits: exponential fit to linear data
